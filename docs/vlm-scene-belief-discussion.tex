@@ -1,0 +1,624 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,longtable,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  urlcolor=blue!50!black,
+  citecolor=blue!50!black
+}
+
+\title{基于行为反演的 VLM 场景信念评估与约束重建\\讨论稿}
+\author{基于当前项目讨论整理}
+\date{2026年3月7日}
+
+\newcommand{\todoq}[1]{\textcolor{red!70!black}{[待验证] #1}}
+\newcommand{\intuition}[1]{\textbf{直觉分析：}#1}
+\newcommand{\evidence}[1]{\textbf{文献支撑：}#1}
+\newcommand{\engineering}[1]{\textbf{工程判断：}#1}
+\newcommand{\theorynote}[1]{\textbf{理论推断：}#1}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本文档不是最终论文，也不是实现规格，而是一份面向继续讨论的中文 LaTeX 讨论稿。其目的有三点：第一，系统整理当前关于 ``从 VLM 的空间回答行为反推其外显场景信念'' 的核心想法；第二，明确区分哪些结论主要来自直觉和工程经验，哪些已有理论或文献支持，哪些仍然需要实验验证；第三，把当前仓库中的若干文档与讨论结果合并成一套更适合协作讨论的共识底稿。本文特别记录了用户提出的关键逆向思路：不再把任务理解为 ``答题是否正确''，而是把它理解为一种基于行为的外显场景信念反演，用以分析 VLM 到底看到了什么、哪些地方只是猜测、哪些关系是不确定或冲突的。
+\end{abstract}
+
+\section{文档定位与来源}
+
+本文档整理自以下几类材料：
+
+\begin{enumerate}[label=\arabic*.]
+  \item 项目内已有讨论文档：\texttt{brainstorm.md}、\texttt{brainstorm-codex.md}、\texttt{method-proposal.md}、\texttt{behavioral-scene-belief-eval.md}、\texttt{experiment-spec.md}。
+  \item 当前代码库语义：\texttt{VLM-test/API-test/scoring.py}、\texttt{VLM-test/dsl/predicates.py} 等。
+  \item 前期检索并下载到本地 \texttt{papers/} 目录的相关论文，包括 ordinal embedding、EDM、bearing/angle rigidity、selective VQA、scene graph generation 等。
+  \item 本轮讨论中用户连续提出的目标、判断和疑问。
+\end{enumerate}
+
+本文档中对观点来源做如下区分：
+
+\begin{itemize}
+  \item \textbf{用户观点}：由用户在多轮讨论中明确提出，构成本项目的研究主线。
+  \item \textbf{理论推断}：主要由问题的数学结构直接推出，不依赖具体实验。
+  \item \textbf{工程判断}：基于当前代码库和可实现性作出的设计取舍。
+  \item \textbf{文献支撑}：已有论文或基准工作对相近问题给出了明确支持。
+  \item \textbf{待验证假设}：目前合理但尚未通过本项目实验验证的部分。
+\end{itemize}
+
+\section{更详细的历史记录：讨论是如何演化到当前形态的}
+
+\subsection{阶段化时间线}
+
+为了便于和他人继续讨论，这里不只给出结论，还记录主要观点是如何一步步形成的。表~\ref{tab:timeline} 给出当前能够回溯出的阶段化时间线。
+
+\begin{longtable}{p{0.08\linewidth}p{0.18\linewidth}p{0.30\linewidth}p{0.30\linewidth}}
+\caption{讨论演化时间线}\label{tab:timeline}\\
+\toprule
+阶段 & 讨论重心 & 当时提出的核心问题 & 该阶段形成的关键结论 \\
+\midrule
+\endfirsthead
+\toprule
+阶段 & 讨论重心 & 当时提出的核心问题 & 该阶段形成的关键结论 \\
+\midrule
+\endhead
+T0 & 偏序约束重建的数学化 & 用户首先提出：能否根据偏序约束重建场景？能否判断是否可重建、多少种可能、是否唯一、如何表示所有可行解？ & 问题被重新表述为对可行集 $F(C)$ 的分析，而不是单点求解。 \\
+T1 & 初版理论脑暴（GPT 线） & 如何给出更严格的数学定义？为什么唯一解往往不存在？QRR/TRR 应如何抽象？ & 引入可行集、四级唯一性、半代数视角、QRR 偏序与 TRR 角约束的双层表示、EDM 可实现性提醒。 \\
+T2 & 工程收缩（用户 + Codex 线） & 当前仓库到底应该做 2D 还是 3D？MVP 做到什么程度最合适？ & 明确收缩到 2D 共面假设，固定 3-anchor gauge，EDM/dReal/3D 统统降级为未来增强。 \\
+T3 & 方法定稿（method proposal） & 如何把脑暴变成一个可执行、无歧义的方法提案？ & 形成 2D MVP：符号预检查 + 多起点数值求解 + 多解聚类 + 简化输出结构。 \\
+T4 & 研究目标转向（用户主导） & 当前 forced batch QA 效果很差，接近 random，是否说明评估目标本身错了？ & 核心目标从 ``答题准确率'' 转向 ``基于行为反演的外显场景信念''。允许拒答、模糊回答和自主提取成为新主线。 \\
+T5 & 行为评估骨架（behavioral 文档） & 如何把这件事做成可解释、可复现、可泛化的实验框架？ & 形成四层 schema、四层指标、manifest、缓存和协议框架。 \\
+T6 & 科学控制增强（Claude / experiment-spec 线） & 如何证明模型的空间行为确实来自视觉，而不是语言先验？如何客观估计回答可靠性？ & 引入 A/B/C null model、$\Delta_{\mathrm{Recon}}$、一致性探测、联合异常检测等更强的科学控制。 \\
+T7 & 当前收敛 & 两类文档如何整合？Phase 1 应保留什么，放弃什么？ & 当前共识是：以行为评估骨架为工程基础，吸收 null model 和一致性测量作为科学控制层，先做 2D Phase 1。 \\
+\bottomrule
+\end{longtable}
+
+\subsection{参与方观点总览}
+
+表~\ref{tab:participants-overview} 对用户、GPT、Claude、Codex 四条线索做统一归档。这里的 ``GPT'' 主要指前期偏理论化的可行集/重建分析；``Claude'' 主要指后期对行为评估文档的批评和 \texttt{experiment-spec.md} 代表的方法论补充；``Codex'' 主要指围绕当前仓库落地所做的工程收缩和结构化整理。
+
+\begin{longtable}{p{0.11\linewidth}p{0.23\linewidth}p{0.23\linewidth}p{0.15\linewidth}p{0.18\linewidth}}
+\caption{各参与方观点总览}\label{tab:participants-overview}\\
+\toprule
+参与方 & 科研角度贡献 & 工程角度贡献 & 典型局限 & 当前吸收方式 \\
+\midrule
+\endfirsthead
+\toprule
+参与方 & 科研角度贡献 & 工程角度贡献 & 典型局限 & 当前吸收方式 \\
+\midrule
+\endhead
+用户 & 明确提出 ``逆向分析 VLM 看到了什么'' 的总体研究方向；率先把重点从 ``答题对错'' 转向 ``场景信念反演''；持续强调评估优先于求解。 & 坚持要有可解释、可重现、可泛化的实验范式；要求能转成 Blender 方便查看和评估。 & 初期很多判断来自现象观察与研究直觉，尚需被 formalize 和量化。 & 作为项目总方向与约束条件，被全文保留。 \\
+GPT & 把问题严格化为可行集分析；提出四级唯一性、半代数视角、QRR/TRR 双层结构、K\_poset 与 K\_geom 的区分。 & 提醒 EDM 可实现性、维度估计、spread、case analysis 等后续增强方向。 & 初版偏理论完整，倾向 3D、EDM、exact certification，超出 MVP 负担。 & 其理论框架被保留，复杂层被降为未来增强。 \\
+Claude & 强调科学控制：null model、语言先验分离、客观一致性测量、联合异常检测；指出现有行为评估文档在因果识别和可靠性定义上的缺口。 & 倾向增量接入现有 \texttt{VLM-test}，反对平行造新目录；建议 Phase 1 做减法。 & 部分批评表述过强，把 ``部分缺失'' 说成 ``完全没有''。 & 其方法论补丁被认为高度必要，但需按 Phase 拆解引入。 \\
+Codex & 把前述观点整理成阶段化设计；区分 MVP 与未来增强；澄清 behavioral vs mechanistic 的边界。 & 固化 2D MVP、3-anchor gauge、损失函数、模块边界、结果结构和评估工程骨架。 & 更偏面向当前代码库落地，科学控制层起初不够强。 & 作为工程整合层，与 Claude 线互补。 \\
+\bottomrule
+\end{longtable}
+
+\subsection{用户观点的更细化归档}
+
+用户的观点并非单条主张，而是逐步推动研究重心发生转移。表~\ref{tab:user-evolution} 对用户观点做更细的历史归档。
+
+\begin{longtable}{p{0.08\linewidth}p{0.30\linewidth}p{0.20\linewidth}p{0.28\linewidth}}
+\caption{用户观点的演化整理}\label{tab:user-evolution}\\
+\toprule
+阶段 & 用户当时强调的重点 & 主要性质 & 后续影响 \\
+\midrule
+\endfirsthead
+\toprule
+阶段 & 用户当时强调的重点 & 主要性质 & 后续影响 \\
+\midrule
+\endhead
+U-T0 & 要讨论 ``偏序约束下是否可重建、几种重建、是否唯一、所有可行解''。 & 研究问题设定 & 促成可行集公式化与唯一性分层。 \\
+U-T1 & 希望设计更详细，并给出理论依据、各种可能情况分析和举例。 & 研究深挖诉求 & 推动加入 case analysis、rigidity、EDM、模态和 spread 等概念。 \\
+U-T2 & 要求能用代码实现并便于 Blender 评估，同时指出约束少时会有很多解，要考虑约束缺失与冲突。 & 工程实现 + 实验分析 & 促成 2D 重建、JSON 导出和不确定性分析的引入。 \\
+U-T3 & 明确指出当前重点是评估，因为真实 VLM 输出中同时有正确、错误、缺失、冗余和冲突。 & 工程优先级判断 & 让评估方案优先级超过完整 solver。 \\
+U-T4 & 强调 forced batch QA 基本接近 random baseline，要求重新思考协议设计。 & 关键研究转向 & 直接触发 selective QA / direct extraction / behavioral scene belief 这一主线。 \\
+U-T5 & 指出应允许模糊回答、不回答或自主提取，从而反向解析出 VLM ``看见的场景''。 & 核心研究主张 & 成为行为反演框架的中心假设。 \\
+U-T6 & 要求实验和测试必须可解释、可重现，并能泛化到其他模型。 & 研究规范要求 & 促成统一 schema、manifest、缓存和 adapter 抽象。 \\
+U-T7 & 要求整理成可讨论的中文文档，并进一步要求加入 GPT/Claude/用户观点的历史记录。 & 协作与文档化要求 & 直接促成本文档的写作目标。 \\
+\bottomrule
+\end{longtable}
+
+\subsection{GPT 线的详细整理}
+
+从当前文档与反馈看，GPT 线对问题的主要贡献集中在科研层的抽象与理论扩展上。
+
+\paragraph{科研角度的主要贡献}
+\begin{enumerate}[label=\arabic*.]
+  \item 把重建问题形式化为可行集 $F(C)$ 的分析，而不是 ``找一个坐标答案''。
+  \item 提出四级唯一性：weakly reconstructable、unique mode、epsilon-unique、exact unique。
+  \item 指出在当前序/区间约束语义下，严格单点唯一几乎不应期待。
+  \item 强调 QRR 的无环偏序只是必要条件，不是欧氏可实现性的充分条件。
+  \item 引入 K\_poset、K\_geom、mode dimension、spread 等更细的歧义刻画量。
+  \item 给出很有价值的 case analysis，提醒存在 ``自洽但错误''、``局部稳定但全局漂移''、``严重欠约束'' 等不同失败模式。
+\end{enumerate}
+
+\paragraph{工程角度的不足}
+\begin{enumerate}[label=\arabic*.]
+  \item 初版倾向 3D 描述，但与当前仓库 TRR 语义不完全匹配。
+  \item 倾向把 EDM relaxation、精确认证、复杂输出结构一起纳入主框架，超出了第一阶段可实现范围。
+  \item 对求解器、损失函数和 gauge fixing 的描述起初不够具体。
+\end{enumerate}
+
+\paragraph{当前保留方式}
+\engineering{GPT 线中最应保留的是其理论定义能力，而不是把所有理论组件都立即工程化。当前的处理原则是：保留可行集、唯一性层级、可实现性提醒、spread 和 case analysis；把 3D、EDM、exact certification 降级为后续增强。}
+
+\subsection{Claude 线的详细整理}
+
+Claude 线主要是在行为评估框架成形后，对其进行科学性和因果识别强度上的补强。
+
+\paragraph{科研角度的主要贡献}
+\begin{enumerate}[label=\arabic*.]
+  \item 明确指出，如果没有 null model，就无法有力区分视觉信息与语言先验。
+  \item 强调 consistency 不能只作为一个预留字段，必须有客观、可执行的定义。
+  \item 引入 A/B/C 三条件设计和 $\Delta_{\mathrm{Recon}}$ 作为视觉信息增益指标。
+  \item 引入 rephrasing consistency、transitivity violation、TRR reciprocity 等结构可靠性测量。
+  \item 主张用联合异常检测 + 嵌入提升对错误约束的鲁棒性。
+\end{enumerate}
+
+\paragraph{工程角度的主要贡献}
+\begin{enumerate}[label=\arabic*.]
+  \item 反对新起一个与现有代码库平行的大目录，建议在 \texttt{VLM-test} 内增量扩展。
+  \item 建议 Phase 1 明确做减法，只保留最核心、最能验证研究假设的组件。
+\end{enumerate}
+
+\paragraph{需要修正的地方}
+\begin{enumerate}[label=\arabic*.]
+  \item 对 \texttt{behavioral-scene-belief-eval.md} 的批评中，部分措辞过重，例如把 ``缺少强对照'' 表述为 ``完全没有 null model''。
+  \item 联合异常检测虽然重要，但是否应进入 Phase 1，仍需服从当前数据质量和实现负担。
+\end{enumerate}
+
+\subsection{Codex 线的详细整理}
+
+Codex 线更多承担的是 ``把研究想法翻译成当前仓库里真正可执行的设计''。
+
+\paragraph{科研角度的贡献}
+\begin{enumerate}[label=\arabic*.]
+  \item 把 behavioral vs mechanistic 的边界讲清楚，避免研究叙述过度承诺。
+  \item 将重建问题与行为评估问题分开，但又用场景可行集把两者联系起来。
+  \item 在回应 Claude 批评时，区分 ``完全缺失'' 和 ``已有概念但未写实''。
+\end{enumerate}
+
+\paragraph{工程角度的贡献}
+\begin{enumerate}[label=\arabic*.]
+  \item 明确主线只做 2D。
+  \item 固定三锚点 gauge 方案。
+  \item 给出可实现的 QRR/TRR 损失形式和多起点求解方案。
+  \item 为行为评估设计统一 schema、manifest 和缓存要求。
+  \item 把多份脑暴文档收缩为更可执行的 Phase 1 提案。
+\end{enumerate}
+
+\subsection{科研角度与工程角度的主要分歧}
+
+表~\ref{tab:research-engineering-tension} 总结目前最关键的 ``科研理想'' 与 ``工程可实现性'' 之间的张力。
+
+\begin{longtable}{p{0.25\linewidth}p{0.27\linewidth}p{0.22\linewidth}p{0.18\linewidth}}
+\caption{科研角度与工程角度的主要张力}\label{tab:research-engineering-tension}\\
+\toprule
+议题 & 科研角度更关心什么 & 工程角度更关心什么 & 当前处理 \\
+\midrule
+\endfirsthead
+\toprule
+议题 & 科研角度更关心什么 & 工程角度更关心什么 & 当前处理 \\
+\midrule
+\endhead
+2D vs 3D & 表达能力与理论完整性 & 与现有 TRR 语义一致、先跑通实验 & 先做 2D \\
+EDM / exact solver & 可实现性与严格证书 & 依赖重、实现慢、短期收益有限 & 作为未来增强 \\
+null model & 证明视觉贡献而非语言先验 & 增加实验成本，但不可缺 & 至少保留 A/C，对 B 条件视资源而定 \\
+一致性测量 & 客观可靠性估计 & 需要额外采样与协议设计 & Phase 1 先做 rephrasing consistency \\
+联合异常检测 & 更强鲁棒性与理论优雅 & 开发负担高，对数据质量有假设 & 先不进第一版主线 \\
+统一大 schema & 泛化与复现最强 & 初版实现成本高 & 可先简版 schema，保留扩展位 \\
+\bottomrule
+\end{longtable}
+
+\section{问题重述：我们到底在评估什么}
+
+\subsection{从答题准确率到外显场景信念}
+
+\intuition{用户最早提出的关键转向是：强制 batch 提问、强制 VLM 每题必须回答的协议会严重污染观测，因为它把 ``看见了''、``没看见但被迫猜''、``看见了但本来就是模糊的'' 三种状态压成了同一种硬标签输出。}
+
+这一转向意味着，我们的目标不再是简单统计单题准确率，而是研究：
+
+\begin{quote}
+给定一张图和一组交互协议，VLM 外显出的空间关系集合是什么？这些关系中哪些是确定的，哪些是模糊的，哪些是拒答的，哪些互相冲突？由这些行为能反推出一个怎样的场景可行集？
+\end{quote}
+
+\theorynote{若把模型、图像和协议记为 $m, I, \pi$，则我们真正观察到的是行为输出 $O = \mathrm{observe}(m, I, \pi)$，而不是模型内部参数或隐藏状态。我们试图反演的是某种外显场景信念 $B_m(I)$，而不是 mechanistic interpretability 意义下的内部神经机制。}
+
+\subsection{行为反演而非内部机理还原}
+
+\intuition{用户进一步明确指出，这是一种逆向思路：通过 VLM 的表现反过来分析它到底看到了什么，甚至借此理解其内部机制。}
+
+这里需要做一个边界声明。本文采用的表述是：
+
+\begin{itemize}
+  \item 我们研究的是 \textbf{behavioral interpretability}，即通过模型的外显行为推断其可外化的场景信念。
+  \item 我们\textbf{不直接声称}恢复了模型的真实内部表征，更不声称解释了 attention head 或隐藏空间的精确机理。
+  \item 因此，这项工作更接近 \textbf{system identification} 或 \textbf{behavioral probing}，而不是 mechanistic interpretability。
+\end{itemize}
+
+\evidence{这一边界与近年的 selective VQA、黑盒 VLM 不确定性分析、scene graph extraction 工作相一致。它们都把研究对象放在模型可观测行为上，而不是要求访问内部权重或隐藏状态。相关工作包括 Whitehead et al. (2022)、Eisenschlos et al. (2024)、Khan et al. (2024)、Kim et al. (2024)、Dutta et al. (2025)。}
+
+\section{用户观点的系统整理}
+
+\subsection{核心观点清单}
+
+表~\ref{tab:user-views} 总结了目前由用户明确提出、并已经成为讨论主线的判断。
+
+\begin{longtable}{p{0.08\linewidth}p{0.35\linewidth}p{0.20\linewidth}p{0.27\linewidth}}
+\caption{用户核心观点整理}\label{tab:user-views}\\
+\toprule
+编号 & 观点内容 & 当前属性 & 当前状态 \\
+\midrule
+\endfirsthead
+\toprule
+编号 & 观点内容 & 当前属性 & 当前状态 \\
+\midrule
+\endhead
+U1 & 强制 batch QA 且要求每题必须作答，会让 VLM 输出接近随机基线，因而难以反映其真实视觉内容。 & 直觉分析 + 工程观察 & 强烈建议保留为核心研究假设，需实验验证 \\
+U2 & 更合理的协议应允许模糊回答、多选回答或拒答，因为这更接近 VLM 真实的不确定性状态。 & 直觉分析 + 文献支撑 & 可直接纳入主协议设计 \\
+U3 & 也应允许 VLM 自主提取场景关系，而不只是在离散题库下被动作答。 & 直觉分析 + 文献支撑 & 应保留为对照协议 \\
+U4 & 目标不是评 ``题答得对不对''，而是从行为中反向解析出 VLM ``看见的场景''。 & 核心研究主张 & 应作为总问题定义 \\
+U5 & 当前阶段应先假设物体共面，不考虑高度，把重建问题收缩到 2D。 & 工程判断 + 理论推断 & 已形成当前 MVP 共识 \\
+U6 & 当前最重要的问题不是直接求解，而是如何评估：输入约束有对、有错、有缺失、有冗余，必须先分析这些噪声条件下会发生什么。 & 工程判断 & 应优先级高于完整 solver 实现 \\
+U7 & 需要把实验做成可解释、可复现、可泛化到其他模型的科学评估范式。 & 研究要求 & 已在评估框架中展开 \\
+\bottomrule
+\end{longtable}
+
+\subsection{这些观点中哪些已有文献支持}
+
+\begin{itemize}
+  \item U1 与 U2 的大方向有较强支撑。\evidence{Reliable VQA 强调 ``宁可拒答也不要硬答错''；Selective VQA 直接研究 risk-coverage；Khan et al. (2024) 进一步说明即便是黑盒 VLM，也可以用一致性估计回答可靠性。}
+  \item U3 也有支撑。\evidence{LLM4SGG 与 open-world scene graph generation 说明，VLM/LLM 可以直接输出对象-关系结构，而不必完全依赖被动的逐题问答。}
+  \item U4 在方法论上是合理的，但需要边界声明。\engineering{这类表述适合作为 ``外显场景信念'' 的定义，不适合直接上升为 ``恢复了模型内部真实视觉表征''。}
+  \item U5 主要是工程上和语义上一致的收缩。\theorynote{当前 TRR 实际上只使用 XY 角度，3D 只会引入无用自由度和反射歧义。}
+  \item U6 与 U7 暂无一篇文献直接对应整个框架，但它们是使实验可讨论、可复核所必须的系统设计要求。
+\end{itemize}
+
+\section{约束重建问题的数学化整理}
+
+\subsection{可行集视角}
+
+\theorynote{对一个场景中 $N$ 个物体的位置变量 $X = (x_1,\dots,x_N)$，在 2D MVP 下令 $x_i \in \mathbb{R}^2$。若从 VLM 行为中解析出约束集 $C$，则可行集可写为}
+\[
+F(C) = \{ X \in \mathbb{R}^{N \times 2} : X \text{ 满足全部选取的 QRR/TRR 约束} \}.
+\]
+
+\engineering{这一定义非常重要，因为它把 ``是否可重建''、``有多少种可能重建''、``是否唯一'' 和 ``所有可行解如何表示'' 统一到了同一个对象上。}
+
+由此可以定义四类问题：
+\begin{enumerate}[label=\arabic*.]
+  \item \textbf{可行性}：$F(C) \neq \varnothing$ 是否成立。
+  \item \textbf{模态数}：在去掉显然对称性后，$F(C)$ 有多少个连通分量。
+  \item \textbf{可行解表示}：用代表点、采样云、盒覆盖或不确定性区域来表示 $F(C)$。
+  \item \textbf{唯一性}：是单模态、紧单模态，还是严格单点。
+\end{enumerate}
+
+\subsection{QRR 与 TRR 的语义差异}
+
+\theorynote{QRR 与 TRR 不是同一种数学对象。QRR 更像距离变量上的偏序系统；TRR 更像相对角度的扇区约束系统。}
+
+\begin{itemize}
+  \item QRR：比较的是距离对之间的相对大小，天然对应 ordinal embedding。
+  \item TRR：比较的是相对方向或角度扇区，和 bearing/angle rigidity、定性方位关系更接近。
+\end{itemize}
+
+\evidence{QRR 侧可参考 Agarwal et al. (2007)、Terada and von Luxburg (2014)、Kleindessner and von Luxburg (2023)；TRR 侧可参考 Zhao (2019) 的 bearing rigidity 和 Chen et al. (2021) 的 angle rigidity。}
+
+\subsection{为什么第一阶段应坚持 2D}
+
+\engineering{当前代码库中 TRR 的计算虽然可从 \texttt{position\_3d} 读取，但最后实际只使用前两维做角度计算。这意味着在当前语义下做 3D 重建不会带来对应的信息增量，反而会引入额外自由度。}
+
+因此，本阶段采用如下原则：
+\begin{enumerate}[label=\arabic*.]
+  \item 场景重建先限定在 2D 平面。
+  \item 若后续需要 Blender 评估，可先把 2D 结果作为 $z=0$ 的平面布局导出。
+  \item 3D 只保留为后续理论增强，不进入第一阶段的主设计。
+\end{enumerate}
+
+\section{当前共识：哪些判断较稳，哪些只是合理猜测}
+
+\subsection{较稳的判断}
+
+\begin{longtable}{p{0.08\linewidth}p{0.31\linewidth}p{0.18\linewidth}p{0.29\linewidth}}
+\caption{当前较稳的判断}\label{tab:stable-claims}\\
+\toprule
+编号 & 内容 & 依据类型 & 备注 \\
+\midrule
+\endfirsthead
+\toprule
+编号 & 内容 & 依据类型 & 备注 \\
+\midrule
+\endhead
+C1 & ``强制每题必须单选'' 会混淆正确感知、瞎猜和真实模糊三种状态。 & 理论推断 + 文献支撑 & selective VQA 与 abstention 文献支持这一点 \\
+C2 & 评估不能只看 accuracy，至少应拆成回答层、约束层、重建层、GT 对齐层。 & 工程判断 + 理论推断 & 已形成较清晰的评估骨架 \\
+C3 & 约束中存在错误、缺失、冗余和冲突时，重建输出本应是一个可行集或多个模态，而不是单点。 & 理论推断 & 与 ordinal embedding 和约束可行集观点一致 \\
+C4 & 2D 共面假设是当前最合理的第一阶段收缩。 & 工程判断 + 代码语义 & 与当前 TRR 定义一致 \\
+C5 & 若不加入 null model，对 ``模型到底是看见了还是只是猜'' 的回答会明显不充分。 & 理论推断 + 文献支撑 & 反事实/无图像对照非常关键 \\
+C6 & 即使没有 logprob，也应通过一致性来度量回答可靠性。 & 文献支撑 & Khan et al. (2024) 明确支持 \\
+\bottomrule
+\end{longtable}
+
+\subsection{目前仍需实验验证的关键假设}
+
+\begin{longtable}{p{0.08\linewidth}p{0.34\linewidth}p{0.18\linewidth}p{0.26\linewidth}}
+\caption{待验证假设}\label{tab:open-hypotheses}\\
+\toprule
+编号 & 假设 & 当前依据 & 需要什么验证 \\
+\midrule
+\endfirsthead
+\toprule
+编号 & 假设 & 当前依据 & 需要什么验证 \\
+\midrule
+\endhead
+H1 & 在当前 benchmark 上，forced QA 的有效约束质量接近随机基线。 & 用户观察 + 早期现象 & 需要 A/B/C 对照和统计检验 \\
+H2 & selective QA 的覆盖率虽然降低，但有效约束精度和重建质量会显著优于 forced QA。 & 直觉分析 + selective VQA 文献 & 需要真实模型对比 \\
+H3 & direct extraction 会得到更稀疏但更连贯的场景关系图。 & 直觉分析 + scene graph 文献 & 需要协议对照实验 \\
+H4 & 一致性高的回答在下游重建上也更可靠。 & 文献支撑 + 直觉分析 & 需检验 consistency 与 CSR/NRMS 的相关性 \\
+H5 & 小比例错误约束对重建的破坏可能比大量缺失更大。 & 工程经验 & 需 controlled corruption 曲线验证 \\
+H6 & 某些场景会出现 ``高自洽但偏离 GT'' 的假唯一解。 & 理论推断 & 需用 belief-faithfulness gap 观测 \\
+\bottomrule
+\end{longtable}
+
+\section{科学评估范式：当前最重要的设计}
+
+\subsection{为什么现在的重点是评估而不是先把 solver 做满}
+
+\intuition{用户在讨论中多次强调：当前最核心的问题是评估。因为 VLM 实际输出里一定同时存在答对、答错、缺失、冗余和冲突。如果不先分析这些输入噪声如何影响重建，直接把精力投入更复杂的 solver，并不能解释实验结果。}
+
+\engineering{这一定判断是合理的。对当前项目而言，更复杂的求解器只会放大下游系统复杂度；而评估协议、可靠性测量、null model 和分层指标，才决定我们是否能科学解释结果。}
+
+\subsection{主协议：forced QA、selective QA、direct extraction}
+
+当前已形成的协议框架如下：
+\begin{enumerate}[label=\arabic*.]
+  \item \textbf{forced QA}：每题必须给单一答案，不能拒答，作为 baseline。
+  \item \textbf{selective QA}：允许单值、多值、``unknown''、``ambiguous''。
+  \item \textbf{direct extraction}：不按题逐条问，而是让模型输出半结构化对象关系集合。
+\end{enumerate}
+
+\evidence{这三类协议分别对应已有文献中的强制回答、选择性回答和 scene graph extraction 三条路线。}
+
+\subsection{null model 与语言先验分离}
+
+\theorynote{若不构造视觉条件与非视觉条件的对照，我们无法回答 ``模型到底是真的看见了，还是只是在利用语言先验猜''。}
+
+目前最强的设计来自三条件对照：
+\begin{enumerate}[label=\textbf{\Alph*.}]
+  \item 正常图像 + 正常问题；
+  \item 错误图像 + 原问题；
+  \item 无图像，仅文字问题。
+\end{enumerate}
+
+若对三个条件分别重建，得到 $S_A, S_B, S_C$，则可以定义一种视觉信息增益指标：
+\[
+\Delta_{\mathrm{Recon}} = d(S_C, GT) - d(S_A, GT),
+\]
+其中 $d(\cdot, \cdot)$ 可取 NRMS、约束恢复误差或其他场景级距离。
+
+\evidence{反事实 VQA、MMStar、VLind-Bench 这一类工作都表明，语言先验会显著污染视觉问答结果；因此引入无图像或错图像条件并非附加装饰，而是区分视觉贡献与语言猜测的必要实验控制。}
+
+\subsection{客观可靠性测量}
+
+当前最值得保留的三种客观可靠性测量是：
+\begin{enumerate}[label=\arabic*.]
+  \item \textbf{rephrasing consistency}：同一关系换措辞问多次，看答案是否稳定。
+  \item \textbf{transitivity consistency}：对 QRR 检查传递性违反率。
+  \item \textbf{reciprocity consistency}：对 TRR 检查互逆关系是否一致。
+\end{enumerate}
+
+\evidence{Khan et al. (2024) 说明，对黑盒 VLM 而言，一致性信号本身就是有价值的可靠性估计来源。}
+
+\engineering{这三项测量的好处是：它们都不依赖 VLM 自报置信度，也不依赖 GT，可以直接作为 Observation 或 ConstraintObservation 的可靠性字段。}
+
+\subsection{为什么 ``behavioral'' 文档需要吸收 ``experiment-spec''}
+
+目前已有两套思路：
+\begin{itemize}
+  \item \texttt{behavioral-scene-belief-eval.md}：强在 schema、四层指标、manifest、可复现工程框架。
+  \item \texttt{experiment-spec.md}：强在 null model、客观一致性探测、联合异常检测的科学方法论。
+\end{itemize}
+
+\engineering{更合理的方向不是二选一，而是把前者作为工程骨架，把后者补入为科学控制层。}
+
+\section{重建层设计：需要保留但不宜喧宾夺主}
+
+\subsection{为何重建仍然重要}
+
+尽管当前重点是评估，重建层仍然不可缺少，因为它提供了一个将离散行为观测整合为场景级对象的方法。它使我们能够回答：
+\begin{itemize}
+  \item 这些回答在几何上是否自洽；
+  \item 这些回答对应的是紧场景、松场景还是多模态场景；
+  \item 约束缺失或冲突是如何在下游转化为可行性问题、多解问题和不确定性问题的。
+\end{itemize}
+
+\subsection{当前阶段应坚持的简化}
+
+\engineering{根据现有讨论，第一阶段的重建器应保持简单并服务于评估，而不是反过来主导整个项目。}
+
+建议保留的简化包括：
+\begin{enumerate}[label=\arabic*.]
+  \item 只做 2D。
+  \item 使用三锚点 gauge fixing：$x_a=(0,0)$，$x_b=(1,0)$，$y_c \ge 0$。
+  \item 使用多重初始化的连续优化作为主求解器。
+  \item 输出代表解、模态数、spread 和物体级不确定性，而不是试图在第一阶段穷举所有可行解。
+\end{enumerate}
+
+\subsection{理论增强项应如何定位}
+
+以下方向应保留为后续增强，而不应挤进第一阶段的主实现：
+\begin{itemize}
+  \item EDM relaxation 与 Euclidean realizability 显式检查；
+  \item dReal/interval branch-and-bound 之类的小规模精确认证；
+  \item 联合异常检测 + 嵌入的 SDP/鲁棒求解；
+  \item 从 2D 扩展到 3D。
+\end{itemize}
+
+\engineering{这些方向都很有价值，但放在当前阶段会大幅增加系统复杂度。更合理的顺序是先把协议、可靠性测量和评估指标跑顺，再讨论是否需要更强的联合求解器。}
+
+\section{关于 Claude 评审意见的整理}
+
+\subsection{哪些批评成立}
+
+针对 \texttt{behavioral-scene-belief-eval.md} 的评审中，以下批评是成立的：
+\begin{enumerate}[label=\arabic*.]
+  \item 它没有像 \texttt{experiment-spec.md} 那样把 A/B/C 三条件 null model 设计写成核心实验控制，因此在 ``视觉 vs 语言先验'' 分离上不够强。
+  \item 它虽然预留了 consistency 字段和相关指标，但没有明确定义 consistency 的具体计算方法，因此在可靠性测量上还缺可执行定义。
+  \item 它目前是标准分层流水线，没有引入 Ma et al. (2018/2019) 风格的联合异常检测与嵌入。
+\end{enumerate}
+
+\subsection{哪些批评说得过重}
+
+同一份评审中，以下说法过于绝对：
+\begin{enumerate}[label=\arabic*.]
+  \item ``完全没有 null model'' 不准确。它确实有 \texttt{oracle\_clean / raw\_vlm / controlled\_corruption} 的 regime 设计，只是没有更强的反事实视觉对照。
+  \item ``完全没有客观可靠性测量'' 也不准确。文档里已经把 consistency 作为一等字段和指标层的一部分，只是没有把计算公式写实。
+\end{enumerate}
+
+\engineering{因此，较准确的结论应是：\texttt{behavioral} 文档不是错误，而是不够强；\texttt{experiment-spec} 不是替代品，而是科学控制层的关键补丁。}
+
+\section{建议的 Phase 1 共识方案}
+
+\subsection{目标}
+
+Phase 1 的目标不应是 ``做出最强的重建器''，而应是：
+\begin{quote}
+证明在允许拒答和模糊回答的情况下，我们能够从 VLM 的行为中提取比 forced QA 更可信的场景约束，并用可重现的方式显示这种提升确实来自视觉信息，而不是语言先验。
+\end{quote}
+
+\subsection{建议保留的组件}
+
+\begin{enumerate}[label=\arabic*.]
+  \item 协议：只保留 \texttt{forced\_qa}、\texttt{selective\_qa} 两条主线；\texttt{direct\_extraction} 可以作为补充实验。
+  \item null model：至少引入条件 C（无图像）；若资源允许，加入条件 B（错误图像）。
+  \item 可靠性：先实现 rephrasing consistency；QRR 传递性与 TRR 互逆性作为第二批结构指标。
+  \item 重建器：使用当前讨论中最简单的 2D L-BFGS-B 多重初始化方案。
+  \item 指标：至少保留 7 类核心指标：
+  \begin{itemize}
+    \item 回答准确率；
+    \item 拒答率；
+    \item 一致性分数；
+    \item 约束冲突率；
+    \item CSR；
+    \item NRMS 或排序相关指标；
+    \item $\Delta_{\mathrm{Recon}}$ 或其简化版。
+  \end{itemize}
+\end{enumerate}
+
+\subsection{建议延后的组件}
+
+\begin{itemize}
+  \item 复杂的 direct extraction parser；
+  \item 联合异常检测的 SDP 或更重的鲁棒求解；
+  \item all feasible solution 的严格枚举；
+  \item 3D 重建。
+\end{itemize}
+
+\section{对外讨论时建议如何表述}
+
+为了避免把当前工作说得过头，建议对外使用以下表述：
+
+\begin{enumerate}[label=\arabic*.]
+  \item 本工作研究的是 \textbf{VLM 的外显场景信念}，不是其内部隐藏状态的直接解释。
+  \item 本工作关注的是 \textbf{行为层可观测证据}：回答、拒答、模糊回答、一致性、冲突和下游几何可行性。
+  \item 本工作通过 \textbf{null model} 和 \textbf{一致性探测}，尝试把视觉贡献与语言先验分离开。
+  \item 本工作把重建输出理解为 \textbf{一个可行集或信念结构}，而不是强行恢复唯一真值坐标。
+\end{enumerate}
+
+\section{当前开放问题}
+
+下列问题目前仍值得继续讨论：
+
+\begin{enumerate}[label=\arabic*.]
+  \item 当前 benchmark 中 forced QA 到底有多接近随机基线？这个结论需要怎样的统计检验才足够可信？
+  \item selective QA 的设计应多开放？是允许多选和拒答即可，还是还应允许 ``范围式'' 回答？
+  \item direct extraction 在实际黑盒 VLM 上会不会引入过大的解析噪声？
+  \item 一致性高是否真的意味着视觉可靠性高，还是也可能只是稳定的语言先验？
+  \item Phase 1 是否需要引入 B 条件（错误图像），还是先做 A/C 就足够区分视觉与语言？
+  \item 重建器应只做轻量后处理，还是已经值得引入 outlier-aware 的联合求解？
+\end{enumerate}
+
+\section{结论}
+
+当前讨论已经收敛出一个较清晰的研究方向：把 VLM 空间问答从 ``强制作答的题目准确率评测'' 转化为 ``基于行为的外显场景信念反演''。这一转向的关键不在于立刻做更复杂的求解器，而在于建立一套能够处理拒答、模糊回答、错误约束和缺失约束的科学评估范式。用户提出的逆向思路构成了这项工作的核心；现有文献已经对 selective answering、拒答、黑盒一致性估计、scene graph extraction 和 ordinal embedding 提供了足够的局部支撑；但真正把这些线索整合成一个可复现、可比较、可解释的系统，仍然需要在 null model、可靠性测量和重建-评估耦合上继续收敛。本文档的目标正是为下一轮讨论提供这样一个共同底稿。
+
+\begin{thebibliography}{99}
+
+\bibitem{agarwal2007}
+S. Agarwal, J. Wills, L. Cayton, G. Lanckriet, D. Kriegman, and S. Belongie.
+\newblock Generalized non-metric multidimensional scaling.
+\newblock In \emph{AISTATS}, 2007.
+
+\bibitem{terada2014}
+Y. Terada and U. von Luxburg.
+\newblock Local ordinal embedding.
+\newblock In \emph{ICML}, 2014.
+
+\bibitem{kleindessner2023}
+M. Kleindessner and U. von Luxburg.
+\newblock Insights into ordinal embedding algorithms: how to embed items accurately from their relative comparisons.
+\newblock \emph{Journal of Machine Learning Research}, 24, 2023.
+
+\bibitem{dokmanic2015}
+I. Dokmanic, E. Parhizkar, J. Ranieri, and M. Vetterli.
+\newblock Euclidean distance matrices: essential theory, algorithms, and applications.
+\newblock \emph{IEEE Signal Processing Magazine}, 2015.
+
+\bibitem{ma2018}
+J. Ma, J. Xu, and W. Cao.
+\newblock Robust ordinal embedding from contaminated comparisons.
+\newblock arXiv:1812.01945, 2018.
+
+\bibitem{zhao2019}
+S. Zhao and D. Zelazo.
+\newblock Bearing rigidity theory and applications for control and estimation of network systems.
+\newblock \emph{Annual Review of Control, Robotics, and Autonomous Systems}, 2019.
+
+\bibitem{chen2021}
+L. Chen, M. Cao, and C. Li.
+\newblock Angle rigidity and its usage to stabilize multi-agent formations in 2D.
+\newblock \emph{IEEE Transactions on Automatic Control}, 2021.
+
+\bibitem{whitehead2022}
+S. Whitehead, S. Ji, M. Prabhudesai, et al.
+\newblock Reliable visual question answering: abstain rather than answer incorrectly.
+\newblock In \emph{ECCV}, 2022.
+
+\bibitem{eisenschlos2024}
+J. Eisenschlos, B. R. Ichter, S. Chandra, et al.
+\newblock Selectively answering visual questions.
+\newblock In \emph{Findings of ACL}, 2024.
+
+\bibitem{khan2024}
+Z. Khan, M. J. Kim, and collaborators.
+\newblock Consistency and uncertainty: identifying unreliable responses from black-box vision-language models for selective VQA.
+\newblock In \emph{CVPR}, 2024.
+
+\bibitem{gurari2018}
+D. Gurari, Q. Li, A. Stangl, et al.
+\newblock VizWiz grand challenge: answering visual questions from blind people.
+\newblock In \emph{CVPR}, 2018.
+
+\bibitem{kim2024}
+S. Kim, et al.
+\newblock LLM4SGG: large language models for weakly supervised scene graph generation.
+\newblock arXiv, 2024.
+
+\bibitem{dutta2025}
+R. Dutta, et al.
+\newblock Open-world scene graph generation using vision language models.
+\newblock arXiv, 2025.
+
+\bibitem{jian2025}
+Y. Jian, et al.
+\newblock Teaching vision-language models to ask: resolving ambiguity in visual questions.
+\newblock In \emph{ACL}, 2025.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,47 @@
+[animation]
+n_frames = 360      # 24fps x 15 seconds
+fps = 24
+
+[motion]
+static = 0.2
+linear = 0.6
+circular = 0.2
+speed_min = 0.03
+speed_max = 0.10
+omega_min = 0.04
+omega_max = 0.12
+
+[objects]
+min_count = 3
+max_count = 5
+min_dist = 0.25
+bounds = 5.0
+
+[rendering]
+width = 480
+height = 320
+samples = 64
+camera_distance = 10.0
+elevation = 30.0
+azimuth_start = 45.0
+
+[video]
+encode = true
+crf = 18
+keep_frames = false
+
+[blender]
+executable = "/Applications/Blender.app/Contents/MacOS/Blender"
+use_gpu = false
+
+[output]
+dir = "./output_dynamic"
+seed = 42
+
+[splits.d04]
+n_scenes = 10
+n_objects = 4
+
+[splits.d05]
+n_scenes = 10
+n_objects = 5
