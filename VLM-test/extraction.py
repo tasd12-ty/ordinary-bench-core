@@ -10,7 +10,8 @@ from pathlib import Path
 from typing import Dict, List, Any
 
 from dsl.predicates import (
-    MetricType, extract_all_qrr, extract_all_trr,
+    MetricType, extract_all_qrr, extract_all_qrr_shared_anchor,
+    extract_all_trr, extract_all_fdr,
 )
 
 
@@ -73,11 +74,14 @@ def extract_gt(scene: dict, tau: float = 0.10) -> dict:
     """
     objects = parse_objects(scene)
     if len(objects) < 2:
-        return {"qrr": [], "trr": []}
+        return {"qrr": [], "trr": [], "fdr": []}
 
-    # QRR: only dist3D (disjoint pairs)
+    # QRR: dist3D for both disjoint and shared-anchor probes
     qrr_constraints = extract_all_qrr(
         objects, MetricType.DIST_3D, tau=tau, disjoint_only=True
+    )
+    qrr_constraints += extract_all_qrr_shared_anchor(
+        objects, MetricType.DIST_3D, tau=tau,
     )
     qrr_list = [c.to_dict() for c in qrr_constraints]
 
@@ -85,7 +89,11 @@ def extract_gt(scene: dict, tau: float = 0.10) -> dict:
     trr_constraints = extract_all_trr(objects, use_3d=True)
     trr_list = [c.to_dict() for c in trr_constraints]
 
-    return {"qrr": qrr_list, "trr": trr_list}
+    # FDR: full distance ranking per anchor
+    fdr_constraints = extract_all_fdr(objects, tau=tau)
+    fdr_list = [c.to_dict() for c in fdr_constraints]
+
+    return {"qrr": qrr_list, "trr": trr_list, "fdr": fdr_list}
 
 
 def load_scene(path: str) -> dict:

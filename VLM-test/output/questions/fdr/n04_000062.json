@@ -1,0 +1,139 @@
+{
+  "scene_id": "n04_000062",
+  "image_path": "images/single_view/n04_000062.png",
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "small cyan metal cube"
+    },
+    {
+      "id": "obj_1",
+      "desc": "large cyan metal cylinder"
+    },
+    {
+      "id": "obj_2",
+      "desc": "small brown metal sphere"
+    },
+    {
+      "id": "obj_3",
+      "desc": "large brown metal cylinder"
+    }
+  ],
+  "n_objects": 4,
+  "question_type": "fdr",
+  "total_questions": 4,
+  "n_batches": 1,
+  "tau": 0.1,
+  "batches": [
+    {
+      "batch_id": 0,
+      "n_questions": 4,
+      "questions": [
+        {
+          "qid": "fdr_0001",
+          "type": "fdr",
+          "anchor": "obj_0",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_1",
+            "obj_2",
+            "obj_3"
+          ],
+          "gt_distances": [
+            3.028186,
+            3.806575,
+            6.098171
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_1"
+            ],
+            [
+              "obj_2"
+            ],
+            [
+              "obj_3"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0002",
+          "type": "fdr",
+          "anchor": "obj_1",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_2",
+            "obj_0",
+            "obj_3"
+          ],
+          "gt_distances": [
+            2.091996,
+            3.028186,
+            3.126874
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_2"
+            ],
+            [
+              "obj_0",
+              "obj_3"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0003",
+          "type": "fdr",
+          "anchor": "obj_2",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_1",
+            "obj_0",
+            "obj_3"
+          ],
+          "gt_distances": [
+            2.091996,
+            3.806575,
+            4.089298
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_1"
+            ],
+            [
+              "obj_0",
+              "obj_3"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0004",
+          "type": "fdr",
+          "anchor": "obj_3",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_1",
+            "obj_2",
+            "obj_0"
+          ],
+          "gt_distances": [
+            3.126874,
+            4.089298,
+            6.098171
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_1"
+            ],
+            [
+              "obj_2"
+            ],
+            [
+              "obj_0"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

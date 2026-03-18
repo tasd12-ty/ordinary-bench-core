@@ -1,0 +1,77 @@
+{
+  "scene_id": "n04_000068",
+  "image_path": "images/single_view/n04_000068.png",
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "large cyan rubber cylinder"
+    },
+    {
+      "id": "obj_1",
+      "desc": "small red rubber cube"
+    },
+    {
+      "id": "obj_2",
+      "desc": "small yellow rubber cube"
+    },
+    {
+      "id": "obj_3",
+      "desc": "large yellow metal cube"
+    }
+  ],
+  "n_objects": 4,
+  "question_type": "qrr",
+  "total_questions": 3,
+  "n_batches": 1,
+  "tau": 0.1,
+  "batches": [
+    {
+      "batch_id": 0,
+      "n_questions": 3,
+      "questions": [
+        {
+          "qid": "qrr_0001",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0002",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0003",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_2"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        }
+      ]
+    }
+  ]
+}

@@ -34,8 +34,8 @@ class SolverConfig:
     trr_beta: float = 10.0
 
     # Separation
-    sep_eps: float = 0.05
-    sep_lambda: float = 1.0
+    sep_eps: float = 0.2
+    sep_lambda: float = 5.0
 
     # Solver
     n_restarts: int = 10
@@ -70,14 +70,14 @@ def select_anchors(
     Returns (anchor_a, anchor_b, anchor_c) where:
       anchor_a -> (0, 0)
       anchor_b -> (1, 0)
-      anchor_c -> y >= 0
+      anchor_c -> y >= 0 (only enforced when no TRR constraints)
     """
     freq: Dict[str, int] = {}
     for oid in object_ids:
         freq[oid] = 0
 
     for entry in qrr_entries:
-        for obj in list(entry.pair1) + list(entry.pair2):
+        for obj in sorted(set(entry.pair1) | set(entry.pair2)):
             freq[obj] = freq.get(obj, 0) + 1
     for entry in trr_entries:
         for obj in [entry.target, entry.ref1, entry.ref2]:
@@ -130,7 +130,7 @@ def unpack_free_variables(
     """Unpack free variables to positions dict.
 
     anchor_a = (0, 0), anchor_b = (1, 0) are fixed.
-    y_c >= 0 enforced via L-BFGS-B bounds (not abs()).
+    y_c >= 0 optionally enforced via L-BFGS-B bounds in solve().
     """
     positions = {}
     positions[anchor_a] = np.array([0.0, 0.0])
@@ -232,6 +232,8 @@ def compute_trr_loss(
         ref_vec = x_ref2 - x_ref1
         ref_norm = np.linalg.norm(ref_vec)
         if ref_norm < 1e-10:
+            # Degenerate: ref1 ≈ ref2, add penalty to push apart
+            total += entry.weight * 2.0
             continue
         u = ref_vec / ref_norm
 
@@ -239,6 +241,8 @@ def compute_trr_loss(
         tgt_vec = x_target - x_ref1
         tgt_norm = np.linalg.norm(tgt_vec)
         if tgt_norm < 1e-10:
+            # Degenerate: target ≈ ref1, add penalty to push apart
+            total += entry.weight * 2.0
             continue
         v = tgt_vec / tgt_norm
 
@@ -341,13 +345,17 @@ def solve(
     c_idx = free_objs.index(anchor_c) if anchor_c in free_objs else -1
 
     for restart in range(config.n_restarts):
-        # Random initialization: positions around unit scale
+        # Random initialization: spread out around gauge-fixed anchors
         rng = np.random.RandomState(restart * 42 + 7)
-        x0 = rng.randn(n_free) * 0.5
+        x0 = rng.randn(n_free) * 1.5
 
-        # Bounds: y_c >= 0 (mirror fixing via box constraint)
+        # Note: y_c >= 0 constraint is intentionally omitted when TRR
+        # constraints are present, as TRR angular constraints naturally
+        # break the reflection ambiguity. Forcing y_c >= 0 can conflict
+        # with TRR constraints by reversing all angles.
         bounds = [(None, None)] * n_free
-        if c_idx >= 0:
+        if c_idx >= 0 and not trr_entries:
+            # Only enforce y_c >= 0 when no TRR constraints
             y_c_pos = c_idx * 2 + 1
             bounds[y_c_pos] = (0, None)
             x0[y_c_pos] = abs(x0[y_c_pos])

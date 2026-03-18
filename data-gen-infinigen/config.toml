@@ -1,0 +1,22 @@
+[infinigen]
+root = ""
+python = "python3"
+driver_script = "infinigen_examples.generate_indoors"
+
+[scene]
+seed = 0
+room_type = "DiningRoom"
+simple_layout = true
+terrain_enabled = false
+single_room = true
+overhead_camera = true
+
+[adapter]
+max_objects = 6
+min_depth = 0.2
+min_screen_margin = 4
+query_terms = []
+
+[output]
+dir = "./data-gen-infinigen/output"
+scene_prefix = "ifg"

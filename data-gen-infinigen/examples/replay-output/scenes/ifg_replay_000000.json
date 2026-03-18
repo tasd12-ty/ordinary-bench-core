@@ -1,0 +1,882 @@
+{
+  "scene_id": "ifg_replay_000000",
+  "split": "ifg",
+  "image_index": 0,
+  "n_objects": 4,
+  "objects": [
+    {
+      "id": "obj_0",
+      "shape": "sphere",
+      "size": "large",
+      "material": "brown_rubber",
+      "color": "brown",
+      "3d_coords": [
+        -1.140077,
+        0.446359,
+        -0.0
+      ],
+      "pixel_coords": [
+        287,
+        150,
+        12.42482
+      ],
+      "rotation": 0.0,
+      "source_name": "BrownRubberSphere",
+      "source_tags": [
+        "sphere"
+      ],
+      "source_materials": [
+        "brown_rubber"
+      ],
+      "source_object_index": 1,
+      "source_instance_index": 0
+    },
+    {
+      "id": "obj_1",
+      "shape": "sphere",
+      "size": "large",
+      "material": "brown_metal",
+      "color": "brown",
+      "3d_coords": [
+        -2.985374,
+        -2.968762,
+        -0.0
+      ],
+      "pixel_coords": [
+        240,
+        89,
+        15.646157
+      ],
+      "rotation": 0.0,
+      "source_name": "BrownMetalSphere",
+      "source_tags": [
+        "sphere"
+      ],
+      "source_materials": [
+        "brown_metal"
+      ],
+      "source_object_index": 4,
+      "source_instance_index": 0
+    },
+    {
+      "id": "obj_2",
+      "shape": "cylinder",
+      "size": "small",
+      "material": "yellow_metal",
+      "color": "yellow",
+      "3d_coords": [
+        1.863862,
+        0.577252,
+        -0.0
+      ],
+      "pixel_coords": [
+        195,
+        203,
+        10.505134
+      ],
+      "rotation": 0.0,
+      "source_name": "YellowMetalCylinder",
+      "source_tags": [
+        "cylinder"
+      ],
+      "source_materials": [
+        "yellow_metal"
+      ],
+      "source_object_index": 3,
+      "source_instance_index": 0
+    },
+    {
+      "id": "obj_3",
+      "shape": "cylinder",
+      "size": "large",
+      "material": "green_metal",
+      "color": "green",
+      "3d_coords": [
+        1.772707,
+        2.480902,
+        -0.0
+      ],
+      "pixel_coords": [
+        268,
+        244,
+        9.395211
+      ],
+      "rotation": 0.0,
+      "source_name": "GreenMetalCylinder",
+      "source_tags": [
+        "cylinder"
+      ],
+      "source_materials": [
+        "green_metal"
+      ],
+      "source_object_index": 2,
+      "source_instance_index": 0
+    }
+  ],
+  "world_constraints": {},
+  "views": [
+    {
+      "view_id": "view_0",
+      "image_path": "view_0.png",
+      "camera": {
+        "camera_id": "camera_0",
+        "intrinsics": [
+          [
+            520.95796,
+            0.0,
+            239.980726
+          ],
+          [
+            0.0,
+            525.590586,
+            159.944841
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "pose_cv_world": [
+          [
+            -0.707107,
+            0.353553,
+            -0.612372,
+            7.348469
+          ],
+          [
+            0.0,
+            0.866025,
+            0.5,
+            -6.0
+          ],
+          [
+            0.707107,
+            0.353553,
+            -0.612372,
+            7.348469
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_cv_world": [
+          7.348469,
+          -6.0,
+          7.348469
+        ],
+        "position": [
+          7.348469,
+          7.348469,
+          6.0
+        ],
+        "height": 320,
+        "width": 480
+      },
+      "directions": {
+        "behind": [
+          0.612372,
+          0.612372,
+          0.5
+        ],
+        "front": [
+          -0.612372,
+          -0.612372,
+          -0.5
+        ],
+        "left": [
+          0.707107,
+          -0.707107,
+          0.0
+        ],
+        "right": [
+          -0.707107,
+          0.707107,
+          -0.0
+        ],
+        "above": [
+          -0.353553,
+          -0.353553,
+          0.866025
+        ],
+        "below": [
+          0.353553,
+          0.353553,
+          -0.866025
+        ]
+      },
+      "objects": [
+        {
+          "id": "obj_0",
+          "shape": "sphere",
+          "size": "large",
+          "material": "brown_rubber",
+          "color": "brown",
+          "3d_coords": [
+            -1.140077,
+            0.446359,
+            -0.0
+          ],
+          "pixel_coords": [
+            287,
+            150,
+            12.42482
+          ],
+          "rotation": 0.0
+        },
+        {
+          "id": "obj_1",
+          "shape": "sphere",
+          "size": "large",
+          "material": "brown_metal",
+          "color": "brown",
+          "3d_coords": [
+            -2.985374,
+            -2.968762,
+            -0.0
+          ],
+          "pixel_coords": [
+            240,
+            89,
+            15.646157
+          ],
+          "rotation": 0.0
+        },
+        {
+          "id": "obj_2",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "yellow_metal",
+          "color": "yellow",
+          "3d_coords": [
+            1.863862,
+            0.577252,
+            -0.0
+          ],
+          "pixel_coords": [
+            195,
+            203,
+            10.505134
+          ],
+          "rotation": 0.0
+        },
+        {
+          "id": "obj_3",
+          "shape": "cylinder",
+          "size": "large",
+          "material": "green_metal",
+          "color": "green",
+          "3d_coords": [
+            1.772707,
+            2.480902,
+            -0.0
+          ],
+          "pixel_coords": [
+            268,
+            244,
+            9.395211
+          ],
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "view_id": "view_1",
+      "image_path": "view_1.png",
+      "camera": {
+        "camera_id": "camera_1",
+        "intrinsics": [
+          [
+            4.162971,
+            0.0,
+            247.499374
+          ],
+          [
+            0.0,
+            -172.493677,
+            173.113859
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "pose_cv_world": [
+          [
+            -0.707107,
+            -0.353553,
+            0.612372,
+            -7.348469
+          ],
+          [
+            0.0,
+            0.866025,
+            0.5,
+            -6.0
+          ],
+          [
+            -0.707107,
+            0.353553,
+            -0.612372,
+            7.348469
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_cv_world": [
+          -7.348469,
+          -6.0,
+          7.348469
+        ],
+        "position": [
+          -7.348469,
+          7.348469,
+          6.0
+        ],
+        "height": 320,
+        "width": 480
+      },
+      "directions": {
+        "behind": [
+          -0.612372,
+          0.612372,
+          0.5
+        ],
+        "front": [
+          0.612372,
+          -0.612372,
+          -0.5
+        ],
+        "left": [
+          0.707107,
+          0.707107,
+          0.0
+        ],
+        "right": [
+          -0.707107,
+          -0.707107,
+          -0.0
+        ],
+        "above": [
+          0.353553,
+          -0.353553,
+          0.866025
+        ],
+        "below": [
+          -0.353553,
+          0.353553,
+          -0.866025
+        ]
+      },
+      "objects": [
+        {
+          "id": "obj_0",
+          "shape": "sphere",
+          "size": "large",
+          "material": "brown_rubber",
+          "color": "brown",
+          "3d_coords": [
+            -1.140077,
+            0.446359,
+            -0.0
+          ],
+          "pixel_coords": [
+            248,
+            164,
+            11.028516
+          ],
+          "rotation": 0.0
+        },
+        {
+          "id": "obj_1",
+          "shape": "sphere",
+          "size": "large",
+          "material": "brown_metal",
+          "color": "brown",
+          "3d_coords": [
+            -2.985374,
+            -2.968762,
+            -0.0
+          ],
+          "pixel_coords": [
+            249,
+            173,
+            11.989833
+          ],
+          "rotation": 0.0
+        },
+        {
+          "id": "obj_2",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "yellow_metal",
+          "color": "yellow",
+          "3d_coords": [
+            1.863862,
+            0.577252,
+            -0.0
+          ],
+          "pixel_coords": [
+            247,
+            179,
+            12.787891
+          ],
+          "rotation": 0.0
+        },
+        {
+          "id": "obj_3",
+          "shape": "cylinder",
+          "size": "large",
+          "material": "green_metal",
+          "color": "green",
+          "3d_coords": [
+            1.772707,
+            2.480902,
+            -0.0
+          ],
+          "pixel_coords": [
+            246,
+            169,
+            11.566327
+          ],
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "view_id": "view_2",
+      "image_path": "view_2.png",
+      "camera": {
+        "camera_id": "camera_2",
+        "intrinsics": [
+          [
+            -184.532956,
+            0.0,
+            236.742549
+          ],
+          [
+            0.0,
+            1.9764,
+            164.6975
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "pose_cv_world": [
+          [
+            0.707107,
+            -0.353553,
+            0.612372,
+            -7.348469
+          ],
+          [
+            0.0,
+            0.866025,
+            0.5,
+            -6.0
+          ],
+          [
+            -0.707107,
+            -0.353553,
+            0.612372,
+            -7.348469
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_cv_world": [
+          -7.348469,
+          -6.0,
+          -7.348469
+        ],
+        "position": [
+          -7.348469,
+          -7.348469,
+          6.0
+        ],
+        "height": 320,
+        "width": 480
+      },
+      "directions": {
+        "behind": [
+          -0.612372,
+          -0.612372,
+          0.5
+        ],
+        "front": [
+          0.612372,
+          0.612372,
+          -0.5
+        ],
+        "left": [
+          -0.707107,
+          0.707107,
+          0.0
+        ],
+        "right": [
+          0.707107,
+          -0.707107,
+          -0.0
+        ],
+        "above": [
+          0.353553,
+          0.353553,
+          0.866025
+        ],
+        "below": [
+          -0.353553,
+          -0.353553,
+          -0.866025
+        ]
+      },
+      "objects": [
+        {
+          "id": "obj_0",
+          "shape": "sphere",
+          "size": "large",
+          "material": "brown_rubber",
+          "color": "brown",
+          "3d_coords": [
+            -1.140077,
+            0.446359,
+            -0.0
+          ],
+          "pixel_coords": [
+            255,
+            165,
+            11.575192
+          ],
+          "rotation": 0.0
+        },
+        {
+          "id": "obj_1",
+          "shape": "sphere",
+          "size": "large",
+          "material": "brown_metal",
+          "color": "brown",
+          "3d_coords": [
+            -2.985374,
+            -2.968762,
+            -0.0
+          ],
+          "pixel_coords": [
+            237,
+            165,
+            8.353855
+          ],
+          "rotation": 0.0
+        },
+        {
+          "id": "obj_2",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "yellow_metal",
+          "color": "yellow",
+          "3d_coords": [
+            1.863862,
+            0.577252,
+            -0.0
+          ],
+          "pixel_coords": [
+            224,
+            165,
+            13.494878
+          ],
+          "rotation": 0.0
+        },
+        {
+          "id": "obj_3",
+          "shape": "cylinder",
+          "size": "large",
+          "material": "green_metal",
+          "color": "green",
+          "3d_coords": [
+            1.772707,
+            2.480902,
+            -0.0
+          ],
+          "pixel_coords": [
+            243,
+            164,
+            14.604801
+          ],
+          "rotation": 0.0
+        }
+      ]
+    },
+    {
+      "view_id": "view_3",
+      "image_path": "view_3.png",
+      "camera": {
+        "camera_id": "camera_3",
+        "intrinsics": [
+          [
+            16.360119,
+            0.0,
+            231.219382
+          ],
+          [
+            0.0,
+            -135.202678,
+            172.96258
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "pose_cv_world": [
+          [
+            0.707107,
+            0.353553,
+            -0.612372,
+            7.348469
+          ],
+          [
+            -0.0,
+            0.866025,
+            0.5,
+            -6.0
+          ],
+          [
+            0.707107,
+            -0.353553,
+            0.612372,
+            -7.348469
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_cv_world": [
+          7.348469,
+          -6.0,
+          -7.348469
+        ],
+        "position": [
+          7.348469,
+          -7.348469,
+          6.0
+        ],
+        "height": 320,
+        "width": 480
+      },
+      "directions": {
+        "behind": [
+          0.612372,
+          -0.612372,
+          0.5
+        ],
+        "front": [
+          -0.612372,
+          0.612372,
+          -0.5
+        ],
+        "left": [
+          -0.707107,
+          -0.707107,
+          -0.0
+        ],
+        "right": [
+          0.707107,
+          0.707107,
+          0.0
+        ],
+        "above": [
+          -0.353553,
+          0.353553,
+          0.866025
+        ],
+        "below": [
+          0.353553,
+          -0.353553,
+          -0.866025
+        ]
+      },
+      "objects": [
+        {
+          "id": "obj_0",
+          "shape": "sphere",
+          "size": "large",
+          "material": "brown_rubber",
+          "color": "brown",
+          "3d_coords": [
+            -1.140077,
+            0.446359,
+            -0.0
+          ],
+          "pixel_coords": [
+            231,
+            179,
+            12.971496
+          ],
+          "rotation": 0.0
+        },
+        {
+          "id": "obj_1",
+          "shape": "sphere",
+          "size": "large",
+          "material": "brown_metal",
+          "color": "brown",
+          "3d_coords": [
+            -2.985374,
+            -2.968762,
+            -0.0
+          ],
+          "pixel_coords": [
+            225,
+            173,
+            12.010179
+          ],
+          "rotation": 0.0
+        },
+        {
+          "id": "obj_2",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "yellow_metal",
+          "color": "yellow",
+          "3d_coords": [
+            1.863862,
+            0.577252,
+            -0.0
+          ],
+          "pixel_coords": [
+            234,
+            167,
+            11.212121
+          ],
+          "rotation": 0.0
+        },
+        {
+          "id": "obj_3",
+          "shape": "cylinder",
+          "size": "large",
+          "material": "green_metal",
+          "color": "green",
+          "3d_coords": [
+            1.772707,
+            2.480902,
+            -0.0
+          ],
+          "pixel_coords": [
+            235,
+            176,
+            12.433686
+          ],
+          "rotation": 0.0
+        }
+      ]
+    }
+  ],
+  "source": {
+    "backend": "infinigen",
+    "image_path": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Image/camera_0/Image_0_0_0001_0.png",
+    "camview_path": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/camview/camera_0/camview_0001_00_00.json",
+    "objects_path": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Objects/camera_0/Objects_0_0_0001_0.json",
+    "query_terms": [],
+    "view_sources": [
+      {
+        "camera_id": "camera_0",
+        "image_path": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Image/camera_0/Image_0_0_0001_0.png",
+        "camview_path": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/camview/camera_0/camview_0001_00_00.json",
+        "objects_path": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Objects/camera_0/Objects_0_0_0001_0.json"
+      },
+      {
+        "camera_id": "camera_1",
+        "image_path": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Image/camera_1/Image_0_0_0001_1.png",
+        "camview_path": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/camview/camera_1/camview_0001_00_01.json",
+        "objects_path": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Objects/camera_1/Objects_0_0_0001_1.json"
+      },
+      {
+        "camera_id": "camera_2",
+        "image_path": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Image/camera_2/Image_0_0_0001_2.png",
+        "camview_path": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/camview/camera_2/camview_0001_00_02.json",
+        "objects_path": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Objects/camera_2/Objects_0_0_0001_2.json"
+      },
+      {
+        "camera_id": "camera_3",
+        "image_path": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Image/camera_3/Image_0_0_0001_3.png",
+        "camview_path": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/camview/camera_3/camview_0001_00_03.json",
+        "objects_path": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Objects/camera_3/Objects_0_0_0001_3.json"
+      }
+    ],
+    "native_record_dir": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-output/native/ifg_replay_000000",
+    "native_manifest": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-output/native/ifg_replay_000000/manifest.json",
+    "native_objects_json": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-output/native/ifg_replay_000000/camera_0/Objects_0_0_0001_0.json",
+    "native_camview": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-output/native/ifg_replay_000000/camera_0/camview_0001_00_00.json",
+    "native_views": [
+      {
+        "camera_id": "camera_0",
+        "files": {
+          "objects": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-output/native/ifg_replay_000000/camera_0/Objects_0_0_0001_0.json",
+          "camview": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-output/native/ifg_replay_000000/camera_0/camview_0001_00_00.json",
+          "image": ""
+        },
+        "original_files": {
+          "objects": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Objects/camera_0/Objects_0_0_0001_0.json",
+          "camview": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/camview/camera_0/camview_0001_00_00.json",
+          "image": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Image/camera_0/Image_0_0_0001_0.png"
+        }
+      },
+      {
+        "camera_id": "camera_1",
+        "files": {
+          "objects": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-output/native/ifg_replay_000000/camera_1/Objects_0_0_0001_1.json",
+          "camview": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-output/native/ifg_replay_000000/camera_1/camview_0001_00_01.json",
+          "image": ""
+        },
+        "original_files": {
+          "objects": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Objects/camera_1/Objects_0_0_0001_1.json",
+          "camview": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/camview/camera_1/camview_0001_00_01.json",
+          "image": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Image/camera_1/Image_0_0_0001_1.png"
+        }
+      },
+      {
+        "camera_id": "camera_2",
+        "files": {
+          "objects": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-output/native/ifg_replay_000000/camera_2/Objects_0_0_0001_2.json",
+          "camview": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-output/native/ifg_replay_000000/camera_2/camview_0001_00_02.json",
+          "image": ""
+        },
+        "original_files": {
+          "objects": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Objects/camera_2/Objects_0_0_0001_2.json",
+          "camview": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/camview/camera_2/camview_0001_00_02.json",
+          "image": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Image/camera_2/Image_0_0_0001_2.png"
+        }
+      },
+      {
+        "camera_id": "camera_3",
+        "files": {
+          "objects": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-output/native/ifg_replay_000000/camera_3/Objects_0_0_0001_3.json",
+          "camview": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-output/native/ifg_replay_000000/camera_3/camview_0001_00_03.json",
+          "image": ""
+        },
+        "original_files": {
+          "objects": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Objects/camera_3/Objects_0_0_0001_3.json",
+          "camview": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/camview/camera_3/camview_0001_00_03.json",
+          "image": "/Users/tsyq/code/ordinary-bench-core/data-gen-infinigen/examples/replay-source/n04_000000/frames/Image/camera_3/Image_0_0_0001_3.png"
+        }
+      }
+    ]
+  }
+}

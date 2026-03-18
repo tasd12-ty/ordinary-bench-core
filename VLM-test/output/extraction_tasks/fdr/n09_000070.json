@@ -1,0 +1,432 @@
+{
+  "scene_id": "n09_000070",
+  "image_path": "images/single_view/n09_000070.png",
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "small gray metal cube"
+    },
+    {
+      "id": "obj_1",
+      "desc": "small red rubber cube"
+    },
+    {
+      "id": "obj_2",
+      "desc": "small blue metal cylinder"
+    },
+    {
+      "id": "obj_3",
+      "desc": "small brown rubber sphere"
+    },
+    {
+      "id": "obj_4",
+      "desc": "small green metal sphere"
+    },
+    {
+      "id": "obj_5",
+      "desc": "large brown metal sphere"
+    },
+    {
+      "id": "obj_6",
+      "desc": "small brown metal cylinder"
+    },
+    {
+      "id": "obj_7",
+      "desc": "small gray rubber cube"
+    },
+    {
+      "id": "obj_8",
+      "desc": "small cyan metal cylinder"
+    }
+  ],
+  "n_objects": 9,
+  "tau": 0.1,
+  "question_type": "fdr",
+  "ground_truth": [
+    {
+      "anchor": "obj_0",
+      "ranking": [
+        "obj_7",
+        "obj_8",
+        "obj_1",
+        "obj_3",
+        "obj_6",
+        "obj_4",
+        "obj_5",
+        "obj_2"
+      ],
+      "distances": [
+        1.298036,
+        1.834333,
+        2.473321,
+        3.878166,
+        4.445031,
+        5.608131,
+        5.681682,
+        6.341921
+      ],
+      "tie_groups": [
+        [
+          "obj_7"
+        ],
+        [
+          "obj_8"
+        ],
+        [
+          "obj_1"
+        ],
+        [
+          "obj_3"
+        ],
+        [
+          "obj_6"
+        ],
+        [
+          "obj_4",
+          "obj_5"
+        ],
+        [
+          "obj_2"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_1",
+      "ranking": [
+        "obj_8",
+        "obj_3",
+        "obj_0",
+        "obj_7",
+        "obj_6",
+        "obj_4",
+        "obj_2",
+        "obj_5"
+      ],
+      "distances": [
+        1.078313,
+        1.94951,
+        2.473321,
+        2.642201,
+        2.707999,
+        3.804627,
+        3.869775,
+        5.347103
+      ],
+      "tie_groups": [
+        [
+          "obj_8"
+        ],
+        [
+          "obj_3"
+        ],
+        [
+          "obj_0",
+          "obj_7",
+          "obj_6"
+        ],
+        [
+          "obj_4",
+          "obj_2"
+        ],
+        [
+          "obj_5"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_2",
+      "ranking": [
+        "obj_3",
+        "obj_4",
+        "obj_6",
+        "obj_1",
+        "obj_8",
+        "obj_7",
+        "obj_0",
+        "obj_5"
+      ],
+      "distances": [
+        3.203639,
+        3.394885,
+        3.629938,
+        3.869775,
+        4.741588,
+        6.27752,
+        6.341921,
+        6.762818
+      ],
+      "tie_groups": [
+        [
+          "obj_3",
+          "obj_4",
+          "obj_6",
+          "obj_1"
+        ],
+        [
+          "obj_8"
+        ],
+        [
+          "obj_7",
+          "obj_0",
+          "obj_5"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_3",
+      "ranking": [
+        "obj_4",
+        "obj_1",
+        "obj_8",
+        "obj_2",
+        "obj_7",
+        "obj_0",
+        "obj_5",
+        "obj_6"
+      ],
+      "distances": [
+        1.861162,
+        1.94951,
+        3.003626,
+        3.203639,
+        3.362657,
+        3.878166,
+        3.977259,
+        4.047848
+      ],
+      "tie_groups": [
+        [
+          "obj_4",
+          "obj_1"
+        ],
+        [
+          "obj_8",
+          "obj_2",
+          "obj_7"
+        ],
+        [
+          "obj_0",
+          "obj_5",
+          "obj_6"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_4",
+      "ranking": [
+        "obj_3",
+        "obj_2",
+        "obj_5",
+        "obj_1",
+        "obj_7",
+        "obj_8",
+        "obj_6",
+        "obj_0"
+      ],
+      "distances": [
+        1.861162,
+        3.394885,
+        3.482687,
+        3.804627,
+        4.856474,
+        4.864585,
+        5.572938,
+        5.608131
+      ],
+      "tie_groups": [
+        [
+          "obj_3"
+        ],
+        [
+          "obj_2",
+          "obj_5",
+          "obj_1"
+        ],
+        [
+          "obj_7",
+          "obj_8"
+        ],
+        [
+          "obj_6",
+          "obj_0"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_5",
+      "ranking": [
+        "obj_4",
+        "obj_3",
+        "obj_7",
+        "obj_1",
+        "obj_0",
+        "obj_8",
+        "obj_2",
+        "obj_6"
+      ],
+      "distances": [
+        3.482687,
+        3.977259,
+        4.427062,
+        5.347103,
+        5.681682,
+        6.064314,
+        6.762818,
+        7.913071
+      ],
+      "tie_groups": [
+        [
+          "obj_4"
+        ],
+        [
+          "obj_3"
+        ],
+        [
+          "obj_7"
+        ],
+        [
+          "obj_1",
+          "obj_0",
+          "obj_8"
+        ],
+        [
+          "obj_2"
+        ],
+        [
+          "obj_6"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_6",
+      "ranking": [
+        "obj_8",
+        "obj_1",
+        "obj_2",
+        "obj_3",
+        "obj_0",
+        "obj_7",
+        "obj_4",
+        "obj_5"
+      ],
+      "distances": [
+        2.648707,
+        2.707999,
+        3.629938,
+        4.047848,
+        4.445031,
+        5.133226,
+        5.572938,
+        7.913071
+      ],
+      "tie_groups": [
+        [
+          "obj_8",
+          "obj_1"
+        ],
+        [
+          "obj_2"
+        ],
+        [
+          "obj_3",
+          "obj_0"
+        ],
+        [
+          "obj_7",
+          "obj_4"
+        ],
+        [
+          "obj_5"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_7",
+      "ranking": [
+        "obj_0",
+        "obj_8",
+        "obj_1",
+        "obj_3",
+        "obj_5",
+        "obj_4",
+        "obj_6",
+        "obj_2"
+      ],
+      "distances": [
+        1.298036,
+        2.52526,
+        2.642201,
+        3.362657,
+        4.427062,
+        4.856474,
+        5.133226,
+        6.27752
+      ],
+      "tie_groups": [
+        [
+          "obj_0"
+        ],
+        [
+          "obj_8",
+          "obj_1"
+        ],
+        [
+          "obj_3"
+        ],
+        [
+          "obj_5",
+          "obj_4",
+          "obj_6"
+        ],
+        [
+          "obj_2"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_8",
+      "ranking": [
+        "obj_1",
+        "obj_0",
+        "obj_7",
+        "obj_6",
+        "obj_3",
+        "obj_2",
+        "obj_4",
+        "obj_5"
+      ],
+      "distances": [
+        1.078313,
+        1.834333,
+        2.52526,
+        2.648707,
+        3.003626,
+        4.741588,
+        4.864585,
+        6.064314
+      ],
+      "tie_groups": [
+        [
+          "obj_1"
+        ],
+        [
+          "obj_0"
+        ],
+        [
+          "obj_7",
+          "obj_6"
+        ],
+        [
+          "obj_3"
+        ],
+        [
+          "obj_2",
+          "obj_4"
+        ],
+        [
+          "obj_5"
+        ]
+      ]
+    }
+  ]
+}

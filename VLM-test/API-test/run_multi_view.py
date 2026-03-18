@@ -213,7 +213,9 @@ def main():
                 results.append(result)
                 s = result["scores"]
                 logger.info(
-                    f"  {sid}: QRR {s['qrr_correct']}/{s['qrr_total']}, "
+                    f"  {sid}: QRR {s['qrr_correct']}/{s['qrr_total']} "
+                    f"(D {s['qrr_disjoint_correct']}/{s['qrr_disjoint_total']}, "
+                    f"SA {s['qrr_shared_anchor_correct']}/{s['qrr_shared_anchor_total']}), "
                     f"TRR hour {s['trr_hour_correct']}/{s['trr_total']}, "
                     f"missing {s['missing']}"
                 )
@@ -240,6 +242,14 @@ def main():
     print(f"\n=== Multi-view 模式结果 ({len(results)} 场景, {args.n_views} 视角) ===")
     print(f"模型: {config['model']}")
     print(f"QRR 准确率: {o['qrr_accuracy']:.2%} ({o['qrr_correct']}/{o['qrr_total']})")
+    print(
+        f"  disjoint: {o['qrr_disjoint_accuracy']:.2%} "
+        f"({o['qrr_disjoint_correct']}/{o['qrr_disjoint_total']})"
+    )
+    print(
+        f"  shared_anchor: {o['qrr_shared_anchor_accuracy']:.2%} "
+        f"({o['qrr_shared_anchor_correct']}/{o['qrr_shared_anchor_total']})"
+    )
     print(f"TRR hour 准确率: {o['trr_hour_accuracy']:.2%} ({o['trr_hour_correct']}/{o['trr_total']})")
     print(f"TRR quadrant 准确率: {o['trr_quadrant_accuracy']:.2%} ({o['trr_quadrant_correct']}/{o['trr_total']})")
     print(f"缺失: {o['missing']}")

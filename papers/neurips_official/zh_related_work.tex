@@ -1,0 +1,29 @@
+\section{相关工作}
+
+\subsection{心理物理学、系统神经科学、psychometrics 与行为反演}
+
+本文的方法论首先受到心理物理学、系统神经科学与 psychometrics 的启发。在这些传统中，研究对象往往不是通过一次性的“答对/答错”被定义，而是通过大量受控刺激、重复测量、条件扰动和跨任务比较来刻画其内部表征的结构。表征相似性分析（RSA）强调，可以不直接观测底层机制，而通过系统的行为或响应模式来反推表征空间的组织方式 \cite{kriegeskorte2008rsa}；目标驱动模型理解感觉皮层的工作进一步表明，真正重要的并不只是单任务得分，而是模型是否复现了系统性结构与稳定不变性 \cite{yamins2016dicarlo}。近期面向 VLM 的 psychometric 工作开始进一步拆解空间能力本身：Basic Spatial Abilities 将空间感知、关系、定向、心像旋转和空间可视化拆成多个基本能力维度 \cite{xu2025bsa}，COMFORT 则系统研究了空间语言中 frame of reference 的歧义、一致性与跨语言差异 \cite{zhang2025comfort}。本文借用的是这种“行为可检验、结构可反演、能力可分解”的研究姿态：我们并不声称直接读出 VLM 的内部神经状态，而是把大量 QRR/TRR 回答视为其外显空间信念的可观测痕迹。
+
+\subsection{通用多模态 benchmark 与评测错配}
+
+近两年的多模态 benchmark 一方面大幅拓宽了任务覆盖，另一方面也暴露出“高分不等于真实视觉理解”的问题。MMMU 与 SEED-Bench 从大规模、多学科、多图像类型的角度建立了广谱 multimodal evaluation 版图 \cite{yue2024mmmu,li2024seedbench}，但随后的 MMMU-Pro 进一步证明：许多题目在 text-only 设定下依然可解，且 benchmark shortcut 可能显著高估模型的视觉能力 \cite{yue2025mmmupro}。另一条线则更直接地质疑现有评测是否测到了它们声称要测的东西。HallusionBench 通过控制组设计剖析语言 hallucination 与 visual illusion \cite{guan2024hallusionbench}；BLINK 强调模型“能看见但不一定真正感知” \cite{fu2024blink}；MMStar 把视觉非必要性和评测泄漏显式写成 benchmark 设计问题 \cite{chen2024mmstar}；POPE 和 VLInd-Bench 则分别从目标幻觉与语言先验污染的角度暴露了当前评测范式的脆弱性 \cite{li2023pope,lee2025vlind}。Ordinary-Bench 与这些工作同向之处在于都不满足于表面正确率；不同之处在于，我们进一步把评价终点推进到“回答集合是否共同定义了一个真实、可实现、可重建的场景”。
+
+\subsection{空间、三维、多视角、遮挡与动态 benchmark}
+
+空间理解 benchmark 本身也在快速细化。VSR、What'sUp 与 SpatialVLM 指出，哪怕是看似基础的左右、上下、前后与空间关系，VLM 也远没有真正掌握 \cite{liu2023vsr,kamath2023whatsup,chen2024spatialvlm}。随后的一批工作开始追求更干净或更细分的空间评测：SpatialMQA 尝试避免 bbox shortcut 与纯先验作答 \cite{liu2025spatialmqa}；SPHERE 以层级化方式从单技能、多技能整合到高层空间推理系统测量空间盲点 \cite{zhang2025sphere}；Can Transformers Capture Spatial Relations Between Objects? 强调应采用物理上更明确的关系定义，而不是含混的语言学关系类别 \cite{wen2024spatialrelations}。再往前一步，3DSRBench 将问题推进到自然图像中的 3D awareness、视角变化和 FlipEval 稳健性 \cite{ma2025threedsrbench}；CAPTURE 从遮挡与 amodal counting 角度测试模型能否在缺失视觉证据时维持结构想象 \cite{pothiraj2025capture}；MetaVQA 与 NuPlanQA 则把多视角、ego-centric、embodied driving scenes 纳入 benchmark \cite{wang2025metavqa,park2025nuplanqa}。在时间维度上，Video-MME、MLVU、TempCompass 与 MotionBench 进一步表明，视频 VLM 在 temporal reasoning 与最基础的 motion-level perception 上同样存在显著缺口 \cite{fu2024videomme,zhou2024mlvu,liu2024tempcompass,hong2025motionbench}。这些工作都在逼近 Ordinary-Bench 所关心的问题，但它们大多仍以题目级、任务级或 skill-level 得分为中心；本文进一步追问的是：这些回答能否被拼接成一个统一场景。
+
+\subsection{对象级场景表示、amodal completion 与 world model}
+
+另一条与本文相邻的路线关注对象级场景结构与世界模型。CObL 利用 object layers 表示图像中的遮挡顺序与 amodal 物体层，强调对象级、分层化的场景组织 \cite{damaraju2025cobl}；CAPTURE 也可被视为测试模型是否具有在遮挡下补全隐藏结构的能力 \cite{pothiraj2025capture}。更广义地，从经典的 World Models 到近期的 Drive-WM、Navigation World Models、MaskGWM、I2-World 与 HERMES，world model 文献的核心目标通常是学习潜在动力学并预测未来像素、视频、BEV 或 occupancy 演化，以服务于规划、控制和仿真 \cite{ha2018worldmodels,wang2024drivewm,bar2025navigationwm,ni2025maskgwm,liao2025i2world,zhou2025hermes}。与此同时，也开始出现“模型到底有没有 coherent world model”这一更严格的评测工作：WM-ABench 把世界模型能力拆成 perception 与 prediction 两阶段进行原子化评估 \cite{gao2025wmabench}；Vafa 等则进一步指出，表面上的单步预测成功并不意味着模型真的学到了连贯的内部状态结构 \cite{vafa2024implicitwm}。本文与这两条线都相关，但又有明显区别：我们既不训练一个生成式 world model，也不要求模型输出像素、视频或 occupancy；我们评估的是回答本身是否定义了一个对象级、关系级、代码级、可矢量化的场景结构。
+
+\subsection{视觉 CoT、工具使用与 test-time scaling}
+
+近期另一条非常活跃的方向是 visual CoT、工具使用与 inference-time scaling。ViperGPT 通过代码生成显式组合检测、深度、计数等视觉工具 \cite{suris2023vipergpt}；LLaVA-Plus 将多模态 agent 与技能库连接起来 \cite{liu2023llavaplus}；Visual Program Distillation 则进一步把“工具 + 程序化推理”的能力蒸馏进单一 VLM \cite{gui2024vpd}。与此同时，Visual Sketchpad 让模型通过画线、框和标记把中间视觉推理外化 \cite{hu2024visualsketchpad}；VisuoThink 和 multimodal CoT inference-time scaling 则把树搜索、更长的 test-time reasoning 与视觉中间状态结合起来 \cite{wang2025visuothink,lin2025multimodalcot}。这些方法能够显著提升题目正确率，但它们优化的主要是“如何借助额外流程把题做对”，而不是“模型原本是否已经形成稳定的视觉场景表征”。因此，在本文中，这些工作更适合作为能力增强路线与目标错位对照：即便它们能提升分数，也不自动说明模型本身已经拥有一个可重建的场景世界。
+
+\subsection{可靠性、选择性回答与几何可实现性}
+
+当回答会被解释为场景约束时，可靠性问题会变得更加关键。Reliable VQA 提出，在证据不足时拒答往往比错误作答更可靠 \cite{whitehead2022reliablevqa}；选择性回答与一致性评测工作进一步把不确定性纳入黑箱 VLM 评价 \cite{eisenschlos2024selectivevqa,khan2024consistency}。而在理论层面，本文最直接的基础来自序数嵌入与几何可实现性：Generalized Non-metric MDS 和后续鲁棒序数嵌入工作说明，基于相对距离大小而非绝对距离值，同样可以恢复点集结构 \cite{agarwal2007gnmds,ma2018robustordinal}；Euclidean Distance Matrix 理论提醒我们，约束集的存在并不自动意味着其对应某个可实现的欧氏场景 \cite{dokmanic2015edm}；对于 TRR 一类方向关系，bearing rigidity 和 angle rigidity 则提供了关于唯一性、镜像歧义与方向约束可实现性的几何语言 \cite{zhao2019bearingrigidity,chen2021anglerigidity}。Ordinary-Bench 的创新不在于提出新的嵌入算法，而在于把这些理论转化为一种 VLM 评测终点：既然充分准确的偏序关系可以支撑场景重建，那么对 VLM 进行密集关系问答，本质上就是在测试它是否拥有一个足以支持重建的空间信念。
+
+\subsection{与本文的区别}
+
+综合来看，现有工作大致分布在五个方向：一类研究 VLM 是否会做广义多模态题，一类研究空间与 3D / 多视角 / 动态题能否答对，一类研究评测是否被语言先验和 benchmark shortcut 污染，一类研究 world model 的生成与预测能力，另一类研究是否能通过工具与更长推理链提升最终得分。本文试图把这些线索收束到一个更严格的判断标准上。我们既继承心理物理学式的黑箱观察者视角，也采用受控合成世界的实验设计，同时用序数重建的可实现性作为评测终点，并明确把“对象级、代码级、可矢量化的场景结构”与生成式 world model 或工具增强解题流程区分开来。由此，Ordinary-Bench 不是单纯增加一个空间 benchmark，而是提出一种新的判断标准：一个 VLM 只有在其大量关系回答能够共同支持一个一致、可复原、可对齐的场景时，才算真正“看见了”空间。

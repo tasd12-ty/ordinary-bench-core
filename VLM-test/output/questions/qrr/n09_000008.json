@@ -1,0 +1,4973 @@
+{
+  "scene_id": "n09_000008",
+  "image_path": "images/single_view/n09_000008.png",
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "small gray metal cylinder"
+    },
+    {
+      "id": "obj_1",
+      "desc": "small green metal cylinder"
+    },
+    {
+      "id": "obj_2",
+      "desc": "small blue metal cube"
+    },
+    {
+      "id": "obj_3",
+      "desc": "large yellow rubber sphere"
+    },
+    {
+      "id": "obj_4",
+      "desc": "small purple metal cube"
+    },
+    {
+      "id": "obj_5",
+      "desc": "large purple metal cube"
+    },
+    {
+      "id": "obj_6",
+      "desc": "large purple metal sphere"
+    },
+    {
+      "id": "obj_7",
+      "desc": "large cyan metal sphere"
+    },
+    {
+      "id": "obj_8",
+      "desc": "large blue rubber cube"
+    }
+  ],
+  "n_objects": 9,
+  "question_type": "qrr",
+  "total_questions": 344,
+  "n_batches": 18,
+  "tau": 0.1,
+  "batches": [
+    {
+      "batch_id": 0,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0001",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0002",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0003",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0004",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0005",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0006",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0007",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0008",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0009",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0010",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0011",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0012",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0013",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0014",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0015",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0016",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0017",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0018",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0019",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0020",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_7",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        }
+      ]
+    },
+    {
+      "batch_id": 1,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0021",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0022",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0023",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0024",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0025",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0026",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0027",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0028",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0029",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0030",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0031",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0032",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0033",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0034",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0035",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0036",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0037",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0038",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0039",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_7",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0040",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_2"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        }
+      ]
+    },
+    {
+      "batch_id": 2,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0041",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0042",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0043",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0044",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0045",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0046",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0047",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0048",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0049",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0050",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0051",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0052",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0053",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0054",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0055",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0056",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0057",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_2"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0058",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0059",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0060",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        }
+      ]
+    },
+    {
+      "batch_id": 3,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0061",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0062",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0063",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0064",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0065",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0066",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0067",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0068",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0069",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0070",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0071",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0072",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0073",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0074",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0075",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_2"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0076",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0077",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0078",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0079",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0080",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        }
+      ]
+    },
+    {
+      "batch_id": 4,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0081",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0082",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0083",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0084",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0085",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0086",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0087",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0088",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0089",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0090",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0091",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0092",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_2"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0093",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0094",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0095",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0096",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0097",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0098",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0099",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0100",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        }
+      ]
+    },
+    {
+      "batch_id": 5,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0101",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0102",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0103",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0104",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0105",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0106",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0107",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0108",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0109",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0110",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0111",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_2"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0112",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0113",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0114",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0115",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0116",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0117",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0118",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0119",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0120",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        }
+      ]
+    },
+    {
+      "batch_id": 6,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0121",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0122",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0123",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0124",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0125",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0126",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0127",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0128",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0129",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0130",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0131",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0132",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_2"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0133",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0134",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0135",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0136",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0137",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0138",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0139",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0140",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        }
+      ]
+    },
+    {
+      "batch_id": 7,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0141",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0142",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0143",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0144",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0145",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0146",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0147",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0148",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0149",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0150",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0151",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0152",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0153",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0154",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0155",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0156",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0157",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0158",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0159",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0160",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        }
+      ]
+    },
+    {
+      "batch_id": 8,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0161",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_7",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0162",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0163",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0164",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0165",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0166",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0167",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0168",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0169",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0170",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0171",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0172",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0173",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0174",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0175",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0176",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0177",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0178",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0179",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0180",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        }
+      ]
+    },
+    {
+      "batch_id": 9,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0181",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0182",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0183",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0184",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0185",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0186",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0187",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0188",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_7",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0189",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0190",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0191",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0192",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0193",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0194",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0195",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0196",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0197",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0198",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0199",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0200",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        }
+      ]
+    },
+    {
+      "batch_id": 10,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0201",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0202",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_7",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0203",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0204",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0205",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0206",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0207",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0208",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0209",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0210",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0211",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0212",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0213",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0214",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0215",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0216",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0217",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_7",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0218",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0219",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0220",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        }
+      ]
+    },
+    {
+      "batch_id": 11,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0221",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0222",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0223",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0224",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0225",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0226",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0227",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0228",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0229",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0230",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0231",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0232",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0233",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0234",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0235",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0236",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0237",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0238",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0239",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0240",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        }
+      ]
+    },
+    {
+      "batch_id": 12,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0241",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0242",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0243",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0244",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0245",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0246",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0247",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0248",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0249",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0250",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0251",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0252",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0253",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0254",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0255",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0256",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_7",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0257",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0258",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0259",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0260",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        }
+      ]
+    },
+    {
+      "batch_id": 13,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0261",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0262",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0263",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0264",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0265",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0266",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_7",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0267",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0268",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0269",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0270",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0271",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0272",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0273",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0274",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0275",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_7",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0276",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0277",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0278",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0279",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0280",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        }
+      ]
+    },
+    {
+      "batch_id": 14,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0281",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0282",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0283",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0284",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0285",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_7",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0286",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0287",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0288",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0289",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0290",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0291",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0292",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0293",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0294",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0295",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0296",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0297",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0298",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0299",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0300",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        }
+      ]
+    },
+    {
+      "batch_id": 15,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0301",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0302",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0303",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0304",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0305",
+          "type": "qrr",
+          "pair1": [
+            "obj_2",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0306",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0307",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0308",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0309",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0310",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_7",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0311",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0312",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0313",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0314",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0315",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_7",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0316",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0317",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0318",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0319",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0320",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_7",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        }
+      ]
+    },
+    {
+      "batch_id": 16,
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "qrr_0321",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0322",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0323",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0324",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0325",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0326",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0327",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_5"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0328",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_4",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0329",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0330",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0331",
+          "type": "qrr",
+          "pair1": [
+            "obj_3",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0332",
+          "type": "qrr",
+          "pair1": [
+            "obj_4",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0333",
+          "type": "qrr",
+          "pair1": [
+            "obj_4",
+            "obj_5"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0334",
+          "type": "qrr",
+          "pair1": [
+            "obj_4",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0335",
+          "type": "qrr",
+          "pair1": [
+            "obj_4",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_7",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0336",
+          "type": "qrr",
+          "pair1": [
+            "obj_4",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0337",
+          "type": "qrr",
+          "pair1": [
+            "obj_4",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0338",
+          "type": "qrr",
+          "pair1": [
+            "obj_4",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0339",
+          "type": "qrr",
+          "pair1": [
+            "obj_4",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_6"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0340",
+          "type": "qrr",
+          "pair1": [
+            "obj_4",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_5",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        }
+      ]
+    },
+    {
+      "batch_id": 17,
+      "n_questions": 4,
+      "questions": [
+        {
+          "qid": "qrr_0341",
+          "type": "qrr",
+          "pair1": [
+            "obj_4",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0342",
+          "type": "qrr",
+          "pair1": [
+            "obj_5",
+            "obj_6"
+          ],
+          "pair2": [
+            "obj_7",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0343",
+          "type": "qrr",
+          "pair1": [
+            "obj_5",
+            "obj_7"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_8"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0344",
+          "type": "qrr",
+          "pair1": [
+            "obj_5",
+            "obj_8"
+          ],
+          "pair2": [
+            "obj_6",
+            "obj_7"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,193 @@
+{
+  "scene_id": "n05_000042",
+  "image_path": "images/single_view/n05_000042.png",
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "large red rubber cube"
+    },
+    {
+      "id": "obj_1",
+      "desc": "large yellow rubber sphere"
+    },
+    {
+      "id": "obj_2",
+      "desc": "small green rubber cube"
+    },
+    {
+      "id": "obj_3",
+      "desc": "small gray rubber cube"
+    },
+    {
+      "id": "obj_4",
+      "desc": "large yellow rubber cube"
+    }
+  ],
+  "n_objects": 5,
+  "question_type": "fdr",
+  "total_questions": 5,
+  "n_batches": 1,
+  "tau": 0.1,
+  "batches": [
+    {
+      "batch_id": 0,
+      "n_questions": 5,
+      "questions": [
+        {
+          "qid": "fdr_0001",
+          "type": "fdr",
+          "anchor": "obj_0",
+          "n_ranked": 4,
+          "gt_ranking": [
+            "obj_3",
+            "obj_1",
+            "obj_2",
+            "obj_4"
+          ],
+          "gt_distances": [
+            1.97631,
+            2.354504,
+            3.314298,
+            5.560353
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_3"
+            ],
+            [
+              "obj_1"
+            ],
+            [
+              "obj_2"
+            ],
+            [
+              "obj_4"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0002",
+          "type": "fdr",
+          "anchor": "obj_1",
+          "n_ranked": 4,
+          "gt_ranking": [
+            "obj_2",
+            "obj_0",
+            "obj_3",
+            "obj_4"
+          ],
+          "gt_distances": [
+            2.137354,
+            2.354504,
+            2.936184,
+            5.040724
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_2",
+              "obj_0"
+            ],
+            [
+              "obj_3"
+            ],
+            [
+              "obj_4"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0003",
+          "type": "fdr",
+          "anchor": "obj_2",
+          "n_ranked": 4,
+          "gt_ranking": [
+            "obj_1",
+            "obj_3",
+            "obj_4",
+            "obj_0"
+          ],
+          "gt_distances": [
+            2.137354,
+            2.369373,
+            2.917786,
+            3.314298
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_1",
+              "obj_3"
+            ],
+            [
+              "obj_4"
+            ],
+            [
+              "obj_0"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0004",
+          "type": "fdr",
+          "anchor": "obj_3",
+          "n_ranked": 4,
+          "gt_ranking": [
+            "obj_0",
+            "obj_2",
+            "obj_1",
+            "obj_4"
+          ],
+          "gt_distances": [
+            1.97631,
+            2.369373,
+            2.936184,
+            3.762001
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_0"
+            ],
+            [
+              "obj_2"
+            ],
+            [
+              "obj_1"
+            ],
+            [
+              "obj_4"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0005",
+          "type": "fdr",
+          "anchor": "obj_4",
+          "n_ranked": 4,
+          "gt_ranking": [
+            "obj_2",
+            "obj_3",
+            "obj_1",
+            "obj_0"
+          ],
+          "gt_distances": [
+            2.917786,
+            3.762001,
+            5.040724,
+            5.560353
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_2"
+            ],
+            [
+              "obj_3"
+            ],
+            [
+              "obj_1",
+              "obj_0"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -36,17 +36,22 @@ Based on the object descriptions ALONE, answer the spatial questions to the best
 of your ability. If you cannot determine the answer, make your best guess.
 
 Question types:
-1. QRR (distance comparison): Compare the 3D distance between two pairs of objects.
+1. QRR (distance comparison): Compare 3D distances, either between two pairs of objects
+   or from a common anchor object to two candidate objects.
    Answer with exactly one of: "<" (first pair closer), "~=" (approximately equal), ">" (first pair farther).
 2. TRR (clock direction): Imagine standing at ref1, facing toward ref2 (12 o'clock direction).
    Answer with the clock hour (integer 1-12) where the target object appears.
+3. FDR (full distance ranking): Given an anchor object, rank all other objects
+   by their 3D distance from the anchor, from nearest to farthest.
+   Answer with a JSON list of object ID strings.
 
 Respond ONLY with a JSON array. Each element must have "qid" and "answer".
 For QRR: answer is a string "<", "~=", or ">".
 For TRR: answer is an integer 1-12.
+For FDR: answer is a list of object ID strings.
 
 Example:
-[{"qid": "qrr_0001", "answer": "<"}, {"qid": "trr_0001", "answer": 7}]"""
+[{"qid": "qrr_0001", "answer": "<"}, {"qid": "trr_0001", "answer": 7}, {"qid": "fdr_0001", "answer": ["obj_2", "obj_1", "obj_3"]}]"""
 
 
 def run_condition(
@@ -191,6 +196,8 @@ def run_condition(
 
         s = scores
         print(f"  {scene_id}: QRR={s['qrr_correct']}/{s['qrr_total']} "
+              f"(D={s['qrr_disjoint_correct']}/{s['qrr_disjoint_total']}, "
+              f"SA={s['qrr_shared_anchor_correct']}/{s['qrr_shared_anchor_total']}) "
               f"TRR_h={s['trr_hour_correct']}/{s['trr_total']} "
               f"missing={s['missing']}")
 
@@ -218,6 +225,8 @@ def run_condition(
 
         print(f"\nCondition {condition} complete: {len(results)} scenes")
         print(f"  QRR accuracy: {summary['overall']['qrr_accuracy']:.2%}")
+        print(f"    disjoint: {summary['overall']['qrr_disjoint_accuracy']:.2%}")
+        print(f"    shared_anchor: {summary['overall']['qrr_shared_anchor_accuracy']:.2%}")
         print(f"  TRR hour accuracy: {summary['overall']['trr_hour_accuracy']:.2%}")
 
 

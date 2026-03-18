@@ -1,0 +1,221 @@
+{
+  "scene_id": "n06_000002",
+  "image_path": "images/single_view/n06_000002.png",
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "large brown metal cube"
+    },
+    {
+      "id": "obj_1",
+      "desc": "large purple metal cylinder"
+    },
+    {
+      "id": "obj_2",
+      "desc": "large yellow rubber cube"
+    },
+    {
+      "id": "obj_3",
+      "desc": "large brown rubber cylinder"
+    },
+    {
+      "id": "obj_4",
+      "desc": "large green rubber sphere"
+    },
+    {
+      "id": "obj_5",
+      "desc": "large gray rubber cylinder"
+    }
+  ],
+  "n_objects": 6,
+  "tau": 0.1,
+  "question_type": "fdr",
+  "ground_truth": [
+    {
+      "anchor": "obj_0",
+      "ranking": [
+        "obj_4",
+        "obj_1",
+        "obj_3",
+        "obj_2",
+        "obj_5"
+      ],
+      "distances": [
+        1.853397,
+        3.661387,
+        4.822547,
+        5.037551,
+        6.5963
+      ],
+      "tie_groups": [
+        [
+          "obj_4"
+        ],
+        [
+          "obj_1"
+        ],
+        [
+          "obj_3",
+          "obj_2"
+        ],
+        [
+          "obj_5"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_1",
+      "ranking": [
+        "obj_3",
+        "obj_0",
+        "obj_4",
+        "obj_5",
+        "obj_2"
+      ],
+      "distances": [
+        2.015501,
+        3.661387,
+        3.935145,
+        3.996624,
+        6.250337
+      ],
+      "tie_groups": [
+        [
+          "obj_3"
+        ],
+        [
+          "obj_0",
+          "obj_4",
+          "obj_5"
+        ],
+        [
+          "obj_2"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_2",
+      "ranking": [
+        "obj_4",
+        "obj_0",
+        "obj_3",
+        "obj_5",
+        "obj_1"
+      ],
+      "distances": [
+        3.20111,
+        5.037551,
+        5.504603,
+        5.836297,
+        6.250337
+      ],
+      "tie_groups": [
+        [
+          "obj_4"
+        ],
+        [
+          "obj_0",
+          "obj_3",
+          "obj_5",
+          "obj_1"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_3",
+      "ranking": [
+        "obj_5",
+        "obj_1",
+        "obj_4",
+        "obj_0",
+        "obj_2"
+      ],
+      "distances": [
+        2.001694,
+        2.015501,
+        4.266838,
+        4.822547,
+        5.504603
+      ],
+      "tie_groups": [
+        [
+          "obj_5",
+          "obj_1"
+        ],
+        [
+          "obj_4"
+        ],
+        [
+          "obj_0"
+        ],
+        [
+          "obj_2"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_4",
+      "ranking": [
+        "obj_0",
+        "obj_2",
+        "obj_1",
+        "obj_3",
+        "obj_5"
+      ],
+      "distances": [
+        1.853397,
+        3.20111,
+        3.935145,
+        4.266838,
+        5.654047
+      ],
+      "tie_groups": [
+        [
+          "obj_0"
+        ],
+        [
+          "obj_2"
+        ],
+        [
+          "obj_1",
+          "obj_3"
+        ],
+        [
+          "obj_5"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_5",
+      "ranking": [
+        "obj_3",
+        "obj_1",
+        "obj_4",
+        "obj_2",
+        "obj_0"
+      ],
+      "distances": [
+        2.001694,
+        3.996624,
+        5.654047,
+        5.836297,
+        6.5963
+      ],
+      "tie_groups": [
+        [
+          "obj_3"
+        ],
+        [
+          "obj_1"
+        ],
+        [
+          "obj_4",
+          "obj_2"
+        ],
+        [
+          "obj_0"
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+\section{Separating Vision from Language}
+\label{sec:vision-language}
+
+Question-level accuracy alone cannot tell us whether a model's spatial answers are genuinely grounded in the image or are largely recoverable from object names, task format, and generic priors. Ordinary-Bench therefore includes a second layer of analysis that explicitly separates visual contribution from language-driven guessing. The benchmark is designed so that the same scene, the same probe set, and the same scoring pipeline can be evaluated under controlled perturbations of the visual input.
+
+\subsection{Three-Condition Protocol}
+\label{sec:three-condition}
+
+Section~\ref{sec:protocol} defined the three evaluation conditions: correct image, mismatched image, and no image. Their role is not merely ablative, but diagnostic. Condition~A asks whether the model can use the appropriate visual evidence. Condition~B tests whether the model is sensitive to image-content mismatch rather than simply exploiting the presence of \emph{some} image. Condition~C estimates how much of the task can be solved from textual priors alone.
+
+This setup yields a scene-level measure of visual grounding. Let $\mathrm{NRMS}_A$, $\mathrm{NRMS}_B$, and $\mathrm{NRMS}_C$ denote reconstruction error under the three conditions. We define
+\begin{equation}
+  \mathrm{VIG} = \mathrm{NRMS}_C - \mathrm{NRMS}_A,
+\end{equation}
+so that a positive score indicates that the correct image leads to a better recovered scene than text-only prompting. We also track the gap between mismatched and correct images, $\mathrm{NRMS}_B - \mathrm{NRMS}_A$, to test whether the model is using scene-specific visual evidence rather than merely benefiting from multimodal formatting. In the final evaluation, these quantities should be paired with scene-wise significance tests such as permutation tests or paired nonparametric tests.
+
+\subsection{Consistency as Structural Evidence}
+\label{sec:consistency}
+
+Visual grounding should improve not only accuracy but also the internal structure of a model's answers. We therefore complement VIG with consistency diagnostics that operate directly on the predicted constraint set.
+
+\paragraph{Transitivity for QRR.}
+Distance comparisons admit natural transitive checks. If a model predicts $d(A,B) < d(C,D)$ and $d(C,D) < d(E,F)$, then a coherent ordinal belief should also support $d(A,B) < d(E,F)$. We summarize violations with a \emph{transitivity violation rate},
+\begin{equation}
+  T_{\mathrm{viol}} = \frac{\#\{\text{violated testable transitive implications}\}}{\#\{\text{testable transitive implications}\}}.
+\end{equation}
+Low transitivity violation indicates that the model's distance judgments are compatible with a single partial order rather than a collection of unrelated local guesses.
+
+\paragraph{Reciprocity for TRR.}
+Directional judgments admit an analogous reciprocity check. If a target is judged to lie at 3~o'clock in the reference frame defined by $(\texttt{ref1}, \texttt{ref2})$, then swapping the viewing direction should induce the corresponding opposite direction. We summarize such failures with a \emph{reciprocity violation rate} $R_{\mathrm{viol}}$. These structural metrics are especially informative because purely language-driven heuristics may occasionally answer individual probes correctly while still failing to satisfy the geometric relations that tie probes together.
+
+\paragraph{Selective answering.}
+The benchmark is also compatible with selective-answering variants in which the model may abstain, return a coarse answer, or express ambiguity when the visual evidence is weak. In that setting, abstention is not treated as failure by default; rather, it can improve the quality of the extracted constraint set by preventing unreliable observations from contaminating reconstruction. This follows the broader perspective that reliable multimodal evaluation should distinguish ``cannot tell'' from ``guessed incorrectly'' \cite{whitehead2022reliablevqa,eisenschlos2024selectivevqa,khan2024consistency}.
+
+\subsection{Random Baselines and Belief Faithfulness}
+\label{sec:baselines}
+
+To calibrate both accuracy and reconstruction quality, we compare model behavior against random baselines matched to task arity: $1/3$ for QRR, $1/12$ for TRR hour-level accuracy, and $1/4$ for TRR quadrant accuracy. However, random-answer baselines are not sufficient on their own, because the reconstruction solver may impose weak geometric regularities even on noisy constraint sets. We therefore recommend reporting a \emph{belief faithfulness gap}: the difference between the model's reconstruction quality and that of a random baseline under the same solver, metrics, and scene set.
+
+This comparison matters for interpretation. A model with only modest question-level gains over random may still produce a substantially more coherent global belief, while a model with apparently non-trivial accuracy may collapse to near-random behavior once its answers are examined structurally. Ordinary-Bench is intended to make this distinction explicit.

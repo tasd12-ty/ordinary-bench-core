@@ -1,0 +1,139 @@
+{
+  "scene_id": "n04_000073",
+  "image_path": "images/single_view/n04_000073.png",
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "large red rubber sphere"
+    },
+    {
+      "id": "obj_1",
+      "desc": "large gray rubber sphere"
+    },
+    {
+      "id": "obj_2",
+      "desc": "small cyan rubber cube"
+    },
+    {
+      "id": "obj_3",
+      "desc": "large purple metal cylinder"
+    }
+  ],
+  "n_objects": 4,
+  "question_type": "fdr",
+  "total_questions": 4,
+  "n_batches": 1,
+  "tau": 0.1,
+  "batches": [
+    {
+      "batch_id": 0,
+      "n_questions": 4,
+      "questions": [
+        {
+          "qid": "fdr_0001",
+          "type": "fdr",
+          "anchor": "obj_0",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_2",
+            "obj_1",
+            "obj_3"
+          ],
+          "gt_distances": [
+            2.198904,
+            2.280616,
+            5.456358
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_2",
+              "obj_1"
+            ],
+            [
+              "obj_3"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0002",
+          "type": "fdr",
+          "anchor": "obj_1",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_0",
+            "obj_3",
+            "obj_2"
+          ],
+          "gt_distances": [
+            2.280616,
+            3.664152,
+            3.98289
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_0"
+            ],
+            [
+              "obj_3",
+              "obj_2"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0003",
+          "type": "fdr",
+          "anchor": "obj_2",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_0",
+            "obj_1",
+            "obj_3"
+          ],
+          "gt_distances": [
+            2.198904,
+            3.98289,
+            6.074765
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_0"
+            ],
+            [
+              "obj_1"
+            ],
+            [
+              "obj_3"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0004",
+          "type": "fdr",
+          "anchor": "obj_3",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_1",
+            "obj_0",
+            "obj_2"
+          ],
+          "gt_distances": [
+            3.664152,
+            5.456358,
+            6.074765
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_1"
+            ],
+            [
+              "obj_0"
+            ],
+            [
+              "obj_2"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

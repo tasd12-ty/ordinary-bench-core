@@ -1,0 +1,235 @@
+{
+  "scene_id": "n05_000017",
+  "image_path": "images/single_view/n05_000017.png",
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "small purple metal cylinder"
+    },
+    {
+      "id": "obj_1",
+      "desc": "small yellow rubber cube"
+    },
+    {
+      "id": "obj_2",
+      "desc": "large green rubber sphere"
+    },
+    {
+      "id": "obj_3",
+      "desc": "small brown rubber sphere"
+    },
+    {
+      "id": "obj_4",
+      "desc": "small cyan rubber cube"
+    }
+  ],
+  "n_objects": 5,
+  "question_type": "qrr",
+  "total_questions": 14,
+  "n_batches": 1,
+  "tau": 0.1,
+  "batches": [
+    {
+      "batch_id": 0,
+      "n_questions": 14,
+      "questions": [
+        {
+          "qid": "qrr_0001",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0002",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0003",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0004",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0005",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0006",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0007",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0008",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~="
+        },
+        {
+          "qid": "qrr_0009",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_2"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0010",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0011",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0012",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_3",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        },
+        {
+          "qid": "qrr_0013",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_4"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">"
+        },
+        {
+          "qid": "qrr_0014",
+          "type": "qrr",
+          "pair1": [
+            "obj_1",
+            "obj_4"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<"
+        }
+      ]
+    }
+  ]
+}

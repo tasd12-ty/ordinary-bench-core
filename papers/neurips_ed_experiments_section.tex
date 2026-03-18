@@ -1,0 +1,47 @@
+\section{Experiments}
+\label{sec:experiments}
+
+We organize the experimental analysis of Ordinary-Bench along four axes: question-level accuracy, scene belief reconstruction, visual contribution separation, and structural consistency. This section provides the evaluation setup and the reporting structure used by the benchmark. Final numerical results, tables, and figures can be filled in once the full model roster and scene coverage are frozen.
+
+\subsection{Experimental Setup}
+\label{sec:exp-setup}
+
+\paragraph{Models.}
+The evaluation pipeline is model-agnostic and accepts any OpenAI-compatible endpoint through environment variables, making it straightforward to compare proprietary APIs and open-weight models behind a unified prompting and scoring stack. The submission version should cover multiple model families, ideally including both closed-source systems (e.g., GPT-4o, Gemini 2.0 Flash, Claude-class models) and open or open-weight systems (e.g., Qwen-VL, LLaVA-OneVision, InternVL-class models), so that the conclusions are not tied to a single provider family.
+
+\paragraph{Prompting and inference.}
+All experiments use structured batch prompting with machine-parseable JSON outputs. By default, questions are grouped in batches of 20, decoded at temperature 0, and retried through a short ReAct-style correction loop when the model returns malformed or incomplete responses. This protocol is implemented directly in the evaluation code and is shared across single-view and multi-view settings.
+
+\paragraph{Scene coverage and splits.}
+The benchmark contains seven complexity splits corresponding to scenes with $n=4,\ldots,10$ objects. We report metrics both aggregated across all scenes and broken down by object count to expose performance degradation as combinatorial relation density increases. The repository also supports train/test scene partitions for development without test leakage.
+
+\paragraph{Metrics.}
+At the question level, we report QRR exact accuracy and TRR accuracy at hour, quadrant, and adjacent-hour granularities. At the scene level, we report CSR, NRMS, Kendall $\tau$, $K_{\mathrm{geom}}$, and spread. For the visual-separation protocol, we report $\mathrm{NRMS}_A$, $\mathrm{NRMS}_B$, $\mathrm{NRMS}_C$, VIG, and consistency measures such as $T_{\mathrm{viol}}$ and $R_{\mathrm{viol}}$.
+
+\subsection{Question-Level Accuracy}
+\label{sec:exp-accuracy}
+
+The first analysis reports conventional accuracy metrics as a function of scene complexity. The goal is to establish how well each model answers local ordinal probes before any scene-level interpretation is applied. We expect this view to be necessary but insufficient: models may exhibit non-trivial QRR or coarse TRR performance while still failing to maintain scene-level coherence.
+
+The final paper should include a table of aggregate accuracies and a complexity curve showing how QRR and TRR performance degrade from $n=4$ to $n=10$. A random baseline and, if available, a small human baseline should be shown on the same plots for calibration.
+
+\subsection{Scene Belief Reconstruction}
+\label{sec:exp-reconstruction}
+
+The second analysis asks whether local answers can be assembled into a single coherent layout. For each scene and model, we reconstruct the best-fitting scene belief from predicted constraints and evaluate it with CSR, NRMS, Kendall $\tau$, $K_{\mathrm{geom}}$, and spread. These metrics expose three failure modes that accuracy alone cannot separate: mutually inconsistent answers, geometrically distorted but roughly ordered beliefs, and underconstrained multimodal beliefs.
+
+The final version should include both aggregate statistics and qualitative visualizations of reconstructed layouts. Particularly useful figures include matched examples comparing ground-truth layouts with reconstructions from strong and weak models, as well as distribution plots over NRMS and CSR across scenes.
+
+\subsection{Visual Contribution Separation}
+\label{sec:exp-vig}
+
+The third analysis applies the three-condition protocol to the same question sets and compares reconstruction quality across correct-image, mismatched-image, and no-image settings. The central quantity is VIG, which measures how much scene reconstruction improves when the model receives the correct image instead of text alone. A strong positive VIG indicates genuine visual contribution; near-zero improvement suggests that the model's spatial belief is dominated by textual priors.
+
+In the final paper, this analysis should be reported both numerically and visually. A table of $\mathrm{NRMS}_A$, $\mathrm{NRMS}_B$, $\mathrm{NRMS}_C$, and VIG per model should be paired with qualitative examples showing how the same scene belief changes across conditions.
+
+\subsection{Consistency Analysis}
+\label{sec:exp-consistency}
+
+The fourth analysis measures whether a model's answers obey the structural regularities implied by the tasks themselves. For QRR, this means transitivity over distance comparisons; for TRR, reciprocity over directional judgments. These metrics help distinguish a model that truly preserves spatial structure from one that simply happens to answer some probes correctly in isolation.
+
+The final report should compare consistency rates across models and across the three visual conditions. If condition~C already exhibits high answer rates but poor structural consistency, that would provide direct evidence that language priors can mimic competence at the local level without supporting a coherent scene belief.

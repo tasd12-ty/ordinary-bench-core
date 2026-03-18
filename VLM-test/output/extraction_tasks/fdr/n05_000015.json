@@ -1,0 +1,168 @@
+{
+  "scene_id": "n05_000015",
+  "image_path": "images/single_view/n05_000015.png",
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "large brown rubber cylinder"
+    },
+    {
+      "id": "obj_1",
+      "desc": "small green rubber cube"
+    },
+    {
+      "id": "obj_2",
+      "desc": "large green rubber cylinder"
+    },
+    {
+      "id": "obj_3",
+      "desc": "large gray metal cylinder"
+    },
+    {
+      "id": "obj_4",
+      "desc": "small purple metal sphere"
+    }
+  ],
+  "n_objects": 5,
+  "tau": 0.1,
+  "question_type": "fdr",
+  "ground_truth": [
+    {
+      "anchor": "obj_0",
+      "ranking": [
+        "obj_4",
+        "obj_2",
+        "obj_1",
+        "obj_3"
+      ],
+      "distances": [
+        1.355836,
+        3.661616,
+        4.989567,
+        5.859991
+      ],
+      "tie_groups": [
+        [
+          "obj_4"
+        ],
+        [
+          "obj_2"
+        ],
+        [
+          "obj_1"
+        ],
+        [
+          "obj_3"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_1",
+      "ranking": [
+        "obj_3",
+        "obj_0",
+        "obj_4",
+        "obj_2"
+      ],
+      "distances": [
+        2.932732,
+        4.989567,
+        5.444217,
+        5.967062
+      ],
+      "tie_groups": [
+        [
+          "obj_3"
+        ],
+        [
+          "obj_0",
+          "obj_4",
+          "obj_2"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_2",
+      "ranking": [
+        "obj_4",
+        "obj_0",
+        "obj_3",
+        "obj_1"
+      ],
+      "distances": [
+        2.394182,
+        3.661616,
+        4.857396,
+        5.967062
+      ],
+      "tie_groups": [
+        [
+          "obj_4"
+        ],
+        [
+          "obj_0"
+        ],
+        [
+          "obj_3"
+        ],
+        [
+          "obj_1"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_3",
+      "ranking": [
+        "obj_1",
+        "obj_2",
+        "obj_4",
+        "obj_0"
+      ],
+      "distances": [
+        2.932732,
+        4.857396,
+        5.600762,
+        5.859991
+      ],
+      "tie_groups": [
+        [
+          "obj_1"
+        ],
+        [
+          "obj_2"
+        ],
+        [
+          "obj_4",
+          "obj_0"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_4",
+      "ranking": [
+        "obj_0",
+        "obj_2",
+        "obj_1",
+        "obj_3"
+      ],
+      "distances": [
+        1.355836,
+        2.394182,
+        5.444217,
+        5.600762
+      ],
+      "tie_groups": [
+        [
+          "obj_0"
+        ],
+        [
+          "obj_2"
+        ],
+        [
+          "obj_1",
+          "obj_3"
+        ]
+      ]
+    }
+  ]
+}

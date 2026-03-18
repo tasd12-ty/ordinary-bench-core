@@ -21,7 +21,7 @@ Each QRR response contributes an ordinal constraint on pairwise distances. For a
 Pairs declared approximately equal are merged into equivalence classes via union-find, and strict orderings form directed edges. The resulting structure is a partially ordered set (poset) on distance equivalence classes, organized as a directed acyclic graph (DAG). A cycle in this DAG indicates a logical inconsistency: the model's distance comparisons are mutually contradictory.
 
 \paragraph{Angular sector system $\mathcal{P}_{\mathrm{ang}}$.}
-Each TRR response specifies a clock-hour direction for the target relative to a reference frame defined by two other objects. This maps to an angular arc interval: an hour-level response ($30°$ sector) constrains the relative angle $\alpha$ (Eq.~\ref{eq:trr-angle}) to lie within $\pm 15°$ of the expected direction. When multiple TRR responses constrain the same object triple, the feasible region is the intersection of their arcs; an empty intersection indicates conflicting directional judgments.
+Each TRR response specifies a clock-hour direction for the target relative to a reference frame defined by two other objects. This maps to an angular arc interval: an hour-level response ($30^\circ$ sector) constrains the relative angle $\alpha$ (Eq.~\ref{eq:trr-angle}) to lie within $\pm 15^\circ$ of the expected direction. When multiple TRR responses constrain the same object triple, the feasible region is the intersection of their arcs; an empty intersection indicates conflicting directional judgments.
 
 \paragraph{Constraint extraction modes.}
 The benchmark supports two extraction modes. In the \emph{ground-truth} mode, only correctly answered probes contribute constraints, testing whether accurate sub-answers suffice for global reconstruction. In the \emph{belief} mode, all model predictions (correct or not) are used, reconstructing the model's \emph{externalized spatial belief} regardless of correctness---analogous to how behavioral experiments infer latent representations from response patterns rather than accuracy alone.
@@ -49,12 +49,12 @@ For QRR constraints, we use a log-domain ranking loss. Let $\delta = \log d(A,B)
 \end{equation}
 where $m = 0.1$ is the margin and $\beta = 10$ controls sharpness. The ``$>$'' case is symmetric ($-\delta + m$), and ``$\approx$'' uses a Huber loss on $\delta$ with tolerance $\delta_{\mathrm{eq}} = 0.1$. The log domain ensures scale invariance: the loss depends only on distance \emph{ratios}, matching the ordinal nature of QRR comparisons.
 
-For TRR constraints, we use a sector-tolerance loss. Let $\mathbf{u}$ be the unit vector from \texttt{ref1} to \texttt{ref2} (the 12~o'clock direction), $\mathbf{v}$ the unit vector from \texttt{ref1} to the target, and $\mathbf{u}_\alpha = R(\alpha)\mathbf{u}$ the expected direction for clock hour $h$ (where $\alpha = 30° \cdot (h \bmod 12)$). The loss penalizes configurations where the cosine similarity falls below the sector boundary:
+For TRR constraints, we use a sector-tolerance loss. Let $\mathbf{u}$ be the unit vector from \texttt{ref1} to \texttt{ref2} (the 12~o'clock direction), $\mathbf{v}$ the unit vector from \texttt{ref1} to the target, and $\mathbf{u}_\alpha = R(\alpha)\mathbf{u}$ the expected direction for clock hour $h$ (where $\alpha = 30^\circ \cdot (h \bmod 12)$). The loss penalizes configurations where the cosine similarity falls below the sector boundary:
 \begin{equation}
   \mathcal{L}_{\mathrm{TRR}} = \frac{1}{\beta}\log\bigl(1 + \exp\bigl(\beta \cdot \tfrac{\cos\theta_{\mathrm{tol}} - \mathbf{u}_\alpha \cdot \mathbf{v}}{\tau_s}\bigr)\bigr),
   \label{eq:trr-loss}
 \end{equation}
-where $\theta_{\mathrm{tol}} = 15°$ for hour-level and $45°$ for quadrant-level constraints, and $\tau_s = 0.1$ is a softening temperature (distinct from the QRR comparator tolerance $\tau$ in \S\ref{sec:tasks}).
+where $\theta_{\mathrm{tol}} = 15^\circ$ for hour-level and $45^\circ$ for quadrant-level constraints, and $\tau_s = 0.1$ is a softening temperature (distinct from the QRR comparator tolerance $\tau$ in \S\ref{sec:tasks}).
 
 A separation regularizer $\mathcal{L}_{\mathrm{sep}} = \lambda \sum_{i < j} \max(0, \epsilon - \|\mathbf{x}_i - \mathbf{x}_j\|)$ with $\epsilon = 0.05$ and $\lambda = 1.0$ prevents object collapse.
 

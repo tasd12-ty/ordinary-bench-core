@@ -11,10 +11,11 @@ from typing import Dict, List, Optional
 from dataclasses import dataclass, field
 
 from .constraints import (
-    QRREntry, TRREntry,
+    QRREntry, TRREntry, FDREntry,
     build_distance_poset, build_angular_sectors,
     analyze_hypergraph, check_feasibility,
     extract_qrr_from_scoring, extract_trr_from_scoring,
+    extract_fdr_from_scoring, decompose_fdr_to_qrr,
     FeasibilityReport,
 )
 from .solver import SolverConfig, SolverSolution, solve
@@ -77,7 +78,7 @@ def reconstruct(
 
     Args:
         qrr_constraints: list of QRR constraint dicts with keys:
-            pair1, pair2, comparator, [weight]
+            pair1, pair2, comparator, [weight], [variant], [anchor]
         trr_constraints: list of TRR constraint dicts with keys:
             target, ref1, ref2, hour, [weight], [level]
         object_ids: list of object identifiers
@@ -100,6 +101,8 @@ def reconstruct(
             pair2=tuple(c["pair2"]),
             comparator=c["comparator"],
             weight=c.get("weight", 1.0),
+            variant=c.get("variant", "disjoint"),
+            anchor=c.get("anchor"),
         )
         for c in qrr_constraints
     ]
@@ -148,6 +151,11 @@ def reconstruct_from_scoring(
     qrr_entries = extract_qrr_from_scoring(per_question, questions, use_correct_only)
     trr_entries = extract_trr_from_scoring(per_question, questions, use_correct_only)
 
+    # Extract FDR and decompose into QRR-equivalent pairwise constraints
+    fdr_entries = extract_fdr_from_scoring(per_question, questions, use_correct_only)
+    fdr_qrr = decompose_fdr_to_qrr(fdr_entries)
+    qrr_entries = qrr_entries + fdr_qrr
+
     # Collect object IDs from questions
     obj_set = set()
     for q in questions:
@@ -156,6 +164,9 @@ def reconstruct_from_scoring(
             obj_set.update(q["pair2"])
         elif q["type"] == "trr":
             obj_set.update([q["target"], q["ref1"], q["ref2"]])
+        elif q["type"] == "fdr":
+            obj_set.add(q["anchor"])
+            obj_set.update(q.get("gt_ranking", []))
     object_ids = sorted(obj_set)
 
     return _run_pipeline(qrr_entries, trr_entries, object_ids, gt_positions, config)

@@ -1,0 +1,7095 @@
+{
+  "scene_id": "n10_000007",
+  "image_path": "images/single_view/n10_000007.png",
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "small gray metal cube"
+    },
+    {
+      "id": "obj_1",
+      "desc": "large purple metal cube"
+    },
+    {
+      "id": "obj_2",
+      "desc": "large green metal sphere"
+    },
+    {
+      "id": "obj_3",
+      "desc": "small gray metal cylinder"
+    },
+    {
+      "id": "obj_4",
+      "desc": "large green rubber sphere"
+    },
+    {
+      "id": "obj_5",
+      "desc": "small blue rubber sphere"
+    },
+    {
+      "id": "obj_6",
+      "desc": "large brown rubber cube"
+    },
+    {
+      "id": "obj_7",
+      "desc": "large green rubber cube"
+    },
+    {
+      "id": "obj_8",
+      "desc": "small green rubber sphere"
+    },
+    {
+      "id": "obj_9",
+      "desc": "small cyan rubber sphere"
+    }
+  ],
+  "n_objects": 10,
+  "tau": 0.1,
+  "question_type": "qrr",
+  "ground_truth": [
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_2"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_2"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_2"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_2"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_2"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_2"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_2"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_0",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_1",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_2",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_3",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_4",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_5",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_5",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_5",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_5",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_5",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_5",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_8",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_5",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_5",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": ">"
+    },
+    {
+      "pair1": [
+        "obj_5",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_5",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_5",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "~="
+    },
+    {
+      "pair1": [
+        "obj_5",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_6",
+        "obj_8"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_9"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    },
+    {
+      "pair1": [
+        "obj_6",
+        "obj_9"
+      ],
+      "pair2": [
+        "obj_7",
+        "obj_8"
+      ],
+      "metric": "dist3D",
+      "comparator": "<"
+    }
+  ]
+}

@@ -24,6 +24,8 @@ class QRREntry:
     pair2: Tuple[str, str]
     comparator: str  # "<", "~=", ">"
     weight: float = 1.0
+    variant: str = "disjoint"
+    anchor: Optional[str] = None
 
 
 @dataclass
@@ -35,6 +37,14 @@ class TRREntry:
     hour: int
     weight: float = 1.0
     level: str = "hour"  # "hour" or "quadrant"
+
+
+@dataclass
+class FDREntry:
+    """A single FDR ranking constraint: full distance ordering from anchor."""
+    anchor: str
+    ranking: List[str]  # nearest to farthest
+    weight: float = 1.0
 
 
 # ── P_dist: Distance Poset DAG ──
@@ -267,9 +277,9 @@ def analyze_hypergraph(
     for oid in object_ids:
         uf.find(oid)
 
-    # QRR: each constraint connects 4 objects
+    # QRR: connect all unique objects referenced by the compared pairs.
     for entry in qrr_entries:
-        objs = list(entry.pair1) + list(entry.pair2)
+        objs = sorted(set(entry.pair1) | set(entry.pair2))
         for obj in objs:
             participation[obj] += 1
         for i in range(len(objs)):
@@ -341,6 +351,8 @@ def extract_qrr_from_scoring(
             pair2=tuple(q["pair2"]),
             comparator=comparator,
             weight=1.0,
+            variant=q.get("variant", "disjoint"),
+            anchor=q.get("anchor"),
         ))
 
     return entries
@@ -409,6 +421,71 @@ def extract_trr_from_scoring(
                 pass
 
     return entries
+
+
+def extract_fdr_from_scoring(
+    per_question: List[dict],
+    questions: List[dict],
+    use_correct_only: bool = True,
+) -> List[FDREntry]:
+    """Extract FDR constraints from scoring results."""
+    q_lookup = {q["qid"]: q for q in questions}
+    entries = []
+
+    for pq in per_question:
+        if pq["type"] != "fdr":
+            continue
+        qid = pq["qid"]
+        q = q_lookup.get(qid)
+        if q is None:
+            continue
+
+        predicted = pq.get("predicted", [])
+        if not isinstance(predicted, list) or len(predicted) < 2:
+            continue
+
+        if use_correct_only:
+            if pq.get("pairwise_accuracy", 0.0) < 0.5:
+                continue
+            ranking = q["gt_ranking"]
+        else:
+            ranking = predicted
+
+        entries.append(FDREntry(
+            anchor=q["anchor"],
+            ranking=ranking,
+            weight=1.0,
+        ))
+
+    return entries
+
+
+def decompose_fdr_to_qrr(fdr_entries: List[FDREntry]) -> List[QRREntry]:
+    """Decompose FDR rankings into equivalent QRR pairwise constraints.
+
+    For anchor A with ranking [B, C, D]:
+      dist(A,B) < dist(A,C)  =>  QRR: (A,B) < (A,C)
+      dist(A,B) < dist(A,D)  =>  QRR: (A,B) < (A,D)
+      dist(A,C) < dist(A,D)  =>  QRR: (A,C) < (A,D)
+    """
+    qrr_entries = []
+    for fdr in fdr_entries:
+        anchor = fdr.anchor
+        n = len(fdr.ranking)
+        w = fdr.weight / max(n, 1)
+        for i in range(n):
+            for j in range(i + 1, n):
+                nearer = fdr.ranking[i]
+                farther = fdr.ranking[j]
+                qrr_entries.append(QRREntry(
+                    pair1=tuple(sorted((anchor, nearer))),
+                    pair2=tuple(sorted((anchor, farther))),
+                    comparator="<",
+                    weight=w,
+                    variant="shared_anchor",
+                    anchor=anchor,
+                ))
+    return qrr_entries
 
 
 # ── Feasibility Summary ──

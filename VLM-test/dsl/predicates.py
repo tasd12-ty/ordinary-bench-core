@@ -8,7 +8,7 @@ TRR: Directional relations using clock-face orientation.
 from dataclasses import dataclass
 from enum import Enum
 from itertools import combinations, permutations
-from typing import Tuple, List, Dict, Any
+from typing import Tuple, List, Dict, Any, Optional
 import math
 import numpy as np
 
@@ -43,24 +43,34 @@ class QRRConstraint:
     pair2: Tuple[str, str]
     metric: MetricType
     comparator: Comparator
+    variant: str = "disjoint"
+    anchor: Optional[str] = None
 
     def __post_init__(self):
         self.pair1 = tuple(sorted(self.pair1))
         self.pair2 = tuple(sorted(self.pair2))
+        if self.variant == "shared_anchor" and self.anchor is None:
+            shared = set(self.pair1) & set(self.pair2)
+            if len(shared) == 1:
+                object.__setattr__(self, "anchor", next(iter(shared)))
 
     def to_dict(self) -> Dict[str, Any]:
-        return {
+        data = {
             "pair1": list(self.pair1),
             "pair2": list(self.pair2),
             "metric": str(self.metric),
             "comparator": str(self.comparator),
+            "variant": self.variant,
         }
+        if self.anchor is not None:
+            data["anchor"] = self.anchor
+        return data
 
     def canonical_key(self) -> Tuple:
         if self.pair1 < self.pair2:
-            return (self.pair1, self.pair2, self.metric)
+            return (self.pair1, self.pair2, self.metric, self.variant)
         else:
-            return (self.pair2, self.pair1, self.metric)
+            return (self.pair2, self.pair1, self.metric, self.variant)
 
 
 @dataclass
@@ -86,6 +96,23 @@ class TRRConstraint:
             "hour": self.hour,
             "quadrant": self.quadrant,
             "angle_deg": self.angle_deg,
+        }
+
+
+@dataclass
+class FDRConstraint:
+    """Full Distance Ranking: all objects ranked by distance from an anchor."""
+    anchor: str
+    ranking: List[str]          # object IDs, nearest to farthest
+    distances: List[float]      # corresponding distances
+    tie_groups: List[List[str]] # groups of objects within tau tolerance
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "anchor": self.anchor,
+            "ranking": self.ranking,
+            "distances": [round(d, 6) for d in self.distances],
+            "tie_groups": self.tie_groups,
         }
 
 
@@ -180,7 +207,9 @@ def compute_qrr(
     pair1: Tuple[str, str],
     pair2: Tuple[str, str],
     metric: MetricType,
-    tau: float = 0.10
+    tau: float = 0.10,
+    variant: str = "disjoint",
+    anchor: Optional[str] = None,
 ) -> QRRConstraint:
     metric_func = METRIC_FUNCTIONS[metric]
     m1 = metric_func(objects[pair1[0]], objects[pair1[1]])
@@ -190,6 +219,7 @@ def compute_qrr(
     return QRRConstraint(
         pair1=pair1, pair2=pair2, metric=metric,
         comparator=comparator,
+        variant=variant, anchor=anchor,
     )
 
 
@@ -238,7 +268,38 @@ def extract_all_qrr(
             m2 = metric_func(objects[pair2[0]], objects[pair2[1]])
             if _is_boundary(m1, m2, tau):
                 continue
-            constraint = compute_qrr(objects, pair1, pair2, metric, tau)
+            constraint = compute_qrr(
+                objects, pair1, pair2, metric, tau,
+                variant="disjoint" if disjoint_only else "general",
+            )
+            constraints.append(constraint)
+
+    return constraints
+
+
+def extract_all_qrr_shared_anchor(
+    objects: Dict[str, Dict],
+    metric: MetricType,
+    tau: float = 0.10,
+) -> List[QRRConstraint]:
+    """Extract QRR constraints where pair1 and pair2 share a common anchor."""
+    obj_ids = sorted(objects.keys())
+    metric_func = METRIC_FUNCTIONS[metric]
+    constraints = []
+
+    for anchor in obj_ids:
+        others = [oid for oid in obj_ids if oid != anchor]
+        for obj_a, obj_b in combinations(others, 2):
+            pair1 = (anchor, obj_a)
+            pair2 = (anchor, obj_b)
+            m1 = metric_func(objects[pair1[0]], objects[pair1[1]])
+            m2 = metric_func(objects[pair2[0]], objects[pair2[1]])
+            if _is_boundary(m1, m2, tau):
+                continue
+            constraint = compute_qrr(
+                objects, pair1, pair2, metric, tau,
+                variant="shared_anchor", anchor=anchor,
+            )
             constraints.append(constraint)
 
     return constraints
@@ -255,3 +316,53 @@ def extract_all_trr(
         constraint = compute_trr(objects, target, ref1, ref2, use_3d)
         constraints.append(constraint)
     return constraints
+
+
+def compute_fdr(
+    objects: Dict[str, Dict],
+    anchor: str,
+    tau: float = 0.10,
+) -> FDRConstraint:
+    """Compute full distance ranking from anchor to all other objects."""
+    metric_func = METRIC_FUNCTIONS[MetricType.DIST_3D]
+    other_ids = [oid for oid in sorted(objects.keys()) if oid != anchor]
+
+    dist_pairs = []
+    for oid in other_ids:
+        d = metric_func(objects[anchor], objects[oid])
+        dist_pairs.append((oid, d))
+
+    # Sort by distance (nearest first), break ties by object ID
+    dist_pairs.sort(key=lambda x: (x[1], x[0]))
+
+    ranking = [oid for oid, _ in dist_pairs]
+    distances = [d for _, d in dist_pairs]
+
+    # Compute tie groups using tolerance-based comparison
+    tie_groups: List[List[str]] = []
+    if ranking:
+        current_group = [ranking[0]]
+        for i in range(1, len(ranking)):
+            cmp = compare(distances[i - 1], distances[i], tau)
+            if cmp == Comparator.APPROX:
+                current_group.append(ranking[i])
+            else:
+                tie_groups.append(current_group)
+                current_group = [ranking[i]]
+        tie_groups.append(current_group)
+
+    return FDRConstraint(
+        anchor=anchor,
+        ranking=ranking,
+        distances=distances,
+        tie_groups=tie_groups,
+    )
+
+
+def extract_all_fdr(
+    objects: Dict[str, Dict],
+    tau: float = 0.10,
+) -> List[FDRConstraint]:
+    """Extract one FDR constraint per object (as anchor). Returns N constraints for N objects."""
+    obj_ids = sorted(objects.keys())
+    return [compute_fdr(objects, anchor, tau) for anchor in obj_ids]

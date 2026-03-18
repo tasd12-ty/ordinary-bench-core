@@ -1,0 +1,119 @@
+{
+  "scene_id": "n04_000035",
+  "image_path": "images/single_view/n04_000035.png",
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "small blue metal sphere"
+    },
+    {
+      "id": "obj_1",
+      "desc": "small gray metal sphere"
+    },
+    {
+      "id": "obj_2",
+      "desc": "small green metal cylinder"
+    },
+    {
+      "id": "obj_3",
+      "desc": "large gray metal cube"
+    }
+  ],
+  "n_objects": 4,
+  "tau": 0.1,
+  "question_type": "fdr",
+  "ground_truth": [
+    {
+      "anchor": "obj_0",
+      "ranking": [
+        "obj_3",
+        "obj_1",
+        "obj_2"
+      ],
+      "distances": [
+        2.36976,
+        3.585036,
+        4.131926
+      ],
+      "tie_groups": [
+        [
+          "obj_3"
+        ],
+        [
+          "obj_1"
+        ],
+        [
+          "obj_2"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_1",
+      "ranking": [
+        "obj_2",
+        "obj_0",
+        "obj_3"
+      ],
+      "distances": [
+        1.254175,
+        3.585036,
+        4.393311
+      ],
+      "tie_groups": [
+        [
+          "obj_2"
+        ],
+        [
+          "obj_0"
+        ],
+        [
+          "obj_3"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_2",
+      "ranking": [
+        "obj_1",
+        "obj_0",
+        "obj_3"
+      ],
+      "distances": [
+        1.254175,
+        4.131926,
+        4.234782
+      ],
+      "tie_groups": [
+        [
+          "obj_1"
+        ],
+        [
+          "obj_0",
+          "obj_3"
+        ]
+      ]
+    },
+    {
+      "anchor": "obj_3",
+      "ranking": [
+        "obj_0",
+        "obj_2",
+        "obj_1"
+      ],
+      "distances": [
+        2.36976,
+        4.234782,
+        4.393311
+      ],
+      "tie_groups": [
+        [
+          "obj_0"
+        ],
+        [
+          "obj_2",
+          "obj_1"
+        ]
+      ]
+    }
+  ]
+}

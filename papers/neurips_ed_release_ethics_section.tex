@@ -1,0 +1,17 @@
+\section{Release, Reproducibility, and Ethics}
+\label{sec:release}
+
+\paragraph{Release plan.}
+The repository already contains the core generation and evaluation pipeline: Blender-based scene generation, question enumeration, VLM API evaluation, response parsing, scoring, and reconstruction analysis. The benchmark release package should include rendered images, scene JSON files, split indices, generated question files, prompting templates, evaluation scripts, and aggregate analysis utilities. The current paper draft also assumes a dataset card and machine-readable metadata package (e.g., Croissant-style metadata) will be added before submission or public release.
+
+\paragraph{Reproducibility.}
+Ordinary-Bench is fully programmatic: scene annotations are derived from rendered geometry rather than manual labeling, and question generation is deterministic given the scene metadata and tolerance settings. This substantially reduces annotation ambiguity and makes it possible to regenerate the benchmark from source. For model evaluation, the codebase standardizes endpoint configuration, batching, retry behavior, JSON parsing, and scoring, so that comparisons across models remain protocol-consistent. To improve reproducibility further, the release should freeze prompt templates, random seeds where applicable, and exact metric definitions used in the final tables.
+
+\paragraph{Licensing and access.}
+The release should separate code and data licensing clearly. A practical target is an open-source code license for the pipeline and a permissive data license for rendered scenes and annotations, subject to final confirmation. Closed-source models evaluated through APIs may require paid access and external credentials, so exact reproduction of all leaderboard entries may not be possible without matching provider access.
+
+\paragraph{Compute and cost.}
+The benchmark incurs two main resource costs: rendering and API evaluation. Rendering cost scales with the number of scenes, Cycles sample count, and number of views. Evaluation cost scales with model pricing, concurrency, retry settings, and the total number of probe batches. Reporting these costs is important for a Datasets \& Benchmarks submission because they shape the practical accessibility of the benchmark for follow-up work.
+
+\paragraph{Ethical considerations.}
+The current benchmark uses synthetic scenes composed of simple objects and contains no people, faces, or sensitive real-world imagery. This sharply limits privacy and content-moderation concerns relative to web-scale scraped datasets. At the same time, the benchmark should not be interpreted as a comprehensive measure of real-world visual reasoning, and any leaderboard use should avoid overstating what performance on controlled geometric scenes implies about broader competence or safety.

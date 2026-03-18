@@ -31,26 +31,39 @@ pip install -e .
 
 ```
 ordinary-bench/
-├── data-gen/                  # 第一阶段：场景生成与渲染
-│   ├── generate.py            # 生成入口
-│   ├── pipeline.py            # Blender 子进程编排
-│   ├── config.toml            # 默认配置（70 场景）
-│   ├── config_expand.toml     # 扩充配置（增量生成 630 新场景）
-│   ├── rebuild_splits.py      # 重建 split 索引
-│   └── blender/               # Blender 脚本与资产
-├── VLM-test/                  # 第二、三阶段
-│   ├── generate_questions.py  # 问题生成
-│   ├── question_bank.py       # 问题枚举逻辑
-│   ├── extraction.py          # Ground truth 提取
-│   ├── dsl/                   # 空间关系 DSL
-│   └── API-test/              # VLM API 测试
-│       ├── run_batch.py       # 单视角评测
-│       ├── run_multi_view.py  # 多视角评测
-│       ├── config.py          # API 配置（环境变量）
-│       ├── vlm_client.py      # OpenAI 兼容客户端
-│       ├── prompts.py         # 提示模板
-│       ├── response_parser.py # 响应解析
-│       └── scoring.py         # 评分逻辑
+├── data-gen/                      # 第一阶段：场景生成与渲染
+│   ├── generate.py                # 生成入口
+│   ├── pipeline.py                # Blender 子进程编排
+│   ├── config.toml                # 默认配置（70 场景）
+│   ├── config_expand.toml         # 扩充配置（增量生成 630 新场景）
+│   ├── rebuild_splits.py          # 重建 split 索引
+│   └── blender/                   # Blender 脚本与资产
+├── data-gen-infinigen/            # Infinigen 真实感室内场景后端
+│   ├── generate.py                # Infinigen-Indoors 编排器
+│   ├── adapter.py                 # Infinigen → ordinary-bench 转换
+│   └── README.md                  # 后端文档
+├── VLM-test/                      # 第二、三阶段
+│   ├── generate_questions.py      # 问题生成
+│   ├── generate_questions_v2.py   # 分题型目录输出（推荐）
+│   ├── question_bank.py           # 问题枚举逻辑
+│   ├── extraction.py              # Ground truth 提取
+│   ├── dsl/                       # 空间关系 DSL
+│   ├── reconstruct/               # 场景重建管线
+│   │   ├── constraints.py         # 约束预处理与可行性检查
+│   │   ├── solver.py              # 基于梯度的 2D 位置优化器
+│   │   ├── pipeline.py            # 端到端重建入口
+│   │   └── evaluate.py            # 重建质量评估
+│   ├── docs/
+│   │   └── scoring_criteria.md    # 评分标准文档
+│   └── API-test/                  # VLM API 测试
+│       ├── run_batch.py           # 单视角评测
+│       ├── run_batch_v2.py        # 分题型目录评测（推荐）
+│       ├── run_multi_view.py      # 多视角评测
+│       ├── config.py              # API 配置（环境变量）
+│       ├── vlm_client.py          # OpenAI 兼容客户端
+│       ├── prompts.py             # 提示模板
+│       ├── response_parser.py     # 响应解析
+│       └── scoring.py             # 评分逻辑
 └── pyproject.toml
 ```
 
@@ -250,60 +263,73 @@ GPU 渲染可加速约 3 倍。并行 worker 可进一步缩短墙钟时间。
 
 每种物体数量 100 个场景：
 
-| 物体数 | QRR/场景 | TRR/场景 | 合计/场景 | ×100 场景 |
-|--------|----------|----------|-----------|-----------|
-| 4      | 3        | 24       | 27        | 2,700     |
-| 5      | 6        | 60       | 66        | 6,600     |
-| 6      | 15       | 120      | 135       | 13,500    |
-| 7      | 15       | 210      | 225       | 22,500    |
-| 8      | 21       | 336      | 357       | 35,700    |
-| 9      | 28       | 504      | 532       | 53,200    |
-| 10     | 36       | 720      | 756       | 75,600    |
-| **总计** |        |          |           | **209,800** |
+| 物体数 | QRR-D | QRR-SA | QRR 合计 | TRR | FDR | 合计 |
+|--------|-------|--------|---------|-----|-----|------|
+| 4      | 3     | 12     | 15      | 24  | 4   | 43   |
+| 5      | 15    | 30     | 45      | 60  | 5   | 110  |
+| 6      | 45    | 60     | 105     | 120 | 6   | 231  |
+| 7      | 105   | 105    | 210     | 210 | 7   | 427  |
+| 8      | 210   | 168    | 378     | 336 | 8   | 722  |
+| 9      | 378   | 252    | 630     | 504 | 9   | 1143 |
+| 10     | 630   | 360    | 990     | 720 | 10  | 1720 |
 
-> 注：QRR 数量为不相交配对数 C(N,2)×C(N-2,2)/2，TRR 为全排列 P(N,3)。
+> 注：QRR-D = 不相交对配对数，QRR-SA = 共享锚点配对数，TRR = 全排列 P(N,3)，FDR = N（每个物体作为锚点各一题）。
 
 ---
 
 ## 第二阶段：问题生成
 
-从场景 JSON 中枚举所有 QRR 和 TRR 问题，计算 Ground Truth。
+从场景 JSON 中枚举所有 QRR、TRR 和 FDR 问题，计算 Ground Truth。
 
 ### 命令
 
 ```bash
 cd VLM-test
 
-# 生成所有场景的问题
+# v1 — 原始格式（所有题型混合存储）
 python generate_questions.py --data ../data-gen/output
-
-# 只生成指定 split
 python generate_questions.py --data ../data-gen/output --split n04
-
-# 自定义 batch 大小和容差
 python generate_questions.py --data ../data-gen/output --batch-size 10 --tau 0.10
-
-# 仅查看问题数量表（不生成文件）
 python generate_questions.py --counts
+
+# v2 — 分题型目录存储（推荐）
+python generate_questions_v2.py --data ../data-gen/output
+python generate_questions_v2.py --data ../data-gen/output --split n04
+python generate_questions_v2.py --counts
 ```
 
 ### 问题类型
 
-**QRR（四元相对关系）**：比较两组物体对的空间距离。
-- 格式：`dist(A, B) < / ~= / > dist(C, D)?`
+**QRR（四元相对关系）** 有两个变体：
+- `disjoint`：比较两组不相交对的距离 `dist(A,B)` vs `dist(C,D)`
+- `shared_anchor`：固定锚点，比较 `dist(A,B)` vs `dist(A,C)`
+
+格式：`dist(A, B) < / ~= / > dist(C, D)?`
 - 答案：`<`（更近）、`~=`（近似相等）、`>`（更远）
 - 容差参数 `tau = 0.10`：`|a-b| ≤ tau × max(a,b)` 判定为 `~=`
 
 **TRR（三元钟面关系）**：站在 ref1 面朝 ref2（12 点方向），target 在几点钟？
 - 答案：整数 1-12
 
+**FDR（全距离排序）**：以某物体为锚点，将其余物体按距离从近到远排序。
+- 答案：有序 ID 列表 `["nearest", ..., "farthest"]`
+- 并列组：τ 容差内的物体可任意排列
+
 ### 输出
+
+v2 推荐的分题型目录结构：
 
 ```
 VLM-test/output/
-├── questions/           # 每场景一个 JSON，包含分 batch 的问题
-├── extraction_tasks/    # 每场景一个 JSON，包含 GT 约束
-└── summary.json         # 问题总数统计
+├── questions/
+│   ├── qrr/{scene_id}.json    # QRR (disjoint + shared_anchor)
+│   ├── trr/{scene_id}.json    # TRR
+│   └── fdr/{scene_id}.json    # FDR
+├── extraction_tasks/
+│   ├── qrr/{scene_id}.json
+│   ├── trr/{scene_id}.json
+│   └── fdr/{scene_id}.json
+└── summary.json
 ```
 
 ---
@@ -347,6 +373,10 @@ python run_batch.py --split n04
 
 # 评测单个场景
 python run_batch.py --scene n04_000000
+
+# v2 — 从分题型目录加载（推荐）
+python run_batch_v2.py --split n04
+python run_batch_v2.py --scene n04_000000
 ```
 
 #### 多视角模式
@@ -420,10 +450,15 @@ VLM-test/output/results/<model>/
 | 指标 | 说明 |
 |------|------|
 | **QRR Accuracy** | 比较器精确匹配（`<` / `~=` / `>`） |
+| **QRR Disjoint Accuracy** | 不相交对 QRR 准确率 |
+| **QRR Shared-Anchor Accuracy** | 共享锚点 QRR 准确率 |
 | **TRR Hour Accuracy** | 钟面小时精确匹配（1-12） |
-| **TRR Quadrant Accuracy** | 象限匹配（更粗粒度，4 象限） |
+| **TRR Quadrant Accuracy** | 象限匹配（4 象限） |
 | **TRR Adjacent Accuracy** | ±1 小时容差匹配 |
-| **Missing** | 解析失败的问题数 |
+| **FDR Exact Accuracy** | 完整排序精确匹配（尊重并列组） |
+| **FDR Kendall τ** | 排序相关系数 |
+| **FDR Pairwise Accuracy** | 成对序关系正确率 |
+| **FDR Top-1 Accuracy** | 最近物体正确率 |
 
 `summary.json` 示例：
 
@@ -433,20 +468,60 @@ VLM-test/output/results/<model>/
   "n_scenes": 700,
   "overall": {
     "qrr_accuracy": 0.45,
+    "qrr_disjoint_accuracy": 0.48,
+    "qrr_shared_anchor_accuracy": 0.43,
     "trr_hour_accuracy": 0.12,
     "trr_quadrant_accuracy": 0.35,
-    "qrr_correct": 5873,
-    "qrr_total": 13052,
-    "trr_hour_correct": 2369,
-    "trr_total": 19740,
-    "missing": 42
-  },
-  "by_split": {
-    "n04": { "qrr_accuracy": 0.52, "trr_hour_accuracy": 0.18 },
-    "n10": { "qrr_accuracy": 0.38, "trr_hour_accuracy": 0.08 }
+    "fdr_exact_accuracy": 0.15,
+    "fdr_kendall_mean": 0.62,
+    "fdr_pairwise_mean": 0.73,
+    "fdr_top1_mean": 0.45
   }
 }
 ```
+
+---
+
+## Infinigen 后端
+
+`data-gen-infinigen/` 提供基于 [Infinigen](https://infinigen.org/) 的真实感室内场景生成后端。
+
+### 特性
+
+- Infinigen-Indoors 单房间场景
+- adapter 将 Infinigen 元数据转换为 ordinary-bench 场景 JSON
+- 坐标系转换：x_bench = x_world, y_bench = z_world, z_bench = -y_world
+- 单视角/多视角图像导出
+- bootstrap 模式：无需 Blender/Infinigen 即可测试
+
+### 快速验证
+
+```bash
+# 验证 adapter 兼容性
+python3 data-gen-infinigen/validate.py
+
+# 预览 Infinigen 命令（不实际运行）
+python3 data-gen-infinigen/generate.py --dry-run
+```
+
+详见 `data-gen-infinigen/README.md`。
+
+---
+
+## 场景重建
+
+`VLM-test/reconstruct/` 从 VLM 预测的空间约束重建 2D 物体位置。
+
+### 管线流程
+
+1. **约束提取**：QRR/TRR/FDR 预测 → 符号约束（FDR 排序分解为 shared_anchor QRR 成对约束）
+2. **可行性检查**：QRR 偏序 DAG 循环检测、TRR 角度区间交集、超图连通性
+3. **数值优化**：多重启梯度下降，hinge loss 约束
+4. **评估**：CSR（约束满足率）、Kendall τ、NRMS、K_geom（几何模态数）
+
+### 评分标准
+
+完整评分标准文档：`VLM-test/docs/scoring_criteria.md`
 
 ---
 
