@@ -26,6 +26,9 @@ from .solver import SolverConfig, SolverSolution, solve
 from .evaluate import EvalMetrics, evaluate_reconstruction, cluster_solutions
 
 
+CONSTRAINT_MODES = ("all", "fdr_only", "qrr_only", "fdr_qrr", "qrr_trr", "fdr_trr")
+
+
 @dataclass
 class ReconstructResult:
     """Complete reconstruction output."""
@@ -36,6 +39,8 @@ class ReconstructResult:
     K_geom: int = 0
     all_solutions: List[SolverSolution] = field(default_factory=list)
     feasibility_checks: FeasibilityReport = field(default_factory=FeasibilityReport)
+    constraint_mode: str = "all"
+    constraint_counts: Dict[str, int] = field(default_factory=dict)
 
     def to_dict(self) -> dict:
         """Serialize to JSON-compatible dict."""
@@ -57,6 +62,8 @@ class ReconstructResult:
             },
             "K_geom": self.K_geom,
             "n_solutions": len(self.all_solutions),
+            "constraint_mode": self.constraint_mode,
+            "constraint_counts": self.constraint_counts,
             "feasibility_checks": {
                 "qrr_has_cycle": self.feasibility_checks.qrr_has_cycle,
                 "qrr_cycle_info": self.feasibility_checks.qrr_cycle_info,
@@ -169,8 +176,23 @@ def reconstruct_from_prepared(
     prepared_input: Union[PreparedSceneInput, dict],
     n_restarts: int = 10,
     config: Optional[SolverConfig] = None,
+    constraint_mode: str = "all",
 ) -> ReconstructResult:
-    """Reconstruct from a prepared per-scene bundle."""
+    """Reconstruct from a prepared per-scene bundle.
+
+    Args:
+        constraint_mode: which constraint subset to use:
+            "all"       — qrr_direct + qrr_from_fdr + trr (default)
+            "fdr_only"  — only QRR derived from FDR decomposition
+            "qrr_only"  — only direct QRR (disjoint + shared_anchor)
+            "fdr_qrr"   — qrr_direct + qrr_from_fdr, no TRR
+            "qrr_trr"   — qrr_direct + trr, no FDR
+            "fdr_trr"   — qrr_from_fdr + trr, no direct QRR
+    """
+    if constraint_mode not in CONSTRAINT_MODES:
+        raise ValueError(f"Unknown constraint_mode={constraint_mode!r}, "
+                         f"expected one of {CONSTRAINT_MODES}")
+
     if config is None:
         config = SolverConfig(n_restarts=n_restarts)
     else:
@@ -189,14 +211,45 @@ def reconstruct_from_prepared(
             for oid, pos in prepared.gt_positions.items()
         }
 
-    return reconstruct(
-        qrr_constraints=prepared.qrr_all,
-        trr_constraints=prepared.trr_constraints,
+    # Select constraint subset based on mode
+    if constraint_mode == "fdr_only":
+        qrr_sel = prepared.qrr_from_fdr
+        trr_sel = []
+    elif constraint_mode == "qrr_only":
+        qrr_sel = prepared.qrr_constraints
+        trr_sel = []
+    elif constraint_mode == "fdr_qrr":
+        qrr_sel = prepared.qrr_all
+        trr_sel = []
+    elif constraint_mode == "qrr_trr":
+        qrr_sel = prepared.qrr_constraints
+        trr_sel = prepared.trr_constraints
+    elif constraint_mode == "fdr_trr":
+        qrr_sel = prepared.qrr_from_fdr
+        trr_sel = prepared.trr_constraints
+    else:  # "all"
+        qrr_sel = prepared.qrr_all
+        trr_sel = prepared.trr_constraints
+
+    counts = {
+        "n_qrr_direct": len(prepared.qrr_constraints),
+        "n_qrr_from_fdr": len(prepared.qrr_from_fdr),
+        "n_trr": len(prepared.trr_constraints),
+        "n_qrr_used": len(qrr_sel),
+        "n_trr_used": len(trr_sel),
+    }
+
+    result = reconstruct(
+        qrr_constraints=qrr_sel,
+        trr_constraints=trr_sel,
         object_ids=prepared.object_ids,
         gt_positions=gt_positions,
         n_restarts=n_restarts,
         config=config,
     )
+    result.constraint_mode = constraint_mode
+    result.constraint_counts = counts
+    return result
 
 
 def _run_pipeline(

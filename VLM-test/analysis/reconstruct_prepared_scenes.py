@@ -9,7 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from reconstruct import PreparedSceneInput, reconstruct_from_prepared
+from reconstruct import PreparedSceneInput, reconstruct_from_prepared, CONSTRAINT_MODES
 from analysis.reconstruct_scenes import summarize_reconstructions
 
 
@@ -28,6 +28,8 @@ def main() -> None:
                         help="Optional output path for reconstruction results JSON")
     parser.add_argument("--restarts", type=int, default=10)
     parser.add_argument("--max-scenes", type=int, default=None)
+    parser.add_argument("--mode", choices=CONSTRAINT_MODES, default="all",
+                        help="Constraint subset to use for reconstruction")
     args = parser.parse_args()
 
     prepared_dir = Path(args.prepared_dir)
@@ -42,7 +44,8 @@ def main() -> None:
     for i, path in enumerate(files):
         with open(path) as f:
             prepared = PreparedSceneInput.from_dict(json.load(f))
-        result = reconstruct_from_prepared(prepared, n_restarts=args.restarts)
+        result = reconstruct_from_prepared(prepared, n_restarts=args.restarts,
+                                            constraint_mode=args.mode)
         out = result.to_dict()
         out["scene_id"] = prepared.scene_id
         out["model"] = prepared.model

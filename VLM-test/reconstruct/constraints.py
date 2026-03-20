@@ -504,6 +504,76 @@ def decompose_fdr_to_qrr(fdr_entries: List[FDREntry]) -> List[QRREntry]:
     return qrr_entries
 
 
+# ── FDR vs QRR Conflict Detection ──
+
+_OPPOSITE = {"<": ">", ">": "<"}
+
+
+def detect_fdr_qrr_conflicts(
+    qrr_direct: List[QRREntry],
+    qrr_from_fdr: List[QRREntry],
+) -> dict:
+    """Detect contradictions between direct QRR and FDR-derived QRR constraints.
+
+    Two constraints on the same (pair1, pair2) can conflict:
+      - contradictory: "<" vs ">" (impossible to satisfy both)
+      - weak: "<" vs "~=" or ">" vs "~=" (tension but not impossible)
+
+    Returns dict with counts, consistency_rate, and conflict details.
+    """
+    # Index direct QRR by canonicalized pair key
+    direct_index: Dict[Tuple, List[QRREntry]] = defaultdict(list)
+    for entry in qrr_direct:
+        key = (pair_key(*entry.pair1), pair_key(*entry.pair2))
+        direct_index[key].append(entry)
+
+    n_overlapping = 0
+    n_consistent = 0
+    n_contradictory = 0
+    n_weak_conflict = 0
+    conflicts = []
+
+    for fdr_entry in qrr_from_fdr:
+        key = (pair_key(*fdr_entry.pair1), pair_key(*fdr_entry.pair2))
+        if key not in direct_index:
+            continue
+
+        for direct_entry in direct_index[key]:
+            n_overlapping += 1
+            fc = fdr_entry.comparator
+            dc = direct_entry.comparator
+
+            if fc == dc:
+                n_consistent += 1
+            elif fc == _OPPOSITE.get(dc):
+                n_contradictory += 1
+                conflicts.append({
+                    "pair1": list(fdr_entry.pair1),
+                    "pair2": list(fdr_entry.pair2),
+                    "qrr_comparator": dc,
+                    "fdr_comparator": fc,
+                    "conflict_type": "contradictory",
+                })
+            else:
+                n_weak_conflict += 1
+                conflicts.append({
+                    "pair1": list(fdr_entry.pair1),
+                    "pair2": list(fdr_entry.pair2),
+                    "qrr_comparator": dc,
+                    "fdr_comparator": fc,
+                    "conflict_type": "weak",
+                })
+
+    return {
+        "n_overlapping": n_overlapping,
+        "n_consistent": n_consistent,
+        "n_contradictory": n_contradictory,
+        "n_weak_conflict": n_weak_conflict,
+        "consistency_rate": n_consistent / n_overlapping if n_overlapping else 1.0,
+        "conflicts": conflicts,
+    }
+
+
 # ── Feasibility Summary ──
 
 @dataclass

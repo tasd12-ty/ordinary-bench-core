@@ -9,6 +9,7 @@ from .pipeline import (
     reconstruct_from_prepared,
     reconstruct_from_scoring,
     ReconstructResult,
+    CONSTRAINT_MODES,
 )
 from .preparation import (
     PreparedSceneInput,
@@ -22,6 +23,7 @@ from .constraints import (
     QRREntry,
     TRREntry,
     FeasibilityReport,
+    detect_fdr_qrr_conflicts,
 )
 
 __all__ = [
@@ -39,4 +41,6 @@ __all__ = [
     "QRREntry",
     "TRREntry",
     "FeasibilityReport",
+    "CONSTRAINT_MODES",
+    "detect_fdr_qrr_conflicts",
 ]
