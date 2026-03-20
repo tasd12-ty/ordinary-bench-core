@@ -6,9 +6,14 @@ Produces summary tables for the paper (Table 1, etc.).
 
 import json
 import os
+import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Optional
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from reconstruct.preparation import load_questions_auto
 
 
 def load_scene_results(results_dir: str) -> List[dict]:
@@ -25,15 +30,8 @@ def load_scene_results(results_dir: str) -> List[dict]:
 
 
 def load_questions(questions_dir: str, scene_id: str) -> List[dict]:
-    """Load all questions for a scene (flatten batches)."""
-    path = Path(questions_dir) / f"{scene_id}.json"
-    if not path.exists():
-        return []
-    with open(path) as fp:
-        data = json.load(fp)
-    questions = []
-    for batch in data.get("batches", []):
-        questions.extend(batch["questions"])
+    """Load all questions for a scene from flat or split layout."""
+    questions, _meta = load_questions_auto(questions_dir, scene_id)
     return questions
 
 

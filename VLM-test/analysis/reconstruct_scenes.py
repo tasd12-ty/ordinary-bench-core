@@ -16,21 +16,61 @@ import numpy as np
 # Add parent to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from reconstruct import reconstruct_from_scoring, SolverConfig, ReconstructResult
-from analysis.aggregate import load_scene_results, load_questions
+from reconstruct import (
+    PreparedSceneInput,
+    reconstruct_from_prepared,
+    prepare_reconstruction_input_from_scoring,
+    load_questions_auto,
+    load_scene_gt_positions,
+)
+from analysis.aggregate import load_scene_results
 
 
 def load_scene_gt(scene_path: str) -> Optional[Dict[str, np.ndarray]]:
     """Load ground truth 2D positions from scene JSON."""
-    with open(scene_path) as f:
-        scene = json.load(f)
+    loaded = load_scene_gt_positions(scene_path)
+    if not loaded:
+        return None
+    return {oid: np.array(pos, dtype=np.float64) for oid, pos in loaded.items()}
 
-    positions = {}
-    for obj in scene.get("objects", []):
-        coords = obj.get("3d_coords", obj.get("position_3d"))
-        if coords is not None:
-            positions[obj["id"]] = np.array(coords[:2], dtype=np.float64)
-    return positions if positions else None
+
+def prepare_single_scene(
+    scene_result: dict,
+    questions: List[dict],
+    gt_positions: Optional[Dict[str, np.ndarray]] = None,
+    use_correct_only: bool = True,
+    question_metadata: Optional[dict] = None,
+) -> PreparedSceneInput:
+    """Prepare a single scene for reconstruction without solving it."""
+    gt_serialized = None
+    if gt_positions is not None:
+        gt_serialized = {
+            oid: np.asarray(pos, dtype=np.float64).tolist()
+            for oid, pos in gt_positions.items()
+        }
+
+    question_metadata = dict(question_metadata or {})
+    metadata = {
+        "scene_id": scene_result.get("scene_id"),
+        "model": scene_result.get("model"),
+        "n_objects": scene_result.get("n_objects"),
+        "question_layout": question_metadata.get("layout", scene_result.get("question_layout", "auto")),
+        "question_paths": question_metadata.get("paths", {}),
+        "question_scene_meta": question_metadata.get("scene_meta", {}),
+        "question_layout_warning": question_metadata.get("layout_warning"),
+        "alternate_flat_path": question_metadata.get("alternate_flat_path"),
+        "alternate_flat_question_count": question_metadata.get("alternate_flat_question_count"),
+    }
+
+    return prepare_reconstruction_input_from_scoring(
+        scoring_result=scene_result["scores"],
+        questions=questions,
+        gt_positions=gt_serialized,
+        scene_id=scene_result.get("scene_id"),
+        model=scene_result.get("model"),
+        use_correct_only=use_correct_only,
+        metadata=metadata,
+    )
 
 
 def reconstruct_single_scene(
@@ -39,6 +79,7 @@ def reconstruct_single_scene(
     gt_positions: Optional[Dict[str, np.ndarray]] = None,
     use_correct_only: bool = True,
     n_restarts: int = 10,
+    question_metadata: Optional[dict] = None,
 ) -> dict:
     """Reconstruct a single scene and return metrics.
 
@@ -52,14 +93,17 @@ def reconstruct_single_scene(
     Returns:
         dict with scene_id, status, metrics, positions
     """
-    scoring = scene_result["scores"]
-
-    result = reconstruct_from_scoring(
-        scoring_result=scoring,
+    prepared = prepare_single_scene(
+        scene_result=scene_result,
         questions=questions,
         gt_positions=gt_positions,
-        n_restarts=n_restarts,
         use_correct_only=use_correct_only,
+        question_metadata=question_metadata,
+    )
+
+    result = reconstruct_from_prepared(
+        prepared_input=prepared,
+        n_restarts=n_restarts,
     )
 
     output = result.to_dict()
@@ -67,8 +111,86 @@ def reconstruct_single_scene(
     output["n_objects"] = scene_result.get("n_objects", 0)
     output["model"] = scene_result.get("model", "unknown")
     output["use_correct_only"] = use_correct_only
+    output["prepared_summary"] = prepared.summary
+    output["prepared_integrity"] = prepared.integrity
 
     return output
+
+
+def prepare_all_scenes(
+    results_dir: str,
+    questions_dir: str,
+    scenes_dir: str,
+    output_dir: Optional[str] = None,
+    use_correct_only: bool = True,
+    max_scenes: Optional[int] = None,
+) -> List[dict]:
+    """Prepare reconstruction inputs for all evaluated scenes."""
+    scene_results = load_scene_results(results_dir)
+    if max_scenes:
+        scene_results = scene_results[:max_scenes]
+
+    prepared_outputs = []
+    scene_output_dir = None
+    if output_dir:
+        scene_output_dir = Path(output_dir) / "scenes"
+        scene_output_dir.mkdir(parents=True, exist_ok=True)
+
+    for i, scene_result in enumerate(scene_results):
+        scene_id = scene_result["scene_id"]
+        questions, question_meta = load_questions_auto(questions_dir, scene_id)
+        if not questions:
+            print(f"  [{i+1}/{len(scene_results)}] {scene_id}: no questions found, skipping")
+            continue
+
+        scene_path = os.path.join(scenes_dir, f"{scene_id}.json")
+        gt_positions = load_scene_gt(scene_path) if os.path.exists(scene_path) else None
+
+        try:
+            prepared = prepare_single_scene(
+                scene_result=scene_result,
+                questions=questions,
+                gt_positions=gt_positions,
+                use_correct_only=use_correct_only,
+                question_metadata=question_meta,
+            )
+            prepared_dict = prepared.to_dict()
+            prepared_outputs.append(prepared_dict)
+            print(
+                f"  [{i+1}/{len(scene_results)}] {scene_id}: "
+                f"qrr={prepared.summary['n_qrr_total']} "
+                f"(direct {prepared.summary['n_qrr_direct']}, fdr {prepared.summary['n_qrr_from_fdr']}) "
+                f"trr={prepared.summary['n_trr']} skipped={prepared.summary['n_skipped_questions']}"
+            )
+            if scene_output_dir is not None:
+                with open(scene_output_dir / f"{scene_id}.json", "w") as f:
+                    json.dump(prepared_dict, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            print(f"  [{i+1}/{len(scene_results)}] {scene_id}: ERROR {e}")
+            continue
+
+    if output_dir:
+        summary = {
+            "n_scenes": len(prepared_outputs),
+            "use_correct_only": use_correct_only,
+            "status": "prepared",
+            "scenes": [
+                {
+                    "scene_id": row["scene_id"],
+                    "n_objects": row["summary"]["n_objects"],
+                    "n_qrr_total": row["summary"]["n_qrr_total"],
+                    "n_trr": row["summary"]["n_trr"],
+                    "n_skipped_questions": row["summary"]["n_skipped_questions"],
+                    "integrity": row["integrity"],
+                }
+                for row in prepared_outputs
+            ],
+        }
+        with open(Path(output_dir) / "summary.json", "w") as f:
+            json.dump(summary, f, indent=2, ensure_ascii=False)
+        print(f"\nSaved {len(prepared_outputs)} prepared scenes to {output_dir}")
+
+    return prepared_outputs
 
 
 def reconstruct_all_scenes(
@@ -104,7 +226,7 @@ def reconstruct_all_scenes(
         scene_id = scene_result["scene_id"]
 
         # Load questions
-        questions = load_questions(questions_dir, scene_id)
+        questions, question_meta = load_questions_auto(questions_dir, scene_id)
         if not questions:
             print(f"  [{i+1}/{len(scene_results)}] {scene_id}: no questions found, skipping")
             continue
@@ -121,6 +243,7 @@ def reconstruct_all_scenes(
                 scene_result, questions, gt_positions,
                 use_correct_only=use_correct_only,
                 n_restarts=n_restarts,
+                question_metadata=question_meta,
             )
             status = output["status"]
             csr_q = output["metrics"]["csr_qrr"]
