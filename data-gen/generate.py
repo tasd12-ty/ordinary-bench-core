@@ -62,6 +62,8 @@ DEFAULT_CONFIG = {
     "camera_distance": 12.0,
     "elevation": 30.0,
     "azimuth_start": 45.0,
+    "render_top_view": True,
+    "top_view_padding": 0.35,
   },
   "objects": {
     "min_count": 4,
@@ -128,7 +130,7 @@ def load_config(config_path, preset, cli_args):
 def create_directories(cfg):
   """Create output directory structure."""
   output = Path(cfg["output"]["dir"])
-  for sub in ["images/single_view", "images/multi_view", "scenes", "splits"]:
+  for sub in ["images/single_view", "images/multi_view", "images/top_view", "scenes", "splits"]:
     (output / sub).mkdir(parents=True, exist_ok=True)
 
 
@@ -252,7 +254,7 @@ def main():
   # Summary
   total_scenes = sum(s["n_scenes"] for s in all_stats.values())
   total_images = sum(
-    s["n_single_view_images"] + s["n_multi_view_images"]
+    s["n_single_view_images"] + s["n_multi_view_images"] + s.get("n_top_view_images", 0)
     for s in all_stats.values()
   )
   print(f"\nDone! {total_scenes} scenes, {total_images} images")

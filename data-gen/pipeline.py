@@ -96,6 +96,8 @@ def render_split(split_name: str, split_cfg: dict, cfg: dict) -> Path:
     "--camera_distance", str(rendering["camera_distance"]),
     "--elevation", str(rendering["elevation"]),
     "--azimuth_start", str(rendering.get("azimuth_start", 45.0)),
+    "--render_top_view", "1" if rendering.get("render_top_view", False) else "0",
+    "--top_view_padding", str(rendering.get("top_view_padding", 2.5)),
     "--width", str(rendering["width"]),
     "--height", str(rendering["height"]),
     "--render_num_samples", str(rendering["samples"]),
@@ -133,6 +135,7 @@ def organize_split(
   render_output: Path,
   output_dir: Path,
   n_views: int,
+  render_top_view: bool = False,
   effective_split: str = None,
 ) -> list:
   """
@@ -171,6 +174,12 @@ def organize_split(
     if src_sv.exists():
       shutil.copy2(src_sv, dst_sv)
 
+    # Copy top-view image
+    src_tv = render_output / "top_view" / f"{scene_id}.png"
+    dst_tv = output_dir / "images" / "top_view" / f"{scene_id}.png"
+    if src_tv.exists():
+      shutil.copy2(src_tv, dst_tv)
+
     # Save scene metadata (raw scene data, no constraints)
     scene_file = output_dir / "scenes" / f"{scene_id}.json"
     with open(scene_file, 'w') as f:
@@ -184,6 +193,7 @@ def organize_split(
         f"images/multi_view/{scene_id}/view_{i}.png"
         for i in range(n_views)
       ],
+      "top_view_image": f"images/top_view/{scene_id}.png" if src_tv.exists() else None,
       "scene_path": f"scenes/{scene_id}.json",
       "n_objects": scene.get("n_objects", len(scene.get("objects", []))),
       "split": split_name,
@@ -206,11 +216,13 @@ def build_split(split_name: str, split_cfg: dict, cfg: dict) -> dict:
   """
   output_dir = Path(cfg["output"]["dir"])
   n_views = cfg["rendering"]["n_views"]
+  render_top_view = cfg["rendering"].get("render_top_view", False)
   start_idx = split_cfg.get("start_idx", 0)
   effective_split = split_cfg.get("split_prefix", split_name)
 
   render_output = render_split(split_name, split_cfg, cfg)
   entries = organize_split(split_name, render_output, output_dir, n_views,
+                           render_top_view=render_top_view,
                            effective_split=effective_split)
 
   # Save split index (merge with existing if incremental)
@@ -230,6 +242,7 @@ def build_split(split_name: str, split_cfg: dict, cfg: dict) -> dict:
     "n_scenes": len(entries),
     "n_single_view_images": len(entries),
     "n_multi_view_images": len(entries) * n_views,
+    "n_top_view_images": len(entries) if render_top_view else 0,
   }
 
 
@@ -247,6 +260,7 @@ def save_dataset_info(cfg: dict, all_stats: dict):
       "image_size": [rendering["width"], rendering["height"]],
       "camera_distance": rendering["camera_distance"],
       "elevation": rendering["elevation"],
+      "render_top_view": rendering.get("render_top_view", False),
     },
     "splits": {
       name: {
@@ -259,7 +273,7 @@ def save_dataset_info(cfg: dict, all_stats: dict):
     "statistics": all_stats,
     "total_scenes": sum(s["n_scenes"] for s in all_stats.values()),
     "total_images": sum(
-      s["n_single_view_images"] + s["n_multi_view_images"]
+      s["n_single_view_images"] + s["n_multi_view_images"] + s.get("n_top_view_images", 0)
       for s in all_stats.values()
     ),
   }

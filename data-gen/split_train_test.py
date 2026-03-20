@@ -71,6 +71,11 @@ def main():
             "index": index,
             "scene_path": f"scenes/{scene_id}.json",
             "single_view_image": f"images/single_view/{scene_id}.png",
+            "top_view_image": (
+                f"images/top_view/{scene_id}.png"
+                if (output_dir / "images" / "top_view" / f"{scene_id}.png").exists()
+                else None
+            ),
         }
 
         if is_test:

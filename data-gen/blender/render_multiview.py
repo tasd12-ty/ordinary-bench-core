@@ -139,6 +139,101 @@ class MultiViewConfig:
         return cameras
 
 
+def compute_top_view_ortho_scale(
+    objects_3d: List[Dict],
+    padding: float = 2.5,
+) -> float:
+    """Compute an orthographic scale that comfortably fits the scene."""
+    if not objects_3d:
+        return 10.0
+
+    xs = [float(obj["3d_coords"][0]) for obj in objects_3d]
+    ys = [float(obj["3d_coords"][1]) for obj in objects_3d]
+    span_x = max(xs) - min(xs)
+    span_y = max(ys) - min(ys)
+    span = max(span_x, span_y)
+    return max(6.0, span + 2.0 * padding)
+
+
+def compute_top_view_frame(
+    objects_3d: List[Dict],
+    blender_objects: Optional[List[Any]] = None,
+    padding: float = 0.35,
+    aspect_ratio: float = 1.0,
+) -> Tuple[Tuple[float, float, float], float]:
+    """
+    Compute a centered orthographic frame that fits the full scene.
+
+    The top view should be centered on the scene bounds, not the world origin,
+    and the fitted width must account for the render aspect ratio.
+    """
+    if blender_objects:
+        min_x = float("inf")
+        min_y = float("inf")
+        max_x = float("-inf")
+        max_y = float("-inf")
+
+        for obj in blender_objects:
+            for corner in obj.bound_box:
+                world_corner = obj.matrix_world @ Vector(corner)
+                min_x = min(min_x, world_corner.x)
+                min_y = min(min_y, world_corner.y)
+                max_x = max(max_x, world_corner.x)
+                max_y = max(max_y, world_corner.y)
+
+        if min_x < max_x and min_y < max_y:
+            span_x = max_x - min_x
+            span_y = max_y - min_y
+            center = (
+                0.5 * (min_x + max_x),
+                0.5 * (min_y + max_y),
+                0.0,
+            )
+            width = max(
+                span_x + 2.0 * padding,
+                aspect_ratio * (span_y + 2.0 * padding),
+            )
+            return center, max(6.0, width)
+
+    if not objects_3d:
+        return (0.0, 0.0, 0.0), 10.0
+
+    xs = [float(obj["3d_coords"][0]) for obj in objects_3d]
+    ys = [float(obj["3d_coords"][1]) for obj in objects_3d]
+    min_x = min(xs)
+    max_x = max(xs)
+    min_y = min(ys)
+    max_y = max(ys)
+    span_x = max_x - min_x
+    span_y = max_y - min_y
+    center = (
+        0.5 * (min_x + max_x),
+        0.5 * (min_y + max_y),
+        0.0,
+    )
+    width = max(
+        span_x + 2.0 * padding,
+        aspect_ratio * (span_y + 2.0 * padding),
+    )
+    return center, max(6.0, width)
+
+
+def compute_top_view_height(
+    blender_objects: Optional[List[Any]] = None,
+    min_clearance: float = 1.0,
+) -> float:
+    """Place the orthographic camera just above the tallest object."""
+    if blender_objects:
+        max_z = float("-inf")
+        for obj in blender_objects:
+            for corner in obj.bound_box:
+                world_corner = obj.matrix_world @ Vector(corner)
+                max_z = max(max_z, world_corner.z)
+        if max_z != float("-inf"):
+            return max_z + min_clearance
+    return 4.0
+
+
 def get_object_by_name(name: str, alternative_names: Optional[List[str]] = None):
     """Get Blender object by name with fallbacks."""
     if name in bpy.data.objects:
@@ -168,6 +263,19 @@ def set_camera_position(camera_config: CameraConfig) -> None:
     direction = Vector(look_at) - Vector(position)
     rot_quat = direction.to_track_quat('-Z', 'Y')
     camera.rotation_euler = rot_quat.to_euler()
+
+
+def refresh_camera_state() -> None:
+    """
+    Flush Blender's camera transform updates before reading projected coordinates.
+
+    Without this, the render can use the new viewpoint while world_to_camera_view
+    still sees the previous camera matrix for one step, which corrupts per-view
+    pixel_coords in saved metadata.
+    """
+    view_layer = getattr(bpy.context, "view_layer", None)
+    if view_layer is not None:
+        view_layer.update()
 
 
 def compute_pixel_coords_for_view(camera, objects_3d: List[Dict]) -> List[Dict]:
@@ -255,6 +363,7 @@ def render_single_view(
     """
     # Set camera position
     set_camera_position(camera_config)
+    refresh_camera_state()
 
     camera = bpy.data.objects['Camera']
 
@@ -274,6 +383,71 @@ def render_single_view(
         "directions": directions,
         "objects": objects_with_pixels
     }
+
+    return view_data
+
+
+def render_top_view(
+    output_image: str,
+    objects_3d: List[Dict],
+    blender_objects: Optional[List[Any]],
+    args,
+) -> Dict[str, Any]:
+    """Render an additional orthographic top-down view."""
+    camera = bpy.data.objects['Camera']
+    original_type = camera.data.type
+    original_ortho_scale = getattr(camera.data, "ortho_scale", None)
+    original_clip_start = camera.data.clip_start
+    original_clip_end = camera.data.clip_end
+
+    top_height = getattr(args, "top_view_height", None)
+    if top_height is None:
+        top_height = compute_top_view_height(
+            blender_objects,
+            min_clearance=max(0.8, 0.5 * getattr(args, "top_view_padding", 0.35)),
+        )
+    aspect_ratio = float(args.width) / float(args.height)
+    top_center, ortho_scale = compute_top_view_frame(
+        objects_3d,
+        blender_objects=blender_objects,
+        padding=getattr(args, "top_view_padding", 0.35),
+        aspect_ratio=aspect_ratio,
+    )
+    top_camera = CameraConfig(
+        camera_id="top_view",
+        azimuth=0.0,
+        elevation=90.0,
+        distance=top_height,
+        look_at=top_center,
+    )
+
+    set_camera_position(top_camera)
+    refresh_camera_state()
+    camera.data.type = 'ORTHO'
+    camera.data.ortho_scale = ortho_scale
+    camera.data.clip_start = 0.01
+    camera.data.clip_end = max(original_clip_end, top_height + 20.0)
+    refresh_camera_state()
+
+    objects_with_pixels = compute_pixel_coords_for_view(camera, objects_3d)
+
+    bpy.context.scene.render.filepath = output_image
+    bpy.ops.render.render(write_still=True)
+
+    view_data = {
+        "view_id": top_camera.camera_id,
+        "image_path": os.path.basename(output_image),
+        "camera": top_camera.to_dict(),
+        "projection": "orthographic",
+        "ortho_scale": camera.data.ortho_scale,
+        "objects": objects_with_pixels,
+    }
+
+    camera.data.type = original_type
+    if original_ortho_scale is not None:
+        camera.data.ortho_scale = original_ortho_scale
+    camera.data.clip_start = original_clip_start
+    camera.data.clip_end = original_clip_end
 
     return view_data
 
@@ -419,6 +593,16 @@ def render_multiview_scene(
         )
 
         scene_struct["views"].append(view_data)
+
+    if getattr(args, "render_top_view", 0) == 1 and getattr(args, "output_top_view_dir", None):
+        os.makedirs(args.output_top_view_dir, exist_ok=True)
+        top_img_path = os.path.join(args.output_top_view_dir, f"{scene_id}.png")
+        scene_struct["top_view"] = render_top_view(
+            top_img_path,
+            objects_3d,
+            blender_objects,
+            args,
+        )
 
     # Save scene metadata
     metadata_path = os.path.join(output_dir, "metadata.json")
@@ -577,10 +761,14 @@ def main(args):
     # Create output directories
     multiview_dir = os.path.join(args.output_dir, "multi_view")
     single_view_dir = os.path.join(args.output_dir, "single_view")
+    top_view_dir = os.path.join(args.output_dir, "top_view")
     os.makedirs(multiview_dir, exist_ok=True)
     os.makedirs(single_view_dir, exist_ok=True)
+    if args.render_top_view == 1:
+        os.makedirs(top_view_dir, exist_ok=True)
 
     args.output_single_view_dir = single_view_dir
+    args.output_top_view_dir = top_view_dir
 
     all_scenes = []
     successful = 0
@@ -619,6 +807,7 @@ def main(args):
             "date": dt.today().strftime("%Y-%m-%d"),
             "split": args.split,
             "n_views": args.n_views,
+            "render_top_view": bool(args.render_top_view),
             "camera_config": asdict(mv_config)
         },
         "scenes": all_scenes
@@ -655,6 +844,12 @@ parser.add_argument('--elevation', default=30.0, type=float,
     help="Camera elevation angle in degrees")
 parser.add_argument('--azimuth_start', default=45.0, type=float,
     help="Starting azimuth angle in degrees")
+parser.add_argument('--render_top_view', default=0, type=int,
+    help="Whether to render an extra top-down view into top_view/ (0 or 1)")
+parser.add_argument('--top_view_height', default=None, type=float,
+    help="Top-view camera height. Defaults to an auto-tight height above the tallest object")
+parser.add_argument('--top_view_padding', default=0.35, type=float,
+    help="Minimal safety margin for orthographic top-view framing")
 
 # Output settings
 parser.add_argument('--output_dir', default='../output/multiview/',

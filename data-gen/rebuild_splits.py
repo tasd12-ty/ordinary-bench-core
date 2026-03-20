@@ -54,6 +54,11 @@ def rebuild(output_dir: str, n_views: int):
                 f"images/multi_view/{scene_id}/view_{i}.png"
                 for i in range(n_views)
             ],
+            "top_view_image": (
+                f"images/top_view/{scene_id}.png"
+                if (output / "images" / "top_view" / f"{scene_id}.png").exists()
+                else None
+            ),
             "scene_path": f"scenes/{scene_id}.json",
             "n_objects": n_objects,
             "split": split_name,
@@ -99,8 +104,13 @@ def rebuild(output_dir: str, n_views: int):
             "n_scenes": n,
             "n_single_view_images": n,
             "n_multi_view_images": n * n_views,
+            "n_top_view_images": sum(1 for e in entries if e.get("top_view_image")),
         }
-        total_images += n + n * n_views
+        total_images += (
+            n
+            + n * n_views
+            + sum(1 for e in entries if e.get("top_view_image"))
+        )
 
     info["total_images"] = total_images
 
