@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Human Baseline Tester</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Human Baseline Tester</h1>
+      <p>先选测试类型，再选场景，最后答题。single view 和 multiview 是两类独立测试条件。</p>
+    </div>
+    <div class="top-actions">
+      <button id="save-btn">保存到后端</button>
+      <button id="download-btn" class="secondary">下载 JSON</button>
+      <button id="raw-btn" class="secondary">下载 raw_response</button>
+    </div>
+    <details class="control-drawer">
+      <summary id="control-summary" class="control-summary">测试设置</summary>
+      <div class="drawer-body">
+        <div class="workflow-bar">
+          <label class="step-control">
+            <span>1. Test Type</span>
+            <select id="test-type-select"></select>
+          </label>
+          <label class="step-control">
+            <span>2. 场景</span>
+            <select id="scene-select"></select>
+          </label>
+          <label class="step-control annotator-control">
+            <span>Annotator</span>
+            <input id="annotator-input" placeholder="annotator id">
+          </label>
+        </div>
+        <div id="scene-filter-summary" class="scene-filter-summary"></div>
+        <div id="condition-badge" class="condition-badge"></div>
+        <div id="status" class="status"></div>
+      </div>
+    </details>
+  </header>
+
+  <main class="page-content">
+    <section class="panel image-panel">
+      <div id="view-toolbar" class="view-toolbar"></div>
+      <div id="image-grid" class="image-grid"></div>
+    </section>
+
+    <section class="content-grid">
+      <section class="panel question-panel">
+        <div class="answer-header">
+          <strong id="answer-count"></strong>
+        </div>
+        <div id="question-root"></div>
+      </section>
+
+      <section class="panel info-panel">
+        <div id="summary-grid" class="summary-grid"></div>
+        <table class="object-table">
+          <thead>
+            <tr><th>编号</th><th>物体描述</th></tr>
+          </thead>
+          <tbody id="object-body"></tbody>
+        </table>
+      </section>
+    </section>
+  </main>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>
