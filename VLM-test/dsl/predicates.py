@@ -9,8 +9,11 @@ from dataclasses import dataclass
 from enum import Enum
 from itertools import combinations, permutations
 from typing import Tuple, List, Dict, Any, Optional
+import logging
 import math
 import numpy as np
+
+logger = logging.getLogger(__name__)
 
 from .comparators import Comparator, compare
 
@@ -181,7 +184,10 @@ def compute_size_ratio(obj_a: Dict, obj_b: Dict) -> float:
         size_a = size_map.get(size_a.lower(), 0.5)
     if isinstance(size_b, str):
         size_b = size_map.get(size_b.lower(), 0.5)
-    return float(size_a) / float(size_b) if size_b > 0 else float('inf')
+    if size_b <= 0:
+        logger.warning("SIZE_RATIO: size_b=%s is non-positive, returning 1.0", size_b)
+        return 1.0
+    return float(size_a) / float(size_b)
 
 
 METRIC_FUNCTIONS = {
@@ -257,6 +263,7 @@ def extract_all_qrr(
     pairs = list(combinations(obj_ids, 2))
     metric_func = METRIC_FUNCTIONS[metric]
     constraints = []
+    boundary_skipped = 0
 
     for i, pair1 in enumerate(pairs):
         for pair2 in pairs[i + 1:]:
@@ -267,6 +274,7 @@ def extract_all_qrr(
             m1 = metric_func(objects[pair1[0]], objects[pair1[1]])
             m2 = metric_func(objects[pair2[0]], objects[pair2[1]])
             if _is_boundary(m1, m2, tau):
+                boundary_skipped += 1
                 continue
             constraint = compute_qrr(
                 objects, pair1, pair2, metric, tau,
@@ -274,6 +282,8 @@ def extract_all_qrr(
             )
             constraints.append(constraint)
 
+    if boundary_skipped:
+        logger.debug("extract_all_qrr: skipped %d boundary questions (tau=%.2f)", boundary_skipped, tau)
     return constraints
 
 
@@ -286,6 +296,7 @@ def extract_all_qrr_shared_anchor(
     obj_ids = sorted(objects.keys())
     metric_func = METRIC_FUNCTIONS[metric]
     constraints = []
+    boundary_skipped = 0
 
     for anchor in obj_ids:
         others = [oid for oid in obj_ids if oid != anchor]
@@ -295,6 +306,7 @@ def extract_all_qrr_shared_anchor(
             m1 = metric_func(objects[pair1[0]], objects[pair1[1]])
             m2 = metric_func(objects[pair2[0]], objects[pair2[1]])
             if _is_boundary(m1, m2, tau):
+                boundary_skipped += 1
                 continue
             constraint = compute_qrr(
                 objects, pair1, pair2, metric, tau,
@@ -302,6 +314,8 @@ def extract_all_qrr_shared_anchor(
             )
             constraints.append(constraint)
 
+    if boundary_skipped:
+        logger.debug("extract_all_qrr_shared_anchor: skipped %d boundary questions (tau=%.2f)", boundary_skipped, tau)
     return constraints
 
 

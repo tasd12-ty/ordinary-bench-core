@@ -112,7 +112,7 @@ def process_scene(scene_id: str, config: dict, n_views: int) -> dict:
             correction_messages = messages + [
                 {"role": "assistant", "content": raw_response or ""},
                 {"role": "user", "content": REACT_CORRECTION_PROMPT.format(
-                    missing_qids=", ".join(missing_qids[:20]),
+                    missing_qids=", ".join(missing_qids),
                     n_missing=n_missing,
                     n_total=len(expected_qids),
                 )},

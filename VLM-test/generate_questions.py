@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# DEPRECATED: Use generate_questions_v2.py instead (per-type directory storage).
 """
 Generate VLM evaluation questions from data-gen scene JSONs.
 

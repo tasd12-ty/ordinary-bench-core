@@ -38,6 +38,7 @@ from question_bank import make_batches
 QUESTION_TYPES = ["qrr", "trr", "fdr"]
 REACT_MAX_ROUNDS = 2
 REACT_MISSING_THRESHOLD = 0.2
+REACT_CHUNK_SIZE = 50  # Max missing qids per correction prompt
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -141,7 +142,7 @@ def process_scene(scene_id: str, config: dict) -> dict:
             predictions = parse_batch_response(raw_response, expected_qids)
             n_missing = sum(1 for v in predictions.values() if v is None)
 
-            # ReAct 纠正循环
+            # ReAct 纠正循环（分段纠正，每次最多 REACT_CHUNK_SIZE 个 qid）
             react_round = 0
             while (react_round < REACT_MAX_ROUNDS
                    and n_missing > len(expected_qids) * REACT_MISSING_THRESHOLD):
@@ -150,26 +151,31 @@ def process_scene(scene_id: str, config: dict) -> dict:
                 logger.info(f"  {scene_id} {batch_id} ReAct #{react_round}, "
                             f"missing {n_missing}/{len(expected_qids)}")
 
-                correction_messages = messages + [
-                    {"role": "assistant", "content": raw_response or ""},
-                    {"role": "user", "content": REACT_CORRECTION_PROMPT.format(
-                        missing_qids=", ".join(missing_qids[:20]),
-                        n_missing=n_missing,
-                        n_total=len(expected_qids),
-                    )},
-                ]
+                # Split missing qids into chunks to avoid overly long prompts
+                for chunk_start in range(0, len(missing_qids), REACT_CHUNK_SIZE):
+                    chunk = missing_qids[chunk_start:chunk_start + REACT_CHUNK_SIZE]
 
-                t1 = time.time()
-                correction_response = call_vlm(
-                    client, correction_messages, config["model"], **vlm_kwargs)
-                elapsed += time.time() - t1
+                    correction_messages = messages + [
+                        {"role": "assistant", "content": raw_response or ""},
+                        {"role": "user", "content": REACT_CORRECTION_PROMPT.format(
+                            missing_qids=", ".join(chunk),
+                            n_missing=len(chunk),
+                            n_total=len(expected_qids),
+                        )},
+                    ]
 
-                correction_preds = parse_batch_response(correction_response, missing_qids)
-                for qid, val in correction_preds.items():
-                    if val is not None:
-                        predictions[qid] = val
+                    t1 = time.time()
+                    correction_response = call_vlm(
+                        client, correction_messages, config["model"], **vlm_kwargs)
+                    elapsed += time.time() - t1
 
-                raw_response = (raw_response or "") + f"\n\n--- ReAct #{react_round} ---\n" + (correction_response or "")
+                    correction_preds = parse_batch_response(correction_response, chunk)
+                    for qid, val in correction_preds.items():
+                        if val is not None:
+                            predictions[qid] = val
+
+                    raw_response = (raw_response or "") + f"\n\n--- ReAct #{react_round} chunk {chunk_start // REACT_CHUNK_SIZE + 1} ---\n" + (correction_response or "")
+
                 n_missing = sum(1 for v in predictions.values() if v is None)
 
             # 保存原始响应

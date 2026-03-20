@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# DEPRECATED: Use run_batch_v2.py instead (per-type directory + type-specific prompts).
 """
 方案1：Batch 提问模式。
 
@@ -108,7 +109,7 @@ def process_scene(scene_id: str, config: dict) -> dict:
             correction_messages = messages + [
                 {"role": "assistant", "content": raw_response or ""},
                 {"role": "user", "content": REACT_CORRECTION_PROMPT.format(
-                    missing_qids=", ".join(missing_qids[:20]),
+                    missing_qids=", ".join(missing_qids),
                     n_missing=n_missing,
                     n_total=len(expected_qids),
                 )},
