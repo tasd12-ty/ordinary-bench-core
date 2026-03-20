@@ -3,20 +3,24 @@ End-to-end reconstruction pipeline.
 
 Two entry points:
   1. reconstruct() - from raw constraint lists
-  2. reconstruct_from_scoring() - from scoring results + question metadata
+  2. prepare_reconstruction_input_from_scoring() - auditable prep bundle
+  3. reconstruct_from_scoring() - from scoring results + question metadata
+  4. reconstruct_from_prepared() - from prepared bundle
 """
 
 import numpy as np
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 from dataclasses import dataclass, field
 
 from .constraints import (
     QRREntry, TRREntry, FDREntry,
     build_distance_poset, build_angular_sectors,
     analyze_hypergraph, check_feasibility,
-    extract_qrr_from_scoring, extract_trr_from_scoring,
-    extract_fdr_from_scoring, decompose_fdr_to_qrr,
     FeasibilityReport,
+)
+from .preparation import (
+    PreparedSceneInput,
+    prepare_reconstruction_input_from_scoring,
 )
 from .solver import SolverConfig, SolverSolution, solve
 from .evaluate import EvalMetrics, evaluate_reconstruction, cluster_solutions
@@ -145,31 +149,54 @@ def reconstruct_from_scoring(
     else:
         config.n_restarts = n_restarts
 
-    per_question = scoring_result.get("per_question", [])
+    gt_serialized = None
+    if gt_positions is not None:
+        gt_serialized = {
+            oid: np.asarray(pos, dtype=np.float64).tolist()
+            for oid, pos in gt_positions.items()
+        }
 
-    # Extract constraints
-    qrr_entries = extract_qrr_from_scoring(per_question, questions, use_correct_only)
-    trr_entries = extract_trr_from_scoring(per_question, questions, use_correct_only)
+    prepared = prepare_reconstruction_input_from_scoring(
+        scoring_result=scoring_result,
+        questions=questions,
+        gt_positions=gt_serialized,
+        use_correct_only=use_correct_only,
+    )
+    return reconstruct_from_prepared(prepared, n_restarts=n_restarts, config=config)
 
-    # Extract FDR and decompose into QRR-equivalent pairwise constraints
-    fdr_entries = extract_fdr_from_scoring(per_question, questions, use_correct_only)
-    fdr_qrr = decompose_fdr_to_qrr(fdr_entries)
-    qrr_entries = qrr_entries + fdr_qrr
 
-    # Collect object IDs from questions
-    obj_set = set()
-    for q in questions:
-        if q["type"] == "qrr":
-            obj_set.update(q["pair1"])
-            obj_set.update(q["pair2"])
-        elif q["type"] == "trr":
-            obj_set.update([q["target"], q["ref1"], q["ref2"]])
-        elif q["type"] == "fdr":
-            obj_set.add(q["anchor"])
-            obj_set.update(q.get("gt_ranking", []))
-    object_ids = sorted(obj_set)
+def reconstruct_from_prepared(
+    prepared_input: Union[PreparedSceneInput, dict],
+    n_restarts: int = 10,
+    config: Optional[SolverConfig] = None,
+) -> ReconstructResult:
+    """Reconstruct from a prepared per-scene bundle."""
+    if config is None:
+        config = SolverConfig(n_restarts=n_restarts)
+    else:
+        config.n_restarts = n_restarts
 
-    return _run_pipeline(qrr_entries, trr_entries, object_ids, gt_positions, config)
+    prepared = (
+        prepared_input
+        if isinstance(prepared_input, PreparedSceneInput)
+        else PreparedSceneInput.from_dict(prepared_input)
+    )
+
+    gt_positions = None
+    if prepared.gt_positions:
+        gt_positions = {
+            oid: np.asarray(pos, dtype=np.float64)
+            for oid, pos in prepared.gt_positions.items()
+        }
+
+    return reconstruct(
+        qrr_constraints=prepared.qrr_all,
+        trr_constraints=prepared.trr_constraints,
+        object_ids=prepared.object_ids,
+        gt_positions=gt_positions,
+        n_restarts=n_restarts,
+        config=config,
+    )
 
 
 def _run_pipeline(
@@ -198,6 +225,16 @@ def _run_pipeline(
     # No constraints at all
     if not qrr_entries and not trr_entries:
         result.status = "underconstrained"
+        return result
+
+    # Fail-fast on symbolic infeasibility
+    if feasibility.qrr_has_cycle:
+        result.feasible = False
+        result.status = "infeasible"
+        return result
+    if feasibility.trr_n_conflicts > 0:
+        result.feasible = False
+        result.status = "infeasible"
         return result
 
     # ── Stage 2-3: Numerical Reconstruction ──

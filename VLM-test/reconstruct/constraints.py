@@ -230,8 +230,11 @@ def _hour_to_quadrant(hour: int) -> int:
 def _arcs_compatible(arcs: List[ArcInterval]) -> bool:
     """Check if the intersection of arc intervals is non-empty.
 
-    Simple check: for each pair of arcs, verify their angular distance
-    is less than the sum of their half-widths.
+    Pairwise check: for each pair of arcs, verify their angular distance
+    is less than the sum of their half-widths. This is sufficient because
+    all arcs have width < 180° (max 90° for quadrant level), and by
+    Helly's theorem on S^1, pairwise intersection implies global
+    intersection for arcs of width < 180°.
     """
     for i in range(len(arcs)):
         for j in range(i + 1, len(arcs)):
@@ -345,6 +348,8 @@ def extract_qrr_from_scoring(
 
         # Use VLM's predicted comparator for belief reconstruction
         comparator = str(predicted) if not use_correct_only else q["gt_comparator"]
+        if comparator not in {"<", "~=", ">"}:
+            continue
 
         entries.append(QRREntry(
             pair1=tuple(q["pair1"]),
@@ -440,16 +445,26 @@ def extract_fdr_from_scoring(
         if q is None:
             continue
 
-        predicted = pq.get("predicted", [])
-        if not isinstance(predicted, list) or len(predicted) < 2:
-            continue
-
         if use_correct_only:
             if pq.get("pairwise_accuracy", 0.0) < 0.5:
                 continue
             ranking = q["gt_ranking"]
         else:
-            ranking = predicted
+            predicted = pq.get("predicted", [])
+            if not isinstance(predicted, list):
+                continue
+            allowed = set(q.get("gt_ranking", []))
+            ranking = []
+            seen = set()
+            for item in predicted:
+                if not isinstance(item, str):
+                    continue
+                if item == q["anchor"] or item not in allowed or item in seen:
+                    continue
+                ranking.append(item)
+                seen.add(item)
+            if len(ranking) < 2:
+                continue
 
         entries.append(FDREntry(
             anchor=q["anchor"],
@@ -472,7 +487,8 @@ def decompose_fdr_to_qrr(fdr_entries: List[FDREntry]) -> List[QRREntry]:
     for fdr in fdr_entries:
         anchor = fdr.anchor
         n = len(fdr.ranking)
-        w = fdr.weight / max(n, 1)
+        n_pairs = n * (n - 1) // 2 if n >= 2 else 1
+        w = fdr.weight / n_pairs
         for i in range(n):
             for j in range(i + 1, n):
                 nearer = fdr.ranking[i]
