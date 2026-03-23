@@ -1,0 +1,31 @@
+{
+  "scene_id": "n04_000082",
+  "batch_id": "fdr_0",
+  "question_type": "fdr",
+  "model": "claude-sonnet-4-6",
+  "timestamp": 1773986950.7564585,
+  "elapsed_seconds": 12.86,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance ranking questions.\n\nFor each question, given an anchor object, rank all other listed objects by their 3D distance\nfrom the anchor, from nearest to farthest. Answer with a JSON list of object IDs in order.\nIf two objects appear at very similar distances, give your best estimate — close pairs are scored with tolerance.\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a list of object ID strings).\n\nExample:\n[{\"qid\": \"fdr_0001\", \"answer\": [\"obj_2\", \"obj_1\", \"obj_3\"]}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: large red metal sphere\n  - obj_1: small purple rubber sphere\n  - obj_2: small red metal sphere\n  - obj_3: small blue metal cylinder\n\nQuestions:\n[fdr_0001] Rank all other objects by distance from obj_0, nearest to farthest. Objects to rank: obj_1, obj_2, obj_3. Answer: ordered JSON list of object IDs.\n[fdr_0002] Rank all other objects by distance from obj_1, nearest to farthest. Objects to rank: obj_0, obj_2, obj_3. Answer: ordered JSON list of object IDs.\n[fdr_0003] Rank all other objects by distance from obj_2, nearest to farthest. Objects to rank: obj_0, obj_1, obj_3. Answer: ordered JSON list of object IDs.\n[fdr_0004] Rank all other objects by distance from obj_3, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2. Answer: ordered JSON list of object IDs."
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/single_view/n04_000082.png"
+          }
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D positions of the objects in the image and rank them by distance from each anchor object.\n\nFrom the image, I can estimate the positions:\n- obj_0 (large red metal sphere): right side, front area\n- obj_1 (small purple rubber sphere): left side, middle depth\n- obj_2 (small red metal sphere): center-front, closest to viewer\n- obj_3 (small blue metal cylinder): back area, behind obj_1\n\nLet me estimate approximate 3D coordinates:\n- obj_0 (large red): roughly (3, 0, 1)\n- obj_1 (purple): roughly (-2, 0, 2)\n- obj_2 (small red): roughly (0, 0, 3)\n- obj_3 (blue cylinder): roughly (-1, 0, -2)\n\nNow calculating distances:\n\n**From obj_0 (large red):**\n- to obj_1: sqrt(25+0+1) ≈ 5.1\n- to obj_2: sqrt(9+0+4) ≈ 3.6\n- to obj_3: sqrt(16+0+9) ≈ 5.0\n\nOrder: obj_2, obj_3, obj_1\n\n**From obj_1 (purple):**\n- to obj_0: ≈ 5.1\n- to obj_2: sqrt(4+0+1) ≈ 2.2\n- to obj_3: sqrt(1+0+16) ≈ 4.1\n\nOrder: obj_2, obj_3, obj_0\n\n**From obj_2 (small red):**\n- to obj_0: ≈ 3.6\n- to obj_1: ≈ 2.2\n- to obj_3: sqrt(1+0+25) ≈ 5.1\n\nOrder: obj_1, obj_0, obj_3\n\n**From obj_3 (blue cylinder):**\n- to obj_0: ≈ 5.0\n- to obj_1: ≈ 4.1\n- to obj_2: ≈ 5.1\n\nOrder: obj_1, obj_0, obj_2\n\n[{\"qid\": \"fdr_0001\", \"answer\": [\"obj_2\", \"obj_3\", \"obj_1\"]}, {\"qid\": \"fdr_0002\", \"answer\": [\"obj_2\", \"obj_3\", \"obj_0\"]}, {\"qid\": \"fdr_0003\", \"answer\": [\"obj_1\", \"obj_0\", \"obj_3\"]}, {\"qid\": \"fdr_0004\", \"answer\": [\"obj_1\", \"obj_0\", \"obj_2\"]}]"
+}

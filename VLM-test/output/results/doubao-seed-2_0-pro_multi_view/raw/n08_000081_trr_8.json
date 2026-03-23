@@ -1,0 +1,50 @@
+{
+  "scene_id": "n08_000081",
+  "batch_id": "trr_8",
+  "question_type": "trr",
+  "model": "doubao-seed-2.0-pro",
+  "n_views": 4,
+  "timestamp": 1774109237.6413863,
+  "elapsed_seconds": 62.08,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of clock-direction questions.\n\nFor each question, imagine standing at ref1, facing toward ref2 (that is your 12 o'clock direction).\nDetermine the clock hour (integer 1-12) where the target object appears.\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (an integer 1-12).\n\nExample:\n[{\"qid\": \"trr_0001\", \"answer\": 7}, {\"qid\": \"trr_0002\", \"answer\": 11}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n08_000081/view_0.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n08_000081/view_1.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n08_000081/view_2.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n08_000081/view_3.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: large yellow metal sphere\n  - obj_1: small brown metal cube\n  - obj_2: small brown metal cylinder\n  - obj_3: small blue metal sphere\n  - obj_4: large brown rubber cube\n  - obj_5: large cyan metal cube\n  - obj_6: small gray rubber cylinder\n  - obj_7: small brown rubber sphere\n\nQuestions:\n[trr_0161] Standing at obj_6, facing obj_5 (12 o'clock), what clock hour (1-12) is obj_3 at?\n[trr_0162] Standing at obj_6, facing obj_7 (12 o'clock), what clock hour (1-12) is obj_3 at?\n[trr_0163] Standing at obj_7, facing obj_0 (12 o'clock), what clock hour (1-12) is obj_3 at?\n[trr_0164] Standing at obj_7, facing obj_1 (12 o'clock), what clock hour (1-12) is obj_3 at?\n[trr_0165] Standing at obj_7, facing obj_2 (12 o'clock), what clock hour (1-12) is obj_3 at?\n[trr_0166] Standing at obj_7, facing obj_4 (12 o'clock), what clock hour (1-12) is obj_3 at?\n[trr_0167] Standing at obj_7, facing obj_5 (12 o'clock), what clock hour (1-12) is obj_3 at?\n[trr_0168] Standing at obj_7, facing obj_6 (12 o'clock), what clock hour (1-12) is obj_3 at?\n[trr_0169] Standing at obj_0, facing obj_1 (12 o'clock), what clock hour (1-12) is obj_4 at?\n[trr_0170] Standing at obj_0, facing obj_2 (12 o'clock), what clock hour (1-12) is obj_4 at?\n[trr_0171] Standing at obj_0, facing obj_3 (12 o'clock), what clock hour (1-12) is obj_4 at?\n[trr_0172] Standing at obj_0, facing obj_5 (12 o'clock), what clock hour (1-12) is obj_4 at?\n[trr_0173] Standing at obj_0, facing obj_6 (12 o'clock), what clock hour (1-12) is obj_4 at?\n[trr_0174] Standing at obj_0, facing obj_7 (12 o'clock), what clock hour (1-12) is obj_4 at?\n[trr_0175] Standing at obj_1, facing obj_0 (12 o'clock), what clock hour (1-12) is obj_4 at?\n[trr_0176] Standing at obj_1, facing obj_2 (12 o'clock), what clock hour (1-12) is obj_4 at?\n[trr_0177] Standing at obj_1, facing obj_3 (12 o'clock), what clock hour (1-12) is obj_4 at?\n[trr_0178] Standing at obj_1, facing obj_5 (12 o'clock), what clock hour (1-12) is obj_4 at?\n[trr_0179] Standing at obj_1, facing obj_6 (12 o'clock), what clock hour (1-12) is obj_4 at?\n[trr_0180] Standing at obj_1, facing obj_7 (12 o'clock), what clock hour (1-12) is obj_4 at?"
+        }
+      ]
+    }
+  ],
+  "raw_response": "[{\"qid\": \"trr_0161\", \"answer\": 1}, {\"qid\": \"trr_0162\", \"answer\": 10}, {\"qid\": \"trr_0163\", \"answer\": 4}, {\"qid\": \"trr_0164\", \"answer\": 7}, {\"qid\": \"trr_0165\", \"answer\": 8}, {\"qid\": \"trr_0166\", \"answer\": 6}, {\"qid\": \"trr_0167\", \"answer\": 7}, {\"qid\": \"trr_0168\", \"answer\": 11}, {\"qid\": \"trr_0169\", \"answer\": 11}, {\"qid\": \"trr_0170\", \"answer\": 10}, {\"qid\": \"trr_0171\", \"answer\": 5}, {\"qid\": \"trr_0172\", \"answer\": 4}, {\"qid\": \"trr_0173\", \"answer\": 7}, {\"qid\": \"trr_0174\", \"answer\": 7}, {\"qid\": \"trr_0175\", \"answer\": 2}, {\"qid\": \"trr_0176\", \"answer\": 5}, {\"qid\": \"trr_0177\", \"answer\": 10}, {\"qid\": \"trr_0178\", \"answer\": 3}, {\"qid\": \"trr_0179\", \"answer\": 10}, {\"qid\": \"trr_0180\", \"answer\": 8}]"
+}

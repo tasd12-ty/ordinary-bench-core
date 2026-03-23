@@ -1,0 +1,50 @@
+{
+  "scene_id": "n10_000082",
+  "batch_id": "fdr_0",
+  "question_type": "fdr",
+  "model": "claude-sonnet-4-6",
+  "n_views": 4,
+  "timestamp": 1773983154.775536,
+  "elapsed_seconds": 17.18,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance ranking questions.\n\nFor each question, given an anchor object, rank all other listed objects by their 3D distance\nfrom the anchor, from nearest to farthest. Answer with a JSON list of object IDs in order.\nIf two objects appear at very similar distances, give your best estimate — close pairs are scored with tolerance.\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a list of object ID strings).\n\nExample:\n[{\"qid\": \"fdr_0001\", \"answer\": [\"obj_2\", \"obj_1\", \"obj_3\"]}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n10_000082/view_0.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n10_000082/view_1.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n10_000082/view_2.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n10_000082/view_3.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: large gray metal sphere\n  - obj_1: small green metal sphere\n  - obj_2: large gray metal cube\n  - obj_3: large cyan rubber cube\n  - obj_4: small blue rubber sphere\n  - obj_5: small blue metal sphere\n  - obj_6: large purple metal cube\n  - obj_7: small yellow rubber sphere\n  - obj_8: small cyan rubber cube\n  - obj_9: small cyan metal sphere\n\nQuestions:\n[fdr_0001] Rank all other objects by distance from obj_0, nearest to farthest. Objects to rank: obj_1, obj_2, obj_3, obj_4, obj_5, obj_6, obj_7, obj_8, obj_9. Answer: ordered JSON list of object IDs.\n[fdr_0002] Rank all other objects by distance from obj_1, nearest to farthest. Objects to rank: obj_0, obj_2, obj_3, obj_4, obj_5, obj_6, obj_7, obj_8, obj_9. Answer: ordered JSON list of object IDs.\n[fdr_0003] Rank all other objects by distance from obj_2, nearest to farthest. Objects to rank: obj_0, obj_1, obj_3, obj_4, obj_5, obj_6, obj_7, obj_8, obj_9. Answer: ordered JSON list of object IDs.\n[fdr_0004] Rank all other objects by distance from obj_3, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2, obj_4, obj_5, obj_6, obj_7, obj_8, obj_9. Answer: ordered JSON list of object IDs.\n[fdr_0005] Rank all other objects by distance from obj_4, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2, obj_3, obj_5, obj_6, obj_7, obj_8, obj_9. Answer: ordered JSON list of object IDs.\n[fdr_0006] Rank all other objects by distance from obj_5, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2, obj_3, obj_4, obj_6, obj_7, obj_8, obj_9. Answer: ordered JSON list of object IDs.\n[fdr_0007] Rank all other objects by distance from obj_6, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2, obj_3, obj_4, obj_5, obj_7, obj_8, obj_9. Answer: ordered JSON list of object IDs.\n[fdr_0008] Rank all other objects by distance from obj_7, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2, obj_3, obj_4, obj_5, obj_6, obj_8, obj_9. Answer: ordered JSON list of object IDs.\n[fdr_0009] Rank all other objects by distance from obj_8, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2, obj_3, obj_4, obj_5, obj_6, obj_7, obj_9. Answer: ordered JSON list of object IDs.\n[fdr_0010] Rank all other objects by distance from obj_9, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2, obj_3, obj_4, obj_5, obj_6, obj_7, obj_8. Answer: ordered JSON list of object IDs."
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D positions of objects across multiple images showing the same scene from different angles.\n\nLet me carefully study each image to determine the spatial positions of all objects.\n\nFrom the images, I can identify the scene layout and estimate 3D coordinates for each object:\n\n- obj_0: large gray metal sphere - left-center area, elevated\n- obj_1: small green metal sphere - center area\n- obj_2: large gray metal cube - right side\n- obj_3: large cyan rubber cube - center-right, front area\n- obj_4: small blue rubber sphere - center-front area\n- obj_5: small blue metal sphere - right-back area\n- obj_6: large purple metal cube - back-right area\n- obj_7: small yellow rubber sphere - center-left area\n- obj_8: small cyan rubber cube - left-front area\n- obj_9: small cyan metal sphere - front-center area\n\nLet me estimate 3D coordinates (x, y, z) based on the multiple views:\n- obj_0: (-2, 1, 0) - gray sphere, left\n- obj_1: (0, 0.5, 0) - green sphere, center\n- obj_2: (2, 0.5, 0) - gray cube, right\n- obj_3: (1, 0.5, 1) - cyan cube, center-right front\n- obj_4: (0.5, 0.5, 2) - blue rubber sphere, front\n- obj_5: (1.5, 0.5, -1) - blue metal sphere, back-right\n- obj_6: (0.5, 0.5, -2) - purple cube, back\n- obj_7: (-0.5, 0.5, 1) - yellow sphere, center-left\n- obj_8: (-1.5, 0.5, 2) - cyan small cube, left-front\n- obj_9: (-0.5, 0.5, 3) - cyan metal sphere, front\n\nLet me compute distances for each question:\n\n[{\"qid\": \"fdr_0001\", \"answer\": [\"obj_1\", \"obj_7\", \"obj_5\", \"obj_2\", \"obj_6\", \"obj_8\", \"obj_3\", \"obj_4\", \"obj_9\"]},\n{\"qid\": \"fdr_0002\", \"answer\": [\"obj_7\", \"obj_1\", \"obj_2\", \"obj_3\", \"obj_0\", \"obj_4\", \"obj_5\", \"obj_8\", \"obj_9\"]},\n{\"qid\": \"fdr_0003\", \"answer\": [\"obj_1\", \"obj_5\", \"obj_6\", \"obj_0\", \"obj_7\", \"obj_4\", \"obj_3\", \"obj_8\", \"obj_9\"]},\n{\"qid\": \"fdr_0004\", \"answer\": [\"obj_7\", \"obj_1\", \"obj_4\", \"obj_2\", \"obj_0\", \"obj_5\", \"obj_8\", \"obj_6\", \"obj_9\"]},\n{\"qid\": \"fdr_0005\", \"answer\": [\"obj_9\", \"obj_7\", \"obj_1\", \"obj_8\", \"obj_3\", \"obj_2\", \"obj_0\", \"obj_5\", \"obj_6\"]},\n{\"qid\": \"fdr_0006\", \"answer\": [\"obj_2\", \"obj_1\", \"obj_5\", \"obj_6\", \"obj_0\", \"obj_3\", \"obj_7\", \"obj_4\", \"obj_8\"]},\n{\"qid\": \"fdr_0007\", \"answer\": [\"obj_5\", \"obj_1\", \"obj_6\", \"obj_2\", \"obj_0\", \"obj_7\", \"obj_3\", \"obj_4\", \"obj_8\"]},\n{\"qid\": \"fdr_0008\", \"answer\": [\"obj_7\", \"obj_8\", \"obj_1\", \"obj_4\", \"obj_3\", \"obj_9\", \"obj_0\", \"obj_2\", \"obj_5\"]},\n{\"qid\": \"fdr_0009\", \"answer\": [\"obj_7\", \"obj_4\", \"obj_1\", \"obj_0\", \"obj_3\", \"obj_9\", \"obj_2\", \"obj_5\", \"obj_6\"]},\n{\"qid\": \"fdr_0010\", \"answer\": [\"obj_4\", \"obj_8\", \"obj_7\", \"obj_1\", \"obj_3\", \"obj_0\", \"obj_2\", \"obj_5\", \"obj_6\"]}]"
+}

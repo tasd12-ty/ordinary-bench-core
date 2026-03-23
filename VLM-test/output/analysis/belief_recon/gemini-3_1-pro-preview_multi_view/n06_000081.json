@@ -1,0 +1,66 @@
+{
+  "feasible": false,
+  "status": "infeasible",
+  "positions": {},
+  "metrics": {
+    "csr_qrr": 0.0,
+    "csr_trr": 0.0,
+    "K_geom": 1,
+    "spread": 0.0,
+    "kendall_tau": null,
+    "nrms": null,
+    "best_loss": Infinity,
+    "n_solutions": 0,
+    "cluster_sizes": []
+  },
+  "K_geom": 0,
+  "n_solutions": 0,
+  "constraint_mode": "all",
+  "constraint_counts": {
+    "n_qrr_direct": 45,
+    "n_qrr_from_fdr": 60,
+    "n_trr": 120,
+    "n_qrr_used": 105,
+    "n_trr_used": 120
+  },
+  "feasibility_checks": {
+    "qrr_has_cycle": true,
+    "qrr_cycle_info": "cycle involving obj_0_obj_2 -> obj_1_obj_4",
+    "trr_n_conflicts": 0,
+    "hypergraph_connected": true,
+    "n_components": 1,
+    "n_qrr": 105,
+    "n_trr": 120,
+    "n_objects": 6
+  },
+  "scene_id": "n06_000081",
+  "n_objects": 6,
+  "model": "gemini-3.1-pro-preview",
+  "use_correct_only": false,
+  "prepared_summary": {
+    "n_objects": 6,
+    "n_questions": 171,
+    "n_qrr_direct": 45,
+    "n_qrr_direct_disjoint": 45,
+    "n_qrr_direct_shared_anchor": 0,
+    "n_trr": 120,
+    "n_fdr": 6,
+    "n_qrr_from_fdr": 60,
+    "n_qrr_total": 105,
+    "n_selected_questions": 171,
+    "n_skipped_questions": 0
+  },
+  "prepared_integrity": {
+    "n_questions": 171,
+    "n_scored_rows": 171,
+    "duplicate_question_ids": [],
+    "duplicate_score_qids": [],
+    "missing_score_qids": [],
+    "extra_score_qids": [],
+    "skip_reason_counts": {},
+    "question_layout": "split",
+    "question_layout_warning": "flat/split mismatch for n06_000081: flat=165 split=171",
+    "alternate_flat_path": "/Users/tsyq/code/ordinary-bench-core/VLM-test/output/questions/n06_000081.json",
+    "alternate_flat_question_count": 165
+  }
+}

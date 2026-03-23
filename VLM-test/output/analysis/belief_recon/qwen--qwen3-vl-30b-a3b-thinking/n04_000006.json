@@ -1,0 +1,92 @@
+{
+  "feasible": false,
+  "status": "infeasible",
+  "positions": {
+    "obj_0": [
+      0.0,
+      0.0
+    ],
+    "obj_1": [
+      1.0,
+      0.0
+    ],
+    "obj_2": [
+      -0.7070796504581056,
+      0.707071952098757
+    ],
+    "obj_3": [
+      -0.7070905764896648,
+      1.7070720514605628
+    ]
+  },
+  "metrics": {
+    "csr_qrr": 1.0,
+    "csr_trr": 0.0,
+    "K_geom": 1,
+    "spread": 4.664430990918198e-07,
+    "kendall_tau": 0.6,
+    "nrms": 0.1160216804640896,
+    "best_loss": 27.456676638735402,
+    "n_solutions": 10,
+    "cluster_sizes": [
+      10
+    ]
+  },
+  "K_geom": 1,
+  "n_solutions": 10,
+  "constraint_mode": "all",
+  "constraint_counts": {
+    "n_qrr_direct": 3,
+    "n_qrr_from_fdr": 0,
+    "n_trr": 24,
+    "n_qrr_used": 3,
+    "n_trr_used": 24
+  },
+  "feasibility_checks": {
+    "qrr_has_cycle": false,
+    "qrr_cycle_info": null,
+    "trr_n_conflicts": 0,
+    "hypergraph_connected": true,
+    "n_components": 1,
+    "n_qrr": 3,
+    "n_trr": 24,
+    "n_objects": 4
+  },
+  "scene_id": "n04_000006",
+  "n_objects": 4,
+  "model": "qwen/qwen3-vl-30b-a3b-thinking",
+  "use_correct_only": false,
+  "prepared_summary": {
+    "n_objects": 4,
+    "n_questions": 31,
+    "n_qrr_direct": 3,
+    "n_qrr_direct_disjoint": 3,
+    "n_qrr_direct_shared_anchor": 0,
+    "n_trr": 24,
+    "n_fdr": 0,
+    "n_qrr_from_fdr": 0,
+    "n_qrr_total": 3,
+    "n_selected_questions": 27,
+    "n_skipped_questions": 4
+  },
+  "prepared_integrity": {
+    "n_questions": 31,
+    "n_scored_rows": 27,
+    "duplicate_question_ids": [],
+    "duplicate_score_qids": [],
+    "missing_score_qids": [
+      "fdr_0001",
+      "fdr_0002",
+      "fdr_0003",
+      "fdr_0004"
+    ],
+    "extra_score_qids": [],
+    "skip_reason_counts": {
+      "missing_score": 4
+    },
+    "question_layout": "split",
+    "question_layout_warning": "flat/split mismatch for n04_000006: flat=27 split=31",
+    "alternate_flat_path": "/Users/tsyq/code/ordinary-bench-core/VLM-test/output/questions/n04_000006.json",
+    "alternate_flat_question_count": 27
+  }
+}

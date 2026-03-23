@@ -1,0 +1,31 @@
+{
+  "scene_id": "n04_000094",
+  "batch_id": "qrr_0",
+  "question_type": "qrr",
+  "model": "claude-sonnet-4-6",
+  "timestamp": 1773987135.1758614,
+  "elapsed_seconds": 7.8,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: small red metal cube\n  - obj_1: large purple rubber cylinder\n  - obj_2: small green metal sphere\n  - obj_3: small gray metal cube\n\nQuestions:\n[qrr_0001] Compare the distance between obj_0 and obj_1 vs the distance between obj_2 and obj_3. Answer: < / ~= / >\n[qrr_0002] Compare the distance between obj_0 and obj_2 vs the distance between obj_1 and obj_3. Answer: < / ~= / >"
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/single_view/n04_000094.png"
+          }
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D positions of objects in the scene to compare distances.\n\nFrom the image, I can estimate the positions:\n- obj_0 (red metal cube): back-left area\n- obj_1 (large purple rubber cylinder): front-right area\n- obj_2 (small green metal sphere): front-center area\n- obj_3 (small gray metal cube): middle-right area\n\n**Question qrr_0001:** Distance between obj_0 (red cube) and obj_1 (purple cylinder) vs distance between obj_2 (green sphere) and obj_3 (gray cube).\n\nobj_0 is at the back-left, obj_1 is at the front-right - they are quite far apart.\nobj_2 is at the front-center, obj_3 is at the middle-right - they appear moderately close.\n\nThe distance between obj_0 and obj_1 seems greater than the distance between obj_2 and obj_3.\n\nAnswer: >\n\n**Question qrr_0002:** Distance between obj_0 (red cube) and obj_2 (green sphere) vs distance between obj_1 (purple cylinder) and obj_3 (gray cube).\n\nobj_0 is at back-left, obj_2 is at front-center - fairly far apart.\nobj_1 is at front-right, obj_3 is at middle-right - they appear relatively close to each other.\n\nThe distance between obj_0 and obj_2 seems greater than the distance between obj_1 and obj_3.\n\nAnswer: >\n\n[{\"qid\": \"qrr_0001\", \"answer\": \">\"}, {\"qid\": \"qrr_0002\", \"answer\": \">\"}]"
+}

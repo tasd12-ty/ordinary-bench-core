@@ -1,0 +1,31 @@
+{
+  "scene_id": "n04_000085",
+  "batch_id": "qrr_0",
+  "question_type": "qrr",
+  "model": "claude-sonnet-4-6",
+  "timestamp": 1773987004.0753424,
+  "elapsed_seconds": 9.12,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: large red metal sphere\n  - obj_1: small gray metal sphere\n  - obj_2: large brown rubber cube\n  - obj_3: large green rubber sphere\n\nQuestions:\n[qrr_0001] Compare the distance between obj_0 and obj_1 vs the distance between obj_2 and obj_3. Answer: < / ~= / >\n[qrr_0002] Compare the distance between obj_0 and obj_2 vs the distance between obj_1 and obj_3. Answer: < / ~= / >\n[qrr_0003] Compare the distance between obj_0 and obj_3 vs the distance between obj_1 and obj_2. Answer: < / ~= / >"
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/single_view/n04_000085.png"
+          }
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D positions of the objects and compare distances.\n\nFrom the image, let me estimate the positions:\n- obj_0 (red metal sphere): back-center area\n- obj_1 (gray metal sphere): left side, middle depth\n- obj_2 (brown rubber cube): front-center area\n- obj_3 (green rubber sphere): right side, middle depth\n\nLet me estimate coordinates:\n- obj_0 (red): (~0, 0, -2) roughly\n- obj_1 (gray): (-2, 0, 0)\n- obj_2 (brown cube): (0, 0, 2)\n- obj_3 (green): (1.5, 0, 0.5)\n\nDistance obj_0 to obj_1: sqrt(4+0+4) ≈ 2.8\nDistance obj_2 to obj_3: sqrt(2.25+0+2.25) ≈ 2.1\n\nqrr_0001: obj_0-obj_1 vs obj_2-obj_3: > \n\nDistance obj_0 to obj_2: sqrt(0+0+16) ≈ 4\nDistance obj_1 to obj_3: sqrt(12.25+0+0.25) ≈ 3.5\n\nqrr_0002: obj_0-obj_2 vs obj_1-obj_3: >\n\nDistance obj_0 to obj_3: sqrt(2.25+0+6.25) ≈ 2.9\nDistance obj_1 to obj_2: sqrt(4+0+4) ≈ 2.8\n\nqrr_0003: obj_0-obj_3 vs obj_1-obj_2: ~=\n\n[{\"qid\": \"qrr_0001\", \"answer\": \">\"}, {\"qid\": \"qrr_0002\", \"answer\": \">\"}, {\"qid\": \"qrr_0003\", \"answer\": \"~=\"}]"
+}

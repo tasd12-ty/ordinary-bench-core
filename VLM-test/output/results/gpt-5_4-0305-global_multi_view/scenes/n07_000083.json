@@ -1,0 +1,1087 @@
+{
+  "scene_id": "n07_000083",
+  "model": "gpt-5.4-0305-global",
+  "n_views": 4,
+  "n_objects": 7,
+  "n_batches": 6,
+  "total_questions": 106,
+  "scores": {
+    "qrr_correct": 62,
+    "qrr_total": 99,
+    "qrr_disjoint_correct": 62,
+    "qrr_disjoint_total": 99,
+    "qrr_shared_anchor_correct": 0,
+    "qrr_shared_anchor_total": 0,
+    "trr_hour_correct": 0,
+    "trr_quadrant_correct": 0,
+    "trr_adjacent_correct": 0,
+    "trr_total": 0,
+    "fdr_exact_correct": 4,
+    "fdr_total": 7,
+    "fdr_kendall_mean": 0.8289,
+    "fdr_pairwise_mean": 0.9238,
+    "fdr_top1_mean": 0.5714,
+    "missing": 0,
+    "per_question": [
+      {
+        "qid": "qrr_0001",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0002",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0003",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "~=",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0004",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0005",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0006",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0007",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0008",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0009",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0010",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0011",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0012",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0013",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0014",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0015",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0016",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0017",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "~=",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0018",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "~=",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0019",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0020",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "~=",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0021",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0022",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0023",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0024",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0025",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0026",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0027",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0028",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0029",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0030",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0031",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0032",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0033",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0034",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0035",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0036",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0037",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0038",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0039",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0040",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0041",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0042",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0043",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0044",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "~=",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0045",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0046",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0047",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0048",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0049",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0050",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0051",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0052",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0053",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0054",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0055",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "~=",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0056",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0057",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0058",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0059",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "~=",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0060",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0061",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0062",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0063",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0064",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0065",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0066",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0067",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0068",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0069",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0070",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "~=",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0071",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0072",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0073",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0074",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0075",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0076",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0077",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0078",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0079",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0080",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0081",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0082",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0083",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0084",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0085",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0086",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0087",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0088",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0089",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0090",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0091",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0092",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0093",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0094",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0095",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0096",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "~=",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0097",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0098",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0099",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "fdr_0001",
+        "type": "fdr",
+        "predicted": [
+          "obj_6",
+          "obj_3",
+          "obj_1",
+          "obj_5",
+          "obj_2",
+          "obj_4"
+        ],
+        "gt_ranking": [
+          "obj_6",
+          "obj_3",
+          "obj_1",
+          "obj_4",
+          "obj_5",
+          "obj_2"
+        ],
+        "exact_correct": true,
+        "kendall_tau": 1.0,
+        "pairwise_accuracy": 1.0,
+        "top1_correct": true
+      },
+      {
+        "qid": "fdr_0002",
+        "type": "fdr",
+        "predicted": [
+          "obj_3",
+          "obj_5",
+          "obj_6",
+          "obj_2",
+          "obj_4",
+          "obj_0"
+        ],
+        "gt_ranking": [
+          "obj_5",
+          "obj_3",
+          "obj_6",
+          "obj_2",
+          "obj_0",
+          "obj_4"
+        ],
+        "exact_correct": false,
+        "kendall_tau": 0.6923,
+        "pairwise_accuracy": 0.8667,
+        "top1_correct": false
+      },
+      {
+        "qid": "fdr_0003",
+        "type": "fdr",
+        "predicted": [
+          "obj_4",
+          "obj_3",
+          "obj_1",
+          "obj_5",
+          "obj_6",
+          "obj_0"
+        ],
+        "gt_ranking": [
+          "obj_4",
+          "obj_3",
+          "obj_1",
+          "obj_5",
+          "obj_0",
+          "obj_6"
+        ],
+        "exact_correct": true,
+        "kendall_tau": 1.0,
+        "pairwise_accuracy": 1.0,
+        "top1_correct": true
+      },
+      {
+        "qid": "fdr_0004",
+        "type": "fdr",
+        "predicted": [
+          "obj_1",
+          "obj_2",
+          "obj_6",
+          "obj_5",
+          "obj_4",
+          "obj_0"
+        ],
+        "gt_ranking": [
+          "obj_2",
+          "obj_1",
+          "obj_4",
+          "obj_5",
+          "obj_6",
+          "obj_0"
+        ],
+        "exact_correct": false,
+        "kendall_tau": 0.5385,
+        "pairwise_accuracy": 0.8,
+        "top1_correct": false
+      },
+      {
+        "qid": "fdr_0005",
+        "type": "fdr",
+        "predicted": [
+          "obj_2",
+          "obj_3",
+          "obj_1",
+          "obj_5",
+          "obj_6",
+          "obj_0"
+        ],
+        "gt_ranking": [
+          "obj_2",
+          "obj_3",
+          "obj_1",
+          "obj_0",
+          "obj_5",
+          "obj_6"
+        ],
+        "exact_correct": true,
+        "kendall_tau": 1.0,
+        "pairwise_accuracy": 1.0,
+        "top1_correct": true
+      },
+      {
+        "qid": "fdr_0006",
+        "type": "fdr",
+        "predicted": [
+          "obj_1",
+          "obj_3",
+          "obj_6",
+          "obj_2",
+          "obj_0",
+          "obj_4"
+        ],
+        "gt_ranking": [
+          "obj_1",
+          "obj_6",
+          "obj_3",
+          "obj_2",
+          "obj_0",
+          "obj_4"
+        ],
+        "exact_correct": true,
+        "kendall_tau": 1.0,
+        "pairwise_accuracy": 1.0,
+        "top1_correct": true
+      },
+      {
+        "qid": "fdr_0007",
+        "type": "fdr",
+        "predicted": [
+          "obj_3",
+          "obj_1",
+          "obj_5",
+          "obj_0",
+          "obj_2",
+          "obj_4"
+        ],
+        "gt_ranking": [
+          "obj_1",
+          "obj_5",
+          "obj_0",
+          "obj_3",
+          "obj_2",
+          "obj_4"
+        ],
+        "exact_correct": false,
+        "kendall_tau": 0.5714,
+        "pairwise_accuracy": 0.8,
+        "top1_correct": false
+      }
+    ]
+  }
+}

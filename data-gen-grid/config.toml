@@ -1,0 +1,49 @@
+# ordinary-bench grid data generation configuration
+
+[blender]
+executable = "/mnt/d/tools/blender/blender.exe"
+use_gpu = true
+
+[rendering]
+width = 480
+height = 480              # 正方形，更适合网格布局
+samples = 256
+n_views = 4
+camera_distance = 12.0
+elevation = 30.0
+azimuth_start = 45.0
+render_top_view = true
+top_view_padding = 0.5
+
+[grid]
+rows = 4
+cols = 4
+cell_size = 1.5           # 每格 1.5 BU
+line_width = 0.02         # 网格线宽度
+labels = false            # 是否渲染标签 (A1-D4)
+
+[objects]
+min_count = 3
+max_count = 8             # 最多 8 个（16 格中选 8）
+min_dist = 0.25
+margin = 0.4
+
+[output]
+dir = "./output"
+seed = 42
+
+# 按物体数量分 split
+[splits.g04]
+n_scenes = 10
+min_objects = 4
+max_objects = 4
+
+[splits.g06]
+n_scenes = 10
+min_objects = 6
+max_objects = 6
+
+[splits.g08]
+n_scenes = 10
+min_objects = 8
+max_objects = 8

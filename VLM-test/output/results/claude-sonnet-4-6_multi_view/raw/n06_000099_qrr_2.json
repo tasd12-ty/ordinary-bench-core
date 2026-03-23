@@ -1,0 +1,50 @@
+{
+  "scene_id": "n06_000099",
+  "batch_id": "qrr_2",
+  "question_type": "qrr",
+  "model": "claude-sonnet-4-6",
+  "n_views": 4,
+  "timestamp": 1773975282.1808958,
+  "elapsed_seconds": 14.12,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n06_000099/view_0.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n06_000099/view_1.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n06_000099/view_2.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n06_000099/view_3.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: small red rubber sphere\n  - obj_1: small blue rubber cylinder\n  - obj_2: large red metal cylinder\n  - obj_3: large green metal sphere\n  - obj_4: large yellow metal sphere\n  - obj_5: large gray rubber sphere\n\nQuestions:\n[qrr_0041] Compare the distance between obj_2 and obj_5 vs the distance between obj_3 and obj_4. Answer: < / ~= / >"
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to compare distances between objects across 4 different scene images. Let me analyze each scene carefully.\n\nLooking at the four scenes, I need to identify the objects and their positions:\n\n**Scene 1 (top-left):** Red cylinder (back-left), red rubber ball (front), gray rubber ball (behind), blue cylinder (behind-right), green metal ball (front-right), yellow metal ball (right)\n\n**Scene 2 (top-right):** Red rubber ball (left), red metal cylinder (behind), green metal ball (front-left), yellow metal ball (front), blue cylinder (right), gray rubber ball (right)\n\n**Scene 3 (bottom-left):** Yellow metal ball (left), green metal ball (behind), blue cylinder (front), gray rubber ball (front), red rubber ball (behind-right), red metal cylinder (right)\n\n**Scene 4 (bottom-right):** Gray rubber ball (left), blue cylinder, yellow metal ball (behind), red metal cylinder (front), green metal ball (right), red rubber ball (right)\n\nFor question qrr_0041, I need to compare:\n- Distance between obj_2 (large red metal cylinder) and obj_5 (large gray rubber sphere)\n- Distance between obj_3 (large green metal sphere) and obj_4 (large yellow metal sphere)\n\nLooking at Scene 4 (bottom-right) which has gray ball, blue cylinder, yellow ball (behind), red cylinder (front), green ball, red ball:\n\n- obj_2 = red metal cylinder (front), obj_5 = gray rubber sphere (left side)\n- obj_3 = green metal sphere (right), obj_4 = yellow metal sphere (behind)\n\nThe red cylinder is in the front, and the gray ball is on the left - they appear to be at a moderate distance apart.\n\nThe green metal ball and yellow metal ball appear to be fairly far apart (yellow is behind, green is to the right).\n\nThese distances look comparable, but the green-yellow distance seems slightly larger.\n\nActually, re-examining: the red cylinder is in front-center and gray ball is left-center - moderate distance. The yellow ball is far behind and green ball is to the right - also moderate to large distance.\n\nThe distances seem roughly comparable.\n\n[{\"qid\": \"qrr_0041\", \"answer\": \"<\"}]"
+}

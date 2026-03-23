@@ -1,0 +1,995 @@
+{
+  "scene_id": "n06_000000",
+  "image_path": "images/single_view/n06_000000.png",
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "large cyan metal cylinder"
+    },
+    {
+      "id": "obj_1",
+      "desc": "large red metal cube"
+    },
+    {
+      "id": "obj_2",
+      "desc": "small red metal cylinder"
+    },
+    {
+      "id": "obj_3",
+      "desc": "large green metal cube"
+    },
+    {
+      "id": "obj_4",
+      "desc": "small yellow rubber sphere"
+    },
+    {
+      "id": "obj_5",
+      "desc": "large green rubber cylinder"
+    }
+  ],
+  "n_objects": 6,
+  "tau": 0.1,
+  "question_type": "trr",
+  "ground_truth": [
+    {
+      "target": "obj_0",
+      "ref1": "obj_1",
+      "ref2": "obj_2",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 35.5055934072765
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_1",
+      "ref2": "obj_3",
+      "hour": 2,
+      "quadrant": 1,
+      "angle_deg": 63.369392209275055
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_1",
+      "ref2": "obj_4",
+      "hour": 3,
+      "quadrant": 2,
+      "angle_deg": 87.24185991369917
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_1",
+      "ref2": "obj_5",
+      "hour": 7,
+      "quadrant": 3,
+      "angle_deg": 197.8719134321472
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_2",
+      "ref2": "obj_1",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 327.7693110067786
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_2",
+      "ref2": "obj_3",
+      "hour": 8,
+      "quadrant": 3,
+      "angle_deg": 234.47322954159313
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_2",
+      "ref2": "obj_4",
+      "hour": 9,
+      "quadrant": 4,
+      "angle_deg": 269.9612238816467
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_2",
+      "ref2": "obj_5",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 324.5185529126962
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_3",
+      "ref2": "obj_1",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 330.4409254544667
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_3",
+      "ref2": "obj_2",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 29.281045187282587
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_3",
+      "ref2": "obj_4",
+      "hour": 9,
+      "quadrant": 4,
+      "angle_deg": 283.99084886680004
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_3",
+      "ref2": "obj_5",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 323.4442844865712
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_4",
+      "ref2": "obj_1",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 326.5183106472787
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_4",
+      "ref2": "obj_2",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 36.97395701572414
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_4",
+      "ref2": "obj_3",
+      "hour": 3,
+      "quadrant": 2,
+      "angle_deg": 76.19576635518796
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_4",
+      "ref2": "obj_5",
+      "hour": 10,
+      "quadrant": 4,
+      "angle_deg": 314.2009514786054
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_5",
+      "ref2": "obj_1",
+      "hour": 12,
+      "quadrant": 1,
+      "angle_deg": 12.82673537288077
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_5",
+      "ref2": "obj_2",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 27.209657253927666
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_5",
+      "ref2": "obj_3",
+      "hour": 2,
+      "quadrant": 1,
+      "angle_deg": 51.327573182113134
+    },
+    {
+      "target": "obj_0",
+      "ref1": "obj_5",
+      "ref2": "obj_4",
+      "hour": 2,
+      "quadrant": 1,
+      "angle_deg": 69.87932268575943
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_0",
+      "ref2": "obj_2",
+      "hour": 8,
+      "quadrant": 3,
+      "angle_deg": 247.73628240049788
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_0",
+      "ref2": "obj_3",
+      "hour": 9,
+      "quadrant": 4,
+      "angle_deg": 272.92846675480837
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_0",
+      "ref2": "obj_4",
+      "hour": 10,
+      "quadrant": 4,
+      "angle_deg": 300.72354926642043
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_0",
+      "ref2": "obj_5",
+      "hour": 12,
+      "quadrant": 1,
+      "angle_deg": 5.045178059266426
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_2",
+      "ref2": "obj_0",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 32.230688993221406
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_2",
+      "ref2": "obj_3",
+      "hour": 9,
+      "quadrant": 4,
+      "angle_deg": 266.70391853481453
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_2",
+      "ref2": "obj_4",
+      "hour": 10,
+      "quadrant": 4,
+      "angle_deg": 302.1919128748681
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_2",
+      "ref2": "obj_5",
+      "hour": 12,
+      "quadrant": 1,
+      "angle_deg": 356.7492419059176
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_3",
+      "ref2": "obj_0",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 29.559074545533313
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_3",
+      "ref2": "obj_2",
+      "hour": 2,
+      "quadrant": 1,
+      "angle_deg": 58.84011973281599
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_3",
+      "ref2": "obj_4",
+      "hour": 10,
+      "quadrant": 4,
+      "angle_deg": 313.5499234123333
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_3",
+      "ref2": "obj_5",
+      "hour": 12,
+      "quadrant": 1,
+      "angle_deg": 353.0033590321045
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_4",
+      "ref2": "obj_0",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 33.481689352721276
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_4",
+      "ref2": "obj_2",
+      "hour": 2,
+      "quadrant": 1,
+      "angle_deg": 70.4556463684454
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_4",
+      "ref2": "obj_3",
+      "hour": 4,
+      "quadrant": 2,
+      "angle_deg": 109.67745570790922
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_4",
+      "ref2": "obj_5",
+      "hour": 12,
+      "quadrant": 1,
+      "angle_deg": 347.6826408313267
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_5",
+      "ref2": "obj_0",
+      "hour": 12,
+      "quadrant": 1,
+      "angle_deg": 347.17326462711924
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_5",
+      "ref2": "obj_2",
+      "hour": 12,
+      "quadrant": 1,
+      "angle_deg": 14.382921881046897
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_5",
+      "ref2": "obj_3",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 38.500837809232365
+    },
+    {
+      "target": "obj_1",
+      "ref1": "obj_5",
+      "ref2": "obj_4",
+      "hour": 2,
+      "quadrant": 1,
+      "angle_deg": 57.05258731287866
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_0",
+      "ref2": "obj_1",
+      "hour": 4,
+      "quadrant": 2,
+      "angle_deg": 112.2637175995021
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_0",
+      "ref2": "obj_3",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 25.19218435431044
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_0",
+      "ref2": "obj_4",
+      "hour": 2,
+      "quadrant": 1,
+      "angle_deg": 52.98726686592255
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_0",
+      "ref2": "obj_5",
+      "hour": 4,
+      "quadrant": 2,
+      "angle_deg": 117.30889565876853
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_1",
+      "ref2": "obj_0",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 324.4944065927235
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_1",
+      "ref2": "obj_3",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 27.863798801998556
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_1",
+      "ref2": "obj_4",
+      "hour": 2,
+      "quadrant": 1,
+      "angle_deg": 51.73626650642268
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_1",
+      "ref2": "obj_5",
+      "hour": 5,
+      "quadrant": 2,
+      "angle_deg": 162.3663200248707
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_3",
+      "ref2": "obj_0",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 330.7189548127174
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_3",
+      "ref2": "obj_1",
+      "hour": 10,
+      "quadrant": 4,
+      "angle_deg": 301.159880267184
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_3",
+      "ref2": "obj_4",
+      "hour": 8,
+      "quadrant": 3,
+      "angle_deg": 254.70980367951742
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_3",
+      "ref2": "obj_5",
+      "hour": 10,
+      "quadrant": 4,
+      "angle_deg": 294.1632392992886
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_4",
+      "ref2": "obj_0",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 323.0260429842759
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_4",
+      "ref2": "obj_1",
+      "hour": 10,
+      "quadrant": 4,
+      "angle_deg": 289.5443536315546
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_4",
+      "ref2": "obj_3",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 39.22180933946381
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_4",
+      "ref2": "obj_5",
+      "hour": 9,
+      "quadrant": 4,
+      "angle_deg": 277.2269944628813
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_5",
+      "ref2": "obj_0",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 332.7903427460723
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_5",
+      "ref2": "obj_1",
+      "hour": 12,
+      "quadrant": 1,
+      "angle_deg": 345.6170781189531
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_5",
+      "ref2": "obj_3",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 24.117915928185464
+    },
+    {
+      "target": "obj_2",
+      "ref1": "obj_5",
+      "ref2": "obj_4",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 42.66966543183176
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_0",
+      "ref2": "obj_1",
+      "hour": 3,
+      "quadrant": 2,
+      "angle_deg": 87.07153324519166
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_0",
+      "ref2": "obj_2",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 334.8078156456896
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_0",
+      "ref2": "obj_4",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 27.795082511612108
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_0",
+      "ref2": "obj_5",
+      "hour": 3,
+      "quadrant": 2,
+      "angle_deg": 92.11671130445808
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_1",
+      "ref2": "obj_0",
+      "hour": 10,
+      "quadrant": 4,
+      "angle_deg": 296.6306077907249
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_1",
+      "ref2": "obj_2",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 332.13620119800146
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_1",
+      "ref2": "obj_4",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 23.872467704424125
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_1",
+      "ref2": "obj_5",
+      "hour": 4,
+      "quadrant": 2,
+      "angle_deg": 134.50252122287216
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_2",
+      "ref2": "obj_0",
+      "hour": 4,
+      "quadrant": 2,
+      "angle_deg": 125.52677045840689
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_2",
+      "ref2": "obj_1",
+      "hour": 3,
+      "quadrant": 2,
+      "angle_deg": 93.29608146518548
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_2",
+      "ref2": "obj_4",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 35.487994340053575
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_2",
+      "ref2": "obj_5",
+      "hour": 3,
+      "quadrant": 2,
+      "angle_deg": 90.04532337110308
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_4",
+      "ref2": "obj_0",
+      "hour": 9,
+      "quadrant": 4,
+      "angle_deg": 283.80423364481203
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_4",
+      "ref2": "obj_1",
+      "hour": 8,
+      "quadrant": 3,
+      "angle_deg": 250.32254429209078
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_4",
+      "ref2": "obj_2",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 320.7781906605362
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_4",
+      "ref2": "obj_5",
+      "hour": 8,
+      "quadrant": 3,
+      "angle_deg": 238.00518512341745
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_5",
+      "ref2": "obj_0",
+      "hour": 10,
+      "quadrant": 4,
+      "angle_deg": 308.67242681788684
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_5",
+      "ref2": "obj_1",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 321.4991621907676
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_5",
+      "ref2": "obj_2",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 335.8820840718145
+    },
+    {
+      "target": "obj_3",
+      "ref1": "obj_5",
+      "ref2": "obj_4",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 18.551749503646295
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_0",
+      "ref2": "obj_1",
+      "hour": 2,
+      "quadrant": 1,
+      "angle_deg": 59.27645073357955
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_0",
+      "ref2": "obj_2",
+      "hour": 10,
+      "quadrant": 4,
+      "angle_deg": 307.01273313407745
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_0",
+      "ref2": "obj_3",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 332.2049174883879
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_0",
+      "ref2": "obj_5",
+      "hour": 2,
+      "quadrant": 1,
+      "angle_deg": 64.32162879284598
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_1",
+      "ref2": "obj_0",
+      "hour": 9,
+      "quadrant": 4,
+      "angle_deg": 272.75814008630084
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_1",
+      "ref2": "obj_2",
+      "hour": 10,
+      "quadrant": 4,
+      "angle_deg": 308.2637334935773
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_1",
+      "ref2": "obj_3",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 336.12753229557586
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_1",
+      "ref2": "obj_5",
+      "hour": 4,
+      "quadrant": 2,
+      "angle_deg": 110.63005351844802
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_2",
+      "ref2": "obj_0",
+      "hour": 3,
+      "quadrant": 2,
+      "angle_deg": 90.03877611835331
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_2",
+      "ref2": "obj_1",
+      "hour": 2,
+      "quadrant": 1,
+      "angle_deg": 57.80808712513191
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_2",
+      "ref2": "obj_3",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 324.51200565994645
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_2",
+      "ref2": "obj_5",
+      "hour": 2,
+      "quadrant": 1,
+      "angle_deg": 54.557329031049505
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_3",
+      "ref2": "obj_0",
+      "hour": 3,
+      "quadrant": 2,
+      "angle_deg": 76.00915113319996
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_3",
+      "ref2": "obj_1",
+      "hour": 2,
+      "quadrant": 1,
+      "angle_deg": 46.45007658766664
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_3",
+      "ref2": "obj_2",
+      "hour": 4,
+      "quadrant": 2,
+      "angle_deg": 105.29019632048258
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_3",
+      "ref2": "obj_5",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 39.45343561977116
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_5",
+      "ref2": "obj_0",
+      "hour": 10,
+      "quadrant": 4,
+      "angle_deg": 290.12067731424054
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_5",
+      "ref2": "obj_1",
+      "hour": 10,
+      "quadrant": 4,
+      "angle_deg": 302.94741268712136
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_5",
+      "ref2": "obj_2",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 317.33033456816827
+    },
+    {
+      "target": "obj_4",
+      "ref1": "obj_5",
+      "ref2": "obj_3",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 341.4482504963537
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_0",
+      "ref2": "obj_1",
+      "hour": 12,
+      "quadrant": 1,
+      "angle_deg": 354.95482194073355
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_0",
+      "ref2": "obj_2",
+      "hour": 8,
+      "quadrant": 3,
+      "angle_deg": 242.69110434123147
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_0",
+      "ref2": "obj_3",
+      "hour": 9,
+      "quadrant": 4,
+      "angle_deg": 267.8832886955419
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_0",
+      "ref2": "obj_4",
+      "hour": 10,
+      "quadrant": 4,
+      "angle_deg": 295.678371207154
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_1",
+      "ref2": "obj_0",
+      "hour": 5,
+      "quadrant": 2,
+      "angle_deg": 162.1280865678528
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_1",
+      "ref2": "obj_2",
+      "hour": 7,
+      "quadrant": 3,
+      "angle_deg": 197.6336799751293
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_1",
+      "ref2": "obj_3",
+      "hour": 8,
+      "quadrant": 3,
+      "angle_deg": 225.49747877712784
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_1",
+      "ref2": "obj_4",
+      "hour": 8,
+      "quadrant": 3,
+      "angle_deg": 249.36994648155198
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_2",
+      "ref2": "obj_0",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 35.48144708730381
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_2",
+      "ref2": "obj_1",
+      "hour": 12,
+      "quadrant": 1,
+      "angle_deg": 3.2507580940824066
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_2",
+      "ref2": "obj_3",
+      "hour": 9,
+      "quadrant": 4,
+      "angle_deg": 269.9546766288969
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_2",
+      "ref2": "obj_4",
+      "hour": 10,
+      "quadrant": 4,
+      "angle_deg": 305.4426709689505
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_3",
+      "ref2": "obj_0",
+      "hour": 1,
+      "quadrant": 1,
+      "angle_deg": 36.555715513428794
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_3",
+      "ref2": "obj_1",
+      "hour": 12,
+      "quadrant": 1,
+      "angle_deg": 6.996640967895479
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_3",
+      "ref2": "obj_2",
+      "hour": 2,
+      "quadrant": 1,
+      "angle_deg": 65.83676070071141
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_3",
+      "ref2": "obj_4",
+      "hour": 11,
+      "quadrant": 4,
+      "angle_deg": 320.54656438022886
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_4",
+      "ref2": "obj_0",
+      "hour": 2,
+      "quadrant": 1,
+      "angle_deg": 45.79904852139458
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_4",
+      "ref2": "obj_1",
+      "hour": 12,
+      "quadrant": 1,
+      "angle_deg": 12.317359168673326
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_4",
+      "ref2": "obj_2",
+      "hour": 3,
+      "quadrant": 2,
+      "angle_deg": 82.7730055371187
+    },
+    {
+      "target": "obj_5",
+      "ref1": "obj_4",
+      "ref2": "obj_3",
+      "hour": 4,
+      "quadrant": 2,
+      "angle_deg": 121.99481487658255
+    }
+  ]
+}

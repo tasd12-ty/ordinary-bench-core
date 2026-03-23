@@ -1,0 +1,96 @@
+{
+  "feasible": false,
+  "status": "infeasible",
+  "positions": {
+    "obj_0": [
+      0.0,
+      0.0
+    ],
+    "obj_3": [
+      1.0,
+      0.0
+    ],
+    "obj_1": [
+      -7.5651879953024,
+      -11.377936664877886
+    ],
+    "obj_2": [
+      -9.361992995101563,
+      -5.504430827078616
+    ],
+    "obj_4": [
+      -7.519151808249635,
+      -11.572566237717739
+    ]
+  },
+  "metrics": {
+    "csr_qrr": 0.5714285714285714,
+    "csr_trr": 0.11666666666666667,
+    "K_geom": 8,
+    "spread": 7.159625461319576,
+    "kendall_tau": 0.37777777777777777,
+    "nrms": 0.5315108802133532,
+    "best_loss": 395.68111429071774,
+    "n_solutions": 10,
+    "cluster_sizes": [
+      3,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "K_geom": 8,
+  "n_solutions": 10,
+  "constraint_mode": "all",
+  "constraint_counts": {
+    "n_qrr_direct": 12,
+    "n_qrr_from_fdr": 30,
+    "n_trr": 60,
+    "n_qrr_used": 42,
+    "n_trr_used": 60
+  },
+  "feasibility_checks": {
+    "qrr_has_cycle": false,
+    "qrr_cycle_info": null,
+    "trr_n_conflicts": 0,
+    "hypergraph_connected": true,
+    "n_components": 1,
+    "n_qrr": 42,
+    "n_trr": 60,
+    "n_objects": 5
+  },
+  "scene_id": "n05_000083",
+  "n_objects": 5,
+  "model": "doubao-seed-2.0-pro",
+  "use_correct_only": false,
+  "prepared_summary": {
+    "n_objects": 5,
+    "n_questions": 77,
+    "n_qrr_direct": 12,
+    "n_qrr_direct_disjoint": 12,
+    "n_qrr_direct_shared_anchor": 0,
+    "n_trr": 60,
+    "n_fdr": 5,
+    "n_qrr_from_fdr": 30,
+    "n_qrr_total": 42,
+    "n_selected_questions": 77,
+    "n_skipped_questions": 0
+  },
+  "prepared_integrity": {
+    "n_questions": 77,
+    "n_scored_rows": 77,
+    "duplicate_question_ids": [],
+    "duplicate_score_qids": [],
+    "missing_score_qids": [],
+    "extra_score_qids": [],
+    "skip_reason_counts": {},
+    "question_layout": "split",
+    "question_layout_warning": "flat/split mismatch for n05_000083: flat=72 split=77",
+    "alternate_flat_path": "/Users/tsyq/code/ordinary-bench-core/VLM-test/output/questions/n05_000083.json",
+    "alternate_flat_question_count": 72
+  }
+}

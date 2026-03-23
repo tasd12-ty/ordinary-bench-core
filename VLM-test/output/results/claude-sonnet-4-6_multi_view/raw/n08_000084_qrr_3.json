@@ -1,0 +1,50 @@
+{
+  "scene_id": "n08_000084",
+  "batch_id": "qrr_3",
+  "question_type": "qrr",
+  "model": "claude-sonnet-4-6",
+  "n_views": 4,
+  "timestamp": 1773976975.731123,
+  "elapsed_seconds": 18.76,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n08_000084/view_0.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n08_000084/view_1.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n08_000084/view_2.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n08_000084/view_3.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: large yellow rubber cube\n  - obj_1: large purple metal cube\n  - obj_2: large green metal cylinder\n  - obj_3: large cyan metal cylinder\n  - obj_4: small blue rubber cube\n  - obj_5: small red metal cylinder\n  - obj_6: small gray metal cube\n  - obj_7: small red rubber cylinder\n\nQuestions:\n[qrr_0061] Compare the distance between obj_0 and obj_5 vs the distance between obj_2 and obj_3. Answer: < / ~= / >\n[qrr_0062] Compare the distance between obj_0 and obj_5 vs the distance between obj_2 and obj_4. Answer: < / ~= / >\n[qrr_0063] Compare the distance between obj_0 and obj_5 vs the distance between obj_2 and obj_6. Answer: < / ~= / >\n[qrr_0064] Compare the distance between obj_0 and obj_5 vs the distance between obj_2 and obj_7. Answer: < / ~= / >\n[qrr_0065] Compare the distance between obj_0 and obj_5 vs the distance between obj_3 and obj_4. Answer: < / ~= / >\n[qrr_0066] Compare the distance between obj_0 and obj_5 vs the distance between obj_3 and obj_6. Answer: < / ~= / >\n[qrr_0067] Compare the distance between obj_0 and obj_5 vs the distance between obj_3 and obj_7. Answer: < / ~= / >\n[qrr_0068] Compare the distance between obj_0 and obj_5 vs the distance between obj_4 and obj_6. Answer: < / ~= / >\n[qrr_0069] Compare the distance between obj_0 and obj_5 vs the distance between obj_4 and obj_7. Answer: < / ~= / >\n[qrr_0070] Compare the distance between obj_0 and obj_5 vs the distance between obj_6 and obj_7. Answer: < / ~= / >\n[qrr_0071] Compare the distance between obj_0 and obj_6 vs the distance between obj_1 and obj_2. Answer: < / ~= / >\n[qrr_0072] Compare the distance between obj_0 and obj_6 vs the distance between obj_1 and obj_3. Answer: < / ~= / >\n[qrr_0073] Compare the distance between obj_0 and obj_6 vs the distance between obj_1 and obj_4. Answer: < / ~= / >\n[qrr_0074] Compare the distance between obj_0 and obj_6 vs the distance between obj_1 and obj_5. Answer: < / ~= / >\n[qrr_0075] Compare the distance between obj_0 and obj_6 vs the distance between obj_1 and obj_7. Answer: < / ~= / >\n[qrr_0076] Compare the distance between obj_0 and obj_6 vs the distance between obj_2 and obj_3. Answer: < / ~= / >\n[qrr_0077] Compare the distance between obj_0 and obj_6 vs the distance between obj_2 and obj_4. Answer: < / ~= / >\n[qrr_0078] Compare the distance between obj_0 and obj_6 vs the distance between obj_2 and obj_5. Answer: < / ~= / >\n[qrr_0079] Compare the distance between obj_0 and obj_6 vs the distance between obj_2 and obj_7. Answer: < / ~= / >\n[qrr_0080] Compare the distance between obj_0 and obj_6 vs the distance between obj_3 and obj_4. Answer: < / ~= / >"
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D distances between objects in the scene. Let me carefully examine each image to understand the spatial layout.\n\nLooking at the images, I need to identify the objects and their positions:\n- obj_0: large yellow rubber cube\n- obj_1: large purple metal cube\n- obj_2: large green metal cylinder\n- obj_3: large cyan metal cylinder\n- obj_4: small blue rubber cube\n- obj_5: small red metal cylinder\n- obj_6: small gray metal cube\n- obj_7: small red rubber cylinder\n\nLet me estimate positions from the images:\n- Green cylinder (obj_2): left side, front area\n- Yellow cube (obj_0): center\n- Purple cube (obj_1): center-right\n- Cyan cylinder (obj_3): back-right\n- Blue cube (obj_4): center-front\n- Red metal cylinder (obj_5): front-center\n- Gray cube (obj_6): right side\n- Red rubber cylinder (obj_7): right side, near purple cube\n\nNow let me estimate distances for each question:\n\n- obj_0 to obj_5: yellow cube to red metal cylinder - moderate distance\n- obj_2 to obj_3: green to cyan - large distance\n- obj_2 to obj_4: green to blue - moderate\n- obj_2 to obj_6: green to gray - large\n- obj_2 to obj_7: green to red rubber - moderate\n- obj_3 to obj_4: cyan to blue - large\n- obj_3 to obj_6: cyan to gray - moderate\n- obj_3 to obj_7: cyan to red rubber - moderate\n- obj_4 to obj_6: blue to gray - moderate\n- obj_4 to obj_7: blue to red rubber - moderate\n- obj_6 to obj_7: gray to red rubber - small\n- obj_0 to obj_6: yellow to gray - moderate\n- obj_1 to obj_2: purple to green - moderate\n- obj_1 to obj_3: purple to cyan - moderate\n- obj_1 to obj_4: purple to blue - small\n- obj_1 to obj_5: purple to red metal - moderate\n- obj_1 to obj_7: purple to red rubber - small\n\n[{\"qid\": \"qrr_0061\", \"answer\": \"<\"}, {\"qid\": \"qrr_0062\", \"answer\": \"<\"}, {\"qid\": \"qrr_0063\", \"answer\": \"<\"}, {\"qid\": \"qrr_0064\", \"answer\": \"<\"}, {\"qid\": \"qrr_0065\", \"answer\": \"<\"}, {\"qid\": \"qrr_0066\", \"answer\": \"<\"}, {\"qid\": \"qrr_0067\", \"answer\": \"<\"}, {\"qid\": \"qrr_0068\", \"answer\": \"~=\"}, {\"qid\": \"qrr_0069\", \"answer\": \"~=\"}, {\"qid\": \"qrr_0070\", \"answer\": \">\"}, {\"qid\": \"qrr_0071\", \"answer\": \">\"}, {\"qid\": \"qrr_0072\", \"answer\": \"<\"}, {\"qid\": \"qrr_0073\", \"answer\": \">\"}, {\"qid\": \"qrr_0074\", \"answer\": \"~=\"}, {\"qid\": \"qrr_0075\", \"answer\": \">\"}, {\"qid\": \"qrr_0076\", \"answer\": \"<\"}, {\"qid\": \"qrr_0077\", \"answer\": \"~=\"}, {\"qid\": \"qrr_0078\", \"answer\": \"<\"}, {\"qid\": \"qrr_0079\", \"answer\": \"<\"}, {\"qid\": \"qrr_0080\", \"answer\": \"<\"}]"
+}

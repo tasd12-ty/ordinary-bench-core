@@ -1,0 +1,50 @@
+{
+  "scene_id": "n04_000090",
+  "batch_id": "trr_1",
+  "question_type": "trr",
+  "model": "claude-sonnet-4-6",
+  "n_views": 4,
+  "timestamp": 1773974024.696402,
+  "elapsed_seconds": 16.71,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of clock-direction questions.\n\nFor each question, imagine standing at ref1, facing toward ref2 (that is your 12 o'clock direction).\nDetermine the clock hour (integer 1-12) where the target object appears.\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (an integer 1-12).\n\nExample:\n[{\"qid\": \"trr_0001\", \"answer\": 7}, {\"qid\": \"trr_0002\", \"answer\": 11}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000090/view_0.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000090/view_1.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000090/view_2.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000090/view_3.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: small cyan metal sphere\n  - obj_1: large brown rubber cylinder\n  - obj_2: large red rubber cube\n  - obj_3: large green rubber cylinder\n\nQuestions:\n[trr_0021] Standing at obj_1, facing obj_0 (12 o'clock), what clock hour (1-12) is obj_3 at?\n[trr_0022] Standing at obj_1, facing obj_2 (12 o'clock), what clock hour (1-12) is obj_3 at?\n[trr_0023] Standing at obj_2, facing obj_0 (12 o'clock), what clock hour (1-12) is obj_3 at?\n[trr_0024] Standing at obj_2, facing obj_1 (12 o'clock), what clock hour (1-12) is obj_3 at?"
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze each image separately and answer the clock direction questions.\n\nLooking at the images, I need to identify the objects in each scene and determine clock directions.\n\n**Image 1 (top-left):** Red cube (obj_2 reference), green cylinder (obj_3 target), cyan ball (obj_0), brown cylinder (obj_1)\n\n**Image 2 (top-right):** Cyan ball (obj_0), brown cylinder (obj_1), red cube (obj_2), green cylinder (obj_3)\n\n**Image 3 (bottom-left):** Brown cylinder (obj_1), cyan ball (obj_0), green cylinder (obj_3), red cube (obj_2)\n\n**Image 4 (bottom-right):** Green cylinder (obj_3), red cube (obj_2), brown cylinder (obj_1), cyan ball (obj_0)\n\n**trr_0021:** Image 1 - Standing at obj_1 (brown cylinder, right side), facing obj_0 (cyan ball) = 12 o'clock. obj_3 (green cylinder) is to the left/behind. The brown cylinder is on the right, cyan ball is in front-left, green cylinder is to the left. Facing cyan ball from brown cylinder: cyan is at 12, green cylinder appears to be at about 10-11 o'clock direction.\n\n**trr_0022:** Image 2 - Standing at obj_1 (brown cylinder, left), facing obj_2 (red cube) = 12 o'clock. obj_3 (green cylinder) is in front. From brown cylinder facing red cube (which is to the right-front), green cylinder is further right and front → about 2 o'clock.\n\n**trr_0023:** Image 3 - Standing at obj_2 (red cube), facing obj_0 (cyan ball) = 12 o'clock. The cyan ball is behind-right of red cube. obj_3 (green cylinder) is to the left. Facing cyan ball from red cube: green cylinder appears to the left → about 10-11 o'clock.\n\n**trr_0024:** Image 4 - Standing at obj_2 (red cube, front-center), facing obj_1 (brown cylinder, back-left) = 12 o'clock. obj_3 (green cylinder) is to the left. From red cube facing brown cylinder (back-left direction = 12), green cylinder is to the right → about 2 o'clock.\n\nLet me reconsider more carefully based on spatial positions:\n\n**trr_0021:** Brown cylinder on right, cyan ball in front-left area, green cylinder to the far left. Facing cyan (12 o'clock), green is to the left → 10 o'clock.\n\n**trr_0022:** Brown cylinder left side, red cube to the right-front, green cylinder in front. Facing red cube (front-right = 12), green cylinder is more to the left → 10 o'clock.\n\n**trr_0023:** Red cube center, cyan ball to the right-behind, green cylinder to the left-front. Facing cyan ball (12), green is to the left-front → 8 o'clock.\n\n**trr_0024:** Red cube front, brown cylinder back-left, green cylinder to the left. Facing brown cylinder (back-left = 12), green is slightly to the right → 1-2 o'clock.\n\n[{\"qid\": \"trr_0021\", \"answer\": 10}, {\"qid\": \"trr_0022\", \"answer\": 10}, {\"qid\": \"trr_0023\", \"answer\": 8}, {\"qid\": \"trr_0024\", \"answer\": 2}]"
+}

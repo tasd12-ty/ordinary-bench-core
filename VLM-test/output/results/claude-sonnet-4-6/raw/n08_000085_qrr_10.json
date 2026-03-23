@@ -1,0 +1,31 @@
+{
+  "scene_id": "n08_000085",
+  "batch_id": "qrr_10",
+  "question_type": "qrr",
+  "model": "claude-sonnet-4-6",
+  "timestamp": 1773993062.6719027,
+  "elapsed_seconds": 8.06,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: small green metal cylinder\n  - obj_1: small green rubber sphere\n  - obj_2: large green rubber sphere\n  - obj_3: small yellow metal cylinder\n  - obj_4: small red rubber cube\n  - obj_5: small green metal sphere\n  - obj_6: large yellow metal sphere\n  - obj_7: large red rubber sphere\n\nQuestions:\n[qrr_0201] Compare the distance between obj_4 and obj_7 vs the distance between obj_5 and obj_6. Answer: < / ~= / >"
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/single_view/n08_000085.png"
+          }
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to compare the distance between obj_4 (small red rubber cube) and obj_7 (large red rubber sphere) vs the distance between obj_5 (small green metal sphere) and obj_6 (large yellow metal sphere).\n\nLooking at the image:\n- obj_4 (red cube) is in the front-center area\n- obj_7 (large red rubber sphere) is in the back-left area\n- The distance between these two appears quite large\n\n- obj_5 (small green metal sphere) is on the left side, middle area\n- obj_6 (large yellow metal sphere) is in the front-center area\n- The distance between these two also appears significant\n\nLet me estimate more carefully:\n- obj_4 to obj_7: The red cube is front-center, the large red sphere is back-left. This is a substantial distance.\n- obj_5 to obj_6: The small green metal sphere is left-middle, the large yellow sphere is front-center-left. This distance seems moderate.\n\nThe distance from obj_4 to obj_7 appears to be larger than the distance from obj_5 to obj_6.\n\n[{\"qid\": \"qrr_0201\", \"answer\": \">\"}]"
+}

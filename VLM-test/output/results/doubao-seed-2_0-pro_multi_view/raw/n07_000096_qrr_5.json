@@ -1,0 +1,50 @@
+{
+  "scene_id": "n07_000096",
+  "batch_id": "qrr_5",
+  "question_type": "qrr",
+  "model": "doubao-seed-2.0-pro",
+  "n_views": 4,
+  "timestamp": 1774108998.091046,
+  "elapsed_seconds": 44.35,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n07_000096/view_0.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n07_000096/view_1.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n07_000096/view_2.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n07_000096/view_3.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: small gray rubber cube\n  - obj_1: large cyan metal sphere\n  - obj_2: large blue metal sphere\n  - obj_3: large yellow rubber sphere\n  - obj_4: large cyan metal cylinder\n  - obj_5: small brown metal cube\n  - obj_6: large red metal cube\n\nQuestions:\n[qrr_0101] Compare the distance between obj_3 and obj_4 vs the distance between obj_5 and obj_6. Answer: < / ~= / >\n[qrr_0102] Compare the distance between obj_3 and obj_5 vs the distance between obj_4 and obj_6. Answer: < / ~= / >\n[qrr_0103] Compare the distance between obj_3 and obj_6 vs the distance between obj_4 and obj_5. Answer: < / ~= / >"
+        }
+      ]
+    }
+  ],
+  "raw_response": "[{\"qid\": \"qrr_0101\", \"answer\": \">\"}, {\"qid\": \"qrr_0102\", \"answer\": \">\"}, {\"qid\": \"qrr_0103\", \"answer\": \">\"}]"
+}

@@ -1,0 +1,31 @@
+{
+  "scene_id": "n06_000086",
+  "batch_id": "qrr_2",
+  "question_type": "qrr",
+  "model": "gemini-3.1-pro-preview",
+  "timestamp": 1774105216.145545,
+  "elapsed_seconds": 19.29,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/single_view/n06_000086.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: small cyan rubber cube\n  - obj_1: small green rubber cylinder\n  - obj_2: small cyan rubber cube\n  - obj_3: large purple rubber sphere\n  - obj_4: large red metal cylinder\n  - obj_5: large gray metal cube\n\nQuestions:\n[qrr_0041] Compare the distance between obj_1 and obj_5 vs the distance between obj_3 and obj_4. Answer: < / ~= / >\n[qrr_0042] Compare the distance between obj_2 and obj_3 vs the distance between obj_4 and obj_5. Answer: < / ~= / >\n[qrr_0043] Compare the distance between obj_2 and obj_4 vs the distance between obj_3 and obj_5. Answer: < / ~= / >\n[qrr_0044] Compare the distance between obj_2 and obj_5 vs the distance between obj_3 and obj_4. Answer: < / ~= / >"
+        }
+      ]
+    }
+  ],
+  "raw_response": "```json\n[\n  {\"qid\": \"qrr_0041\", \"answer\": \"<\"},\n  {\"qid\": \"qrr_0042\", \"answer\": \"<\"},\n  {\"qid\": \"qrr_0043\", \"answer\": \">\"},\n  {\"qid\": \"qrr_0044\", \"answer\": \"<\"}\n]\n```"
+}

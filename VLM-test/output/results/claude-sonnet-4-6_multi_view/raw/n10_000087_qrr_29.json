@@ -1,0 +1,50 @@
+{
+  "scene_id": "n10_000087",
+  "batch_id": "qrr_29",
+  "question_type": "qrr",
+  "model": "claude-sonnet-4-6",
+  "n_views": 4,
+  "timestamp": 1773984235.0050142,
+  "elapsed_seconds": 16.04,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n10_000087/view_0.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n10_000087/view_1.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n10_000087/view_2.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n10_000087/view_3.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: large blue metal cylinder\n  - obj_1: small blue rubber cube\n  - obj_2: small blue metal sphere\n  - obj_3: small green rubber sphere\n  - obj_4: small yellow metal cube\n  - obj_5: small purple rubber sphere\n  - obj_6: large yellow rubber sphere\n  - obj_7: small green rubber cylinder\n  - obj_8: large green metal cylinder\n  - obj_9: small green rubber sphere\n\nQuestions:\n[qrr_0581] Compare the distance between obj_5 and obj_8 vs the distance between obj_7 and obj_9. Answer: < / ~= / >\n[qrr_0582] Compare the distance between obj_5 and obj_9 vs the distance between obj_6 and obj_7. Answer: < / ~= / >\n[qrr_0583] Compare the distance between obj_5 and obj_9 vs the distance between obj_6 and obj_8. Answer: < / ~= / >\n[qrr_0584] Compare the distance between obj_5 and obj_9 vs the distance between obj_7 and obj_8. Answer: < / ~= / >\n[qrr_0585] Compare the distance between obj_6 and obj_7 vs the distance between obj_8 and obj_9. Answer: < / ~= / >\n[qrr_0586] Compare the distance between obj_6 and obj_8 vs the distance between obj_7 and obj_9. Answer: < / ~= / >\n[qrr_0587] Compare the distance between obj_6 and obj_9 vs the distance between obj_7 and obj_8. Answer: < / ~= / >"
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D positions of objects across multiple images to answer these distance comparison questions.\n\nLet me identify the objects from the images:\n- obj_0: large blue metal cylinder\n- obj_1: small blue rubber cube\n- obj_2: small blue metal sphere\n- obj_3: small green rubber sphere (front)\n- obj_4: small yellow metal cube\n- obj_5: small purple rubber sphere\n- obj_6: large yellow rubber sphere\n- obj_7: small green rubber cylinder\n- obj_8: large green metal cylinder\n- obj_9: small green rubber sphere (right side)\n\nLet me estimate 3D positions from the multiple views:\n\n- obj_0 (large blue cylinder): front-center area\n- obj_1 (blue rubber cube): behind area\n- obj_2 (blue metal sphere): center-front area\n- obj_3 (green sphere front): front area\n- obj_4 (yellow metal cube): center area\n- obj_5 (purple sphere): behind area\n- obj_6 (yellow rubber sphere): center-left area\n- obj_7 (green rubber cylinder): front-center area\n- obj_8 (large green cylinder): center-left, slightly back\n- obj_9 (green sphere right): right-center area\n\nNow let me estimate distances for each question:\n\n**qrr_0581**: dist(obj_5, obj_8) vs dist(obj_7, obj_9)\n- obj_5 (purple, behind) to obj_8 (large green, center): moderate distance ~3-4 units\n- obj_7 (green cylinder) to obj_9 (right green sphere): small distance ~2-3 units\n- Answer: >\n\n**qrr_0582**: dist(obj_5, obj_9) vs dist(obj_6, obj_7)\n- obj_5 (purple, behind) to obj_9 (right green): moderate-large distance ~4-5 units\n- obj_6 (yellow large) to obj_7 (green cylinder): moderate distance ~3-4 units\n- Answer: >\n\n**qrr_0583**: dist(obj_5, obj_9) vs dist(obj_6, obj_8)\n- obj_5 to obj_9: ~4-5 units\n- obj_6 (yellow) to obj_8 (large green): small-moderate ~2-3 units\n- Answer: >\n\n**qrr_0584**: dist(obj_5, obj_9) vs dist(obj_7, obj_8)\n- obj_5 to obj_9: ~4-5 units\n- obj_7 (green cylinder) to obj_8 (large green cylinder): moderate ~3-4 units\n- Answer: >\n\n**qrr_0585**: dist(obj_6, obj_7) vs dist(obj_8, obj_9)\n- obj_6 to obj_7: ~3-4 units\n- obj_8 to obj_9: moderate ~3 units\n- Answer: ~=\n\n**qrr_0586**: dist(obj_6, obj_8) vs dist(obj_7, obj_9)\n- obj_6 to obj_8: ~2-3 units\n- obj_7 to obj_9: ~2-3 units\n- Answer: ~=\n\n**qrr_0587**: dist(obj_6, obj_9) vs dist(obj_7, obj_8)\n- obj_6 (yellow) to obj_9 (right green): ~3 units\n- obj_7 to obj_8: ~3-4 units\n- Answer: ~=\n\n[{\"qid\": \"qrr_0581\", \"answer\": \">\"}, {\"qid\": \"qrr_0582\", \"answer\": \">\"}, {\"qid\": \"qrr_0583\", \"answer\": \">\"}, {\"qid\": \"qrr_0584\", \"answer\": \">\"}, {\"qid\": \"qrr_0585\", \"answer\": \"~=\"}, {\"qid\": \"qrr_0586\", \"answer\": \"~=\"}, {\"qid\": \"qrr_0587\", \"answer\": \"~=\"}]"
+}

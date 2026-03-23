@@ -1,0 +1,31 @@
+{
+  "scene_id": "n05_000091",
+  "batch_id": "fdr_0",
+  "question_type": "fdr",
+  "model": "claude-sonnet-4-6",
+  "timestamp": 1773987678.3144996,
+  "elapsed_seconds": 16.08,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance ranking questions.\n\nFor each question, given an anchor object, rank all other listed objects by their 3D distance\nfrom the anchor, from nearest to farthest. Answer with a JSON list of object IDs in order.\nIf two objects appear at very similar distances, give your best estimate — close pairs are scored with tolerance.\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a list of object ID strings).\n\nExample:\n[{\"qid\": \"fdr_0001\", \"answer\": [\"obj_2\", \"obj_1\", \"obj_3\"]}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: large gray metal sphere\n  - obj_1: large blue metal cube\n  - obj_2: large red metal sphere\n  - obj_3: large purple rubber sphere\n  - obj_4: large cyan rubber sphere\n\nQuestions:\n[fdr_0001] Rank all other objects by distance from obj_0, nearest to farthest. Objects to rank: obj_1, obj_2, obj_3, obj_4. Answer: ordered JSON list of object IDs.\n[fdr_0002] Rank all other objects by distance from obj_1, nearest to farthest. Objects to rank: obj_0, obj_2, obj_3, obj_4. Answer: ordered JSON list of object IDs.\n[fdr_0003] Rank all other objects by distance from obj_2, nearest to farthest. Objects to rank: obj_0, obj_1, obj_3, obj_4. Answer: ordered JSON list of object IDs.\n[fdr_0004] Rank all other objects by distance from obj_3, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2, obj_4. Answer: ordered JSON list of object IDs.\n[fdr_0005] Rank all other objects by distance from obj_4, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2, obj_3. Answer: ordered JSON list of object IDs."
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/single_view/n05_000091.png"
+          }
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D positions of the objects in the image to rank distances.\n\nFrom the image, I can see:\n- obj_0 (large gray metal sphere) - center-left area\n- obj_1 (large blue metal cube) - right side\n- obj_2 (large red metal sphere) - far left, behind\n- obj_3 (large purple rubber sphere) - back center\n- obj_4 (large cyan rubber sphere) - front center\n\nLet me estimate positions:\n- obj_2 (red): back-left\n- obj_0 (gray): center-left\n- obj_4 (cyan): front-center\n- obj_3 (purple): back-center\n- obj_1 (blue cube): right\n\nNow I'll rank distances for each anchor:\n\n**fdr_0001** (from obj_0/gray):\n- obj_2 (red) - close, slightly behind and left\n- obj_1 (blue cube) - right, similar distance\n- obj_3 (purple) - behind, moderate distance\n- obj_4 (cyan) - front, moderate distance\n\nLooking more carefully: gray is center-left. Red is back-left (close). Blue cube is right (moderate). Purple is back-center (moderate-far). Cyan is front (moderate-far).\n\nOrder: obj_2, obj_1, obj_3, obj_4\n\n**fdr_0002** (from obj_1/blue cube):\n- obj_0 (gray) - nearest, just to the left\n- obj_4 (cyan) - front\n- obj_3 (purple) - back\n- obj_2 (red) - far back-left\n\nOrder: obj_0, obj_4, obj_3, obj_2\n\n**fdr_0003** (from obj_2/red sphere):\n- obj_0 (gray) - nearest\n- obj_3 (purple) - behind center\n- obj_1 (blue) - right\n- obj_4 (cyan) - front\n\nOrder: obj_0, obj_3, obj_1, obj_4\n\n**fdr_0004** (from obj_3/purple sphere):\n- obj_2 (red) - back-left, close\n- obj_0 (gray) - center\n- obj_1 (blue) - right\n- obj_4 (cyan) - front, far\n\nOrder: obj_2, obj_0, obj_1, obj_4\n\n**fdr_0005** (from obj_4/cyan sphere):\n- obj_0 (gray) - nearest, center-left\n- obj_1 (blue) - right\n- obj_2 (red) - back-left\n- obj_3 (purple) - back-center\n\nOrder: obj_0, obj_1, obj_2, obj_3\n\n[{\"qid\": \"fdr_0001\", \"answer\": [\"obj_2\", \"obj_1\", \"obj_3\", \"obj_4\"]}, {\"qid\": \"fdr_0002\", \"answer\": [\"obj_0\", \"obj_4\", \"obj_3\", \"obj_2\"]}, {\"qid\": \"fdr_0003\", \"answer\": [\"obj_0\", \"obj_3\", \"obj_1\", \"obj_4\"]}, {\"qid\": \"fdr_0004\", \"answer\": [\"obj_2\", \"obj_0\", \"obj_1\", \"obj_4\"]}, {\"qid\": \"fdr_0005\", \"answer\": [\"obj_0\", \"obj_1\", \"obj_2\", \"obj_3\"]}]"
+}

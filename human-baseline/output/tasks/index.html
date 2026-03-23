@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Human Baseline Tasks</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", serif;
+      background: linear-gradient(180deg, #f0eadb, #f6f3eb);
+      color: #222018;
+    }
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 32px;
+    }
+    p {
+      color: #6f6a5d;
+      line-height: 1.5;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fffaf0;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-top: 18px;
+      border: 1px solid #d4c9b1;
+    }
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #e6dcc8;
+      text-align: left;
+    }
+    th {
+      background: #f6f0e4;
+    }
+    a {
+      color: #8a4f2a;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Human Baseline Tasks</h1>
+    <p>共生成 3 个场景任务。每个页面都会导出与当前模型回复对齐的响应 JSON，可直接交给分析脚本转成统一的 `raw/` 和 `scenes/` 结果目录。</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Scene</th>
+          <th>Objects</th>
+          <th>Total</th>
+          <th>QRR</th>
+          <th>TRR</th>
+          <th>FDR</th>
+          <th>Files</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><a href="pages/n04_000000.html">n04_000000</a></td><td>4</td><td>31</td><td>3</td><td>24</td><td>4</td><td><a href="json/n04_000000.json">task json</a></td></tr>
+<tr><td><a href="pages/n04_000001.html">n04_000001</a></td><td>4</td><td>30</td><td>2</td><td>24</td><td>4</td><td><a href="json/n04_000001.json">task json</a></td></tr>
+<tr><td><a href="pages/n04_000002.html">n04_000002</a></td><td>4</td><td>31</td><td>3</td><td>24</td><td>4</td><td><a href="json/n04_000002.json">task json</a></td></tr>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

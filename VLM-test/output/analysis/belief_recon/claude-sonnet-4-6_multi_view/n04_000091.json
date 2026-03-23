@@ -1,0 +1,90 @@
+{
+  "feasible": false,
+  "status": "infeasible",
+  "positions": {
+    "obj_0": [
+      0.0,
+      0.0
+    ],
+    "obj_1": [
+      1.0,
+      0.0
+    ],
+    "obj_2": [
+      0.986517006605825,
+      -0.06751302504812527
+    ],
+    "obj_3": [
+      -0.8191071569374402,
+      -0.16018916781315237
+    ]
+  },
+  "metrics": {
+    "csr_qrr": 0.6428571428571429,
+    "csr_trr": 0.08333333333333333,
+    "K_geom": 6,
+    "spread": 1569.2481807165057,
+    "kendall_tau": 0.7333333333333333,
+    "nrms": 0.18611371713212158,
+    "best_loss": 155.1181263174416,
+    "n_solutions": 10,
+    "cluster_sizes": [
+      5,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "K_geom": 6,
+  "n_solutions": 10,
+  "constraint_mode": "all",
+  "constraint_counts": {
+    "n_qrr_direct": 2,
+    "n_qrr_from_fdr": 12,
+    "n_trr": 24,
+    "n_qrr_used": 14,
+    "n_trr_used": 24
+  },
+  "feasibility_checks": {
+    "qrr_has_cycle": false,
+    "qrr_cycle_info": null,
+    "trr_n_conflicts": 0,
+    "hypergraph_connected": true,
+    "n_components": 1,
+    "n_qrr": 14,
+    "n_trr": 24,
+    "n_objects": 4
+  },
+  "scene_id": "n04_000091",
+  "n_objects": 4,
+  "model": "claude-sonnet-4-6",
+  "use_correct_only": false,
+  "prepared_summary": {
+    "n_objects": 4,
+    "n_questions": 30,
+    "n_qrr_direct": 2,
+    "n_qrr_direct_disjoint": 2,
+    "n_qrr_direct_shared_anchor": 0,
+    "n_trr": 24,
+    "n_fdr": 4,
+    "n_qrr_from_fdr": 12,
+    "n_qrr_total": 14,
+    "n_selected_questions": 30,
+    "n_skipped_questions": 0
+  },
+  "prepared_integrity": {
+    "n_questions": 30,
+    "n_scored_rows": 30,
+    "duplicate_question_ids": [],
+    "duplicate_score_qids": [],
+    "missing_score_qids": [],
+    "extra_score_qids": [],
+    "skip_reason_counts": {},
+    "question_layout": "split",
+    "question_layout_warning": "flat/split mismatch for n04_000091: flat=26 split=30",
+    "alternate_flat_path": "/Users/tsyq/code/ordinary-bench-core/VLM-test/output/questions/n04_000091.json",
+    "alternate_flat_question_count": 26
+  }
+}

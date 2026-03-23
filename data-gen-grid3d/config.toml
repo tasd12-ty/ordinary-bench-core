@@ -1,0 +1,43 @@
+# ordinary-bench 3D grid data generation configuration
+
+[blender]
+executable = "/mnt/d/tools/blender/blender.exe"
+use_gpu = true
+
+[rendering]
+width = 480
+height = 480
+samples = 256
+ortho_scale = 8.0           # 正交投影覆盖范围
+
+[grid]
+rows = 4
+cols = 4
+layers = 4                  # 纵向层数
+cell_size = 1.5             # 每格 1.5 BU
+line_width = 0.02           # 网格线宽度
+labels = false              # 是否渲染 3D 标签 (A1-1 ~ D4-4)
+
+[objects]
+min_count = 4
+max_count = 12              # 64 格中最多放 12 个
+
+[output]
+dir = "./output"
+seed = 42
+
+# 按物体数量分 split
+[splits.g04]
+n_scenes = 10
+min_objects = 4
+max_objects = 4
+
+[splits.g08]
+n_scenes = 10
+min_objects = 8
+max_objects = 8
+
+[splits.g12]
+n_scenes = 10
+min_objects = 12
+max_objects = 12

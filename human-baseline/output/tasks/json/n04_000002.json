@@ -1,0 +1,1163 @@
+{
+  "schema_version": 1,
+  "scene_id": "n04_000002",
+  "n_objects": 4,
+  "objects": [
+    {
+      "id": "obj_0",
+      "label": "obj_0",
+      "desc": "棕色大金属立方体",
+      "desc_en": "large brown metal cube",
+      "pixel_coords": [
+        345,
+        180,
+        11.248055458068848
+      ],
+      "shape": "cube",
+      "color": "brown",
+      "material": "metal",
+      "size": "large"
+    },
+    {
+      "id": "obj_1",
+      "label": "obj_1",
+      "desc": "红色大金属立方体",
+      "desc_en": "large red metal cube",
+      "pixel_coords": [
+        193,
+        129,
+        13.347834587097168
+      ],
+      "shape": "cube",
+      "color": "red",
+      "material": "metal",
+      "size": "large"
+    },
+    {
+      "id": "obj_2",
+      "label": "obj_2",
+      "desc": "黄色小金属球体",
+      "desc_en": "small yellow metal sphere",
+      "pixel_coords": [
+        257,
+        102,
+        14.823111534118652
+      ],
+      "shape": "sphere",
+      "color": "yellow",
+      "material": "metal",
+      "size": "small"
+    },
+    {
+      "id": "obj_3",
+      "label": "obj_3",
+      "desc": "红色小金属圆柱",
+      "desc_en": "small red metal cylinder",
+      "pixel_coords": [
+        164,
+        166,
+        11.775535583496094
+      ],
+      "shape": "cylinder",
+      "color": "red",
+      "material": "metal",
+      "size": "small"
+    }
+  ],
+  "image_path": "images/n04_000002/single_view.png",
+  "images": {
+    "single_view": {
+      "view_id": "single_view",
+      "label": "单视图",
+      "image_path": "images/n04_000002/single_view.png"
+    },
+    "reference_view": {
+      "view_id": "single_view_reference",
+      "label": "编号参考图",
+      "image_path": "images/n04_000002/single_view_labels.png"
+    },
+    "multi_view": [
+      {
+        "view_id": "view_0",
+        "label": "View 0",
+        "image_path": "images/n04_000002/view_0.png",
+        "raw_image_path": "images/n04_000002/view_0.png",
+        "camera": {
+          "azimuth": 45.0,
+          "elevation": 30.0,
+          "distance": 12.0
+        }
+      },
+      {
+        "view_id": "view_1",
+        "label": "View 1",
+        "image_path": "images/n04_000002/view_1.png",
+        "raw_image_path": "images/n04_000002/view_1.png",
+        "camera": {
+          "azimuth": 135.0,
+          "elevation": 30.0,
+          "distance": 12.0
+        }
+      },
+      {
+        "view_id": "view_2",
+        "label": "View 2",
+        "image_path": "images/n04_000002/view_2.png",
+        "raw_image_path": "images/n04_000002/view_2.png",
+        "camera": {
+          "azimuth": 225.0,
+          "elevation": 30.0,
+          "distance": 12.0
+        }
+      },
+      {
+        "view_id": "view_3",
+        "label": "View 3",
+        "image_path": "images/n04_000002/view_3.png",
+        "raw_image_path": "images/n04_000002/view_3.png",
+        "camera": {
+          "azimuth": 315.0,
+          "elevation": 30.0,
+          "distance": 12.0
+        }
+      }
+    ],
+    "multi_view_labels_reliable": false
+  },
+  "available_test_types": [
+    "single_view",
+    "multi_view"
+  ],
+  "source": {
+    "scene_file": "data-gen/output/scenes/n04_000002.json",
+    "question_files": {
+      "qrr": "VLM-test/output/questions/qrr/n04_000002.json",
+      "trr": "VLM-test/output/questions/trr/n04_000002.json",
+      "fdr": "VLM-test/output/questions/fdr/n04_000002.json"
+    }
+  },
+  "batches": [
+    {
+      "batch_id": "qrr_0",
+      "question_type": "qrr",
+      "n_questions": 3,
+      "questions": [
+        {
+          "qid": "qrr_0001",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_1"
+          ],
+          "pair2": [
+            "obj_2",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "~=",
+          "variant": "disjoint",
+          "prompt_text": "请比较棕色大金属立方体与红色大金属立方体之间的距离，以及黄色小金属球体与红色小金属圆柱之间的距离。",
+          "answer_options": [
+            "<",
+            "~=",
+            ">"
+          ]
+        },
+        {
+          "qid": "qrr_0002",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">",
+          "variant": "disjoint",
+          "prompt_text": "请比较棕色大金属立方体与黄色小金属球体之间的距离，以及红色大金属立方体与红色小金属圆柱之间的距离。",
+          "answer_options": [
+            "<",
+            "~=",
+            ">"
+          ]
+        },
+        {
+          "qid": "qrr_0003",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_2"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": ">",
+          "variant": "disjoint",
+          "prompt_text": "请比较棕色大金属立方体与红色小金属圆柱之间的距离，以及红色大金属立方体与黄色小金属球体之间的距离。",
+          "answer_options": [
+            "<",
+            "~=",
+            ">"
+          ]
+        }
+      ]
+    },
+    {
+      "batch_id": "trr_0",
+      "question_type": "trr",
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "trr_0001",
+          "type": "trr",
+          "target": "obj_0",
+          "ref1": "obj_1",
+          "ref2": "obj_2",
+          "gt_hour": 9,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 279.36,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色大金属立方体处，面向黄色小金属球体，并把这个方向看作 12 点钟方向，那么棕色大金属立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0002",
+          "type": "trr",
+          "target": "obj_0",
+          "ref1": "obj_1",
+          "ref2": "obj_3",
+          "gt_hour": 2,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 70.87,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色大金属立方体处，面向红色小金属圆柱，并把这个方向看作 12 点钟方向，那么棕色大金属立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0003",
+          "type": "trr",
+          "target": "obj_0",
+          "ref1": "obj_2",
+          "ref2": "obj_1",
+          "gt_hour": 2,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 67.68,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在黄色小金属球体处，面向红色大金属立方体，并把这个方向看作 12 点钟方向，那么棕色大金属立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0004",
+          "type": "trr",
+          "target": "obj_0",
+          "ref1": "obj_2",
+          "ref2": "obj_3",
+          "gt_hour": 2,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 55.13,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在黄色小金属球体处，面向红色小金属圆柱，并把这个方向看作 12 点钟方向，那么棕色大金属立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0005",
+          "type": "trr",
+          "target": "obj_0",
+          "ref1": "obj_3",
+          "ref2": "obj_1",
+          "gt_hour": 9,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 277.31,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色小金属圆柱处，面向红色大金属立方体，并把这个方向看作 12 点钟方向，那么棕色大金属立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0006",
+          "type": "trr",
+          "target": "obj_0",
+          "ref1": "obj_3",
+          "ref2": "obj_2",
+          "gt_hour": 10,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 293.26,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色小金属圆柱处，面向黄色小金属球体，并把这个方向看作 12 点钟方向，那么棕色大金属立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0007",
+          "type": "trr",
+          "target": "obj_1",
+          "ref1": "obj_0",
+          "ref2": "obj_2",
+          "gt_hour": 1,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 31.69,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在棕色大金属立方体处，面向黄色小金属球体，并把这个方向看作 12 点钟方向，那么红色大金属立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0008",
+          "type": "trr",
+          "target": "obj_1",
+          "ref1": "obj_0",
+          "ref2": "obj_3",
+          "gt_hour": 11,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 333.56,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在棕色大金属立方体处，面向红色小金属圆柱，并把这个方向看作 12 点钟方向，那么红色大金属立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0009",
+          "type": "trr",
+          "target": "obj_1",
+          "ref1": "obj_2",
+          "ref2": "obj_0",
+          "gt_hour": 10,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 292.32,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在黄色小金属球体处，面向棕色大金属立方体，并把这个方向看作 12 点钟方向，那么红色大金属立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0010",
+          "type": "trr",
+          "target": "obj_1",
+          "ref1": "obj_2",
+          "ref2": "obj_3",
+          "gt_hour": 12,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 347.46,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在黄色小金属球体处，面向红色小金属圆柱，并把这个方向看作 12 点钟方向，那么红色大金属立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0011",
+          "type": "trr",
+          "target": "obj_1",
+          "ref1": "obj_3",
+          "ref2": "obj_0",
+          "gt_hour": 3,
+          "gt_quadrant": 2,
+          "gt_angle_deg": 82.69,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色小金属圆柱处，面向棕色大金属立方体，并把这个方向看作 12 点钟方向，那么红色大金属立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0012",
+          "type": "trr",
+          "target": "obj_1",
+          "ref1": "obj_3",
+          "ref2": "obj_2",
+          "gt_hour": 1,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 15.95,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色小金属圆柱处，面向黄色小金属球体，并把这个方向看作 12 点钟方向，那么红色大金属立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0013",
+          "type": "trr",
+          "target": "obj_2",
+          "ref1": "obj_0",
+          "ref2": "obj_1",
+          "gt_hour": 11,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 328.31,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在棕色大金属立方体处，面向红色大金属立方体，并把这个方向看作 12 点钟方向，那么黄色小金属球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0014",
+          "type": "trr",
+          "target": "obj_2",
+          "ref1": "obj_0",
+          "ref2": "obj_3",
+          "gt_hour": 10,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 301.87,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在棕色大金属立方体处，面向红色小金属圆柱，并把这个方向看作 12 点钟方向，那么黄色小金属球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0015",
+          "type": "trr",
+          "target": "obj_2",
+          "ref1": "obj_1",
+          "ref2": "obj_0",
+          "gt_hour": 3,
+          "gt_quadrant": 2,
+          "gt_angle_deg": 80.64,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色大金属立方体处，面向棕色大金属立方体，并把这个方向看作 12 点钟方向，那么黄色小金属球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0016",
+          "type": "trr",
+          "target": "obj_2",
+          "ref1": "obj_1",
+          "ref2": "obj_3",
+          "gt_hour": 5,
+          "gt_quadrant": 2,
+          "gt_angle_deg": 151.51,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色大金属立方体处，面向红色小金属圆柱，并把这个方向看作 12 点钟方向，那么黄色小金属球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0017",
+          "type": "trr",
+          "target": "obj_2",
+          "ref1": "obj_3",
+          "ref2": "obj_0",
+          "gt_hour": 2,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 66.74,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色小金属圆柱处，面向棕色大金属立方体，并把这个方向看作 12 点钟方向，那么黄色小金属球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0018",
+          "type": "trr",
+          "target": "obj_2",
+          "ref1": "obj_3",
+          "ref2": "obj_1",
+          "gt_hour": 11,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 344.05,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色小金属圆柱处，面向红色大金属立方体，并把这个方向看作 12 点钟方向，那么黄色小金属球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0019",
+          "type": "trr",
+          "target": "obj_3",
+          "ref1": "obj_0",
+          "ref2": "obj_1",
+          "gt_hour": 1,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 26.44,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在棕色大金属立方体处，面向红色大金属立方体，并把这个方向看作 12 点钟方向，那么红色小金属圆柱位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0020",
+          "type": "trr",
+          "target": "obj_3",
+          "ref1": "obj_0",
+          "ref2": "obj_2",
+          "gt_hour": 2,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 58.13,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在棕色大金属立方体处，面向黄色小金属球体，并把这个方向看作 12 点钟方向，那么红色小金属圆柱位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    {
+      "batch_id": "trr_1",
+      "question_type": "trr",
+      "n_questions": 4,
+      "questions": [
+        {
+          "qid": "trr_0021",
+          "type": "trr",
+          "target": "obj_3",
+          "ref1": "obj_1",
+          "ref2": "obj_0",
+          "gt_hour": 10,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 289.13,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色大金属立方体处，面向棕色大金属立方体，并把这个方向看作 12 点钟方向，那么红色小金属圆柱位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0022",
+          "type": "trr",
+          "target": "obj_3",
+          "ref1": "obj_1",
+          "ref2": "obj_2",
+          "gt_hour": 7,
+          "gt_quadrant": 3,
+          "gt_angle_deg": 208.49,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色大金属立方体处，面向黄色小金属球体，并把这个方向看作 12 点钟方向，那么红色小金属圆柱位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0023",
+          "type": "trr",
+          "target": "obj_3",
+          "ref1": "obj_2",
+          "ref2": "obj_0",
+          "gt_hour": 10,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 304.87,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在黄色小金属球体处，面向棕色大金属立方体，并把这个方向看作 12 点钟方向，那么红色小金属圆柱位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0024",
+          "type": "trr",
+          "target": "obj_3",
+          "ref1": "obj_2",
+          "ref2": "obj_1",
+          "gt_hour": 12,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 12.54,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在黄色小金属球体处，面向红色大金属立方体，并把这个方向看作 12 点钟方向，那么红色小金属圆柱位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    {
+      "batch_id": "fdr_0",
+      "question_type": "fdr",
+      "n_questions": 4,
+      "questions": [
+        {
+          "qid": "fdr_0001",
+          "type": "fdr",
+          "anchor": "obj_0",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_3",
+            "obj_1",
+            "obj_2"
+          ],
+          "gt_distances": [
+            4.008901,
+            4.208767,
+            4.489145
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_3",
+              "obj_1",
+              "obj_2"
+            ]
+          ],
+          "variant": "disjoint",
+          "prompt_text": "请以棕色大金属立方体为基准，将其余物体按距离从近到远排序。候选物体：红色大金属立方体, 黄色小金属球体, 红色小金属圆柱。",
+          "ranking_candidates": [
+            {
+              "id": "obj_1",
+              "label": "obj_1",
+              "desc": "红色大金属立方体",
+              "desc_en": "large red metal cube",
+              "pixel_coords": [
+                193,
+                129,
+                13.347834587097168
+              ],
+              "shape": "cube",
+              "color": "red",
+              "material": "metal",
+              "size": "large"
+            },
+            {
+              "id": "obj_2",
+              "label": "obj_2",
+              "desc": "黄色小金属球体",
+              "desc_en": "small yellow metal sphere",
+              "pixel_coords": [
+                257,
+                102,
+                14.823111534118652
+              ],
+              "shape": "sphere",
+              "color": "yellow",
+              "material": "metal",
+              "size": "small"
+            },
+            {
+              "id": "obj_3",
+              "label": "obj_3",
+              "desc": "红色小金属圆柱",
+              "desc_en": "small red metal cylinder",
+              "pixel_coords": [
+                164,
+                166,
+                11.775535583496094
+              ],
+              "shape": "cylinder",
+              "color": "red",
+              "material": "metal",
+              "size": "small"
+            }
+          ],
+          "answer_example": "obj_1, obj_2, obj_3"
+        },
+        {
+          "qid": "fdr_0002",
+          "type": "fdr",
+          "anchor": "obj_1",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_3",
+            "obj_2",
+            "obj_0"
+          ],
+          "gt_distances": [
+            1.889132,
+            2.390015,
+            4.208767
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_3"
+            ],
+            [
+              "obj_2"
+            ],
+            [
+              "obj_0"
+            ]
+          ],
+          "variant": "disjoint",
+          "prompt_text": "请以红色大金属立方体为基准，将其余物体按距离从近到远排序。候选物体：棕色大金属立方体, 黄色小金属球体, 红色小金属圆柱。",
+          "ranking_candidates": [
+            {
+              "id": "obj_0",
+              "label": "obj_0",
+              "desc": "棕色大金属立方体",
+              "desc_en": "large brown metal cube",
+              "pixel_coords": [
+                345,
+                180,
+                11.248055458068848
+              ],
+              "shape": "cube",
+              "color": "brown",
+              "material": "metal",
+              "size": "large"
+            },
+            {
+              "id": "obj_2",
+              "label": "obj_2",
+              "desc": "黄色小金属球体",
+              "desc_en": "small yellow metal sphere",
+              "pixel_coords": [
+                257,
+                102,
+                14.823111534118652
+              ],
+              "shape": "sphere",
+              "color": "yellow",
+              "material": "metal",
+              "size": "small"
+            },
+            {
+              "id": "obj_3",
+              "label": "obj_3",
+              "desc": "红色小金属圆柱",
+              "desc_en": "small red metal cylinder",
+              "pixel_coords": [
+                164,
+                166,
+                11.775535583496094
+              ],
+              "shape": "cylinder",
+              "color": "red",
+              "material": "metal",
+              "size": "small"
+            }
+          ],
+          "answer_example": "obj_0, obj_2, obj_3"
+        },
+        {
+          "qid": "fdr_0003",
+          "type": "fdr",
+          "anchor": "obj_2",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_1",
+            "obj_3",
+            "obj_0"
+          ],
+          "gt_distances": [
+            2.390015,
+            4.149364,
+            4.489145
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_1"
+            ],
+            [
+              "obj_3",
+              "obj_0"
+            ]
+          ],
+          "variant": "disjoint",
+          "prompt_text": "请以黄色小金属球体为基准，将其余物体按距离从近到远排序。候选物体：棕色大金属立方体, 红色大金属立方体, 红色小金属圆柱。",
+          "ranking_candidates": [
+            {
+              "id": "obj_0",
+              "label": "obj_0",
+              "desc": "棕色大金属立方体",
+              "desc_en": "large brown metal cube",
+              "pixel_coords": [
+                345,
+                180,
+                11.248055458068848
+              ],
+              "shape": "cube",
+              "color": "brown",
+              "material": "metal",
+              "size": "large"
+            },
+            {
+              "id": "obj_1",
+              "label": "obj_1",
+              "desc": "红色大金属立方体",
+              "desc_en": "large red metal cube",
+              "pixel_coords": [
+                193,
+                129,
+                13.347834587097168
+              ],
+              "shape": "cube",
+              "color": "red",
+              "material": "metal",
+              "size": "large"
+            },
+            {
+              "id": "obj_3",
+              "label": "obj_3",
+              "desc": "红色小金属圆柱",
+              "desc_en": "small red metal cylinder",
+              "pixel_coords": [
+                164,
+                166,
+                11.775535583496094
+              ],
+              "shape": "cylinder",
+              "color": "red",
+              "material": "metal",
+              "size": "small"
+            }
+          ],
+          "answer_example": "obj_0, obj_1, obj_3"
+        },
+        {
+          "qid": "fdr_0004",
+          "type": "fdr",
+          "anchor": "obj_3",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_1",
+            "obj_0",
+            "obj_2"
+          ],
+          "gt_distances": [
+            1.889132,
+            4.008901,
+            4.149364
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_1"
+            ],
+            [
+              "obj_0",
+              "obj_2"
+            ]
+          ],
+          "variant": "disjoint",
+          "prompt_text": "请以红色小金属圆柱为基准，将其余物体按距离从近到远排序。候选物体：棕色大金属立方体, 红色大金属立方体, 黄色小金属球体。",
+          "ranking_candidates": [
+            {
+              "id": "obj_0",
+              "label": "obj_0",
+              "desc": "棕色大金属立方体",
+              "desc_en": "large brown metal cube",
+              "pixel_coords": [
+                345,
+                180,
+                11.248055458068848
+              ],
+              "shape": "cube",
+              "color": "brown",
+              "material": "metal",
+              "size": "large"
+            },
+            {
+              "id": "obj_1",
+              "label": "obj_1",
+              "desc": "红色大金属立方体",
+              "desc_en": "large red metal cube",
+              "pixel_coords": [
+                193,
+                129,
+                13.347834587097168
+              ],
+              "shape": "cube",
+              "color": "red",
+              "material": "metal",
+              "size": "large"
+            },
+            {
+              "id": "obj_2",
+              "label": "obj_2",
+              "desc": "黄色小金属球体",
+              "desc_en": "small yellow metal sphere",
+              "pixel_coords": [
+                257,
+                102,
+                14.823111534118652
+              ],
+              "shape": "sphere",
+              "color": "yellow",
+              "material": "metal",
+              "size": "small"
+            }
+          ],
+          "answer_example": "obj_0, obj_1, obj_2"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_questions": 31,
+    "qrr_questions": 3,
+    "trr_questions": 24,
+    "fdr_questions": 4,
+    "n_batches": 4
+  }
+}

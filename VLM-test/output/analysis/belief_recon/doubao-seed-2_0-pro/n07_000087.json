@@ -1,0 +1,66 @@
+{
+  "feasible": false,
+  "status": "infeasible",
+  "positions": {},
+  "metrics": {
+    "csr_qrr": 0.0,
+    "csr_trr": 0.0,
+    "K_geom": 1,
+    "spread": 0.0,
+    "kendall_tau": null,
+    "nrms": null,
+    "best_loss": Infinity,
+    "n_solutions": 0,
+    "cluster_sizes": []
+  },
+  "K_geom": 0,
+  "n_solutions": 0,
+  "constraint_mode": "all",
+  "constraint_counts": {
+    "n_qrr_direct": 99,
+    "n_qrr_from_fdr": 105,
+    "n_trr": 210,
+    "n_qrr_used": 204,
+    "n_trr_used": 210
+  },
+  "feasibility_checks": {
+    "qrr_has_cycle": true,
+    "qrr_cycle_info": "cycle involving obj_3_obj_6 -> obj_1_obj_4",
+    "trr_n_conflicts": 0,
+    "hypergraph_connected": true,
+    "n_components": 1,
+    "n_qrr": 204,
+    "n_trr": 210,
+    "n_objects": 7
+  },
+  "scene_id": "n07_000087",
+  "n_objects": 7,
+  "model": "doubao-seed-2.0-pro",
+  "use_correct_only": false,
+  "prepared_summary": {
+    "n_objects": 7,
+    "n_questions": 316,
+    "n_qrr_direct": 99,
+    "n_qrr_direct_disjoint": 99,
+    "n_qrr_direct_shared_anchor": 0,
+    "n_trr": 210,
+    "n_fdr": 7,
+    "n_qrr_from_fdr": 105,
+    "n_qrr_total": 204,
+    "n_selected_questions": 316,
+    "n_skipped_questions": 0
+  },
+  "prepared_integrity": {
+    "n_questions": 316,
+    "n_scored_rows": 316,
+    "duplicate_question_ids": [],
+    "duplicate_score_qids": [],
+    "missing_score_qids": [],
+    "extra_score_qids": [],
+    "skip_reason_counts": {},
+    "question_layout": "split",
+    "question_layout_warning": "flat/split mismatch for n07_000087: flat=309 split=316",
+    "alternate_flat_path": "/Users/tsyq/code/ordinary-bench-core/VLM-test/output/questions/n07_000087.json",
+    "alternate_flat_question_count": 309
+  }
+}

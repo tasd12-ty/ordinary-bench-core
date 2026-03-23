@@ -1,0 +1,236 @@
+{
+  "scene_id": "n05_000086",
+  "model": "gpt-5.4-0305-global",
+  "n_views": 4,
+  "n_objects": 5,
+  "n_batches": 2,
+  "total_questions": 17,
+  "scores": {
+    "qrr_correct": 3,
+    "qrr_total": 12,
+    "qrr_disjoint_correct": 3,
+    "qrr_disjoint_total": 12,
+    "qrr_shared_anchor_correct": 0,
+    "qrr_shared_anchor_total": 0,
+    "trr_hour_correct": 0,
+    "trr_quadrant_correct": 0,
+    "trr_adjacent_correct": 0,
+    "trr_total": 0,
+    "fdr_exact_correct": 3,
+    "fdr_total": 5,
+    "fdr_kendall_mean": 0.84,
+    "fdr_pairwise_mean": 0.9333,
+    "fdr_top1_mean": 0.8,
+    "missing": 0,
+    "per_question": [
+      {
+        "qid": "qrr_0001",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0002",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "~=",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0003",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": "<",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0004",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0005",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0006",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0007",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": ">",
+        "gt": ">",
+        "correct": true
+      },
+      {
+        "qid": "qrr_0008",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0009",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0010",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "<",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0011",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "~=",
+        "gt": ">",
+        "correct": false
+      },
+      {
+        "qid": "qrr_0012",
+        "type": "qrr",
+        "variant": "disjoint",
+        "anchor": null,
+        "predicted": "~=",
+        "gt": "<",
+        "correct": false
+      },
+      {
+        "qid": "fdr_0001",
+        "type": "fdr",
+        "predicted": [
+          "obj_2",
+          "obj_1",
+          "obj_3",
+          "obj_4"
+        ],
+        "gt_ranking": [
+          "obj_2",
+          "obj_1",
+          "obj_4",
+          "obj_3"
+        ],
+        "exact_correct": true,
+        "kendall_tau": 1.0,
+        "pairwise_accuracy": 1.0,
+        "top1_correct": true
+      },
+      {
+        "qid": "fdr_0002",
+        "type": "fdr",
+        "predicted": [
+          "obj_0",
+          "obj_4",
+          "obj_3",
+          "obj_2"
+        ],
+        "gt_ranking": [
+          "obj_4",
+          "obj_0",
+          "obj_2",
+          "obj_3"
+        ],
+        "exact_correct": false,
+        "kendall_tau": 0.6,
+        "pairwise_accuracy": 0.8333,
+        "top1_correct": false
+      },
+      {
+        "qid": "fdr_0003",
+        "type": "fdr",
+        "predicted": [
+          "obj_0",
+          "obj_1",
+          "obj_3",
+          "obj_4"
+        ],
+        "gt_ranking": [
+          "obj_0",
+          "obj_3",
+          "obj_1",
+          "obj_4"
+        ],
+        "exact_correct": false,
+        "kendall_tau": 0.6,
+        "pairwise_accuracy": 0.8333,
+        "top1_correct": true
+      },
+      {
+        "qid": "fdr_0004",
+        "type": "fdr",
+        "predicted": [
+          "obj_4",
+          "obj_2",
+          "obj_1",
+          "obj_0"
+        ],
+        "gt_ranking": [
+          "obj_4",
+          "obj_2",
+          "obj_1",
+          "obj_0"
+        ],
+        "exact_correct": true,
+        "kendall_tau": 1.0,
+        "pairwise_accuracy": 1.0,
+        "top1_correct": true
+      },
+      {
+        "qid": "fdr_0005",
+        "type": "fdr",
+        "predicted": [
+          "obj_3",
+          "obj_1",
+          "obj_2",
+          "obj_0"
+        ],
+        "gt_ranking": [
+          "obj_3",
+          "obj_1",
+          "obj_2",
+          "obj_0"
+        ],
+        "exact_correct": true,
+        "kendall_tau": 1.0,
+        "pairwise_accuracy": 1.0,
+        "top1_correct": true
+      }
+    ]
+  }
+}

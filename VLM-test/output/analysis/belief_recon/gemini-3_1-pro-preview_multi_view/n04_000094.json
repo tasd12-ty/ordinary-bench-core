@@ -1,0 +1,85 @@
+{
+  "feasible": false,
+  "status": "infeasible",
+  "positions": {
+    "obj_0": [
+      0.0,
+      0.0
+    ],
+    "obj_1": [
+      1.0,
+      0.0
+    ],
+    "obj_2": [
+      0.8721567390092795,
+      0.4727209104346159
+    ],
+    "obj_3": [
+      0.6558626379717307,
+      -0.033270426208018455
+    ]
+  },
+  "metrics": {
+    "csr_qrr": 0.8571428571428571,
+    "csr_trr": 0.6666666666666666,
+    "K_geom": 1,
+    "spread": 4.86236749736051e-08,
+    "kendall_tau": 0.7333333333333333,
+    "nrms": 0.4591741276985703,
+    "best_loss": 2.2110044263725537,
+    "n_solutions": 10,
+    "cluster_sizes": [
+      8
+    ]
+  },
+  "K_geom": 1,
+  "n_solutions": 10,
+  "constraint_mode": "all",
+  "constraint_counts": {
+    "n_qrr_direct": 2,
+    "n_qrr_from_fdr": 12,
+    "n_trr": 24,
+    "n_qrr_used": 14,
+    "n_trr_used": 24
+  },
+  "feasibility_checks": {
+    "qrr_has_cycle": false,
+    "qrr_cycle_info": null,
+    "trr_n_conflicts": 0,
+    "hypergraph_connected": true,
+    "n_components": 1,
+    "n_qrr": 14,
+    "n_trr": 24,
+    "n_objects": 4
+  },
+  "scene_id": "n04_000094",
+  "n_objects": 4,
+  "model": "gemini-3.1-pro-preview",
+  "use_correct_only": false,
+  "prepared_summary": {
+    "n_objects": 4,
+    "n_questions": 30,
+    "n_qrr_direct": 2,
+    "n_qrr_direct_disjoint": 2,
+    "n_qrr_direct_shared_anchor": 0,
+    "n_trr": 24,
+    "n_fdr": 4,
+    "n_qrr_from_fdr": 12,
+    "n_qrr_total": 14,
+    "n_selected_questions": 30,
+    "n_skipped_questions": 0
+  },
+  "prepared_integrity": {
+    "n_questions": 30,
+    "n_scored_rows": 30,
+    "duplicate_question_ids": [],
+    "duplicate_score_qids": [],
+    "missing_score_qids": [],
+    "extra_score_qids": [],
+    "skip_reason_counts": {},
+    "question_layout": "split",
+    "question_layout_warning": "flat/split mismatch for n04_000094: flat=26 split=30",
+    "alternate_flat_path": "/Users/tsyq/code/ordinary-bench-core/VLM-test/output/questions/n04_000094.json",
+    "alternate_flat_question_count": 26
+  }
+}

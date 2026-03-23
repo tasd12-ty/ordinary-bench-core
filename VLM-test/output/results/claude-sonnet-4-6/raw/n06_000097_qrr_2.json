@@ -1,0 +1,31 @@
+{
+  "scene_id": "n06_000097",
+  "batch_id": "qrr_2",
+  "question_type": "qrr",
+  "model": "claude-sonnet-4-6",
+  "timestamp": 1773989286.4505541,
+  "elapsed_seconds": 9.08,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: small cyan metal cube\n  - obj_1: large blue rubber cylinder\n  - obj_2: large yellow rubber cube\n  - obj_3: small gray rubber sphere\n  - obj_4: large purple rubber sphere\n  - obj_5: large purple rubber cube\n\nQuestions:\n[qrr_0041] Compare the distance between obj_2 and obj_5 vs the distance between obj_3 and obj_4. Answer: < / ~= / >"
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/single_view/n06_000097.png"
+          }
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to compare the distance between obj_2 (large yellow rubber cube) and obj_5 (large purple rubber cube) vs the distance between obj_3 (small gray rubber sphere) and obj_4 (large purple rubber sphere).\n\nWait, looking at the image description more carefully - the objects listed include \"large yellow rubber cube\" and \"large purple rubber cube\" but in the image I can see small objects. Let me re-examine based on the object list provided.\n\nobj_2: large yellow rubber cube (the yellow cube in front)\nobj_5: large purple rubber cube (the purple cube on the right side)\nobj_3: small gray rubber sphere (behind the cyan cube)\nobj_4: large purple rubber sphere (the purple sphere on the right)\n\nDistance between obj_2 (yellow cube) and obj_5 (purple cube): These two objects are moderately separated - the yellow cube is in front-left area and the purple cube is more to the right and back.\n\nDistance between obj_3 (gray sphere) and obj_4 (purple sphere): The gray sphere is far behind, and the purple sphere is in the front-right area. This distance appears quite large.\n\nComparing these two distances: The yellow cube to purple cube distance seems moderate, while the gray sphere to purple sphere distance appears larger (the gray sphere is very far back).\n\n[{\"qid\": \"qrr_0041\", \"answer\": \"<\"}]"
+}

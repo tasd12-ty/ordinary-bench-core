@@ -1,0 +1,112 @@
+{
+  "feasible": false,
+  "status": "infeasible",
+  "positions": {
+    "obj_2": [
+      0.0,
+      0.0
+    ],
+    "obj_3": [
+      1.0,
+      0.0
+    ],
+    "obj_0": [
+      -0.27134566438322866,
+      -0.45115270544093317
+    ],
+    "obj_1": [
+      0.09228581764913116,
+      -0.2552507940890685
+    ],
+    "obj_4": [
+      0.567069634693179,
+      0.04756184990978135
+    ],
+    "obj_5": [
+      0.4832474120868219,
+      -0.2695860257215355
+    ],
+    "obj_6": [
+      0.5678400941403373,
+      -0.34828748962325745
+    ]
+  },
+  "metrics": {
+    "csr_qrr": 0.46938775510204084,
+    "csr_trr": 0.1523809523809524,
+    "K_geom": 6,
+    "spread": 1.6849650048195604,
+    "kendall_tau": 0.14285714285714285,
+    "nrms": 0.5356861703095082,
+    "best_loss": 1295.514599260649,
+    "n_solutions": 10,
+    "cluster_sizes": [
+      1,
+      1,
+      4,
+      2,
+      1,
+      1
+    ]
+  },
+  "K_geom": 6,
+  "n_solutions": 10,
+  "constraint_mode": "all",
+  "constraint_counts": {
+    "n_qrr_direct": 98,
+    "n_qrr_from_fdr": 0,
+    "n_trr": 210,
+    "n_qrr_used": 98,
+    "n_trr_used": 210
+  },
+  "feasibility_checks": {
+    "qrr_has_cycle": false,
+    "qrr_cycle_info": null,
+    "trr_n_conflicts": 0,
+    "hypergraph_connected": true,
+    "n_components": 1,
+    "n_qrr": 98,
+    "n_trr": 210,
+    "n_objects": 7
+  },
+  "scene_id": "n07_000009",
+  "n_objects": 7,
+  "model": "qwen/qwen3-vl-235b-a22b-thinking",
+  "use_correct_only": false,
+  "prepared_summary": {
+    "n_objects": 7,
+    "n_questions": 315,
+    "n_qrr_direct": 98,
+    "n_qrr_direct_disjoint": 98,
+    "n_qrr_direct_shared_anchor": 0,
+    "n_trr": 210,
+    "n_fdr": 0,
+    "n_qrr_from_fdr": 0,
+    "n_qrr_total": 98,
+    "n_selected_questions": 308,
+    "n_skipped_questions": 7
+  },
+  "prepared_integrity": {
+    "n_questions": 315,
+    "n_scored_rows": 308,
+    "duplicate_question_ids": [],
+    "duplicate_score_qids": [],
+    "missing_score_qids": [
+      "fdr_0001",
+      "fdr_0002",
+      "fdr_0003",
+      "fdr_0004",
+      "fdr_0005",
+      "fdr_0006",
+      "fdr_0007"
+    ],
+    "extra_score_qids": [],
+    "skip_reason_counts": {
+      "missing_score": 7
+    },
+    "question_layout": "split",
+    "question_layout_warning": "flat/split mismatch for n07_000009: flat=308 split=315",
+    "alternate_flat_path": "/Users/tsyq/code/ordinary-bench-core/VLM-test/output/questions/n07_000009.json",
+    "alternate_flat_question_count": 308
+  }
+}

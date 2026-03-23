@@ -1,0 +1,21 @@
+{
+  "n_scenes": 1,
+  "batch_size": 20,
+  "tau": 0.1,
+  "is_3d": true,
+  "per_type": {
+    "qrr": {
+      "questions": 99,
+      "batches": 5
+    },
+    "trr": {
+      "questions": 120,
+      "batches": 6
+    },
+    "fdr": {
+      "questions": 6,
+      "batches": 1
+    }
+  },
+  "total_questions": 225
+}

@@ -1,0 +1,63 @@
+{
+  "name": "ORDINARY-BENCH 3D Grid Dataset",
+  "version": "1.0",
+  "created": "2026-03-22T16:44:48.855335",
+  "placement_mode": "grid3d",
+  "config": {
+    "n_views": 6,
+    "view_names": [
+      "top",
+      "bottom",
+      "front",
+      "back",
+      "left",
+      "right"
+    ],
+    "projection": "orthographic",
+    "image_size": [
+      480,
+      480
+    ],
+    "ortho_scale": 8.0,
+    "grid": {
+      "rows": 4,
+      "cols": 4,
+      "layers": 4,
+      "cell_size": 1.5,
+      "labels": false
+    }
+  },
+  "splits": {
+    "g04": {
+      "n_scenes": 1,
+      "min_objects": 4,
+      "max_objects": 4
+    },
+    "g08": {
+      "n_scenes": 1,
+      "min_objects": 8,
+      "max_objects": 8
+    },
+    "g12": {
+      "n_scenes": 1,
+      "min_objects": 12,
+      "max_objects": 12
+    }
+  },
+  "statistics": {
+    "g04": {
+      "n_scenes": 1,
+      "n_images": 6
+    },
+    "g08": {
+      "n_scenes": 1,
+      "n_images": 6
+    },
+    "g12": {
+      "n_scenes": 1,
+      "n_images": 6
+    }
+  },
+  "total_scenes": 3,
+  "total_images": 18
+}

@@ -1,0 +1,89 @@
+{
+  "feasible": false,
+  "status": "infeasible",
+  "positions": {
+    "obj_4": [
+      0.0,
+      0.0
+    ],
+    "obj_0": [
+      1.0,
+      0.0
+    ],
+    "obj_1": [
+      -3.0595799835756163,
+      -0.4235455782096374
+    ],
+    "obj_2": [
+      0.5545532744827796,
+      -1.9138672219561053
+    ],
+    "obj_3": [
+      0.396615545913503,
+      1.7185835154633915
+    ]
+  },
+  "metrics": {
+    "csr_qrr": 0.8181818181818182,
+    "csr_trr": 0.8166666666666667,
+    "K_geom": 1,
+    "spread": 4.805777153970688e-07,
+    "kendall_tau": 0.7333333333333333,
+    "nrms": 0.5792679602820635,
+    "best_loss": 2.9182709465040473,
+    "n_solutions": 10,
+    "cluster_sizes": [
+      10
+    ]
+  },
+  "K_geom": 1,
+  "n_solutions": 10,
+  "constraint_mode": "all",
+  "constraint_counts": {
+    "n_qrr_direct": 14,
+    "n_qrr_from_fdr": 30,
+    "n_trr": 60,
+    "n_qrr_used": 44,
+    "n_trr_used": 60
+  },
+  "feasibility_checks": {
+    "qrr_has_cycle": false,
+    "qrr_cycle_info": null,
+    "trr_n_conflicts": 0,
+    "hypergraph_connected": true,
+    "n_components": 1,
+    "n_qrr": 44,
+    "n_trr": 60,
+    "n_objects": 5
+  },
+  "scene_id": "n05_000090",
+  "n_objects": 5,
+  "model": "gemini-3.1-pro-preview",
+  "use_correct_only": false,
+  "prepared_summary": {
+    "n_objects": 5,
+    "n_questions": 79,
+    "n_qrr_direct": 14,
+    "n_qrr_direct_disjoint": 14,
+    "n_qrr_direct_shared_anchor": 0,
+    "n_trr": 60,
+    "n_fdr": 5,
+    "n_qrr_from_fdr": 30,
+    "n_qrr_total": 44,
+    "n_selected_questions": 79,
+    "n_skipped_questions": 0
+  },
+  "prepared_integrity": {
+    "n_questions": 79,
+    "n_scored_rows": 79,
+    "duplicate_question_ids": [],
+    "duplicate_score_qids": [],
+    "missing_score_qids": [],
+    "extra_score_qids": [],
+    "skip_reason_counts": {},
+    "question_layout": "split",
+    "question_layout_warning": "flat/split mismatch for n05_000090: flat=74 split=79",
+    "alternate_flat_path": "/Users/tsyq/code/ordinary-bench-core/VLM-test/output/questions/n05_000090.json",
+    "alternate_flat_question_count": 74
+  }
+}

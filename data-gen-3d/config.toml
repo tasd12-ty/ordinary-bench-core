@@ -1,0 +1,77 @@
+[blender]
+executable = "/Applications/Blender.app/Contents/MacOS/Blender"
+use_gpu = false
+
+[rendering]
+width = 480
+height = 320
+samples = 256
+n_views = 4
+camera_distance = 14.0      # Slightly farther for 3D scenes
+elevation = 35.0             # Default oblique view elevation
+azimuth_start = 45.0
+render_top_view = true
+render_side_view = true      # NEW: side view for height visibility
+top_view_padding = 0.35
+
+[rendering.views_3d]
+# 3D-specific multi-view camera presets for height perception
+# Each view: [azimuth_deg, elevation_deg]
+oblique_front = [45.0, 35.0]
+oblique_back = [225.0, 35.0]
+side_low = [90.0, 15.0]      # Low side view to see height differences
+top = [0.0, 90.0]             # Orthographic top-down
+
+[placement]
+x_range = [-3.0, 3.0]
+y_range = [-3.0, 3.0]
+z_range = [0.0, 2.5]
+z_distribution = "uniform"    # "uniform" | "discrete_levels" | "gaussian"
+discrete_levels = [0.0, 1.0, 2.0]  # Used when z_distribution = "discrete_levels"
+min_dist_3d = 0.5
+
+[objects]
+min_count = 4
+max_count = 10
+min_dist = 0.25
+margin = 0.4
+
+[output]
+dir = "./output"
+seed = 42
+
+# 每种物体数量 20 个场景，共 140 场景
+[splits.n04]
+n_scenes = 20
+min_objects = 4
+max_objects = 4
+
+[splits.n05]
+n_scenes = 20
+min_objects = 5
+max_objects = 5
+
+[splits.n06]
+n_scenes = 20
+min_objects = 6
+max_objects = 6
+
+[splits.n07]
+n_scenes = 20
+min_objects = 7
+max_objects = 7
+
+[splits.n08]
+n_scenes = 20
+min_objects = 8
+max_objects = 8
+
+[splits.n09]
+n_scenes = 20
+min_objects = 9
+max_objects = 9
+
+[splits.n10]
+n_scenes = 20
+min_objects = 10
+max_objects = 10

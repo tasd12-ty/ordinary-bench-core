@@ -1,0 +1,137 @@
+{
+  "scene_id": "g08_000000",
+  "split": "g08",
+  "n_objects": 8,
+  "system_prompt": "You are analyzing a 3D scene where objects are placed in a 4×4×4 grid.\n\nCoordinate system:\n- Row: A, B, C, D (A=front, D=back)\n- Column: 1, 2, 3, 4 (1=left, 4=right)\n- Layer: 1, 2, 3, 4 (1=bottom, 4=top)\n- Position format: RowCol-Layer, e.g. \"B3-4\" = Row B, Column 3, Layer 4\n\nYou will receive 6 orthographic views of the scene, each labeled.\nUse multiple views together to determine each object's 3D grid cell.\n\nRespond ONLY with a JSON array.",
+  "user_prompt": "Here are 6 orthographic views of a 3D grid scene:\n\n[Image 1 — TOP VIEW (looking down): rows=A-D top-to-bottom, columns=1-4 left-to-right]\n\n[Image 2 — FRONT VIEW (looking from front): columns=1-4 left-to-right, layers=1-4 bottom-to-top]\n\n[Image 3 — RIGHT VIEW (looking from right side): rows=A-D left-to-right, layers=1-4 bottom-to-top]\n\n[Image 4 — BACK VIEW (looking from back): columns=4-1 left-to-right, layers=1-4 bottom-to-top]\n\n[Image 5 — LEFT VIEW (looking from left side): rows=D-A left-to-right, layers=1-4 bottom-to-top]\n\n[Image 6 — BOTTOM VIEW (looking up): rows=A-D top-to-bottom, columns=4-1 left-to-right]\n\nObjects in this scene:\n  1. cyan rubber cylinder\n  2. gray rubber sphere\n  3. brown rubber sphere\n  4. red rubber sphere\n  5. purple metal sphere\n  6. yellow rubber cylinder\n  7. red metal sphere\n  8. purple rubber cylinder\n\nFor each object, determine its grid position by combining information from at least two views. Answer as JSON:\n\n[\n  {\"object\": \"cyan rubber cylinder\", \"cell\": \"?\"},\n  {\"object\": \"gray rubber sphere\", \"cell\": \"?\"},\n  {\"object\": \"brown rubber sphere\", \"cell\": \"?\"},\n  {\"object\": \"red rubber sphere\", \"cell\": \"?\"},\n  {\"object\": \"purple metal sphere\", \"cell\": \"?\"},\n  {\"object\": \"yellow rubber cylinder\", \"cell\": \"?\"},\n  {\"object\": \"red metal sphere\", \"cell\": \"?\"},\n  {\"object\": \"purple rubber cylinder\", \"cell\": \"?\"}\n]",
+  "images": [
+    {
+      "view": "top",
+      "label": "TOP VIEW (looking down): rows=A-D top-to-bottom, columns=1-4 left-to-right",
+      "path": "images/top/g08_000000.png",
+      "exists": true
+    },
+    {
+      "view": "front",
+      "label": "FRONT VIEW (looking from front): columns=1-4 left-to-right, layers=1-4 bottom-to-top",
+      "path": "images/front/g08_000000.png",
+      "exists": true
+    },
+    {
+      "view": "right",
+      "label": "RIGHT VIEW (looking from right side): rows=A-D left-to-right, layers=1-4 bottom-to-top",
+      "path": "images/right/g08_000000.png",
+      "exists": true
+    },
+    {
+      "view": "back",
+      "label": "BACK VIEW (looking from back): columns=4-1 left-to-right, layers=1-4 bottom-to-top",
+      "path": "images/back/g08_000000.png",
+      "exists": true
+    },
+    {
+      "view": "left",
+      "label": "LEFT VIEW (looking from left side): rows=D-A left-to-right, layers=1-4 bottom-to-top",
+      "path": "images/left/g08_000000.png",
+      "exists": true
+    },
+    {
+      "view": "bottom",
+      "label": "BOTTOM VIEW (looking up): rows=A-D top-to-bottom, columns=4-1 left-to-right",
+      "path": "images/bottom/g08_000000.png",
+      "exists": true
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "cyan rubber cylinder"
+    },
+    {
+      "id": "obj_1",
+      "desc": "gray rubber sphere"
+    },
+    {
+      "id": "obj_2",
+      "desc": "brown rubber sphere"
+    },
+    {
+      "id": "obj_3",
+      "desc": "red rubber sphere"
+    },
+    {
+      "id": "obj_4",
+      "desc": "purple metal sphere"
+    },
+    {
+      "id": "obj_5",
+      "desc": "yellow rubber cylinder"
+    },
+    {
+      "id": "obj_6",
+      "desc": "red metal sphere"
+    },
+    {
+      "id": "obj_7",
+      "desc": "purple rubber cylinder"
+    }
+  ],
+  "ground_truth": [
+    {
+      "object": "cyan rubber cylinder",
+      "cell": "B3-4",
+      "row": 1,
+      "col": 2,
+      "layer": 3
+    },
+    {
+      "object": "gray rubber sphere",
+      "cell": "A4-3",
+      "row": 0,
+      "col": 3,
+      "layer": 2
+    },
+    {
+      "object": "brown rubber sphere",
+      "cell": "C1-1",
+      "row": 2,
+      "col": 0,
+      "layer": 0
+    },
+    {
+      "object": "red rubber sphere",
+      "cell": "C2-3",
+      "row": 2,
+      "col": 1,
+      "layer": 2
+    },
+    {
+      "object": "purple metal sphere",
+      "cell": "A1-2",
+      "row": 0,
+      "col": 0,
+      "layer": 1
+    },
+    {
+      "object": "yellow rubber cylinder",
+      "cell": "C1-4",
+      "row": 2,
+      "col": 0,
+      "layer": 3
+    },
+    {
+      "object": "red metal sphere",
+      "cell": "A4-1",
+      "row": 0,
+      "col": 3,
+      "layer": 0
+    },
+    {
+      "object": "purple rubber cylinder",
+      "cell": "C4-2",
+      "row": 2,
+      "col": 3,
+      "layer": 1
+    }
+  ]
+}

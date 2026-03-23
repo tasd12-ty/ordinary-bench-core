@@ -1,0 +1,50 @@
+{
+  "scene_id": "n10_000097",
+  "batch_id": "qrr_19",
+  "question_type": "qrr",
+  "model": "claude-sonnet-4-6",
+  "n_views": 4,
+  "timestamp": 1773986305.0205998,
+  "elapsed_seconds": 19.57,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n10_000097/view_0.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n10_000097/view_1.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n10_000097/view_2.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n10_000097/view_3.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: large cyan metal cube\n  - obj_1: large blue metal sphere\n  - obj_2: small brown rubber sphere\n  - obj_3: small brown metal sphere\n  - obj_4: large purple metal sphere\n  - obj_5: small gray rubber cube\n  - obj_6: large brown rubber sphere\n  - obj_7: large brown metal cube\n  - obj_8: large gray rubber sphere\n  - obj_9: small purple metal cube\n\nQuestions:\n[qrr_0381] Compare the distance between obj_1 and obj_9 vs the distance between obj_3 and obj_4. Answer: < / ~= / >\n[qrr_0382] Compare the distance between obj_1 and obj_9 vs the distance between obj_3 and obj_5. Answer: < / ~= / >\n[qrr_0383] Compare the distance between obj_1 and obj_9 vs the distance between obj_3 and obj_6. Answer: < / ~= / >\n[qrr_0384] Compare the distance between obj_1 and obj_9 vs the distance between obj_3 and obj_7. Answer: < / ~= / >\n[qrr_0385] Compare the distance between obj_1 and obj_9 vs the distance between obj_3 and obj_8. Answer: < / ~= / >\n[qrr_0386] Compare the distance between obj_1 and obj_9 vs the distance between obj_4 and obj_7. Answer: < / ~= / >\n[qrr_0387] Compare the distance between obj_1 and obj_9 vs the distance between obj_4 and obj_8. Answer: < / ~= / >\n[qrr_0388] Compare the distance between obj_1 and obj_9 vs the distance between obj_5 and obj_6. Answer: < / ~= / >\n[qrr_0389] Compare the distance between obj_1 and obj_9 vs the distance between obj_5 and obj_7. Answer: < / ~= / >\n[qrr_0390] Compare the distance between obj_1 and obj_9 vs the distance between obj_5 and obj_8. Answer: < / ~= / >\n[qrr_0391] Compare the distance between obj_1 and obj_9 vs the distance between obj_6 and obj_7. Answer: < / ~= / >\n[qrr_0392] Compare the distance between obj_1 and obj_9 vs the distance between obj_6 and obj_8. Answer: < / ~= / >\n[qrr_0393] Compare the distance between obj_1 and obj_9 vs the distance between obj_7 and obj_8. Answer: < / ~= / >\n[qrr_0394] Compare the distance between obj_2 and obj_3 vs the distance between obj_4 and obj_5. Answer: < / ~= / >\n[qrr_0395] Compare the distance between obj_2 and obj_3 vs the distance between obj_4 and obj_6. Answer: < / ~= / >\n[qrr_0396] Compare the distance between obj_2 and obj_3 vs the distance between obj_4 and obj_7. Answer: < / ~= / >\n[qrr_0397] Compare the distance between obj_2 and obj_3 vs the distance between obj_4 and obj_8. Answer: < / ~= / >\n[qrr_0398] Compare the distance between obj_2 and obj_3 vs the distance between obj_4 and obj_9. Answer: < / ~= / >\n[qrr_0399] Compare the distance between obj_2 and obj_3 vs the distance between obj_5 and obj_6. Answer: < / ~= / >\n[qrr_0400] Compare the distance between obj_2 and obj_3 vs the distance between obj_5 and obj_7. Answer: < / ~= / >"
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D distances between objects in these scenes. Let me carefully examine each image and the objects described.\n\nLooking at the four images, I need to identify the objects and their 3D positions to compare distances.\n\nLet me work through each question:\n\n**qrr_0381**: dist(obj_1, obj_9) vs dist(obj_3, obj_4)\nBlue sphere to purple cube vs brown rubber sphere to purple metal sphere.\nBlue sphere and purple cube appear moderately far. Brown rubber sphere and purple sphere are quite far apart.\nAnswer: <\n\n**qrr_0382**: dist(obj_1, obj_9) vs dist(obj_3, obj_5)\nBlue sphere to purple cube vs brown rubber sphere to gray rubber cube.\nBrown rubber sphere and gray cube are close. Blue sphere to purple cube is farther.\nAnswer: >\n\n**qrr_0383**: dist(obj_1, obj_9) vs dist(obj_3, obj_6)\nBlue sphere to purple cube vs brown rubber sphere to large brown rubber sphere.\nThese seem roughly comparable.\nAnswer: ~=\n\n**qrr_0384**: dist(obj_1, obj_9) vs dist(obj_3, obj_7)\nBlue sphere to purple cube vs brown rubber sphere to brown metal cube.\nBrown rubber sphere to brown metal cube is quite far. Blue sphere to purple cube seems less.\nAnswer: <\n\n**qrr_0385**: dist(obj_1, obj_9) vs dist(obj_3, obj_8)\nBlue sphere to purple cube vs brown rubber sphere to gray rubber sphere.\nAnswer: ~=\n\n**qrr_0386**: dist(obj_1, obj_9) vs dist(obj_4, obj_7)\nBlue sphere to purple cube vs purple metal sphere to brown metal cube.\nAnswer: <\n\n**qrr_0387**: dist(obj_1, obj_9) vs dist(obj_4, obj_8)\nBlue sphere to purple cube vs purple sphere to gray sphere.\nAnswer: ~=\n\n**qrr_0388**: dist(obj_1, obj_9) vs dist(obj_5, obj_6)\nBlue sphere to purple cube vs gray cube to brown rubber sphere.\nAnswer: >\n\n**qrr_0389**: dist(obj_1, obj_9) vs dist(obj_5, obj_7)\nBlue sphere to purple cube vs gray cube to brown metal cube.\nAnswer: <\n\n**qrr_0390**: dist(obj_1, obj_9) vs dist(obj_5, obj_8)\nBlue sphere to purple cube vs gray cube to gray rubber sphere.\nAnswer: ~=\n\n**qrr_0391**: dist(obj_1, obj_9) vs dist(obj_6, obj_7)\nBlue sphere to purple cube vs large brown rubber sphere to brown metal cube.\nAnswer: ~=\n\n**qrr_0392**: dist(obj_1, obj_9) vs dist(obj_6, obj_8)\nBlue sphere to purple cube vs brown rubber sphere to gray rubber sphere.\nAnswer: <\n\n**qrr_0393**: dist(obj_1, obj_9) vs dist(obj_7, obj_8)\nBlue sphere to purple cube vs brown metal cube to gray rubber sphere.\nAnswer: ~=\n\n**qrr_0394**: dist(obj_2, obj_3) vs dist(obj_4, obj_5)\nBrown rubber sphere to brown metal sphere vs purple sphere to gray cube.\nAnswer: <\n\n**qrr_0395**: dist(obj_2, obj_3) vs dist(obj_4, obj_6)\nBrown rubber sphere to brown metal sphere vs purple sphere to large brown rubber sphere.\nAnswer: <\n\n**qrr_0396**: dist(obj_2, obj_3) vs dist(obj_4, obj_7)\nBrown rubber sphere to brown metal sphere vs purple sphere to brown metal cube.\nAnswer: <\n\n**qrr_0397**: dist(obj_2, obj_3) vs dist(obj_4, obj_8)\nBrown rubber sphere to brown metal sphere vs purple sphere to gray rubber sphere.\nAnswer: <\n\n**qrr_0398**: dist(obj_2, obj_3) vs dist(obj_4, obj_9)\nBrown rubber sphere to brown metal sphere vs purple sphere to purple cube.\nAnswer: <\n\n**qrr_0399**: dist(obj_2, obj_3) vs dist(obj_5, obj_6)\nBrown rubber sphere to brown metal sphere vs gray cube to large brown rubber sphere.\nAnswer: ~=\n\n**qrr_0400**: dist(obj_2, obj_3) vs dist(obj_5, obj_7)\nBrown rubber sphere to brown metal sphere vs gray cube to brown metal cube.\nAnswer: <\n\n[{\"qid\": \"qrr_0381\", \"answer\": \"<\"}, {\"qid\": \"qrr_0382\", \"answer\": \">\"}, {\"qid\": \"qrr_0383\", \"answer\": \"~=\"}, {\"qid\": \"qrr_0384\", \"answer\": \"<\"}, {\"qid\": \"qrr_0385\", \"answer\": \"~=\"}, {\"qid\": \"qrr_0386\", \"answer\": \"<\"}, {\"qid\": \"qrr_0387\", \"answer\": \"~=\"}, {\"qid\": \"qrr_0388\", \"answer\": \">\"}, {\"qid\": \"qrr_0389\", \"answer\": \"<\"}, {\"qid\": \"qrr_0390\", \"answer\": \"~=\"}, {\"qid\": \"qrr_0391\", \"answer\": \"~=\"}, {\"qid\": \"qrr_0392\", \"answer\": \"<\"}, {\"qid\": \"qrr_0393\", \"answer\": \"~=\"}, {\"qid\": \"qrr_0394\", \"answer\": \"<\"}, {\"qid\": \"qrr_0395\", \"answer\": \"<\"}, {\"qid\": \"qrr_0396\", \"answer\": \"<\"}, {\"qid\": \"qrr_0397\", \"answer\": \"<\"}, {\"qid\": \"qrr_0398\", \"answer\": \"<\"}, {\"qid\": \"qrr_0399\", \"answer\": \"~=\"}, {\"qid\": \"qrr_0400\", \"answer\": \"<\"}]"
+}

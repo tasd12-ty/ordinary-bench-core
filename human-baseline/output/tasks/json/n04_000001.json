@@ -1,0 +1,1146 @@
+{
+  "schema_version": 1,
+  "scene_id": "n04_000001",
+  "n_objects": 4,
+  "objects": [
+    {
+      "id": "obj_0",
+      "label": "obj_0",
+      "desc": "棕色大橡胶球体",
+      "desc_en": "large brown rubber sphere",
+      "pixel_coords": [
+        187,
+        116,
+        14.047133445739746
+      ],
+      "shape": "sphere",
+      "color": "brown",
+      "material": "rubber",
+      "size": "large"
+    },
+    {
+      "id": "obj_1",
+      "label": "obj_1",
+      "desc": "蓝色大橡胶圆柱",
+      "desc_en": "large blue rubber cylinder",
+      "pixel_coords": [
+        332,
+        176,
+        11.415080070495605
+      ],
+      "shape": "cylinder",
+      "color": "blue",
+      "material": "rubber",
+      "size": "large"
+    },
+    {
+      "id": "obj_2",
+      "label": "obj_2",
+      "desc": "绿色小金属球体",
+      "desc_en": "small green metal sphere",
+      "pixel_coords": [
+        244,
+        95,
+        15.28185749053955
+      ],
+      "shape": "sphere",
+      "color": "green",
+      "material": "metal",
+      "size": "small"
+    },
+    {
+      "id": "obj_3",
+      "label": "obj_3",
+      "desc": "红色小橡胶立方体",
+      "desc_en": "small red rubber cube",
+      "pixel_coords": [
+        195,
+        189,
+        10.942904472351074
+      ],
+      "shape": "cube",
+      "color": "red",
+      "material": "rubber",
+      "size": "small"
+    }
+  ],
+  "image_path": "images/n04_000001/single_view.png",
+  "images": {
+    "single_view": {
+      "view_id": "single_view",
+      "label": "单视图",
+      "image_path": "images/n04_000001/single_view.png"
+    },
+    "reference_view": {
+      "view_id": "single_view_reference",
+      "label": "编号参考图",
+      "image_path": "images/n04_000001/single_view_labels.png"
+    },
+    "multi_view": [
+      {
+        "view_id": "view_0",
+        "label": "View 0",
+        "image_path": "images/n04_000001/view_0.png",
+        "raw_image_path": "images/n04_000001/view_0.png",
+        "camera": {
+          "azimuth": 45.0,
+          "elevation": 30.0,
+          "distance": 12.0
+        }
+      },
+      {
+        "view_id": "view_1",
+        "label": "View 1",
+        "image_path": "images/n04_000001/view_1.png",
+        "raw_image_path": "images/n04_000001/view_1.png",
+        "camera": {
+          "azimuth": 135.0,
+          "elevation": 30.0,
+          "distance": 12.0
+        }
+      },
+      {
+        "view_id": "view_2",
+        "label": "View 2",
+        "image_path": "images/n04_000001/view_2.png",
+        "raw_image_path": "images/n04_000001/view_2.png",
+        "camera": {
+          "azimuth": 225.0,
+          "elevation": 30.0,
+          "distance": 12.0
+        }
+      },
+      {
+        "view_id": "view_3",
+        "label": "View 3",
+        "image_path": "images/n04_000001/view_3.png",
+        "raw_image_path": "images/n04_000001/view_3.png",
+        "camera": {
+          "azimuth": 315.0,
+          "elevation": 30.0,
+          "distance": 12.0
+        }
+      }
+    ],
+    "multi_view_labels_reliable": false
+  },
+  "available_test_types": [
+    "single_view",
+    "multi_view"
+  ],
+  "source": {
+    "scene_file": "data-gen/output/scenes/n04_000001.json",
+    "question_files": {
+      "qrr": "VLM-test/output/questions/qrr/n04_000001.json",
+      "trr": "VLM-test/output/questions/trr/n04_000001.json",
+      "fdr": "VLM-test/output/questions/fdr/n04_000001.json"
+    }
+  },
+  "batches": [
+    {
+      "batch_id": "qrr_0",
+      "question_type": "qrr",
+      "n_questions": 2,
+      "questions": [
+        {
+          "qid": "qrr_0001",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_2"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_3"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<",
+          "variant": "disjoint",
+          "prompt_text": "请比较棕色大橡胶球体与绿色小金属球体之间的距离，以及蓝色大橡胶圆柱与红色小橡胶立方体之间的距离。",
+          "answer_options": [
+            "<",
+            "~=",
+            ">"
+          ]
+        },
+        {
+          "qid": "qrr_0002",
+          "type": "qrr",
+          "pair1": [
+            "obj_0",
+            "obj_3"
+          ],
+          "pair2": [
+            "obj_1",
+            "obj_2"
+          ],
+          "metric": "dist3D",
+          "gt_comparator": "<",
+          "variant": "disjoint",
+          "prompt_text": "请比较棕色大橡胶球体与红色小橡胶立方体之间的距离，以及蓝色大橡胶圆柱与绿色小金属球体之间的距离。",
+          "answer_options": [
+            "<",
+            "~=",
+            ">"
+          ]
+        }
+      ]
+    },
+    {
+      "batch_id": "trr_0",
+      "question_type": "trr",
+      "n_questions": 20,
+      "questions": [
+        {
+          "qid": "trr_0001",
+          "type": "trr",
+          "target": "obj_0",
+          "ref1": "obj_1",
+          "ref2": "obj_2",
+          "gt_hour": 1,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 25.41,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在蓝色大橡胶圆柱处，面向绿色小金属球体，并把这个方向看作 12 点钟方向，那么棕色大橡胶球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0002",
+          "type": "trr",
+          "target": "obj_0",
+          "ref1": "obj_1",
+          "ref2": "obj_3",
+          "gt_hour": 10,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 307.81,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在蓝色大橡胶圆柱处，面向红色小橡胶立方体，并把这个方向看作 12 点钟方向，那么棕色大橡胶球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0003",
+          "type": "trr",
+          "target": "obj_0",
+          "ref1": "obj_2",
+          "ref2": "obj_1",
+          "gt_hour": 10,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 290.1,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在绿色小金属球体处，面向蓝色大橡胶圆柱，并把这个方向看作 12 点钟方向，那么棕色大橡胶球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0004",
+          "type": "trr",
+          "target": "obj_0",
+          "ref1": "obj_2",
+          "ref2": "obj_3",
+          "gt_hour": 11,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 324.81,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在绿色小金属球体处，面向红色小橡胶立方体，并把这个方向看作 12 点钟方向，那么棕色大橡胶球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0005",
+          "type": "trr",
+          "target": "obj_0",
+          "ref1": "obj_3",
+          "ref2": "obj_1",
+          "gt_hour": 3,
+          "gt_quadrant": 2,
+          "gt_angle_deg": 87.13,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色小橡胶立方体处，面向蓝色大橡胶圆柱，并把这个方向看作 12 点钟方向，那么棕色大橡胶球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0006",
+          "type": "trr",
+          "target": "obj_0",
+          "ref1": "obj_3",
+          "ref2": "obj_2",
+          "gt_hour": 1,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 19.44,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色小橡胶立方体处，面向绿色小金属球体，并把这个方向看作 12 点钟方向，那么棕色大橡胶球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0007",
+          "type": "trr",
+          "target": "obj_1",
+          "ref1": "obj_0",
+          "ref2": "obj_2",
+          "gt_hour": 9,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 275.31,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在棕色大橡胶球体处，面向绿色小金属球体，并把这个方向看作 12 点钟方向，那么蓝色大橡胶圆柱位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0008",
+          "type": "trr",
+          "target": "obj_1",
+          "ref1": "obj_0",
+          "ref2": "obj_3",
+          "gt_hour": 1,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 40.68,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在棕色大橡胶球体处，面向红色小橡胶立方体，并把这个方向看作 12 点钟方向，那么蓝色大橡胶圆柱位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0009",
+          "type": "trr",
+          "target": "obj_1",
+          "ref1": "obj_2",
+          "ref2": "obj_0",
+          "gt_hour": 2,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 69.9,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在绿色小金属球体处，面向棕色大橡胶球体，并把这个方向看作 12 点钟方向，那么蓝色大橡胶圆柱位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0010",
+          "type": "trr",
+          "target": "obj_1",
+          "ref1": "obj_2",
+          "ref2": "obj_3",
+          "gt_hour": 1,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 34.71,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在绿色小金属球体处，面向红色小橡胶立方体，并把这个方向看作 12 点钟方向，那么蓝色大橡胶圆柱位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0011",
+          "type": "trr",
+          "target": "obj_1",
+          "ref1": "obj_3",
+          "ref2": "obj_0",
+          "gt_hour": 9,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 272.87,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色小橡胶立方体处，面向棕色大橡胶球体，并把这个方向看作 12 点钟方向，那么蓝色大橡胶圆柱位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0012",
+          "type": "trr",
+          "target": "obj_1",
+          "ref1": "obj_3",
+          "ref2": "obj_2",
+          "gt_hour": 10,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 292.31,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色小橡胶立方体处，面向绿色小金属球体，并把这个方向看作 12 点钟方向，那么蓝色大橡胶圆柱位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0013",
+          "type": "trr",
+          "target": "obj_2",
+          "ref1": "obj_0",
+          "ref2": "obj_1",
+          "gt_hour": 3,
+          "gt_quadrant": 2,
+          "gt_angle_deg": 84.69,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在棕色大橡胶球体处，面向蓝色大橡胶圆柱，并把这个方向看作 12 点钟方向，那么绿色小金属球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0014",
+          "type": "trr",
+          "target": "obj_2",
+          "ref1": "obj_0",
+          "ref2": "obj_3",
+          "gt_hour": 4,
+          "gt_quadrant": 2,
+          "gt_angle_deg": 125.37,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在棕色大橡胶球体处，面向红色小橡胶立方体，并把这个方向看作 12 点钟方向，那么绿色小金属球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0015",
+          "type": "trr",
+          "target": "obj_2",
+          "ref1": "obj_1",
+          "ref2": "obj_0",
+          "gt_hour": 11,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 334.59,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在蓝色大橡胶圆柱处，面向棕色大橡胶球体，并把这个方向看作 12 点钟方向，那么绿色小金属球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0016",
+          "type": "trr",
+          "target": "obj_2",
+          "ref1": "obj_1",
+          "ref2": "obj_3",
+          "gt_hour": 9,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 282.4,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在蓝色大橡胶圆柱处，面向红色小橡胶立方体，并把这个方向看作 12 点钟方向，那么绿色小金属球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0017",
+          "type": "trr",
+          "target": "obj_2",
+          "ref1": "obj_3",
+          "ref2": "obj_0",
+          "gt_hour": 11,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 340.56,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色小橡胶立方体处，面向棕色大橡胶球体，并把这个方向看作 12 点钟方向，那么绿色小金属球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0018",
+          "type": "trr",
+          "target": "obj_2",
+          "ref1": "obj_3",
+          "ref2": "obj_1",
+          "gt_hour": 2,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 67.69,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在红色小橡胶立方体处，面向蓝色大橡胶圆柱，并把这个方向看作 12 点钟方向，那么绿色小金属球体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0019",
+          "type": "trr",
+          "target": "obj_3",
+          "ref1": "obj_0",
+          "ref2": "obj_1",
+          "gt_hour": 11,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 319.32,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在棕色大橡胶球体处，面向蓝色大橡胶圆柱，并把这个方向看作 12 点钟方向，那么红色小橡胶立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0020",
+          "type": "trr",
+          "target": "obj_3",
+          "ref1": "obj_0",
+          "ref2": "obj_2",
+          "gt_hour": 8,
+          "gt_quadrant": 3,
+          "gt_angle_deg": 234.63,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在棕色大橡胶球体处，面向绿色小金属球体，并把这个方向看作 12 点钟方向，那么红色小橡胶立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    {
+      "batch_id": "trr_1",
+      "question_type": "trr",
+      "n_questions": 4,
+      "questions": [
+        {
+          "qid": "trr_0021",
+          "type": "trr",
+          "target": "obj_3",
+          "ref1": "obj_1",
+          "ref2": "obj_0",
+          "gt_hour": 2,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 52.19,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在蓝色大橡胶圆柱处，面向棕色大橡胶球体，并把这个方向看作 12 点钟方向，那么红色小橡胶立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0022",
+          "type": "trr",
+          "target": "obj_3",
+          "ref1": "obj_1",
+          "ref2": "obj_2",
+          "gt_hour": 3,
+          "gt_quadrant": 2,
+          "gt_angle_deg": 77.6,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在蓝色大橡胶圆柱处，面向绿色小金属球体，并把这个方向看作 12 点钟方向，那么红色小橡胶立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0023",
+          "type": "trr",
+          "target": "obj_3",
+          "ref1": "obj_2",
+          "ref2": "obj_0",
+          "gt_hour": 1,
+          "gt_quadrant": 1,
+          "gt_angle_deg": 35.19,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在绿色小金属球体处，面向棕色大橡胶球体，并把这个方向看作 12 点钟方向，那么红色小橡胶立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "qid": "trr_0024",
+          "type": "trr",
+          "target": "obj_3",
+          "ref1": "obj_2",
+          "ref2": "obj_1",
+          "gt_hour": 11,
+          "gt_quadrant": 4,
+          "gt_angle_deg": 325.29,
+          "variant": "disjoint",
+          "prompt_text": "假设你站在绿色小金属球体处，面向蓝色大橡胶圆柱，并把这个方向看作 12 点钟方向，那么红色小橡胶立方体位于几点钟方向？",
+          "answer_options": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    {
+      "batch_id": "fdr_0",
+      "question_type": "fdr",
+      "n_questions": 4,
+      "questions": [
+        {
+          "qid": "fdr_0001",
+          "type": "fdr",
+          "anchor": "obj_0",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_2",
+            "obj_3",
+            "obj_1"
+          ],
+          "gt_distances": [
+            2.089227,
+            3.616759,
+            4.5722
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_2"
+            ],
+            [
+              "obj_3"
+            ],
+            [
+              "obj_1"
+            ]
+          ],
+          "variant": "disjoint",
+          "prompt_text": "请以棕色大橡胶球体为基准，将其余物体按距离从近到远排序。候选物体：蓝色大橡胶圆柱, 绿色小金属球体, 红色小橡胶立方体。",
+          "ranking_candidates": [
+            {
+              "id": "obj_1",
+              "label": "obj_1",
+              "desc": "蓝色大橡胶圆柱",
+              "desc_en": "large blue rubber cylinder",
+              "pixel_coords": [
+                332,
+                176,
+                11.415080070495605
+              ],
+              "shape": "cylinder",
+              "color": "blue",
+              "material": "rubber",
+              "size": "large"
+            },
+            {
+              "id": "obj_2",
+              "label": "obj_2",
+              "desc": "绿色小金属球体",
+              "desc_en": "small green metal sphere",
+              "pixel_coords": [
+                244,
+                95,
+                15.28185749053955
+              ],
+              "shape": "sphere",
+              "color": "green",
+              "material": "metal",
+              "size": "small"
+            },
+            {
+              "id": "obj_3",
+              "label": "obj_3",
+              "desc": "红色小橡胶立方体",
+              "desc_en": "small red rubber cube",
+              "pixel_coords": [
+                195,
+                189,
+                10.942904472351074
+              ],
+              "shape": "cube",
+              "color": "red",
+              "material": "rubber",
+              "size": "small"
+            }
+          ],
+          "answer_example": "obj_1, obj_2, obj_3"
+        },
+        {
+          "qid": "fdr_0002",
+          "type": "fdr",
+          "anchor": "obj_1",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_3",
+            "obj_0",
+            "obj_2"
+          ],
+          "gt_distances": [
+            2.983778,
+            4.5722,
+            4.848012
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_3"
+            ],
+            [
+              "obj_0",
+              "obj_2"
+            ]
+          ],
+          "variant": "disjoint",
+          "prompt_text": "请以蓝色大橡胶圆柱为基准，将其余物体按距离从近到远排序。候选物体：棕色大橡胶球体, 绿色小金属球体, 红色小橡胶立方体。",
+          "ranking_candidates": [
+            {
+              "id": "obj_0",
+              "label": "obj_0",
+              "desc": "棕色大橡胶球体",
+              "desc_en": "large brown rubber sphere",
+              "pixel_coords": [
+                187,
+                116,
+                14.047133445739746
+              ],
+              "shape": "sphere",
+              "color": "brown",
+              "material": "rubber",
+              "size": "large"
+            },
+            {
+              "id": "obj_2",
+              "label": "obj_2",
+              "desc": "绿色小金属球体",
+              "desc_en": "small green metal sphere",
+              "pixel_coords": [
+                244,
+                95,
+                15.28185749053955
+              ],
+              "shape": "sphere",
+              "color": "green",
+              "material": "metal",
+              "size": "small"
+            },
+            {
+              "id": "obj_3",
+              "label": "obj_3",
+              "desc": "红色小橡胶立方体",
+              "desc_en": "small red rubber cube",
+              "pixel_coords": [
+                195,
+                189,
+                10.942904472351074
+              ],
+              "shape": "cube",
+              "color": "red",
+              "material": "rubber",
+              "size": "small"
+            }
+          ],
+          "answer_example": "obj_0, obj_2, obj_3"
+        },
+        {
+          "qid": "fdr_0003",
+          "type": "fdr",
+          "anchor": "obj_2",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_0",
+            "obj_1",
+            "obj_3"
+          ],
+          "gt_distances": [
+            2.089227,
+            4.848012,
+            5.117976
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_0"
+            ],
+            [
+              "obj_1",
+              "obj_3"
+            ]
+          ],
+          "variant": "disjoint",
+          "prompt_text": "请以绿色小金属球体为基准，将其余物体按距离从近到远排序。候选物体：棕色大橡胶球体, 蓝色大橡胶圆柱, 红色小橡胶立方体。",
+          "ranking_candidates": [
+            {
+              "id": "obj_0",
+              "label": "obj_0",
+              "desc": "棕色大橡胶球体",
+              "desc_en": "large brown rubber sphere",
+              "pixel_coords": [
+                187,
+                116,
+                14.047133445739746
+              ],
+              "shape": "sphere",
+              "color": "brown",
+              "material": "rubber",
+              "size": "large"
+            },
+            {
+              "id": "obj_1",
+              "label": "obj_1",
+              "desc": "蓝色大橡胶圆柱",
+              "desc_en": "large blue rubber cylinder",
+              "pixel_coords": [
+                332,
+                176,
+                11.415080070495605
+              ],
+              "shape": "cylinder",
+              "color": "blue",
+              "material": "rubber",
+              "size": "large"
+            },
+            {
+              "id": "obj_3",
+              "label": "obj_3",
+              "desc": "红色小橡胶立方体",
+              "desc_en": "small red rubber cube",
+              "pixel_coords": [
+                195,
+                189,
+                10.942904472351074
+              ],
+              "shape": "cube",
+              "color": "red",
+              "material": "rubber",
+              "size": "small"
+            }
+          ],
+          "answer_example": "obj_0, obj_1, obj_3"
+        },
+        {
+          "qid": "fdr_0004",
+          "type": "fdr",
+          "anchor": "obj_3",
+          "n_ranked": 3,
+          "gt_ranking": [
+            "obj_1",
+            "obj_0",
+            "obj_2"
+          ],
+          "gt_distances": [
+            2.983778,
+            3.616759,
+            5.117976
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_1"
+            ],
+            [
+              "obj_0"
+            ],
+            [
+              "obj_2"
+            ]
+          ],
+          "variant": "disjoint",
+          "prompt_text": "请以红色小橡胶立方体为基准，将其余物体按距离从近到远排序。候选物体：棕色大橡胶球体, 蓝色大橡胶圆柱, 绿色小金属球体。",
+          "ranking_candidates": [
+            {
+              "id": "obj_0",
+              "label": "obj_0",
+              "desc": "棕色大橡胶球体",
+              "desc_en": "large brown rubber sphere",
+              "pixel_coords": [
+                187,
+                116,
+                14.047133445739746
+              ],
+              "shape": "sphere",
+              "color": "brown",
+              "material": "rubber",
+              "size": "large"
+            },
+            {
+              "id": "obj_1",
+              "label": "obj_1",
+              "desc": "蓝色大橡胶圆柱",
+              "desc_en": "large blue rubber cylinder",
+              "pixel_coords": [
+                332,
+                176,
+                11.415080070495605
+              ],
+              "shape": "cylinder",
+              "color": "blue",
+              "material": "rubber",
+              "size": "large"
+            },
+            {
+              "id": "obj_2",
+              "label": "obj_2",
+              "desc": "绿色小金属球体",
+              "desc_en": "small green metal sphere",
+              "pixel_coords": [
+                244,
+                95,
+                15.28185749053955
+              ],
+              "shape": "sphere",
+              "color": "green",
+              "material": "metal",
+              "size": "small"
+            }
+          ],
+          "answer_example": "obj_0, obj_1, obj_2"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_questions": 30,
+    "qrr_questions": 2,
+    "trr_questions": 24,
+    "fdr_questions": 4,
+    "n_batches": 4
+  }
+}

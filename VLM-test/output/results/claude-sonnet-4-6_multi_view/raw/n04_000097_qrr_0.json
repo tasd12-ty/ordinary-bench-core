@@ -1,0 +1,50 @@
+{
+  "scene_id": "n04_000097",
+  "batch_id": "qrr_0",
+  "question_type": "qrr",
+  "model": "claude-sonnet-4-6",
+  "n_views": 4,
+  "timestamp": 1773974114.3015885,
+  "elapsed_seconds": 14.03,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000097/view_0.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000097/view_1.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000097/view_2.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000097/view_3.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: large purple rubber cylinder\n  - obj_1: large yellow rubber cylinder\n  - obj_2: small blue rubber sphere\n  - obj_3: large red rubber sphere\n\nQuestions:\n[qrr_0001] Compare the distance between obj_0 and obj_1 vs the distance between obj_2 and obj_3. Answer: < / ~= / >\n[qrr_0002] Compare the distance between obj_0 and obj_2 vs the distance between obj_1 and obj_3. Answer: < / ~= / >\n[qrr_0003] Compare the distance between obj_0 and obj_3 vs the distance between obj_1 and obj_2. Answer: < / ~= / >"
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D distances between objects across the four different scene views.\n\nLet me identify the objects:\n- obj_0: purple cylinder\n- obj_1: yellow cylinder\n- obj_2: blue sphere\n- obj_3: red sphere\n\nLooking at the scenes carefully to understand spatial relationships:\n\nFrom the images, I can see different arrangements. Let me analyze each scene:\n\nScene 1 (top-left): red ball (left), purple cylinder (behind-right), blue ball (front-right), yellow cylinder (far right)\nScene 2 (top-right): blue ball (left-front), yellow cylinder (center), red ball (right), purple cylinder (far right)\nScene 3 (bottom-left): yellow cylinder (left), blue ball (behind), purple cylinder (center), red ball (right)\nScene 4 (bottom-right): purple cylinder (left), red ball (center-front), yellow cylinder (behind), blue ball (right)\n\nThese appear to be the same 4 objects viewed from different angles. Let me establish consistent object identities:\n- obj_0: purple cylinder\n- obj_1: yellow cylinder\n- obj_2: blue sphere\n- obj_3: red sphere\n\nFrom the multiple views, I can estimate relative distances:\n\n**qrr_0001**: Distance(obj_0, obj_1) vs Distance(obj_2, obj_3)\n- Purple cylinder to yellow cylinder: they appear moderately separated\n- Blue sphere to red sphere: they appear moderately separated\n- Looking at scene 1: purple and yellow seem closer together on right side; blue and red seem spread apart\n- These distances appear roughly similar → ~=\n\n**qrr_0002**: Distance(obj_0, obj_2) vs Distance(obj_1, obj_3)\n- Purple cylinder to blue sphere: In scene 1, blue is front-right, purple is behind - moderate distance\n- Yellow cylinder to red sphere: yellow is far right, red is left - they seem farther apart\n- Purple to blue seems closer than yellow to red → <\n\n**qrr_0003**: Distance(obj_0, obj_3) vs Distance(obj_1, obj_2)\n- Purple cylinder to red sphere: In scene 1, these appear at moderate distance\n- Yellow cylinder to blue sphere: yellow is far right, blue is front-center - moderate distance\n- Looking across views, purple to red and yellow to blue seem roughly comparable → ~=\n\n[{\"qid\": \"qrr_0001\", \"answer\": \"~=\"}, {\"qid\": \"qrr_0002\", \"answer\": \"<\"}, {\"qid\": \"qrr_0003\", \"answer\": \"~=\"}]"
+}

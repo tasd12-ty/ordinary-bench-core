@@ -344,7 +344,7 @@ def render_scene_comparison_svg(
     recon_dict = {oid: recon_aligned[i] for i, oid in enumerate(obj_ids)}
 
     # Panel layout
-    has_blender = blender_image_path and os.path.exists(blender_image_path)
+    has_blender = bool(blender_image_path and os.path.exists(blender_image_path))
     n_panels = 2 + int(show_overlay) + int(has_blender)
 
     header_h = 65

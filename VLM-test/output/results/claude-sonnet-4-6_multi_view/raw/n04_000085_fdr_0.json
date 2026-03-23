@@ -1,0 +1,50 @@
+{
+  "scene_id": "n04_000085",
+  "batch_id": "fdr_0",
+  "question_type": "fdr",
+  "model": "claude-sonnet-4-6",
+  "n_views": 4,
+  "timestamp": 1773973989.649339,
+  "elapsed_seconds": 14.37,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance ranking questions.\n\nFor each question, given an anchor object, rank all other listed objects by their 3D distance\nfrom the anchor, from nearest to farthest. Answer with a JSON list of object IDs in order.\nIf two objects appear at very similar distances, give your best estimate — close pairs are scored with tolerance.\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a list of object ID strings).\n\nExample:\n[{\"qid\": \"fdr_0001\", \"answer\": [\"obj_2\", \"obj_1\", \"obj_3\"]}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000085/view_0.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000085/view_1.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000085/view_2.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000085/view_3.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: large red metal sphere\n  - obj_1: small gray metal sphere\n  - obj_2: large brown rubber cube\n  - obj_3: large green rubber sphere\n\nQuestions:\n[fdr_0001] Rank all other objects by distance from obj_0, nearest to farthest. Objects to rank: obj_1, obj_2, obj_3. Answer: ordered JSON list of object IDs.\n[fdr_0002] Rank all other objects by distance from obj_1, nearest to farthest. Objects to rank: obj_0, obj_2, obj_3. Answer: ordered JSON list of object IDs.\n[fdr_0003] Rank all other objects by distance from obj_2, nearest to farthest. Objects to rank: obj_0, obj_1, obj_3. Answer: ordered JSON list of object IDs.\n[fdr_0004] Rank all other objects by distance from obj_3, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2. Answer: ordered JSON list of object IDs."
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D positions of objects across multiple images showing different arrangements of the same objects.\n\nLooking at the images carefully:\n\n**Image 1 (fdr_0001):** Red sphere (obj_0) on left, brown cube in front-center, gray sphere behind, green sphere on right.\n\n**Image 2 (fdr_0002):** Brown cube on left-back, green sphere front-center, gray sphere behind, red sphere right.\n\n**Image 3 (fdr_0003):** Green sphere left-back, red sphere center, gray sphere behind, brown cube right-front.\n\n**Image 4 (fdr_0004):** Red sphere left, gray sphere front-center, brown cube right-back, green sphere right-back.\n\nLet me analyze each question:\n\n**fdr_0001:** Distance from obj_0 (red sphere) to others.\nFrom image 1: Gray sphere is behind/close to red sphere, green sphere is to the right at moderate distance, brown cube is in front at moderate distance. Red is left, gray is behind-right, green is far right, brown is front-center. Gray appears closest, then brown cube and green sphere.\n\n**fdr_0002:** Distance from obj_1 (gray sphere) to others.\nFrom image 2: Gray sphere is behind, brown cube is left-back, green sphere is front-center, red sphere is right. Gray to green seems close, red is further right, brown cube is behind.\n\n**fdr_0003:** Distance from obj_2 (brown cube) to others.\nFrom image 3: Brown cube is right-front, red sphere is center, green sphere is left-back, gray sphere is behind-center. Red sphere seems closest to brown cube, then gray sphere, then green sphere.\n\n**fdr_0004:** Distance from obj_3 (green sphere) to others.\nFrom image 4: Green sphere is right-back, red sphere is left, gray sphere is front-center, brown cube is right-back. Brown cube appears closest to green sphere, then red sphere, then gray sphere.\n\n[{\"qid\": \"fdr_0001\", \"answer\": [\"obj_1\", \"obj_2\", \"obj_3\"]}, {\"qid\": \"fdr_0002\", \"answer\": [\"obj_3\", \"obj_0\", \"obj_2\"]}, {\"qid\": \"fdr_0003\", \"answer\": [\"obj_0\", \"obj_1\", \"obj_3\"]}, {\"qid\": \"fdr_0004\", \"answer\": [\"obj_2\", \"obj_0\", \"obj_1\"]}]"
+}

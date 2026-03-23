@@ -1,0 +1,50 @@
+{
+  "scene_id": "n06_000087",
+  "batch_id": "qrr_2",
+  "question_type": "qrr",
+  "model": "claude-sonnet-4-6",
+  "n_views": 4,
+  "timestamp": 1773974872.9245439,
+  "elapsed_seconds": 15.67,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n06_000087/view_0.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n06_000087/view_1.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n06_000087/view_2.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n06_000087/view_3.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: small purple metal sphere\n  - obj_1: large brown metal cube\n  - obj_2: small blue rubber sphere\n  - obj_3: small brown rubber sphere\n  - obj_4: small blue rubber cylinder\n  - obj_5: large yellow metal cube\n\nQuestions:\n[qrr_0041] Compare the distance between obj_2 and obj_4 vs the distance between obj_3 and obj_5. Answer: < / ~= / >\n[qrr_0042] Compare the distance between obj_2 and obj_5 vs the distance between obj_3 and obj_4. Answer: < / ~= / >"
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D distances between objects across the four different scene images.\n\nLooking at the images, I need to identify the objects and their positions:\n\n**Image analysis:**\n\nThe question references objects from what appears to be a composite/averaged scene. Let me analyze each image:\n\n- obj_0: small purple metal sphere\n- obj_1: large brown metal cube\n- obj_2: small blue rubber sphere\n- obj_3: small brown rubber sphere\n- obj_4: small blue rubber cylinder\n- obj_5: large yellow metal cube\n\nLooking at the scenes to estimate 3D positions:\n\n**For qrr_0041: distance(obj_2, obj_4) vs distance(obj_3, obj_5)**\n\n- obj_2 (blue sphere) and obj_4 (blue cylinder): In the scenes, the blue sphere and blue cylinder appear relatively close to each other, typically nearby.\n- obj_3 (brown rubber sphere) and obj_5 (yellow metal cube): The brown rubber sphere and yellow metal cube appear to be moderately separated in space.\n\nLooking at image 4 specifically: blue sphere is in front-left area, blue cylinder is middle area - moderate distance. Brown rubber sphere is front-center, yellow cube is front-center - they appear close.\n\nLooking more carefully across images: obj_2 and obj_4 seem to have a moderate distance, while obj_3 and obj_5 also have moderate distance. In image 4, brown sphere and yellow cube appear quite close together in front area, while blue sphere and cylinder are somewhat separated.\n\n**For qrr_0042: distance(obj_2, obj_5) vs distance(obj_3, obj_4)**\n\n- obj_2 (blue sphere) and obj_5 (yellow cube): These tend to be separated - blue sphere is back/side while yellow cube is front.\n- obj_3 (brown rubber sphere) and obj_4 (blue cylinder): These appear moderately close in the scenes.\n\nIn image 4: blue sphere is front-left, yellow cube is front-center - relatively close. Brown sphere is front area, cylinder is middle - moderate distance.\n\nAfter careful analysis:\n\nFor qrr_0041: distance(obj_2, obj_4) appears greater than distance(obj_3, obj_5) based on the scenes showing brown sphere and yellow cube being nearby.\n\nFor qrr_0042: distance(obj_2, obj_5) - blue sphere to yellow cube, vs distance(obj_3, obj_4) - brown sphere to blue cylinder. These appear roughly similar.\n\n[{\"qid\": \"qrr_0041\", \"answer\": \">\"}, {\"qid\": \"qrr_0042\", \"answer\": \"~=\"}]"
+}

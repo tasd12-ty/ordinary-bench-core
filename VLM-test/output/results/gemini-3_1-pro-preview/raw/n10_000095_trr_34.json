@@ -1,0 +1,31 @@
+{
+  "scene_id": "n10_000095",
+  "batch_id": "trr_34",
+  "question_type": "trr",
+  "model": "gemini-3.1-pro-preview",
+  "timestamp": 1774130995.5222359,
+  "elapsed_seconds": 28.08,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of clock-direction questions.\n\nFor each question, imagine standing at ref1, facing toward ref2 (that is your 12 o'clock direction).\nDetermine the clock hour (integer 1-12) where the target object appears.\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (an integer 1-12).\n\nExample:\n[{\"qid\": \"trr_0001\", \"answer\": 7}, {\"qid\": \"trr_0002\", \"answer\": 11}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/single_view/n10_000095.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: large gray metal cube\n  - obj_1: small green metal cube\n  - obj_2: small cyan rubber cylinder\n  - obj_3: large yellow rubber sphere\n  - obj_4: small green rubber sphere\n  - obj_5: large blue rubber cylinder\n  - obj_6: large green metal cylinder\n  - obj_7: large brown metal cylinder\n  - obj_8: small blue rubber cylinder\n  - obj_9: small cyan metal cube\n\nQuestions:\n[trr_0681] Standing at obj_4, facing obj_0 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0682] Standing at obj_4, facing obj_1 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0683] Standing at obj_4, facing obj_2 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0684] Standing at obj_4, facing obj_3 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0685] Standing at obj_4, facing obj_5 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0686] Standing at obj_4, facing obj_6 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0687] Standing at obj_4, facing obj_7 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0688] Standing at obj_4, facing obj_8 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0689] Standing at obj_5, facing obj_0 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0690] Standing at obj_5, facing obj_1 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0691] Standing at obj_5, facing obj_2 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0692] Standing at obj_5, facing obj_3 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0693] Standing at obj_5, facing obj_4 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0694] Standing at obj_5, facing obj_6 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0695] Standing at obj_5, facing obj_7 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0696] Standing at obj_5, facing obj_8 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0697] Standing at obj_6, facing obj_0 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0698] Standing at obj_6, facing obj_1 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0699] Standing at obj_6, facing obj_2 (12 o'clock), what clock hour (1-12) is obj_9 at?\n[trr_0700] Standing at obj_6, facing obj_3 (12 o'clock), what clock hour (1-12) is obj_9 at?"
+        }
+      ]
+    }
+  ],
+  "raw_response": "```json\n[\n  {\"qid\": \"trr_0681\", \"answer\": 4},\n  {\"qid\": \"trr_0682\", \"answer\": 2},\n  {\"qid\": \"trr_0683\", \"answer\": 12},\n  {\"qid\": \"trr_0684\", \"answer\": 4},\n  {\"qid\": \"trr_0685\", \"answer\": 3},\n  {\"qid\": \"trr_0686\", \"answer\": 2},\n  {\"qid\": \"trr_0687\", \"answer\": 3},\n  {\"qid\": \"trr_0688\", \"answer\": 12},\n  {\"qid\": \"trr_0689\", \"answer\": 4},\n  {\"qid\": \"trr_0690\", \"answer\": 2},\n  {\"qid\": \"trr_0691\", \"answer\": 11},\n  {\"qid\": \"trr_0692\", \"answer\": 5},\n  {\"qid\": \"trr_0693\", \"answer\": 10},\n  {\"qid\": \"trr_0694\", \"answer\": 1},\n  {\"qid\": \"trr_0695\", \"answer\": 3},\n  {\"qid\": \"trr_0696\", \"answer\": 11},\n  {\"qid\": \"trr_0697\", \"answer\": 7},\n  {\"qid\": \"trr_0698\", \"answer\": 8},\n  {\"qid\": \"trr_0699\", \"answer\": 10},\n  {\"qid\": \"trr_0700\", \"answer\": 7}\n]\n```"
+}

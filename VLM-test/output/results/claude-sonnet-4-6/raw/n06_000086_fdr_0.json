@@ -1,0 +1,31 @@
+{
+  "scene_id": "n06_000086",
+  "batch_id": "fdr_0",
+  "question_type": "fdr",
+  "model": "claude-sonnet-4-6",
+  "timestamp": 1773988707.0983448,
+  "elapsed_seconds": 21.37,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance ranking questions.\n\nFor each question, given an anchor object, rank all other listed objects by their 3D distance\nfrom the anchor, from nearest to farthest. Answer with a JSON list of object IDs in order.\nIf two objects appear at very similar distances, give your best estimate — close pairs are scored with tolerance.\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a list of object ID strings).\n\nExample:\n[{\"qid\": \"fdr_0001\", \"answer\": [\"obj_2\", \"obj_1\", \"obj_3\"]}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: small cyan rubber cube\n  - obj_1: small green rubber cylinder\n  - obj_2: small cyan rubber cube\n  - obj_3: large purple rubber sphere\n  - obj_4: large red metal cylinder\n  - obj_5: large gray metal cube\n\nQuestions:\n[fdr_0001] Rank all other objects by distance from obj_0, nearest to farthest. Objects to rank: obj_1, obj_2, obj_3, obj_4, obj_5. Answer: ordered JSON list of object IDs.\n[fdr_0002] Rank all other objects by distance from obj_1, nearest to farthest. Objects to rank: obj_0, obj_2, obj_3, obj_4, obj_5. Answer: ordered JSON list of object IDs.\n[fdr_0003] Rank all other objects by distance from obj_2, nearest to farthest. Objects to rank: obj_0, obj_1, obj_3, obj_4, obj_5. Answer: ordered JSON list of object IDs.\n[fdr_0004] Rank all other objects by distance from obj_3, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2, obj_4, obj_5. Answer: ordered JSON list of object IDs.\n[fdr_0005] Rank all other objects by distance from obj_4, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2, obj_3, obj_5. Answer: ordered JSON list of object IDs.\n[fdr_0006] Rank all other objects by distance from obj_5, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2, obj_3, obj_4. Answer: ordered JSON list of object IDs."
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/single_view/n06_000086.png"
+          }
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D positions of all objects in the scene to rank them by distance from each anchor object.\n\nLet me estimate the positions of each object:\n- obj_0 (small cyan rubber cube): front-left area\n- obj_1 (small green rubber cylinder): back area, behind red cylinder\n- obj_2 (small cyan rubber cube): right-center area\n- obj_3 (large purple rubber sphere): right-front area\n- obj_4 (large red metal cylinder): left-back area\n- obj_5 (large gray metal cube): front-center area\n\nLet me assign approximate coordinates:\n- obj_0: (-2, 0, 1) - front left\n- obj_1: (0, 0, -3) - far back\n- obj_2: (1, 0, 0) - right center\n- obj_3: (1, 0, 2) - right front\n- obj_4: (-1, 0, -1) - left back area (red cylinder)\n- obj_5: (0, 0, 2) - front center (gray cube)\n\nWait, let me re-examine the image more carefully.\n\nLooking at the image:\n- Red cylinder (obj_4): back-left\n- Cyan cube left (obj_0): front-left\n- Gray cube (obj_5): front-center\n- Green cylinder (obj_1): far back-center\n- Cyan cube right (obj_2): right-center\n- Purple sphere (obj_3): right-front\n\nApproximate coordinates (x, z):\n- obj_0: (-2, 1)\n- obj_1: (0, -3)\n- obj_2: (1.5, 0)\n- obj_3: (1.5, 2)\n- obj_4: (-1, -1)\n- obj_5: (0, 2)\n\nNow calculating distances:\n\n**fdr_0001** from obj_0(-2, 1):\n- obj_1(0,-3): √(4+16)=√20≈4.5\n- obj_2(1.5,0): √(12.25+1)≈3.6\n- obj_3(1.5,2): √(12.25+1)≈3.6\n- obj_4(-1,-1): √(1+4)≈2.2\n- obj_5(0,2): √(4+1)≈2.2\nOrder: obj_4, obj_5, obj_2, obj_3, obj_1\n\n**fdr_0002** from obj_1(0,-3):\n- obj_0(-2,1): ≈4.5\n- obj_2(1.5,0): √(2.25+9)≈3.35\n- obj_3(1.5,2): √(2.25+25)≈5.2\n- obj_4(-1,-1): √(1+4)≈2.2\n- obj_5(0,2): √(0+25)=5\nOrder: obj_4, obj_2, obj_0, obj_5, obj_3\n\n**fdr_0003** from obj_2(1.5,0):\n- obj_0(-2,1): ≈3.6\n- obj_1(0,-3): ≈3.35\n- obj_3(1.5,2): 2\n- obj_4(-1,-1): √(6.25+1)≈2.7\n- obj_5(0,2): √(2.25+4)≈2.5\nOrder: obj_3, obj_5, obj_4, obj_1, obj_0\n\n**fdr_0004** from obj_3(1.5,2):\n- obj_0(-2,1): ≈3.6\n- obj_1(0,-3): ≈5.2\n- obj_2(1.5,0): 2\n- obj_4(-1,-1): √(6.25+9)≈3.9\n- obj_5(0,2): 1.5\nOrder: obj_5, obj_2, obj_0, obj_4, obj_1\n\n**fdr_0005** from obj_4(-1,-1):\n- obj_0(-2,1): ≈2.2\n- obj_1(0,-3): ≈2.2\n- obj_2(1.5,0): ≈2.7\n- obj_3(1.5,2): ≈3.9\n- obj_5(0,2): √(1+9)≈3.2\nOrder: obj_0, obj_1, obj_2, obj_5, obj_3\n\n**fdr_0006** from obj_5(0,2):\n- obj_0(-2,1): ≈2.2\n- obj_1(0,-3): 5\n- obj_2(1.5,0): ≈2.5\n- obj_3(1.5,2): 1.5\n- obj_4(-1,-1): ≈3.2\nOrder: obj_3, obj_0, obj_2, obj_4, obj_1\n\n[{\"qid\": \"fdr_0001\", \"answer\": [\"obj_4\", \"obj_5\", \"obj_2\", \"obj_3\", \"obj_1\"]}, {\"qid\": \"fdr_0002\", \"answer\": [\"obj_4\", \"obj_2\", \"obj_0\", \"obj_5\", \"obj_3\"]}, {\"qid\": \"fdr_0003\", \"answer\": [\"obj_3\", \"obj_5\", \"obj_4\", \"obj_1\", \"obj_0\"]}, {\"qid\": \"fdr_0004\", \"answer\": [\"obj_5\", \"obj_2\", \"obj_0\", \"obj_4\", \"obj_1\"]}, {\"qid\": \"fdr_0005\", \"answer\": [\"obj_0\", \"obj_1\", \"obj_2\", \"obj_5\", \"obj_3\"]}, {\"qid\": \"fdr_0006\", \"answer\": [\"obj_3\", \"obj_0\", \"obj_2\", \"obj_4\", \"obj_1\"]}]"
+}

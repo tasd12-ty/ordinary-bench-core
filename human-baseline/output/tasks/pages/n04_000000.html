@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Human Baseline Task - n04_000000</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3efe4;
+      --paper: #fffaf0;
+      --ink: #20201b;
+      --muted: #6f6a5d;
+      --line: #d4c9b1;
+      --accent: #8a4f2a;
+      --accent-soft: #e7d5bf;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(138, 79, 42, 0.08), transparent 30%),
+        linear-gradient(180deg, #efe7d6, var(--bg));
+    }
+    header {
+      padding: 28px 32px 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 250, 240, 0.9);
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(8px);
+      z-index: 10;
+    }
+    header h1 {
+      margin: 0 0 10px;
+      font-size: 28px;
+      letter-spacing: 0.02em;
+    }
+    header p {
+      margin: 6px 0;
+      color: var(--muted);
+      max-width: 980px;
+    }
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      align-items: center;
+    }
+    .toolbar input {
+      padding: 10px 12px;
+      min-width: 220px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: white;
+      font: inherit;
+    }
+    .toolbar button {
+      padding: 10px 16px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font: inherit;
+      cursor: pointer;
+    }
+    .toolbar button.secondary {
+      background: var(--accent-soft);
+      color: var(--ink);
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 420px) minmax(420px, 1fr);
+      gap: 22px;
+      padding: 24px 32px 40px;
+      align-items: start;
+    }
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(92, 68, 43, 0.06);
+    }
+    .scene-image {
+      width: 100%;
+      display: block;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      margin-bottom: 14px;
+    }
+    .object-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .object-table th,
+    .object-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .meta-card {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #f6f0e4;
+      border: 1px solid var(--line);
+    }
+    .meta-card strong {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .batch {
+      margin-bottom: 18px;
+      padding: 14px;
+      border-radius: 16px;
+      background: #fcf8ef;
+      border: 1px solid var(--line);
+    }
+    .batch h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+    .question {
+      padding: 14px 0;
+      border-top: 1px dashed var(--line);
+    }
+    .question:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+    .qid {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .prompt {
+      margin: 0 0 10px;
+      line-height: 1.45;
+    }
+    .help {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    select,
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: white;
+      font: inherit;
+    }
+    .footer-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .status {
+      margin-top: 12px;
+      min-height: 20px;
+      color: var(--muted);
+    }
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+        padding: 20px 16px 28px;
+      }
+      header {
+        padding: 20px 16px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>n04_000000</h1>
+    <p>图中对象标签只显示偏移文字和引导线，不叠加点位。导出的结果会按当前模型回复格式组织，后续可以直接走统一评分、聚合和场景重建流程。</p>
+    <p>QRR 请选择 <code>&lt;</code> / <code>~=</code> / <code>&gt;</code>；TRR 请选择 1-12；FDR 请按 “最近到最远” 输入逗号分隔的 object ID 顺序。</p>
+    <div class="toolbar">
+      <input id="annotator" placeholder="annotator id" />
+      <button id="export-btn">导出响应 JSON</button>
+      <button id="raw-btn" class="secondary">导出 raw_response 文本</button>
+      <span id="answer-count"></span>
+    </div>
+    <div class="status" id="status"></div>
+  </header>
+  <main class="layout">
+    <section class="panel">
+      <img id="scene-image" class="scene-image" alt="scene image">
+      <div class="meta-grid" id="meta-grid"></div>
+      <table class="object-table">
+        <thead>
+          <tr><th>ID</th><th>Description</th></tr>
+        </thead>
+        <tbody id="object-table-body"></tbody>
+      </table>
+      <p class="footer-note">建议标注时只参考当前页面导出的 JSON，不要手工改字段名。分析脚本会直接消费导出的 schema。</p>
+    </section>
+    <section class="panel" id="question-root"></section>
+  </main>
+  <script id="task-data" type="application/json">{"schema_version": 1, "scene_id": "n04_000000", "n_objects": 4, "objects": [{"id": "obj_0", "label": "obj_0", "desc": "棕色大橡胶球体", "desc_en": "large brown rubber sphere", "pixel_coords": [287, 150, 12.424810409545898], "shape": "sphere", "color": "brown", "material": "rubber", "size": "large"}, {"id": "obj_1", "label": "obj_1", "desc": "绿色大金属圆柱", "desc_en": "large green metal cylinder", "pixel_coords": [268, 244, 9.3952054977417], "shape": "cylinder", "color": "green", "material": "metal", "size": "large"}, {"id": "obj_2", "label": "obj_2", "desc": "黄色大金属圆柱", "desc_en": "large yellow metal cylinder", "pixel_coords": [195, 203, 10.505125999450684], "shape": "cylinder", "color": "yellow", "material": "metal", "size": "large"}, {"id": "obj_3", "label": "obj_3", "desc": "棕色大金属球体", "desc_en": "large brown metal sphere", "pixel_coords": [240, 89, 15.646145820617676], "shape": "sphere", "color": "brown", "material": "metal", "size": "large"}], "image_path": "images/n04_000000/single_view.png", "images": {"single_view": {"view_id": "single_view", "label": "单视图", "image_path": "images/n04_000000/single_view.png"}, "reference_view": {"view_id": "single_view_reference", "label": "编号参考图", "image_path": "images/n04_000000/single_view_labels.png"}, "multi_view": [{"view_id": "view_0", "label": "View 0", "image_path": "images/n04_000000/view_0.png", "raw_image_path": "images/n04_000000/view_0.png", "camera": {"azimuth": 45.0, "elevation": 30.0, "distance": 12.0}}, {"view_id": "view_1", "label": "View 1", "image_path": "images/n04_000000/view_1.png", "raw_image_path": "images/n04_000000/view_1.png", "camera": {"azimuth": 135.0, "elevation": 30.0, "distance": 12.0}}, {"view_id": "view_2", "label": "View 2", "image_path": "images/n04_000000/view_2.png", "raw_image_path": "images/n04_000000/view_2.png", "camera": {"azimuth": 225.0, "elevation": 30.0, "distance": 12.0}}, {"view_id": "view_3", "label": "View 3", "image_path": "images/n04_000000/view_3.png", "raw_image_path": "images/n04_000000/view_3.png", "camera": {"azimuth": 315.0, "elevation": 30.0, "distance": 12.0}}], "multi_view_labels_reliable": false}, "available_test_types": ["single_view", "multi_view"], "source": {"scene_file": "data-gen/output/scenes/n04_000000.json", "question_files": {"qrr": "VLM-test/output/questions/qrr/n04_000000.json", "trr": "VLM-test/output/questions/trr/n04_000000.json", "fdr": "VLM-test/output/questions/fdr/n04_000000.json"}}, "batches": [{"batch_id": "qrr_0", "question_type": "qrr", "n_questions": 3, "questions": [{"qid": "qrr_0001", "type": "qrr", "pair1": ["obj_0", "obj_1"], "pair2": ["obj_2", "obj_3"], "metric": "dist3D", "gt_comparator": "<", "variant": "disjoint", "prompt_text": "请比较棕色大橡胶球体与绿色大金属圆柱之间的距离，以及黄色大金属圆柱与棕色大金属球体之间的距离。", "answer_options": ["<", "~=", ">"]}, {"qid": "qrr_0002", "type": "qrr", "pair1": ["obj_0", "obj_2"], "pair2": ["obj_1", "obj_3"], "metric": "dist3D", "gt_comparator": "<", "variant": "disjoint", "prompt_text": "请比较棕色大橡胶球体与黄色大金属圆柱之间的距离，以及绿色大金属圆柱与棕色大金属球体之间的距离。", "answer_options": ["<", "~=", ">"]}, {"qid": "qrr_0003", "type": "qrr", "pair1": ["obj_0", "obj_3"], "pair2": ["obj_1", "obj_2"], "metric": "dist3D", "gt_comparator": ">", "variant": "disjoint", "prompt_text": "请比较棕色大橡胶球体与棕色大金属球体之间的距离，以及绿色大金属圆柱与黄色大金属圆柱之间的距离。", "answer_options": ["<", "~=", ">"]}]}, {"batch_id": "trr_0", "question_type": "trr", "n_questions": 20, "questions": [{"qid": "trr_0001", "type": "trr", "target": "obj_0", "ref1": "obj_1", "ref2": "obj_2", "gt_hour": 10, "gt_quadrant": 4, "gt_angle_deg": 302.19, "variant": "disjoint", "prompt_text": "假设你站在绿色大金属圆柱处，面向黄色大金属圆柱，并把这个方向看作 12 点钟方向，那么棕色大橡胶球体位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0002", "type": "trr", "target": "obj_0", "ref1": "obj_1", "ref2": "obj_3", "gt_hour": 12, "gt_quadrant": 1, "gt_angle_deg": 346.06, "variant": "disjoint", "prompt_text": "假设你站在绿色大金属圆柱处，面向棕色大金属球体，并把这个方向看作 12 点钟方向，那么棕色大橡胶球体位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0003", "type": "trr", "target": "obj_0", "ref1": "obj_2", "ref2": "obj_1", "gt_hour": 3, "gt_quadrant": 2, "gt_angle_deg": 89.75, "variant": "disjoint", "prompt_text": "假设你站在黄色大金属圆柱处，面向绿色大金属圆柱，并把这个方向看作 12 点钟方向，那么棕色大橡胶球体位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0004", "type": "trr", "target": "obj_0", "ref1": "obj_2", "ref2": "obj_3", "gt_hour": 11, "gt_quadrant": 4, "gt_angle_deg": 326.32, "variant": "disjoint", "prompt_text": "假设你站在黄色大金属圆柱处，面向棕色大金属球体，并把这个方向看作 12 点钟方向，那么棕色大橡胶球体位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0005", "type": "trr", "target": "obj_0", "ref1": "obj_3", "ref2": "obj_1", "gt_hour": 12, "gt_quadrant": 1, "gt_angle_deg": 12.74, "variant": "disjoint", "prompt_text": "假设你站在棕色大金属球体处，面向绿色大金属圆柱，并把这个方向看作 12 点钟方向，那么棕色大橡胶球体位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0006", "type": "trr", "target": "obj_0", "ref1": "obj_3", "ref2": "obj_2", "gt_hour": 1, "gt_quadrant": 1, "gt_angle_deg": 25.44, "variant": "disjoint", "prompt_text": "假设你站在棕色大金属球体处，面向黄色大金属圆柱，并把这个方向看作 12 点钟方向，那么棕色大橡胶球体位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0007", "type": "trr", "target": "obj_1", "ref1": "obj_0", "ref2": "obj_2", "gt_hour": 1, "gt_quadrant": 1, "gt_angle_deg": 32.44, "variant": "disjoint", "prompt_text": "假设你站在棕色大橡胶球体处，面向黄色大金属圆柱，并把这个方向看作 12 点钟方向，那么绿色大金属圆柱位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0008", "type": "trr", "target": "obj_1", "ref1": "obj_0", "ref2": "obj_3", "gt_hour": 5, "gt_quadrant": 2, "gt_angle_deg": 153.32, "variant": "disjoint", "prompt_text": "假设你站在棕色大橡胶球体处，面向棕色大金属球体，并把这个方向看作 12 点钟方向，那么绿色大金属圆柱位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0009", "type": "trr", "target": "obj_1", "ref1": "obj_2", "ref2": "obj_0", "gt_hour": 9, "gt_quadrant": 4, "gt_angle_deg": 270.25, "variant": "disjoint", "prompt_text": "假设你站在黄色大金属圆柱处，面向棕色大橡胶球体，并把这个方向看作 12 点钟方向，那么绿色大金属圆柱位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0010", "type": "trr", "target": "obj_1", "ref1": "obj_2", "ref2": "obj_3", "gt_hour": 8, "gt_quadrant": 3, "gt_angle_deg": 236.57, "variant": "disjoint", "prompt_text": "假设你站在黄色大金属圆柱处，面向棕色大金属球体，并把这个方向看作 12 点钟方向，那么绿色大金属圆柱位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0011", "type": "trr", "target": "obj_1", "ref1": "obj_3", "ref2": "obj_0", "gt_hour": 12, "gt_quadrant": 1, "gt_angle_deg": 347.26, "variant": "disjoint", "prompt_text": "假设你站在棕色大金属球体处，面向棕色大橡胶球体，并把这个方向看作 12 点钟方向，那么绿色大金属圆柱位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0012", "type": "trr", "target": "obj_1", "ref1": "obj_3", "ref2": "obj_2", "gt_hour": 12, "gt_quadrant": 1, "gt_angle_deg": 12.7, "variant": "disjoint", "prompt_text": "假设你站在棕色大金属球体处，面向黄色大金属圆柱，并把这个方向看作 12 点钟方向，那么绿色大金属圆柱位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0013", "type": "trr", "target": "obj_2", "ref1": "obj_0", "ref2": "obj_1", "gt_hour": 11, "gt_quadrant": 4, "gt_angle_deg": 327.56, "variant": "disjoint", "prompt_text": "假设你站在棕色大橡胶球体处，面向绿色大金属圆柱，并把这个方向看作 12 点钟方向，那么黄色大金属圆柱位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0014", "type": "trr", "target": "obj_2", "ref1": "obj_0", "ref2": "obj_3", "gt_hour": 4, "gt_quadrant": 2, "gt_angle_deg": 120.88, "variant": "disjoint", "prompt_text": "假设你站在棕色大橡胶球体处，面向棕色大金属球体，并把这个方向看作 12 点钟方向，那么黄色大金属圆柱位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0015", "type": "trr", "target": "obj_2", "ref1": "obj_1", "ref2": "obj_0", "gt_hour": 2, "gt_quadrant": 1, "gt_angle_deg": 57.81, "variant": "disjoint", "prompt_text": "假设你站在绿色大金属圆柱处，面向棕色大橡胶球体，并把这个方向看作 12 点钟方向，那么黄色大金属圆柱位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0016", "type": "trr", "target": "obj_2", "ref1": "obj_1", "ref2": "obj_3", "gt_hour": 1, "gt_quadrant": 1, "gt_angle_deg": 43.87, "variant": "disjoint", "prompt_text": "假设你站在绿色大金属圆柱处，面向棕色大金属球体，并把这个方向看作 12 点钟方向，那么黄色大金属圆柱位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0017", "type": "trr", "target": "obj_2", "ref1": "obj_3", "ref2": "obj_0", "gt_hour": 11, "gt_quadrant": 4, "gt_angle_deg": 334.56, "variant": "disjoint", "prompt_text": "假设你站在棕色大金属球体处，面向棕色大橡胶球体，并把这个方向看作 12 点钟方向，那么黄色大金属圆柱位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0018", "type": "trr", "target": "obj_2", "ref1": "obj_3", "ref2": "obj_1", "gt_hour": 12, "gt_quadrant": 1, "gt_angle_deg": 347.3, "variant": "disjoint", "prompt_text": "假设你站在棕色大金属球体处，面向绿色大金属圆柱，并把这个方向看作 12 点钟方向，那么黄色大金属圆柱位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0019", "type": "trr", "target": "obj_3", "ref1": "obj_0", "ref2": "obj_1", "gt_hour": 7, "gt_quadrant": 3, "gt_angle_deg": 206.68, "variant": "disjoint", "prompt_text": "假设你站在棕色大橡胶球体处，面向绿色大金属圆柱，并把这个方向看作 12 点钟方向，那么棕色大金属球体位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0020", "type": "trr", "target": "obj_3", "ref1": "obj_0", "ref2": "obj_2", "gt_hour": 8, "gt_quadrant": 3, "gt_angle_deg": 239.12, "variant": "disjoint", "prompt_text": "假设你站在棕色大橡胶球体处，面向黄色大金属圆柱，并把这个方向看作 12 点钟方向，那么棕色大金属球体位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}]}, {"batch_id": "trr_1", "question_type": "trr", "n_questions": 4, "questions": [{"qid": "trr_0021", "type": "trr", "target": "obj_3", "ref1": "obj_1", "ref2": "obj_0", "gt_hour": 12, "gt_quadrant": 1, "gt_angle_deg": 13.94, "variant": "disjoint", "prompt_text": "假设你站在绿色大金属圆柱处，面向棕色大橡胶球体，并把这个方向看作 12 点钟方向，那么棕色大金属球体位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0022", "type": "trr", "target": "obj_3", "ref1": "obj_1", "ref2": "obj_2", "gt_hour": 11, "gt_quadrant": 4, "gt_angle_deg": 316.13, "variant": "disjoint", "prompt_text": "假设你站在绿色大金属圆柱处，面向黄色大金属圆柱，并把这个方向看作 12 点钟方向，那么棕色大金属球体位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0023", "type": "trr", "target": "obj_3", "ref1": "obj_2", "ref2": "obj_0", "gt_hour": 1, "gt_quadrant": 1, "gt_angle_deg": 33.68, "variant": "disjoint", "prompt_text": "假设你站在黄色大金属圆柱处，面向棕色大橡胶球体，并把这个方向看作 12 点钟方向，那么棕色大金属球体位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {"qid": "trr_0024", "type": "trr", "target": "obj_3", "ref1": "obj_2", "ref2": "obj_1", "gt_hour": 4, "gt_quadrant": 2, "gt_angle_deg": 123.43, "variant": "disjoint", "prompt_text": "假设你站在黄色大金属圆柱处，面向绿色大金属圆柱，并把这个方向看作 12 点钟方向，那么棕色大金属球体位于几点钟方向？", "answer_options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}]}, {"batch_id": "fdr_0", "question_type": "fdr", "n_questions": 4, "questions": [{"qid": "fdr_0001", "type": "fdr", "anchor": "obj_0", "n_ranked": 3, "gt_ranking": ["obj_2", "obj_1", "obj_3"], "gt_distances": [3.006789, 3.552981, 3.881775], "gt_tie_groups": [["obj_2"], ["obj_1", "obj_3"]], "variant": "disjoint", "prompt_text": "请以棕色大橡胶球体为基准，将其余物体按距离从近到远排序。候选物体：绿色大金属圆柱, 黄色大金属圆柱, 棕色大金属球体。", "ranking_candidates": [{"id": "obj_1", "label": "obj_1", "desc": "绿色大金属圆柱", "desc_en": "large green metal cylinder", "pixel_coords": [268, 244, 9.3952054977417], "shape": "cylinder", "color": "green", "material": "metal", "size": "large"}, {"id": "obj_2", "label": "obj_2", "desc": "黄色大金属圆柱", "desc_en": "large yellow metal cylinder", "pixel_coords": [195, 203, 10.505125999450684], "shape": "cylinder", "color": "yellow", "material": "metal", "size": "large"}, {"id": "obj_3", "label": "obj_3", "desc": "棕色大金属球体", "desc_en": "large brown metal sphere", "pixel_coords": [240, 89, 15.646145820617676], "shape": "sphere", "color": "brown", "material": "metal", "size": "large"}], "answer_example": "obj_1, obj_2, obj_3"}, {"qid": "fdr_0002", "type": "fdr", "anchor": "obj_1", "n_ranked": 3, "gt_ranking": ["obj_2", "obj_0", "obj_3"], "gt_distances": [1.905831, 3.552981, 7.234513], "gt_tie_groups": [["obj_2"], ["obj_0"], ["obj_3"]], "variant": "disjoint", "prompt_text": "请以绿色大金属圆柱为基准，将其余物体按距离从近到远排序。候选物体：棕色大橡胶球体, 黄色大金属圆柱, 棕色大金属球体。", "ranking_candidates": [{"id": "obj_0", "label": "obj_0", "desc": "棕色大橡胶球体", "desc_en": "large brown rubber sphere", "pixel_coords": [287, 150, 12.424810409545898], "shape": "sphere", "color": "brown", "material": "rubber", "size": "large"}, {"id": "obj_2", "label": "obj_2", "desc": "黄色大金属圆柱", "desc_en": "large yellow metal cylinder", "pixel_coords": [195, 203, 10.505125999450684], "shape": "cylinder", "color": "yellow", "material": "metal", "size": "large"}, {"id": "obj_3", "label": "obj_3", "desc": "棕色大金属球体", "desc_en": "large brown metal sphere", "pixel_coords": [240, 89, 15.646145820617676], "shape": "sphere", "color": "brown", "material": "metal", "size": "large"}], "answer_example": "obj_0, obj_2, obj_3"}, {"qid": "fdr_0003", "type": "fdr", "anchor": "obj_2", "n_ranked": 3, "gt_ranking": ["obj_1", "obj_0", "obj_3"], "gt_distances": [1.905831, 3.006789, 6.007438], "gt_tie_groups": [["obj_1"], ["obj_0"], ["obj_3"]], "variant": "disjoint", "prompt_text": "请以黄色大金属圆柱为基准，将其余物体按距离从近到远排序。候选物体：棕色大橡胶球体, 绿色大金属圆柱, 棕色大金属球体。", "ranking_candidates": [{"id": "obj_0", "label": "obj_0", "desc": "棕色大橡胶球体", "desc_en": "large brown rubber sphere", "pixel_coords": [287, 150, 12.424810409545898], "shape": "sphere", "color": "brown", "material": "rubber", "size": "large"}, {"id": "obj_1", "label": "obj_1", "desc": "绿色大金属圆柱", "desc_en": "large green metal cylinder", "pixel_coords": [268, 244, 9.3952054977417], "shape": "cylinder", "color": "green", "material": "metal", "size": "large"}, {"id": "obj_3", "label": "obj_3", "desc": "棕色大金属球体", "desc_en": "large brown metal sphere", "pixel_coords": [240, 89, 15.646145820617676], "shape": "sphere", "color": "brown", "material": "metal", "size": "large"}], "answer_example": "obj_0, obj_1, obj_3"}, {"qid": "fdr_0004", "type": "fdr", "anchor": "obj_3", "n_ranked": 3, "gt_ranking": ["obj_0", "obj_2", "obj_1"], "gt_distances": [3.881775, 6.007438, 7.234513], "gt_tie_groups": [["obj_0"], ["obj_2"], ["obj_1"]], "variant": "disjoint", "prompt_text": "请以棕色大金属球体为基准，将其余物体按距离从近到远排序。候选物体：棕色大橡胶球体, 绿色大金属圆柱, 黄色大金属圆柱。", "ranking_candidates": [{"id": "obj_0", "label": "obj_0", "desc": "棕色大橡胶球体", "desc_en": "large brown rubber sphere", "pixel_coords": [287, 150, 12.424810409545898], "shape": "sphere", "color": "brown", "material": "rubber", "size": "large"}, {"id": "obj_1", "label": "obj_1", "desc": "绿色大金属圆柱", "desc_en": "large green metal cylinder", "pixel_coords": [268, 244, 9.3952054977417], "shape": "cylinder", "color": "green", "material": "metal", "size": "large"}, {"id": "obj_2", "label": "obj_2", "desc": "黄色大金属圆柱", "desc_en": "large yellow metal cylinder", "pixel_coords": [195, 203, 10.505125999450684], "shape": "cylinder", "color": "yellow", "material": "metal", "size": "large"}], "answer_example": "obj_0, obj_1, obj_2"}]}], "summary": {"total_questions": 31, "qrr_questions": 3, "trr_questions": 24, "fdr_questions": 4, "n_batches": 4}, "page_image_path": "../images/n04_000000/single_view.png"}</script>
+  <script>
+    const task = JSON.parse(document.getElementById("task-data").textContent);
+    const pageOpenedAt = Date.now();
+    const state = {};
+
+    function slugify(text) {
+      return (text || "")
+        .trim()
+        .replace(/[^0-9A-Za-z._-]+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "") || "anonymous";
+    }
+
+    function parseFdr(value) {
+      const trimmed = (value || "").trim();
+      if (!trimmed) return null;
+      if (trimmed.startsWith("[")) {
+        try {
+          const parsed = JSON.parse(trimmed);
+          if (Array.isArray(parsed)) {
+            return parsed.map(item => String(item).trim()).filter(Boolean);
+          }
+        } catch (error) {
+          // fall through
+        }
+      }
+      return trimmed.split(/[,\n]+/).map(part => part.trim()).filter(Boolean);
+    }
+
+    function collectResponses() {
+      const annotatorInput = document.getElementById("annotator").value;
+      const annotatorId = slugify(annotatorInput);
+      const elapsedSeconds = Math.round((Date.now() - pageOpenedAt) / 10) / 100;
+      const batches = [];
+      const allResponses = [];
+
+      for (const batch of task.batches) {
+        const batchResponses = [];
+        for (const question of batch.questions) {
+          const rawValue = state[question.qid];
+          let answer = null;
+          if (question.type === "qrr") {
+            answer = rawValue || null;
+          } else if (question.type === "trr") {
+            answer = rawValue ? Number(rawValue) : null;
+          } else if (question.type === "fdr") {
+            answer = parseFdr(rawValue);
+          }
+          if (answer !== null && answer !== "" && !(Array.isArray(answer) && answer.length === 0)) {
+            batchResponses.push({ qid: question.qid, answer });
+            allResponses.push({ qid: question.qid, answer });
+          }
+        }
+        batches.push({
+          batch_id: batch.batch_id,
+          question_type: batch.question_type,
+          elapsed_seconds: elapsedSeconds,
+          responses: batchResponses,
+          raw_response: JSON.stringify(batchResponses),
+        });
+      }
+
+      return {
+        schema_version: 1,
+        scene_id: task.scene_id,
+        annotator_id: annotatorId,
+        model: `human/${annotatorId}`,
+        submitted_at: new Date().toISOString(),
+        n_objects: task.n_objects,
+        total_questions: task.summary.total_questions,
+        batches,
+        responses: allResponses,
+        raw_response: JSON.stringify(allResponses),
+      };
+    }
+
+    function downloadText(filename, text) {
+      const blob = new Blob([text], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function updateAnswerCount() {
+      const answered = Object.values(state).filter(value => {
+        if (value === null || value === undefined) return false;
+        return String(value).trim() !== "";
+      }).length;
+      document.getElementById("answer-count").textContent =
+        `已回答 ${answered} / ${task.summary.total_questions}`;
+    }
+
+    function exportJson() {
+      const payload = collectResponses();
+      const missing = task.summary.total_questions - payload.responses.length;
+      if (missing > 0 && !window.confirm(`还有 ${missing} 题未填写，仍然导出？`)) {
+        return;
+      }
+      const filename = `${task.scene_id}__${payload.annotator_id}.json`;
+      downloadText(filename, JSON.stringify(payload, null, 2));
+      document.getElementById("status").textContent =
+        `已导出 ${filename}，raw_response 和 batch 结构已对齐。`;
+    }
+
+    function exportRaw() {
+      const payload = collectResponses();
+      const filename = `${task.scene_id}__${payload.annotator_id}__raw_response.json`;
+      downloadText(filename, payload.raw_response);
+      document.getElementById("status").textContent =
+        `已导出 ${filename}。`;
+    }
+
+    function renderObjects() {
+      document.getElementById("scene-image").src = task.page_image_path;
+      const metaRoot = document.getElementById("meta-grid");
+      const stats = [
+        ["Objects", task.n_objects],
+        ["Questions", task.summary.total_questions],
+        ["Batches", task.summary.n_batches],
+        ["QRR / TRR / FDR", `${task.summary.qrr_questions} / ${task.summary.trr_questions} / ${task.summary.fdr_questions}`],
+      ];
+      for (const [label, value] of stats) {
+        const card = document.createElement("div");
+        card.className = "meta-card";
+        card.innerHTML = `<strong>${label}</strong><span>${value}</span>`;
+        metaRoot.appendChild(card);
+      }
+
+      const tbody = document.getElementById("object-table-body");
+      for (const obj of task.objects) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td><code>${obj.id}</code></td><td>${obj.desc}</td>`;
+        tbody.appendChild(tr);
+      }
+    }
+
+    function renderQuestions() {
+      const root = document.getElementById("question-root");
+      for (const batch of task.batches) {
+        const section = document.createElement("section");
+        section.className = "batch";
+        const heading = batch.question_type.toUpperCase();
+        section.innerHTML = `<h3>${heading} · ${batch.batch_id}</h3>`;
+
+        for (const question of batch.questions) {
+          const wrapper = document.createElement("div");
+          wrapper.className = "question";
+
+          const qid = document.createElement("div");
+          qid.className = "qid";
+          qid.textContent = question.qid;
+          wrapper.appendChild(qid);
+
+          const prompt = document.createElement("p");
+          prompt.className = "prompt";
+          prompt.textContent = question.prompt_text;
+          wrapper.appendChild(prompt);
+
+          if (question.type === "qrr" || question.type === "trr") {
+            const select = document.createElement("select");
+            select.innerHTML = `<option value="">请选择</option>`;
+            const options = question.type === "qrr" ? question.answer_options : question.answer_options;
+            for (const optionValue of options) {
+              const option = document.createElement("option");
+              option.value = optionValue;
+              option.textContent = optionValue;
+              select.appendChild(option);
+            }
+            select.addEventListener("change", (event) => {
+              state[question.qid] = event.target.value;
+              updateAnswerCount();
+            });
+            wrapper.appendChild(select);
+          } else if (question.type === "fdr") {
+            const input = document.createElement("input");
+            input.type = "text";
+            input.placeholder = question.answer_example;
+            input.addEventListener("input", (event) => {
+              state[question.qid] = event.target.value;
+              updateAnswerCount();
+            });
+            wrapper.appendChild(input);
+
+            const help = document.createElement("p");
+            help.className = "help";
+            help.textContent = "按最近到最远输入 object ID，逗号分隔。也可以直接输入 JSON list。";
+            wrapper.appendChild(help);
+          }
+
+          section.appendChild(wrapper);
+        }
+
+        root.appendChild(section);
+      }
+    }
+
+    renderObjects();
+    renderQuestions();
+    updateAnswerCount();
+    document.getElementById("export-btn").addEventListener("click", exportJson);
+    document.getElementById("raw-btn").addEventListener("click", exportRaw);
+  </script>
+</body>
+</html>

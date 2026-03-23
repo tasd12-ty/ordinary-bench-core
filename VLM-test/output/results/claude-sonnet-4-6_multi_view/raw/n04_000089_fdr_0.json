@@ -1,0 +1,50 @@
+{
+  "scene_id": "n04_000089",
+  "batch_id": "fdr_0",
+  "question_type": "fdr",
+  "model": "claude-sonnet-4-6",
+  "n_views": 4,
+  "timestamp": 1773974026.8701725,
+  "elapsed_seconds": 14.41,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance ranking questions.\n\nFor each question, given an anchor object, rank all other listed objects by their 3D distance\nfrom the anchor, from nearest to farthest. Answer with a JSON list of object IDs in order.\nIf two objects appear at very similar distances, give your best estimate — close pairs are scored with tolerance.\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a list of object ID strings).\n\nExample:\n[{\"qid\": \"fdr_0001\", \"answer\": [\"obj_2\", \"obj_1\", \"obj_3\"]}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000089/view_0.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000089/view_1.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000089/view_2.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000089/view_3.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: small green rubber cylinder\n  - obj_1: large gray rubber sphere\n  - obj_2: small green metal cylinder\n  - obj_3: large blue metal cylinder\n\nQuestions:\n[fdr_0001] Rank all other objects by distance from obj_0, nearest to farthest. Objects to rank: obj_1, obj_2, obj_3. Answer: ordered JSON list of object IDs.\n[fdr_0002] Rank all other objects by distance from obj_1, nearest to farthest. Objects to rank: obj_0, obj_2, obj_3. Answer: ordered JSON list of object IDs.\n[fdr_0003] Rank all other objects by distance from obj_2, nearest to farthest. Objects to rank: obj_0, obj_1, obj_3. Answer: ordered JSON list of object IDs.\n[fdr_0004] Rank all other objects by distance from obj_3, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2. Answer: ordered JSON list of object IDs."
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D positions of objects across 4 different image views to determine distances.\n\nLet me analyze each view carefully:\n\n**View 1 (top-left):** Blue cylinder (left), gray ball (back-center), green rubber cylinder (front-center), green metal cylinder (right)\n\n**View 2 (top-right):** Green rubber cylinder (left-front), blue cylinder (back-left), green metal cylinder (front-center), gray ball (right)\n\n**View 3 (bottom-left):** Green metal cylinder (left), green rubber cylinder (back-behind), gray ball (front-center), blue cylinder (right)\n\n**View 4 (bottom-right):** Gray ball (left-front), green metal cylinder (back-center), blue cylinder (front-center), green rubber cylinder (right)\n\nObjects:\n- obj_0: small green rubber cylinder\n- obj_1: large gray rubber sphere\n- obj_2: small green metal cylinder\n- obj_3: large blue metal cylinder\n\nFrom the views, I can estimate relative positions:\n- obj_0 (green rubber) is in the front-middle area\n- obj_1 (gray sphere) is in the front-left or center area\n- obj_2 (green metal) is behind/back area\n- obj_3 (blue metal) is front or right area\n\n**fdr_0001: Distance from obj_0 (green rubber cylinder):**\n- obj_1 (gray sphere): appears relatively close, nearby\n- obj_3 (blue cylinder): moderate distance\n- obj_2 (green metal): farthest, behind\n\nAnswer: obj_1, obj_3, obj_2\n\n**fdr_0002: Distance from obj_1 (gray sphere):**\n- obj_0 (green rubber): closest, nearby in front area\n- obj_3 (blue cylinder): moderate distance\n- obj_2 (green metal): farthest, behind\n\nAnswer: obj_0, obj_3, obj_2\n\n**fdr_0003: Distance from obj_2 (green metal cylinder):**\n- obj_0 (green rubber): moderately close\n- obj_1 (gray sphere): farther\n- obj_3 (blue cylinder): moderate distance\n\nLooking at views, green metal is behind, blue is front-right, gray ball is front-left, green rubber is middle.\nAnswer: obj_0, obj_3, obj_1\n\n**fdr_0004: Distance from obj_3 (blue metal cylinder):**\n- obj_1 (gray sphere): closest, both in front area\n- obj_0 (green rubber): moderate\n- obj_2 (green metal): farthest, behind\n\nAnswer: obj_1, obj_0, obj_2\n\n[{\"qid\": \"fdr_0001\", \"answer\": [\"obj_1\", \"obj_3\", \"obj_2\"]}, {\"qid\": \"fdr_0002\", \"answer\": [\"obj_0\", \"obj_3\", \"obj_2\"]}, {\"qid\": \"fdr_0003\", \"answer\": [\"obj_0\", \"obj_3\", \"obj_1\"]}, {\"qid\": \"fdr_0004\", \"answer\": [\"obj_1\", \"obj_0\", \"obj_2\"]}]"
+}

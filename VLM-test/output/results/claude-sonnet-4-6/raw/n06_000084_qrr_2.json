@@ -1,0 +1,31 @@
+{
+  "scene_id": "n06_000084",
+  "batch_id": "qrr_2",
+  "question_type": "qrr",
+  "model": "claude-sonnet-4-6",
+  "timestamp": 1773988367.1526566,
+  "elapsed_seconds": 15.52,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: small purple metal cube\n  - obj_1: small purple metal cube\n  - obj_2: large blue metal cylinder\n  - obj_3: small brown metal cube\n  - obj_4: large cyan metal cylinder\n  - obj_5: large red rubber sphere\n\nQuestions:\n[qrr_0041] Compare the distance between obj_2 and obj_4 vs the distance between obj_3 and obj_5. Answer: < / ~= / >\n[qrr_0042] Compare the distance between obj_2 and obj_5 vs the distance between obj_3 and obj_4. Answer: < / ~= / >"
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/single_view/n06_000084.png"
+          }
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D positions of objects in the scene to compare distances.\n\nLet me identify the objects:\n- obj_0: small purple metal cube (front left area)\n- obj_1: small purple metal cube (back area, behind the sphere)\n- obj_2: large blue metal cylinder (back right)\n- obj_3: small brown metal cube (left area)\n- obj_4: large cyan metal cylinder (front right)\n- obj_5: large red rubber sphere (center)\n\nNow let me estimate positions:\n- obj_3 (brown cube): approximately (-2, 0, 0)\n- obj_0 (front purple cube): approximately (-1, 0, 1)\n- obj_1 (back purple cube): approximately (0, 0, -1)\n- obj_5 (red sphere): approximately (0.5, 0, 0)\n- obj_4 (cyan cylinder): approximately (1.5, 0, 2)\n- obj_2 (blue cylinder): approximately (2, 0, -2)\n\n**Question qrr_0041: Distance between obj_2 and obj_4 vs distance between obj_3 and obj_5**\n\nobj_2 to obj_4: from (2, 0, -2) to (1.5, 0, 2) = √(0.25 + 16) ≈ 4.0\nobj_3 to obj_5: from (-2, 0, 0) to (0.5, 0, 0) = √(6.25) ≈ 2.5\n\nSo obj_2-obj_4 distance > obj_3-obj_5 distance → \">\"\n\n**Question qrr_0042: Distance between obj_2 and obj_5 vs distance between obj_3 and obj_4**\n\nobj_2 to obj_5: from (2, 0, -2) to (0.5, 0, 0) = √(2.25 + 4) ≈ 2.5\nobj_3 to obj_4: from (-2, 0, 0) to (1.5, 0, 2) = √(12.25 + 4) ≈ 4.0\n\nSo obj_2-obj_5 distance < obj_3-obj_4 distance → \"<\"\n\n[{\"qid\": \"qrr_0041\", \"answer\": \">\"}, {\"qid\": \"qrr_0042\", \"answer\": \"<\"}]"
+}

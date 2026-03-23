@@ -1,0 +1,50 @@
+{
+  "scene_id": "n04_000095",
+  "batch_id": "qrr_0",
+  "question_type": "qrr",
+  "model": "claude-sonnet-4-6",
+  "n_views": 4,
+  "timestamp": 1773974098.327554,
+  "elapsed_seconds": 15.45,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000095/view_0.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000095/view_1.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000095/view_2.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n04_000095/view_3.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: small cyan metal cube\n  - obj_1: small blue metal sphere\n  - obj_2: large green rubber cylinder\n  - obj_3: large blue rubber cube\n\nQuestions:\n[qrr_0001] Compare the distance between obj_0 and obj_1 vs the distance between obj_2 and obj_3. Answer: < / ~= / >\n[qrr_0002] Compare the distance between obj_0 and obj_2 vs the distance between obj_1 and obj_3. Answer: < / ~= / >\n[qrr_0003] Compare the distance between obj_0 and obj_3 vs the distance between obj_1 and obj_2. Answer: < / ~= / >"
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D positions of objects across the four different scene views to determine distances.\n\nLet me identify the objects across the scenes:\n- obj_0: small cyan metal cube\n- obj_1: small blue metal sphere\n- obj_2: large green rubber cylinder\n- obj_3: large blue rubber cube\n\nLooking at the scenes carefully:\n\n**Scene analysis:**\nLooking at the consistent scene (the objects don't change, just viewing angles differ):\n\nFrom the images, I can estimate positions:\n- Blue rubber cube: front-left area\n- Green cylinder: center area\n- Blue metal sphere: front-right area\n- Cyan metal cube: behind area (right side)\n\nLet me use the clearest view (top-right image) to estimate positions:\n- Cyan cube (obj_0): right side, behind\n- Blue sphere (obj_1): left-center, front\n- Green cylinder (obj_2): center\n- Blue rubber cube (obj_3): front-right\n\nFrom the bottom-left image:\n- Blue cube is front-left\n- Green cylinder is center\n- Blue sphere is front-center\n- Cyan cube is right-back\n\nEstimating 3D coordinates (x, y, z):\n- obj_0 (cyan cube): (3, 0, -1) - right, back\n- obj_1 (blue sphere): (0, 0, 1) - center, front\n- obj_2 (green cylinder): (1, 0, 0) - slightly right, center\n- obj_3 (blue cube): (-1, 0, 2) - left, front\n\n**qrr_0001**: Distance(obj_0, obj_1) vs Distance(obj_2, obj_3)\n- obj_0 to obj_1: sqrt((3-0)²+(−1−1)²) = sqrt(9+4) = sqrt(13) ≈ 3.6\n- obj_2 to obj_3: sqrt((1-(-1))²+(0-2)²) = sqrt(4+4) = sqrt(8) ≈ 2.8\n- Answer: >\n\n**qrr_0002**: Distance(obj_0, obj_2) vs Distance(obj_1, obj_3)\n- obj_0 to obj_2: sqrt((3-1)²+(-1-0)²) = sqrt(4+1) = sqrt(5) ≈ 2.2\n- obj_1 to obj_3: sqrt((0-(-1))²+(1-2)²) = sqrt(1+1) = sqrt(2) ≈ 1.4\n- Answer: >\n\n**qrr_0003**: Distance(obj_0, obj_3) vs Distance(obj_1, obj_2)\n- obj_0 to obj_3: sqrt((3-(-1))²+(-1-2)²) = sqrt(16+9) = sqrt(25) = 5\n- obj_1 to obj_2: sqrt((0-1)²+(1-0)²) = sqrt(1+1) = sqrt(2) ≈ 1.4\n- Answer: >\n\n[{\"qid\": \"qrr_0001\", \"answer\": \">\"}, {\"qid\": \"qrr_0002\", \"answer\": \">\"}, {\"qid\": \"qrr_0003\", \"answer\": \">\"}]"
+}

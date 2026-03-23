@@ -1,0 +1,31 @@
+{
+  "scene_id": "n10_000099",
+  "batch_id": "trr_2",
+  "question_type": "trr",
+  "model": "doubao-seed-2.0-pro",
+  "timestamp": 1774077020.1136441,
+  "elapsed_seconds": 51.68,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of clock-direction questions.\n\nFor each question, imagine standing at ref1, facing toward ref2 (that is your 12 o'clock direction).\nDetermine the clock hour (integer 1-12) where the target object appears.\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (an integer 1-12).\n\nExample:\n[{\"qid\": \"trr_0001\", \"answer\": 7}, {\"qid\": \"trr_0002\", \"answer\": 11}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: large blue rubber sphere\n  - obj_1: large gray metal cylinder\n  - obj_2: large blue metal cube\n  - obj_3: large brown metal cylinder\n  - obj_4: small yellow rubber sphere\n  - obj_5: large yellow rubber sphere\n  - obj_6: large cyan metal sphere\n  - obj_7: small yellow metal sphere\n  - obj_8: small blue metal sphere\n  - obj_9: small green rubber cube\n\nQuestions:\n[trr_0041] Standing at obj_6, facing obj_1 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0042] Standing at obj_6, facing obj_2 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0043] Standing at obj_6, facing obj_3 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0044] Standing at obj_6, facing obj_4 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0045] Standing at obj_6, facing obj_5 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0046] Standing at obj_6, facing obj_7 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0047] Standing at obj_6, facing obj_8 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0048] Standing at obj_6, facing obj_9 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0049] Standing at obj_7, facing obj_1 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0050] Standing at obj_7, facing obj_2 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0051] Standing at obj_7, facing obj_3 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0052] Standing at obj_7, facing obj_4 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0053] Standing at obj_7, facing obj_5 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0054] Standing at obj_7, facing obj_6 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0055] Standing at obj_7, facing obj_8 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0056] Standing at obj_7, facing obj_9 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0057] Standing at obj_8, facing obj_1 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0058] Standing at obj_8, facing obj_2 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0059] Standing at obj_8, facing obj_3 (12 o'clock), what clock hour (1-12) is obj_0 at?\n[trr_0060] Standing at obj_8, facing obj_4 (12 o'clock), what clock hour (1-12) is obj_0 at?"
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/single_view/n10_000099.png"
+          }
+        }
+      ]
+    }
+  ],
+  "raw_response": "[{\"qid\":\"trr_0041\",\"answer\":9},{\"qid\":\"trr_0042\",\"answer\":4},{\"qid\":\"trr_0043\",\"answer\":10},{\"qid\":\"trr_0044\",\"answer\":2},{\"qid\":\"trr_0045\",\"answer\":8},{\"qid\":\"trr_0046\",\"answer\":9},{\"qid\":\"trr_0047\",\"answer\":10},{\"qid\":\"trr_0048\",\"answer\":8},{\"qid\":\"trr_0049\",\"answer\":9},{\"qid\":\"trr_0050\",\"answer\":7},{\"qid\":\"trr_0051\",\"answer\":11},{\"qid\":\"trr_0052\",\"answer\":8},{\"qid\":\"trr_0053\",\"answer\":8},{\"qid\":\"trr_0054\",\"answer\":9},{\"qid\":\"trr_0055\",\"answer\":9},{\"qid\":\"trr_0056\",\"answer\":8},{\"qid\":\"trr_0057\",\"answer\":10},{\"qid\":\"trr_0058\",\"answer\":9},{\"qid\":\"trr_0059\",\"answer\":11},{\"qid\":\"trr_0060\",\"answer\":9}]"
+}

@@ -1,0 +1,132 @@
+{
+  "name": "ORDINARY-BENCH-3D Dataset",
+  "version": "1.0",
+  "created": "2026-03-21T11:40:53.322453",
+  "config": {
+    "n_views": 4,
+    "image_size": [
+      480,
+      320
+    ],
+    "camera_distance": 14.0,
+    "elevation": 35.0,
+    "render_top_view": true,
+    "render_side_view": true,
+    "views_3d": {
+      "oblique_front": [
+        45.0,
+        35.0
+      ],
+      "oblique_back": [
+        225.0,
+        35.0
+      ],
+      "side_low": [
+        90.0,
+        15.0
+      ],
+      "top": [
+        0.0,
+        90.0
+      ]
+    }
+  },
+  "placement": {
+    "z_range": [
+      0.0,
+      2.5
+    ],
+    "z_distribution": "uniform",
+    "min_dist_3d": 0.5
+  },
+  "splits": {
+    "n04": {
+      "n_scenes": 20,
+      "min_objects": 4,
+      "max_objects": 4
+    },
+    "n05": {
+      "n_scenes": 20,
+      "min_objects": 5,
+      "max_objects": 5
+    },
+    "n06": {
+      "n_scenes": 20,
+      "min_objects": 6,
+      "max_objects": 6
+    },
+    "n07": {
+      "n_scenes": 20,
+      "min_objects": 7,
+      "max_objects": 7
+    },
+    "n08": {
+      "n_scenes": 20,
+      "min_objects": 8,
+      "max_objects": 8
+    },
+    "n09": {
+      "n_scenes": 20,
+      "min_objects": 9,
+      "max_objects": 9
+    },
+    "n10": {
+      "n_scenes": 20,
+      "min_objects": 10,
+      "max_objects": 10
+    }
+  },
+  "statistics": {
+    "n04": {
+      "n_scenes": 20,
+      "n_single_view_images": 20,
+      "n_multi_view_images": 80,
+      "n_top_view_images": 20,
+      "n_side_view_images": 20
+    },
+    "n05": {
+      "n_scenes": 20,
+      "n_single_view_images": 20,
+      "n_multi_view_images": 80,
+      "n_top_view_images": 20,
+      "n_side_view_images": 20
+    },
+    "n06": {
+      "n_scenes": 20,
+      "n_single_view_images": 20,
+      "n_multi_view_images": 80,
+      "n_top_view_images": 20,
+      "n_side_view_images": 20
+    },
+    "n07": {
+      "n_scenes": 20,
+      "n_single_view_images": 20,
+      "n_multi_view_images": 80,
+      "n_top_view_images": 20,
+      "n_side_view_images": 20
+    },
+    "n08": {
+      "n_scenes": 20,
+      "n_single_view_images": 20,
+      "n_multi_view_images": 80,
+      "n_top_view_images": 20,
+      "n_side_view_images": 20
+    },
+    "n09": {
+      "n_scenes": 20,
+      "n_single_view_images": 20,
+      "n_multi_view_images": 80,
+      "n_top_view_images": 20,
+      "n_side_view_images": 20
+    },
+    "n10": {
+      "n_scenes": 20,
+      "n_single_view_images": 20,
+      "n_multi_view_images": 80,
+      "n_top_view_images": 20,
+      "n_side_view_images": 20
+    }
+  },
+  "total_scenes": 140,
+  "total_images": 980
+}

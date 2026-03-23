@@ -23,3 +23,19 @@ Thumbs.db
 
 # Environment
 .env
+
+# Archives
+*.tar.gz
+
+# Extra venvs
+.venv-*/
+
+# Large binary outputs (Infinigen renders, Blender files)
+data-gen-3d/infinigen_test/
+*.blend
+*.blend1
+
+# Generated image outputs (keep JSON/SVG, exclude PNGs in batch outputs)
+reconstruction-lab/top_view_batch_output*/
+reconstruction-lab/top_view_debug/
+reconstruction-lab/top_view_demo_output/

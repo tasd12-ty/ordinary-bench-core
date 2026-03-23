@@ -1,0 +1,50 @@
+{
+  "scene_id": "n06_000099",
+  "batch_id": "fdr_0",
+  "question_type": "fdr",
+  "model": "claude-sonnet-4-6",
+  "n_views": 4,
+  "timestamp": 1773975297.5176482,
+  "elapsed_seconds": 15.34,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance ranking questions.\n\nFor each question, given an anchor object, rank all other listed objects by their 3D distance\nfrom the anchor, from nearest to farthest. Answer with a JSON list of object IDs in order.\nIf two objects appear at very similar distances, give your best estimate — close pairs are scored with tolerance.\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a list of object ID strings).\n\nExample:\n[{\"qid\": \"fdr_0001\", \"answer\": [\"obj_2\", \"obj_1\", \"obj_3\"]}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n06_000099/view_0.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n06_000099/view_1.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n06_000099/view_2.png"
+          }
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/multi_view/n06_000099/view_3.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: small red rubber sphere\n  - obj_1: small blue rubber cylinder\n  - obj_2: large red metal cylinder\n  - obj_3: large green metal sphere\n  - obj_4: large yellow metal sphere\n  - obj_5: large gray rubber sphere\n\nQuestions:\n[fdr_0001] Rank all other objects by distance from obj_0, nearest to farthest. Objects to rank: obj_1, obj_2, obj_3, obj_4, obj_5. Answer: ordered JSON list of object IDs.\n[fdr_0002] Rank all other objects by distance from obj_1, nearest to farthest. Objects to rank: obj_0, obj_2, obj_3, obj_4, obj_5. Answer: ordered JSON list of object IDs.\n[fdr_0003] Rank all other objects by distance from obj_2, nearest to farthest. Objects to rank: obj_0, obj_1, obj_3, obj_4, obj_5. Answer: ordered JSON list of object IDs.\n[fdr_0004] Rank all other objects by distance from obj_3, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2, obj_4, obj_5. Answer: ordered JSON list of object IDs.\n[fdr_0005] Rank all other objects by distance from obj_4, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2, obj_3, obj_5. Answer: ordered JSON list of object IDs.\n[fdr_0006] Rank all other objects by distance from obj_5, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2, obj_3, obj_4. Answer: ordered JSON list of object IDs."
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D positions of objects in each scene image and rank distances from anchor objects.\n\nLooking at the images carefully:\n\n**Image 1** (scene with red cylinder on left, gray ball behind, blue cylinder, green ball, yellow ball):\n- obj_0: red rubber sphere (front)\n- obj_1: blue rubber cylinder (back-right area)\n- obj_2: red metal cylinder (left)\n- obj_3: gray rubber ball (behind)\n- obj_4: yellow metal ball (right)\n- obj_5: green metal ball (front-right)\n\n**Image 2** (scene with red rubber ball left, red metal cylinder behind, green ball, yellow ball, gray ball, blue cylinder):\nSame objects, different arrangement shown.\n\nLet me map objects across scenes based on descriptions:\n- obj_0: small red rubber sphere\n- obj_1: small blue rubber cylinder\n- obj_2: large red metal cylinder (actually small in context)\n- obj_3: large green metal sphere\n- obj_4: large yellow metal sphere\n- obj_5: large gray rubber sphere\n\nFor the ranking questions, I'll use the consistent scene layout:\n\n**fdr_0001** - Distance from obj_0 (red rubber sphere):\nobj_5 (gray) is closest, obj_1 (blue cylinder) next, obj_2 (red cylinder) then obj_3 (green), obj_4 (yellow) farthest.\n\n**fdr_0002** - Distance from obj_1 (blue cylinder):\nobj_5 (gray) closest, obj_0 (red sphere), obj_3 (green), obj_2 (red cylinder), obj_4 (yellow) farthest.\n\n**fdr_0003** - Distance from obj_2 (red metal cylinder):\nobj_0 (red sphere) closest, obj_5 (gray), obj_1 (blue), obj_3 (green), obj_4 (yellow) farthest.\n\n**fdr_0004** - Distance from obj_3 (green metal sphere):\nobj_1 (blue) closest, obj_5 (gray), obj_0 (red), obj_4 (yellow), obj_2 (red cylinder) farthest.\n\n**fdr_0005** - Distance from obj_4 (yellow metal sphere):\nobj_3 (green) closest, obj_2 (red cylinder), obj_1 (blue), obj_5 (gray), obj_0 (red sphere) farthest.\n\n**fdr_0006** - Distance from obj_5 (gray rubber sphere):\nobj_1 (blue) closest, obj_0 (red sphere), obj_3 (green), obj_2 (red cylinder), obj_4 (yellow) farthest.\n\n[{\"qid\": \"fdr_0001\", \"answer\": [\"obj_5\", \"obj_1\", \"obj_2\", \"obj_3\", \"obj_4\"]}, {\"qid\": \"fdr_0002\", \"answer\": [\"obj_5\", \"obj_0\", \"obj_3\", \"obj_2\", \"obj_4\"]}, {\"qid\": \"fdr_0003\", \"answer\": [\"obj_0\", \"obj_5\", \"obj_1\", \"obj_3\", \"obj_4\"]}, {\"qid\": \"fdr_0004\", \"answer\": [\"obj_1\", \"obj_5\", \"obj_0\", \"obj_4\", \"obj_2\"]}, {\"qid\": \"fdr_0005\", \"answer\": [\"obj_3\", \"obj_2\", \"obj_1\", \"obj_5\", \"obj_0\"]}, {\"qid\": \"fdr_0006\", \"answer\": [\"obj_1\", \"obj_0\", \"obj_3\", \"obj_2\", \"obj_4\"]}]"
+}

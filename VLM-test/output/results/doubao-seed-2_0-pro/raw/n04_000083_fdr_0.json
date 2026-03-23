@@ -1,0 +1,31 @@
+{
+  "scene_id": "n04_000083",
+  "batch_id": "fdr_0",
+  "question_type": "fdr",
+  "model": "doubao-seed-2.0-pro",
+  "timestamp": 1774019873.0861351,
+  "elapsed_seconds": 90.18,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance ranking questions.\n\nFor each question, given an anchor object, rank all other listed objects by their 3D distance\nfrom the anchor, from nearest to farthest. Answer with a JSON list of object IDs in order.\nIf two objects appear at very similar distances, give your best estimate — close pairs are scored with tolerance.\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a list of object ID strings).\n\nExample:\n[{\"qid\": \"fdr_0001\", \"answer\": [\"obj_2\", \"obj_1\", \"obj_3\"]}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: large purple rubber cylinder\n  - obj_1: small red rubber cube\n  - obj_2: large blue metal cube\n  - obj_3: large blue rubber sphere\n\nQuestions:\n[fdr_0001] Rank all other objects by distance from obj_0, nearest to farthest. Objects to rank: obj_1, obj_2, obj_3. Answer: ordered JSON list of object IDs.\n[fdr_0002] Rank all other objects by distance from obj_1, nearest to farthest. Objects to rank: obj_0, obj_2, obj_3. Answer: ordered JSON list of object IDs.\n[fdr_0003] Rank all other objects by distance from obj_2, nearest to farthest. Objects to rank: obj_0, obj_1, obj_3. Answer: ordered JSON list of object IDs.\n[fdr_0004] Rank all other objects by distance from obj_3, nearest to farthest. Objects to rank: obj_0, obj_1, obj_2. Answer: ordered JSON list of object IDs."
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/single_view/n04_000083.png"
+          }
+        }
+      ]
+    }
+  ],
+  "raw_response": "[{\"qid\":\"fdr_0001\",\"answer\":[\"obj_1\",\"obj_3\",\"obj_2\"]},{\"qid\":\"fdr_0002\",\"answer\":[\"obj_0\",\"obj_3\",\"obj_2\"]},{\"qid\":\"fdr_0003\",\"answer\":[\"obj_3\",\"obj_1\",\"obj_0\"]},{\"qid\":\"fdr_0004\",\"answer\":[\"obj_2\",\"obj_1\",\"obj_0\"]}]"
+}

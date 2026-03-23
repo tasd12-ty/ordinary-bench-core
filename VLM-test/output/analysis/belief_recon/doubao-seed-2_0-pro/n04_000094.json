@@ -1,0 +1,91 @@
+{
+  "feasible": false,
+  "status": "infeasible",
+  "positions": {
+    "obj_0": [
+      0.0,
+      0.0
+    ],
+    "obj_1": [
+      1.0,
+      0.0
+    ],
+    "obj_2": [
+      -5.1805082961690045,
+      -16.753336603870952
+    ],
+    "obj_3": [
+      0.19948919648847366,
+      0.014284972629322363
+    ]
+  },
+  "metrics": {
+    "csr_qrr": 0.5,
+    "csr_trr": 0.125,
+    "K_geom": 7,
+    "spread": 1.4982079101152743,
+    "kendall_tau": 0.06666666666666665,
+    "nrms": 0.38893368640980014,
+    "best_loss": 147.8926853715785,
+    "n_solutions": 10,
+    "cluster_sizes": [
+      4,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "K_geom": 7,
+  "n_solutions": 10,
+  "constraint_mode": "all",
+  "constraint_counts": {
+    "n_qrr_direct": 2,
+    "n_qrr_from_fdr": 12,
+    "n_trr": 24,
+    "n_qrr_used": 14,
+    "n_trr_used": 24
+  },
+  "feasibility_checks": {
+    "qrr_has_cycle": false,
+    "qrr_cycle_info": null,
+    "trr_n_conflicts": 0,
+    "hypergraph_connected": true,
+    "n_components": 1,
+    "n_qrr": 14,
+    "n_trr": 24,
+    "n_objects": 4
+  },
+  "scene_id": "n04_000094",
+  "n_objects": 4,
+  "model": "doubao-seed-2.0-pro",
+  "use_correct_only": false,
+  "prepared_summary": {
+    "n_objects": 4,
+    "n_questions": 30,
+    "n_qrr_direct": 2,
+    "n_qrr_direct_disjoint": 2,
+    "n_qrr_direct_shared_anchor": 0,
+    "n_trr": 24,
+    "n_fdr": 4,
+    "n_qrr_from_fdr": 12,
+    "n_qrr_total": 14,
+    "n_selected_questions": 30,
+    "n_skipped_questions": 0
+  },
+  "prepared_integrity": {
+    "n_questions": 30,
+    "n_scored_rows": 30,
+    "duplicate_question_ids": [],
+    "duplicate_score_qids": [],
+    "missing_score_qids": [],
+    "extra_score_qids": [],
+    "skip_reason_counts": {},
+    "question_layout": "split",
+    "question_layout_warning": "flat/split mismatch for n04_000094: flat=26 split=30",
+    "alternate_flat_path": "/Users/tsyq/code/ordinary-bench-core/VLM-test/output/questions/n04_000094.json",
+    "alternate_flat_question_count": 26
+  }
+}

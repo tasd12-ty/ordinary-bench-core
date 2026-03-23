@@ -1,0 +1,31 @@
+{
+  "scene_id": "n10_000087",
+  "batch_id": "qrr_29",
+  "question_type": "qrr",
+  "model": "claude-sonnet-4-6",
+  "timestamp": 1774006708.9943461,
+  "elapsed_seconds": 16.49,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: large blue metal cylinder\n  - obj_1: small blue rubber cube\n  - obj_2: small blue metal sphere\n  - obj_3: small green rubber sphere\n  - obj_4: small yellow metal cube\n  - obj_5: small purple rubber sphere\n  - obj_6: large yellow rubber sphere\n  - obj_7: small green rubber cylinder\n  - obj_8: large green metal cylinder\n  - obj_9: small green rubber sphere\n\nQuestions:\n[qrr_0581] Compare the distance between obj_5 and obj_8 vs the distance between obj_7 and obj_9. Answer: < / ~= / >\n[qrr_0582] Compare the distance between obj_5 and obj_9 vs the distance between obj_6 and obj_7. Answer: < / ~= / >\n[qrr_0583] Compare the distance between obj_5 and obj_9 vs the distance between obj_6 and obj_8. Answer: < / ~= / >\n[qrr_0584] Compare the distance between obj_5 and obj_9 vs the distance between obj_7 and obj_8. Answer: < / ~= / >\n[qrr_0585] Compare the distance between obj_6 and obj_7 vs the distance between obj_8 and obj_9. Answer: < / ~= / >\n[qrr_0586] Compare the distance between obj_6 and obj_8 vs the distance between obj_7 and obj_9. Answer: < / ~= / >\n[qrr_0587] Compare the distance between obj_6 and obj_9 vs the distance between obj_7 and obj_8. Answer: < / ~= / >"
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/single_view/n10_000087.png"
+          }
+        }
+      ]
+    }
+  ],
+  "raw_response": "I need to analyze the 3D positions of objects in the scene and compare distances between pairs of objects.\n\nLet me estimate the positions of each object based on the image:\n- obj_0 (large blue metal cylinder): far back, center-left area\n- obj_1 (small blue rubber cube): front area, right side\n- obj_2 (small blue metal sphere): middle area, center\n- obj_3 (small green rubber sphere): left side, middle depth\n- obj_4 (small yellow metal cube): center area, middle depth\n- obj_5 (small purple rubber sphere): right side, front-middle area\n- obj_6 (large yellow rubber sphere): right side, middle area\n- obj_7 (small green rubber cylinder): left-center area, middle depth\n- obj_8 (large green metal cylinder): far back, right-center area\n- obj_9 (small green rubber sphere): center-front area\n\nLet me estimate coordinates (x, y, z) where z is depth (larger = further back):\n- obj_0: (-2, 0, 4)\n- obj_1: (1.5, 0, -1)\n- obj_2: (-0.5, 0, 1)\n- obj_3: (-2, 0, 0)\n- obj_4: (0, 0, 0.5)\n- obj_5: (2, 0, 0)\n- obj_6: (2, 0.5, 0.5)\n- obj_7: (-1, 0, 0)\n- obj_8: (1, 0, 4)\n- obj_9: (0.5, 0, 0)\n\nNow computing distances:\n\n**qrr_0581**: obj_5 to obj_8 vs obj_7 to obj_9\n- obj_5(2,0,0) to obj_8(1,0,4): √(1+0+16) = √17 ≈ 4.1\n- obj_7(-1,0,0) to obj_9(0.5,0,0): √(2.25) ≈ 1.5\n- Answer: >\n\n**qrr_0582**: obj_5 to obj_9 vs obj_6 to obj_7\n- obj_5(2,0,0) to obj_9(0.5,0,0): 1.5\n- obj_6(2,0.5,0.5) to obj_7(-1,0,0): √(9+0.25+0.25) = √9.5 ≈ 3.1\n- Answer: <\n\n**qrr_0583**: obj_5 to obj_9 vs obj_6 to obj_8\n- obj_5 to obj_9: 1.5\n- obj_6(2,0.5,0.5) to obj_8(1,0,4): √(1+0.25+12.25) = √13.5 ≈ 3.7\n- Answer: <\n\n**qrr_0584**: obj_5 to obj_9 vs obj_7 to obj_8\n- obj_5 to obj_9: 1.5\n- obj_7(-1,0,0) to obj_8(1,0,4): √(4+0+16) = √20 ≈ 4.5\n- Answer: <\n\n**qrr_0585**: obj_6 to obj_7 vs obj_8 to obj_9\n- obj_6 to obj_7: ≈ 3.1\n- obj_8(1,0,4) to obj_9(0.5,0,0): √(0.25+0+16) = √16.25 ≈ 4.0\n- Answer: <\n\n**qrr_0586**: obj_6 to obj_8 vs obj_7 to obj_9\n- obj_6 to obj_8: ≈ 3.7\n- obj_7 to obj_9: ≈ 1.5\n- Answer: >\n\n**qrr_0587**: obj_6 to obj_9 vs obj_7 to obj_8\n- obj_6(2,0.5,0.5) to obj_9(0.5,0,0): √(2.25+0.25+0.25) = √2.75 ≈ 1.66\n- obj_7 to obj_8: ≈ 4.5\n- Answer: <\n\n[{\"qid\": \"qrr_0581\", \"answer\": \">\"}, {\"qid\": \"qrr_0582\", \"answer\": \"<\"}, {\"qid\": \"qrr_0583\", \"answer\": \"<\"}, {\"qid\": \"qrr_0584\", \"answer\": \"<\"}, {\"qid\": \"qrr_0585\", \"answer\": \"<\"}, {\"qid\": \"qrr_0586\", \"answer\": \">\"}, {\"qid\": \"qrr_0587\", \"answer\": \"<\"}]"
+}

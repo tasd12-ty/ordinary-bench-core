@@ -1,0 +1,31 @@
+{
+  "scene_id": "n08_000093",
+  "batch_id": "qrr_9",
+  "question_type": "qrr",
+  "model": "gemini-3.1-pro-preview",
+  "timestamp": 1774113675.7749872,
+  "elapsed_seconds": 51.24,
+  "react_rounds": 0,
+  "prompt": [
+    {
+      "role": "system",
+      "content": "You are a spatial reasoning assistant analyzing a 3D scene image.\nYou will receive a list of objects visible in the image and a set of distance comparison questions.\n\nFor each question, compare 3D distances — either between two pairs of objects,\nor from a common anchor object to two candidate objects.\nAnswer with exactly one of: \"<\" (first pair/candidate closer), \"~=\" (approximately equal), \">\" (first pair/candidate farther).\n\nRespond ONLY with a JSON array. Each element must have \"qid\" and \"answer\" (a string: \"<\", \"~=\", or \">\").\n\nExample:\n[{\"qid\": \"qrr_0001\", \"answer\": \"<\"}, {\"qid\": \"qrr_0002\", \"answer\": \"~=\"}]"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "oss://quark-llm/datasets/tuyongsiqi.tysq/ordinary-bench/ordinary-bench-core-main/data-gen/output/images/single_view/n08_000093.png"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Objects in the image:\n  - obj_0: large blue rubber sphere\n  - obj_1: small blue metal cylinder\n  - obj_2: small purple metal cube\n  - obj_3: small cyan rubber sphere\n  - obj_4: large purple rubber cylinder\n  - obj_5: small cyan rubber cube\n  - obj_6: large brown metal cylinder\n  - obj_7: small purple rubber cube\n\nQuestions:\n[qrr_0181] Compare the distance between obj_3 and obj_4 vs the distance between obj_6 and obj_7. Answer: < / ~= / >\n[qrr_0182] Compare the distance between obj_3 and obj_5 vs the distance between obj_4 and obj_7. Answer: < / ~= / >\n[qrr_0183] Compare the distance between obj_3 and obj_5 vs the distance between obj_6 and obj_7. Answer: < / ~= / >\n[qrr_0184] Compare the distance between obj_3 and obj_6 vs the distance between obj_4 and obj_5. Answer: < / ~= / >\n[qrr_0185] Compare the distance between obj_3 and obj_6 vs the distance between obj_4 and obj_7. Answer: < / ~= / >\n[qrr_0186] Compare the distance between obj_3 and obj_6 vs the distance between obj_5 and obj_7. Answer: < / ~= / >\n[qrr_0187] Compare the distance between obj_3 and obj_7 vs the distance between obj_4 and obj_5. Answer: < / ~= / >\n[qrr_0188] Compare the distance between obj_3 and obj_7 vs the distance between obj_4 and obj_6. Answer: < / ~= / >\n[qrr_0189] Compare the distance between obj_3 and obj_7 vs the distance between obj_5 and obj_6. Answer: < / ~= / >\n[qrr_0190] Compare the distance between obj_4 and obj_5 vs the distance between obj_6 and obj_7. Answer: < / ~= / >\n[qrr_0191] Compare the distance between obj_4 and obj_6 vs the distance between obj_5 and obj_7. Answer: < / ~= / >\n[qrr_0192] Compare the distance between obj_4 and obj_7 vs the distance between obj_5 and obj_6. Answer: < / ~= / >"
+        }
+      ]
+    }
+  ],
+  "raw_response": "```json\n[\n  {\"qid\": \"qrr_0181\", \"answer\": \">\"},\n  {\"qid\": \"qrr_0182\", \"answer\": \">\"},\n  {\"qid\": \"qrr_0183\", \"answer\": \">\"},\n  {\"qid\": \"qrr_0184\", \"answer\": \"<\"},\n  {\"qid\": \"qrr_0185\", \"answer\": \"<\"},\n  {\"qid\": \"qrr_0186\", \"answer\": \"<\"},\n  {\"qid\": \"qrr_0187\", \"answer\": \"<\"},\n  {\"qid\": \"qrr_0188\", \"answer\": \"<\"},\n  {\"qid\": \"qrr_0189\", \"answer\": \"<\"},\n  {\"qid\": \"qrr_0190\", \"answer\": \">\"},\n  {\"qid\": \"qrr_0191\", \"answer\": \">\"},\n  {\"qid\": \"qrr_0192\", \"answer\": \">\"}\n]\n```"
+}
