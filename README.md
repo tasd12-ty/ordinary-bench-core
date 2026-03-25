@@ -2,11 +2,30 @@
 
 Benchmark for evaluating Vision-Language Models (VLMs) on ordinal spatial relation understanding. The benchmark generates 3D scenes with multiple objects, renders images, and tests VLMs on three types of spatial reasoning questions:
 
-- **QRR (Quaternary Relative Relations)**: Compare pairwise spatial metrics across objects.
+- **QRR (Quantitative Relation Reasoning)**: Compare pairwise spatial metrics across objects.
   - *disjoint*: compare two non-overlapping pairs (A,B) vs (C,D)
   - *shared_anchor*: from anchor A, compare dist(A,B) vs dist(A,C)
-- **TRR (Ternary Clock Relations)**: Determine clock-face directional relations among three objects.
+- **TRR (Ternary Relation Reasoning)**: Determine clock-face directional relations among three objects.
 - **FDR (Full Distance Ranking)**: Rank all objects by distance from an anchor, nearest to farthest.
+
+## Dataset
+
+The benchmark dataset is available on HuggingFace Hub with 700 scenes and 332,857 questions:
+
+**[huggingface.co/datasets/TYTSTQ/ordinary-bench](https://huggingface.co/datasets/TYTSTQ/ordinary-bench)**
+
+```python
+from datasets import load_dataset
+
+# Load QRR questions
+ds = load_dataset("TYTSTQ/ordinary-bench", "qrr", split="test")
+sample = ds[0]
+sample["image"]               # PIL Image (480x320)
+sample["question_text"]       # Natural language question
+sample["qrr_gt_comparator"]  # Ground truth: "<", "~=", ">"
+
+# Available configs: all (default), qrr, trr, fdr
+```
 
 ## Project Structure
 
@@ -19,6 +38,10 @@ ordinary-bench/
 │   └── blender/                   # Blender scripts & assets
 │       ├── render_multiview.py
 │       └── assets/                # .blend files, shapes, materials
+├── datasets/                      # HuggingFace dataset build scripts
+│   ├── build_dataset.py           # Build parquet from scene/question data
+│   ├── README.md                  # HuggingFace dataset card
+│   └── prompts/                   # System prompt templates
 ├── data-gen-infinigen/            # Infinigen realistic scene backend
 │   ├── generate.py                # Infinigen-Indoors orchestrator
 │   ├── adapter.py                 # Infinigen → ordinary-bench converter
