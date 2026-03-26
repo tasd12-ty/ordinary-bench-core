@@ -1,8 +1,8 @@
 """
-GT constraint extraction from data-gen scene JSON.
+从 data-gen 场景 JSON 中提取真值约束。
 
-Parses scene JSON objects into the format expected by dsl/predicates.py,
-then extracts all QRR and TRR ground-truth constraints.
+将场景 JSON 对象解析为 dsl/predicates.py 所需格式，
+然后提取所有 QRR 和 TRR 真值约束。
 """
 
 import json
@@ -17,16 +17,16 @@ from dsl.predicates import (
 
 def parse_objects(scene: dict) -> Dict[str, Dict]:
     """
-    Convert scene JSON objects to the dict format for DSL predicates.
+    将场景 JSON 对象转换为 DSL 谓词所需的字典格式。
 
-    Scene JSON format (from data-gen):
+    场景 JSON 格式（来自 data-gen）：
       {"id": "obj_0", "shape": "sphere", "size": "large",
        "material": "rubber", "color": "brown",
        "3d_coords": [-1.14, 0.45, 0.0],
        "pixel_coords": [287, 150, 12.42],
        "rotation": 105.1}
 
-    Returns:
+    返回：
       {obj_id: {"position_3d": [...], "position_2d": [...], "depth": ..., "size": ..., ...}}
     """
     objects = {}
@@ -52,7 +52,7 @@ def parse_objects(scene: dict) -> Dict[str, Dict]:
 
 
 def object_description(obj: dict) -> str:
-    """Build a human-readable description like 'large brown rubber sphere'."""
+    """构建人类可读的物体描述，如 'large brown rubber sphere'。"""
     parts = []
     if obj.get("size"):
         parts.append(str(obj["size"]))
@@ -67,16 +67,16 @@ def object_description(obj: dict) -> str:
 
 def extract_gt(scene: dict, tau: float = 0.10) -> dict:
     """
-    Extract all GT constraints from a scene.
+    从场景中提取所有真值约束。
 
-    Returns:
+    返回：
       {"qrr": [QRRConstraint.to_dict(), ...], "trr": [TRRConstraint.to_dict(), ...]}
     """
     objects = parse_objects(scene)
     if len(objects) < 2:
         return {"qrr": [], "trr": [], "fdr": []}
 
-    # QRR: dist3D for both disjoint and shared-anchor probes
+    # QRR：使用 dist3D 提取 disjoint 和 shared-anchor 两种类型的约束
     qrr_constraints = extract_all_qrr(
         objects, MetricType.DIST_3D, tau=tau, disjoint_only=True
     )
@@ -85,11 +85,11 @@ def extract_gt(scene: dict, tau: float = 0.10) -> dict:
     )
     qrr_list = [c.to_dict() for c in qrr_constraints]
 
-    # TRR: use 3D coordinates (view-invariant)
+    # TRR：使用三维坐标（视角无关）
     trr_constraints = extract_all_trr(objects, use_3d=True)
     trr_list = [c.to_dict() for c in trr_constraints]
 
-    # FDR: full distance ranking per anchor
+    # FDR：每个锚点的全距离排序
     fdr_constraints = extract_all_fdr(objects, tau=tau)
     fdr_list = [c.to_dict() for c in fdr_constraints]
 
@@ -97,6 +97,6 @@ def extract_gt(scene: dict, tau: float = 0.10) -> dict:
 
 
 def load_scene(path: str) -> dict:
-    """Load a scene JSON file."""
+    """加载场景 JSON 文件。"""
     with open(path) as f:
         return json.load(f)
