@@ -1,9 +1,9 @@
 """
-Pipeline: Blender subprocess orchestration + output organization.
+管线：Blender 子进程编排 + 输出整理。
 
-Two phases per split:
-  1. render_split()   — call Blender to render scenes
-  2. organize_split() — copy images, save scene JSONs, build split index
+每个 split 分两个阶段：
+  1. render_split()   — 调用 Blender 渲染场景
+  2. organize_split() — 复制图像、保存场景 JSON、构建 split 索引
 """
 
 import json
@@ -15,7 +15,7 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
-# Blender script and assets live next to this file
+# Blender 脚本和资产与本文件同目录
 BLENDER_DIR = Path(__file__).resolve().parent / "blender"
 RENDER_SCRIPT = BLENDER_DIR / "render_multiview.py"
 ASSETS_DIR = BLENDER_DIR / "assets"
@@ -26,9 +26,9 @@ def _is_windows_blender(blender_path: str) -> bool:
 
 
 def _wsl_to_win(path: Path) -> str:
-  """Convert /mnt/d/... to D:/... for Windows Blender."""
+  """将 /mnt/d/... 转换为 D:/...，供 Windows 版 Blender 使用。"""
   s = str(path)
-  # /mnt/d/rest -> D:/rest  (drive letter at index 5, rest starts at index 7)
+  # /mnt/d/rest -> D:/rest（驱动器字母在索引 5，路径从索引 7 开始）
   if s.startswith('/mnt/') and len(s) > 6 and s[6] == '/':
     drive = s[5].upper()
     return f"{drive}:/{s[7:]}"
@@ -37,10 +37,10 @@ def _wsl_to_win(path: Path) -> str:
 
 def render_split(split_name: str, split_cfg: dict, cfg: dict) -> Path:
   """
-  Render scenes for one split via Blender subprocess.
+  通过 Blender 子进程渲染一个 split 的所有场景。
 
   Returns:
-      Path to render output directory (always a WSL-readable path).
+      渲染输出目录路径（始终为 WSL 可读路径）。
   """
   blender = cfg["blender"]["executable"]
   rendering = cfg["rendering"]
@@ -51,7 +51,7 @@ def render_split(split_name: str, split_cfg: dict, cfg: dict) -> Path:
   n_scenes = split_cfg["n_scenes"]
   start_idx = split_cfg.get("start_idx", 0)
 
-  # Decide output paths based on Windows vs native Blender
+  # 根据 Windows 版或原生 Blender 决定输出路径
   if _is_windows_blender(blender):
     blender_output = f"D:/render_{split_name}"
     render_output = Path(f"/mnt/d/render_{split_name}")
@@ -62,7 +62,7 @@ def render_split(split_name: str, split_cfg: dict, cfg: dict) -> Path:
 
   render_output.mkdir(parents=True, exist_ok=True)
 
-  # Build asset paths — Windows Blender needs Windows paths
+  # 构建资产路径——Windows 版 Blender 需要 Windows 格式路径
   if _is_windows_blender(blender):
     base_scene = _wsl_to_win(ASSETS_DIR / "base_scene_v5.blend")
     properties = _wsl_to_win(ASSETS_DIR / "properties.json")
@@ -139,11 +139,11 @@ def organize_split(
   effective_split: str = None,
 ) -> list:
   """
-  Copy images from Blender output to final directory structure.
-  Save per-scene JSON and build split index.
+  将 Blender 输出的图像复制到最终目录结构中。
+  保存每个场景的 JSON 并构建 split 索引。
 
   Returns:
-      List of split entry dicts.
+      split 条目字典列表。
   """
   if effective_split is None:
     effective_split = split_name
@@ -160,7 +160,7 @@ def organize_split(
   for scene in scenes_data.get("scenes", []):
     scene_id = scene.get("scene_id", "")
 
-    # Copy multi-view images
+    # 复制多视角图像
     src_mv = render_output / "multi_view" / scene_id
     dst_mv = output_dir / "images" / "multi_view" / scene_id
     if src_mv.exists():
@@ -168,24 +168,24 @@ def organize_split(
         shutil.rmtree(dst_mv)
       shutil.copytree(src_mv, dst_mv)
 
-    # Copy single-view image
+    # 复制单视角图像
     src_sv = render_output / "single_view" / f"{scene_id}.png"
     dst_sv = output_dir / "images" / "single_view" / f"{scene_id}.png"
     if src_sv.exists():
       shutil.copy2(src_sv, dst_sv)
 
-    # Copy top-view image
+    # 复制俯视角图像
     src_tv = render_output / "top_view" / f"{scene_id}.png"
     dst_tv = output_dir / "images" / "top_view" / f"{scene_id}.png"
     if src_tv.exists():
       shutil.copy2(src_tv, dst_tv)
 
-    # Save scene metadata (raw scene data, no constraints)
+    # 保存场景元数据（原始场景数据，不含约束）
     scene_file = output_dir / "scenes" / f"{scene_id}.json"
     with open(scene_file, 'w') as f:
       json.dump(scene, f, indent=2)
 
-    # Build index entry
+    # 构建索引条目
     entry = {
       "scene_id": scene_id,
       "single_view_image": f"images/single_view/{scene_id}.png",
@@ -200,7 +200,7 @@ def organize_split(
     }
     split_entries.append(entry)
 
-  # Cleanup temp render directory
+  # 清理临时渲染目录
   try:
     shutil.rmtree(render_output)
     logger.info(f"Cleaned up temp dir: {render_output}")
@@ -212,7 +212,7 @@ def organize_split(
 
 def build_split(split_name: str, split_cfg: dict, cfg: dict) -> dict:
   """
-  Render + organize one split. Returns statistics dict.
+  渲染并整理一个 split，返回统计字典。
   """
   output_dir = Path(cfg["output"]["dir"])
   n_views = cfg["rendering"]["n_views"]
@@ -225,7 +225,7 @@ def build_split(split_name: str, split_cfg: dict, cfg: dict) -> dict:
                            render_top_view=render_top_view,
                            effective_split=effective_split)
 
-  # Save split index (merge with existing if incremental)
+  # 保存 split 索引（增量模式时与已有索引合并）
   split_file = output_dir / "splits" / f"{split_name}.json"
   if start_idx > 0 and split_file.exists():
     with open(split_file) as f:
@@ -247,7 +247,7 @@ def build_split(split_name: str, split_cfg: dict, cfg: dict) -> dict:
 
 
 def save_dataset_info(cfg: dict, all_stats: dict):
-  """Write dataset_info.json summary."""
+  """写入 dataset_info.json 汇总文件。"""
   output_dir = Path(cfg["output"]["dir"])
   rendering = cfg["rendering"]
 

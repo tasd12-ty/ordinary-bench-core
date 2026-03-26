@@ -1,5 +1,5 @@
 """
-Trajectory planning: assign motions, check collisions, plan_scene().
+轨迹规划：分配运动、检查碰撞、plan_scene()。
 """
 
 import math
@@ -35,7 +35,7 @@ class ObjectMotionPlan:
     velocities: Optional[List[Tuple[float, float]]] = None
 
     def precompute(self, n_frames: int) -> None:
-        """Precompute positions and velocities for all frames."""
+        """预计算所有帧的位置和速度。"""
         self.positions = [self.motion.position(t) for t in range(n_frames)]
         self.velocities = [self.motion.velocity(t) for t in range(n_frames)]
 
@@ -82,23 +82,23 @@ def check_trajectory_collisions(
     bounds: float = 3.5,
 ) -> bool:
     """
-    Return True if all trajectories are collision-free and within bounds.
+    若所有轨迹均无碰撞且在边界内则返回 True。
 
-    Checks every frame for:
-    - pairwise distances > min_dist + sum of radii
-    - all positions within [-bounds, bounds]
+    逐帧检查：
+    - 两两距离 > min_dist + 半径之和
+    - 所有位置在 [-bounds, bounds] 内
     """
     n = len(plans)
     for t in range(n_frames):
         positions = []
         for p in plans:
             x, y = p.motion.position(t)
-            # Bounds check
+            # 边界检查
             if abs(x) > bounds or abs(y) > bounds:
                 return False
             positions.append((x, y, p.size_radius))
 
-        # Pairwise distance check
+        # 两两距离检查
         for i in range(n):
             for j in range(i + 1, n):
                 dx = positions[i][0] - positions[j][0]
@@ -118,7 +118,7 @@ def generate_random_motion(
     rng: random.Random,
     motion_params: Optional[Dict[str, float]] = None,
 ) -> MotionModel:
-    """Generate a motion model with reasonable parameters for the given type."""
+    """为指定运动类型生成具有合理参数的运动模型。"""
     if motion_params is None:
         motion_params = {}
 
@@ -145,7 +145,7 @@ def generate_random_motion(
             motion_params.get("omega_max", 0.10),
         )
         phase0 = rng.uniform(0, 2 * math.pi)
-        # Center is offset so starting position = (x0, y0)
+        # 圆心偏移使起始位置恰好在 (x0, y0)
         cx = x0 - radius * math.cos(phase0)
         cy = y0 - radius * math.sin(phase0)
         return CircularMotion(cx, cy, radius, omega, phase0)
@@ -192,7 +192,7 @@ def generate_random_motion(
 def _choose_motion_type(
     motion_mix: Dict[str, float], rng: random.Random,
 ) -> str:
-    """Weighted random choice of motion type from mix dict."""
+    """从混合字典中按权重随机选择运动类型。"""
     types = list(motion_mix.keys())
     weights = [motion_mix[t] for t in types]
     return rng.choices(types, weights=weights, k=1)[0]
@@ -203,12 +203,12 @@ def count_qrr_reversals(
     n_frames: int,
     tau: float = 0.10,
 ) -> int:
-    """Count total QRR reversals across all anchor/pair combos over the trajectory."""
+    """统计整条轨迹上所有锚点/配对组合的 QRR 反转总次数。"""
     n = len(plans)
     if n < 3:
         return 0
 
-    # Precompute all positions
+    # 预计算所有位置
     all_pos = []
     for t in range(n_frames):
         frame_pos = {}
@@ -259,36 +259,36 @@ def plan_scene(
     min_reversals: Optional[int] = None,
 ) -> List[ObjectMotionPlan]:
     """
-    Generate a complete motion plan for a dynamic scene.
+    为动态场景生成完整运动规划。
 
     Args:
-        n_objects: Number of objects to place.
-        n_frames: Total number of animation frames.
-        properties: Dict from properties.json (shapes, colors, materials, sizes).
-        motion_mix: Probability weights, e.g. {"static": 0.2, "linear": 0.6, "circular": 0.2}.
-        bounds: Half-width of the placement area.
-        min_dist: Minimum gap between object surfaces.
-        seed: Random seed.
-        max_retries: Max attempts before raising.
-        motion_params: Speed/omega parameters for motion generation.
-        n_moving: If set, exactly this many objects will move; rest are static.
-                  Moving objects sample from motion_mix excluding 'static'.
-        min_reversals: If set, reject scenes with fewer QRR reversals.
+        n_objects: 放置的物体数量。
+        n_frames: 动画总帧数。
+        properties: 来自 properties.json 的字典（形状、颜色、材质、尺寸）。
+        motion_mix: 概率权重，如 {"static": 0.2, "linear": 0.6, "circular": 0.2}。
+        bounds: 放置区域的半宽度。
+        min_dist: 物体表面间的最小间距。
+        seed: 随机种子。
+        max_retries: 抛出异常前的最大尝试次数。
+        motion_params: 运动生成的速度/角速度参数。
+        n_moving: 若设置，则恰好该数量的物体运动，其余静止。
+                  运动物体从排除 'static' 的 motion_mix 中采样。
+        min_reversals: 若设置，则拒绝 QRR 反转次数不足的场景。
 
     Returns:
-        List of ObjectMotionPlan for each object (with precomputed positions).
+        每个物体的 ObjectMotionPlan 列表（含预计算位置）。
     """
     if motion_mix is None:
         motion_mix = {"static": 0.2, "linear": 0.6, "circular": 0.2}
 
     rng = random.Random(seed)
 
-    shapes = list(properties["shapes"].items())  # [(name, blend_name), ...]
+    shapes = list(properties["shapes"].items())  # [(名称, blend文件名), ...]
     colors = list(properties["colors"].keys())
     materials = list(properties["materials"].keys())
-    sizes = list(properties["sizes"].items())  # [(name, radius), ...]
+    sizes = list(properties["sizes"].items())  # [(名称, 半径), ...]
 
-    # Build moving-only mix (exclude static) for n_moving mode
+    # 构建仅含运动类型的混合比例（排除 static），用于 n_moving 模式
     if n_moving is not None:
         moving_mix = {k: v for k, v in motion_mix.items() if k != "static"}
         if not moving_mix:
@@ -299,14 +299,14 @@ def plan_scene(
     for attempt in range(max_retries):
         plans: List[ObjectMotionPlan] = []
 
-        # Determine which objects move when n_moving is set
+        # 当 n_moving 已设置时，确定哪些物体运动
         if n_moving is not None:
             n_mov = min(n_moving, n_objects)
             moving_indices = set(rng.sample(range(n_objects), n_mov))
         else:
             moving_indices = None
 
-        # Place objects at random initial positions
+        # 在随机初始位置放置物体
         for i in range(n_objects):
             shape_name, _ = rng.choice(shapes)
             color = rng.choice(colors)
@@ -314,17 +314,17 @@ def plan_scene(
             size_name, size_radius = rng.choice(sizes)
             rotation = rng.uniform(0, 360)
 
-            # Adjust radius for cubes (same as render_multiview.py)
+            # 调整立方体的半径（与 render_multiview.py 保持一致）
             effective_radius = size_radius
             if shape_name == "cube":
                 effective_radius = size_radius / math.sqrt(2)
 
-            # Keep objects away from edges; margin depends on how many frames
+            # 使物体远离边缘；边距取决于帧数
             margin = min(bounds * 0.5, max(0.5, n_frames * 0.003))
             x0 = rng.uniform(-bounds + margin, bounds - margin)
             y0 = rng.uniform(-bounds + margin, bounds - margin)
 
-            # Choose motion type
+            # 选择运动类型
             if moving_indices is not None:
                 if i in moving_indices:
                     mtype = _choose_motion_type(moving_mix, rng)
@@ -349,11 +349,11 @@ def plan_scene(
         if not check_trajectory_collisions(plans, n_frames, min_dist, bounds):
             continue
 
-        # Precompute positions/velocities
+        # 预计算位置/速度
         for p in plans:
             p.precompute(n_frames)
 
-        # Check min_reversals if required
+        # 若需要则检查 min_reversals
         if min_reversals is not None:
             rev_count = count_qrr_reversals(plans, n_frames)
             if rev_count < min_reversals:

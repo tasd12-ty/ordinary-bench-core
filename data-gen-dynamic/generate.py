@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Dynamic scene generation entry point.
+动态场景生成入口。
 
-Usage:
-    python generate.py                        # use config.toml
-    python generate.py --preset test          # 1 scene, fast test
-    python generate.py --config my.toml       # custom config
-    python generate.py --dry-run              # print config and exit
+用法：
+    python generate.py                        # 使用 config.toml
+    python generate.py --preset test          # 1 个场景，快速测试
+    python generate.py --config my.toml       # 自定义配置文件
+    python generate.py --dry-run              # 打印配置后退出
 """
 
 import argparse
@@ -47,7 +47,7 @@ PRESETS = {
             "d03": {"n_scenes": 1, "n_objects": 3},
         },
     },
-    # ---- test_video: 48-frame short video, one scene per level ----
+    # ---- test_video：48 帧短视频，每个难度级别 1 个场景 ----
     "test_video": {
         "animation": {"n_frames": 48, "fps": 24},
         "rendering": {"samples": 32, "camera_distance": 10.0},
@@ -58,9 +58,9 @@ PRESETS = {
             "tv_L5": {"n_scenes": 1, "n_objects": 7},
         },
     },
-    # ---- Difficulty levels: L1–L5 ----
-    # ---- L1: Basic (1 moving, linear only, slow) ----
-    # Max displacement: 0.008 * 360 = 2.88 BU — safe with bounds=5.0
+    # ---- 难度等级：L1–L5 ----
+    # ---- L1：基础（1 个运动物体，仅线性，速度慢）----
+    # 最大位移：0.008 * 360 = 2.88 BU——bounds=5.0 时安全
     "L1": {
         "animation": {"n_frames": 360, "fps": 24},
         "motion": {
@@ -76,7 +76,7 @@ PRESETS = {
             "L1_d04": {"n_scenes": 50, "n_objects": 4},
         },
     },
-    # ---- L2: Tracking (2 moving, linear + circular) ----
+    # ---- L2：追踪（2 个运动物体，线性 + 圆周）----
     "L2": {
         "animation": {"n_frames": 360, "fps": 24},
         "motion": {
@@ -93,8 +93,8 @@ PRESETS = {
             "L2_d05": {"n_scenes": 50, "n_objects": 5},
         },
     },
-    # ---- L3: Dynamic (all moving, mixed bounded + linear) ----
-    # Uses circular (bounded) + bounce (bounded) + slow linear
+    # ---- L3：动态（全部运动，有界 + 线性混合）----
+    # 使用圆周（有界）+ 弹跳（有界）+ 慢速线性
     "L3": {
         "animation": {"n_frames": 360, "fps": 24},
         "motion": {
@@ -112,7 +112,7 @@ PRESETS = {
             "L3_d06": {"n_scenes": 50, "n_objects": 6},
         },
     },
-    # ---- L4: Cinematic (orbit camera, bounded motions, faster) ----
+    # ---- L4：影视级（轨道相机，有界运动，速度更快）----
     "L4": {
         "animation": {"n_frames": 360, "fps": 24},
         "motion": {
@@ -123,7 +123,7 @@ PRESETS = {
         },
         "camera": {
             "type": "orbit",
-            "orbit_speed": 0.5,  # degrees per second → 7.5° total
+            "orbit_speed": 0.5,  # 度/秒 → 共 7.5°
         },
         "objects": {"min_count": 5, "max_count": 7, "bounds": 7.0},
         "rendering": {"samples": 64, "camera_distance": 12.0},
@@ -134,8 +134,8 @@ PRESETS = {
             "L4_d07": {"n_scenes": 50, "n_objects": 7},
         },
     },
-    # ---- L5: Adversarial (complex camera, fast bounded motions, dense) ----
-    # Larger bounds (8.0) + camera distance (14.0) to accommodate 7-10 objects
+    # ---- L5：对抗级（复杂相机，快速有界运动，密集）----
+    # 更大边界（8.0）+ 相机距离（14.0）以容纳 7-10 个物体
     "L5": {
         "animation": {"n_frames": 360, "fps": 24},
         "motion": {
@@ -146,9 +146,9 @@ PRESETS = {
         },
         "camera": {
             "type": "composite",
-            "orbit_speed": 2.0,      # degrees per second → 30° total
-            "pan_range": 1.0,        # look_at offset ±
-            "zoom_range": 2.0,       # distance offset ±
+            "orbit_speed": 2.0,      # 度/秒 → 共 30°
+            "pan_range": 1.0,        # look_at 偏移量 ±
+            "zoom_range": 2.0,       # 距离偏移量 ±
         },
         "objects": {"min_count": 7, "max_count": 8, "bounds": 8.0, "min_dist": 0.15},
         "rendering": {"samples": 64, "camera_distance": 14.0},
@@ -176,7 +176,7 @@ DEFAULT_CONFIG = {
 
 
 def deep_merge(base, override):
-    """Recursively merge override into base (override wins)."""
+    """递归将 override 合并到 base 中（override 优先）。"""
     result = dict(base)
     for k, v in override.items():
         if k in result and isinstance(result[k], dict) and isinstance(v, dict):
@@ -205,7 +205,7 @@ def load_config(config_path, preset, cli_args):
             logger.error(f"Unknown preset: {preset}")
             sys.exit(1)
         preset_data = PRESETS[preset]
-        # Presets replace splits entirely (don't merge with config.toml splits)
+        # 预设完全替换 splits（不与 config.toml 的 splits 合并）
         if "splits" in preset_data:
             cfg["splits"] = {}
         cfg = deep_merge(cfg, preset_data)
@@ -219,7 +219,7 @@ def load_config(config_path, preset, cli_args):
 
 
 def resolve_blender(cfg):
-    """Auto-detect Blender if default 'blender' not in PATH."""
+    """若默认 'blender' 不在 PATH 中，则自动检测 Blender。"""
     exe = cfg["blender"]["executable"]
     if shutil.which(exe):
         return
@@ -232,7 +232,7 @@ def resolve_blender(cfg):
 
 
 def validate_blender(cfg):
-    """Verify Blender executable works before rendering."""
+    """在渲染前验证 Blender 可执行文件可正常运行。"""
     exe = cfg["blender"]["executable"]
     try:
         result = subprocess.run(
@@ -253,7 +253,7 @@ def validate_blender(cfg):
 
 
 def validate_ffmpeg():
-    """Check if ffmpeg is available."""
+    """检查 ffmpeg 是否可用。"""
     if shutil.which("ffmpeg"):
         try:
             result = subprocess.run(
@@ -264,7 +264,7 @@ def validate_ffmpeg():
             return True
         except Exception:
             pass
-    logger.warning("ffmpeg not found. Video encoding will be skipped.")
+    logger.warning("未找到 ffmpeg，将跳过视频编码。")
     return False
 
 
@@ -340,7 +340,7 @@ def main():
         stats = pipeline.build_split(split_name, split_cfg, cfg)
         all_stats[split_name] = stats
 
-    # Summary
+    # 汇总统计
     total_ok = sum(s["n_ok"] for s in all_stats.values())
     total_failed = sum(s["n_failed"] for s in all_stats.values())
     print(f"\nDone! {total_ok} scenes generated, {total_failed} failed")

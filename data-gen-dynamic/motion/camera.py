@@ -1,8 +1,8 @@
 """
-Camera motion models for dynamic scene rendering.
+动态场景渲染的相机运动模型。
 
-Generates per-frame camera parameters (distance, elevation, azimuth, look_at)
-that are stored in the plan JSON and read by the Blender renderer.
+生成逐帧相机参数（distance、elevation、azimuth、look_at），
+这些参数存储在规划 JSON 中并由 Blender 渲染器读取。
 """
 
 import math
@@ -11,22 +11,22 @@ from typing import Dict, List, Optional, Tuple
 
 
 class CameraMotionModel(ABC):
-    """Abstract base for camera motion."""
+    """相机运动的抽象基类。"""
 
     @abstractmethod
     def camera_params(self, t: int) -> dict:
-        """Return camera parameters at frame t.
+        """返回第 t 帧的相机参数。
 
-        Returns dict with keys: distance, elevation, azimuth, look_at.
+        返回字典包含以下键：distance、elevation、azimuth、look_at。
         """
 
     def generate_frames(self, n_frames: int) -> List[dict]:
-        """Generate per-frame camera parameters."""
+        """生成逐帧相机参数。"""
         return [self.camera_params(t) for t in range(n_frames)]
 
 
 class StaticCamera(CameraMotionModel):
-    """Fixed camera position."""
+    """固定相机位置。"""
 
     def __init__(self, distance: float = 10.0, elevation: float = 30.0,
                  azimuth: float = 45.0, look_at: Tuple = (0, 0, 0)):
@@ -45,12 +45,12 @@ class StaticCamera(CameraMotionModel):
 
 
 class OrbitCamera(CameraMotionModel):
-    """Camera orbits around the scene at constant speed.
+    """相机以恒定速度绕场景轨道运动。
 
     Args:
-        orbit_speed: Degrees per second of azimuth rotation.
-        fps: Frames per second.
-        base_distance, base_elevation, base_azimuth: Starting camera params.
+        orbit_speed: 方位角旋转速度（度/秒）。
+        fps: 帧率。
+        base_distance, base_elevation, base_azimuth: 起始相机参数。
     """
 
     def __init__(self, orbit_speed: float = 0.5, fps: int = 24,
@@ -62,7 +62,7 @@ class OrbitCamera(CameraMotionModel):
         self.base_elevation = base_elevation
         self.base_azimuth = base_azimuth
         self.look_at = list(look_at)
-        # Degrees per frame
+        # 每帧度数
         self._dpf = orbit_speed / fps
 
     def camera_params(self, t: int) -> dict:
@@ -75,15 +75,15 @@ class OrbitCamera(CameraMotionModel):
 
 
 class CompositeCameraMotion(CameraMotionModel):
-    """Complex camera: orbit + pan (look_at shift) + zoom (distance change).
+    """复合相机运动：轨道旋转 + 平移（look_at 偏移）+ 缩放（距离变化）。
 
-    All motions are sinusoidal to create smooth, natural camera movement.
+    所有运动均为正弦曲线，以产生平滑自然的相机运动。
 
     Args:
-        orbit_speed: Degrees per second.
-        pan_range: Max look_at offset (sinusoidal).
-        zoom_range: Max distance offset (sinusoidal).
-        fps: Frames per second.
+        orbit_speed: 旋转速度（度/秒）。
+        pan_range: 最大 look_at 偏移量（正弦）。
+        zoom_range: 最大距离偏移量（正弦）。
+        fps: 帧率。
     """
 
     def __init__(self, orbit_speed: float = 2.0, pan_range: float = 1.0,
@@ -103,13 +103,13 @@ class CompositeCameraMotion(CameraMotionModel):
     def camera_params(self, t: int) -> dict:
         time_s = t / self.fps
 
-        # Orbit: linear azimuth change
+        # 轨道旋转：线性方位角变化
         azimuth = self.base_azimuth + self._dpf * t
 
-        # Zoom: sinusoidal distance variation (period ~10s)
+        # 缩放：正弦距离变化（周期约 10 秒）
         distance = self.base_distance + self.zoom_range * math.sin(2 * math.pi * time_s / 10.0)
 
-        # Pan: sinusoidal look_at shift (period ~8s for x, ~12s for y)
+        # 平移：正弦 look_at 偏移（x 轴周期约 8 秒，y 轴约 12 秒）
         look_at = [
             self.look_at[0] + self.pan_range * math.sin(2 * math.pi * time_s / 8.0),
             self.look_at[1] + self.pan_range * math.sin(2 * math.pi * time_s / 12.0),
@@ -125,7 +125,7 @@ class CompositeCameraMotion(CameraMotionModel):
 
 
 def build_camera_plan(camera_cfg: dict, n_frames: int, fps: int = 24) -> dict:
-    """Build camera plan dict from config. Returns dict with 'type' and 'frames'."""
+    """从配置构建相机规划字典。返回包含 'type' 和 'frames' 的字典。"""
     cam_type = camera_cfg.get("type", "static")
     base_dist = camera_cfg.get("base_distance", 10.0)
     base_elev = camera_cfg.get("base_elevation", 30.0)
