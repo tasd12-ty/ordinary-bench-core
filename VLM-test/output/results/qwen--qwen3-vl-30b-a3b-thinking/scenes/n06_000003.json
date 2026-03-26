@@ -7,9 +7,9 @@
   "scores": {
     "qrr_correct": 34,
     "qrr_total": 43,
-    "trr_hour_correct": 9,
-    "trr_quadrant_correct": 36,
-    "trr_adjacent_correct": 38,
+    "trr_hour_correct": 17,
+    "trr_quadrant_correct": 48,
+    "trr_adjacent_correct": 46,
     "trr_total": 120,
     "missing": 0,
     "per_question": [
@@ -336,19 +336,19 @@
         "qid": "trr_0003",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 11,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "gt_hour": 1,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0004",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 11,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "gt_hour": 1,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0005",
@@ -372,19 +372,19 @@
         "qid": "trr_0007",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 10,
+        "gt_hour": 2,
         "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0008",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 10,
+        "gt_hour": 2,
         "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0009",
@@ -408,7 +408,7 @@
         "qid": "trr_0011",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 3,
+        "gt_hour": 9,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -417,31 +417,13 @@
         "qid": "trr_0012",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 2,
+        "gt_hour": 10,
         "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0013",
-        "type": "trr",
-        "predicted": 1,
-        "gt_hour": 1,
-        "hour_correct": true,
-        "quadrant_correct": true,
-        "adjacent_correct": true
-      },
-      {
-        "qid": "trr_0014",
-        "type": "trr",
-        "predicted": 1,
-        "gt_hour": 1,
-        "hour_correct": true,
-        "quadrant_correct": true,
-        "adjacent_correct": true
-      },
-      {
-        "qid": "trr_0015",
         "type": "trr",
         "predicted": 1,
         "gt_hour": 11,
@@ -450,10 +432,28 @@
         "adjacent_correct": false
       },
       {
+        "qid": "trr_0014",
+        "type": "trr",
+        "predicted": 1,
+        "gt_hour": 11,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": false
+      },
+      {
+        "qid": "trr_0015",
+        "type": "trr",
+        "predicted": 1,
+        "gt_hour": 1,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
+      },
+      {
         "qid": "trr_0016",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 4,
+        "gt_hour": 8,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -462,37 +462,37 @@
         "qid": "trr_0017",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 1,
-        "hour_correct": true,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "gt_hour": 11,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0018",
         "type": "trr",
         "predicted": 1,
+        "gt_hour": 11,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": false
+      },
+      {
+        "qid": "trr_0019",
+        "type": "trr",
+        "predicted": 1,
         "gt_hour": 1,
         "hour_correct": true,
         "quadrant_correct": true,
         "adjacent_correct": true
       },
       {
-        "qid": "trr_0019",
-        "type": "trr",
-        "predicted": 1,
-        "gt_hour": 11,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
-      },
-      {
         "qid": "trr_0020",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 11,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "gt_hour": 1,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0021",
@@ -516,7 +516,7 @@
         "qid": "trr_0023",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 4,
+        "gt_hour": 8,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -525,7 +525,7 @@
         "qid": "trr_0024",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 3,
+        "gt_hour": 9,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -552,7 +552,7 @@
         "qid": "trr_0027",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 5,
+        "gt_hour": 7,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -561,7 +561,7 @@
         "qid": "trr_0028",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 4,
+        "gt_hour": 8,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -588,7 +588,7 @@
         "qid": "trr_0031",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 3,
+        "gt_hour": 9,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -597,19 +597,19 @@
         "qid": "trr_0032",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 2,
+        "gt_hour": 10,
         "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0033",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 11,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "gt_hour": 1,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0034",
@@ -624,7 +624,7 @@
         "qid": "trr_0035",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 9,
+        "gt_hour": 3,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -633,7 +633,7 @@
         "qid": "trr_0036",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 3,
+        "gt_hour": 9,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -642,37 +642,37 @@
         "qid": "trr_0037",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 11,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "gt_hour": 1,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0038",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 11,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "gt_hour": 1,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0039",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 10,
+        "gt_hour": 2,
         "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0040",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 10,
+        "gt_hour": 2,
         "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0041",
@@ -696,7 +696,7 @@
         "qid": "trr_0043",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 4,
+        "gt_hour": 8,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -705,7 +705,7 @@
         "qid": "trr_0044",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 3,
+        "gt_hour": 9,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -732,19 +732,19 @@
         "qid": "trr_0047",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 11,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "gt_hour": 1,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0048",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 11,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "gt_hour": 1,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0049",
@@ -768,28 +768,28 @@
         "qid": "trr_0051",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 2,
+        "gt_hour": 10,
         "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0052",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 2,
+        "gt_hour": 10,
         "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0053",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 11,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "gt_hour": 1,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0054",
@@ -804,16 +804,16 @@
         "qid": "trr_0055",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 10,
+        "gt_hour": 2,
         "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0056",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 3,
+        "gt_hour": 9,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -822,25 +822,25 @@
         "qid": "trr_0057",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 11,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "gt_hour": 1,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0058",
         "type": "trr",
         "predicted": 11,
-        "gt_hour": 1,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "gt_hour": 11,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0059",
         "type": "trr",
         "predicted": 7,
-        "gt_hour": 11,
+        "gt_hour": 1,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -849,7 +849,7 @@
         "qid": "trr_0060",
         "type": "trr",
         "predicted": 5,
-        "gt_hour": 10,
+        "gt_hour": 2,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -876,18 +876,18 @@
         "qid": "trr_0063",
         "type": "trr",
         "predicted": 9,
-        "gt_hour": 10,
+        "gt_hour": 2,
         "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0064",
         "type": "trr",
         "predicted": 5,
-        "gt_hour": 9,
+        "gt_hour": 3,
         "hour_correct": false,
-        "quadrant_correct": false,
+        "quadrant_correct": true,
         "adjacent_correct": false
       },
       {
@@ -912,16 +912,16 @@
         "qid": "trr_0067",
         "type": "trr",
         "predicted": 11,
-        "gt_hour": 11,
-        "hour_correct": true,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "gt_hour": 1,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0068",
         "type": "trr",
         "predicted": 3,
-        "gt_hour": 11,
+        "gt_hour": 1,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -948,7 +948,7 @@
         "qid": "trr_0071",
         "type": "trr",
         "predicted": 5,
-        "gt_hour": 11,
+        "gt_hour": 1,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -957,25 +957,25 @@
         "qid": "trr_0072",
         "type": "trr",
         "predicted": 9,
-        "gt_hour": 10,
-        "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
-      },
-      {
-        "qid": "trr_0073",
-        "type": "trr",
-        "predicted": 11,
-        "gt_hour": 1,
+        "gt_hour": 2,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
       },
       {
+        "qid": "trr_0073",
+        "type": "trr",
+        "predicted": 11,
+        "gt_hour": 11,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
+      },
+      {
         "qid": "trr_0074",
         "type": "trr",
         "predicted": 7,
-        "gt_hour": 3,
+        "gt_hour": 9,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -984,10 +984,10 @@
         "qid": "trr_0075",
         "type": "trr",
         "predicted": 3,
-        "gt_hour": 2,
+        "gt_hour": 10,
         "hour_correct": false,
         "quadrant_correct": false,
-        "adjacent_correct": true
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0076",
@@ -1002,7 +1002,7 @@
         "qid": "trr_0077",
         "type": "trr",
         "predicted": 5,
-        "gt_hour": 1,
+        "gt_hour": 11,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1011,16 +1011,16 @@
         "qid": "trr_0078",
         "type": "trr",
         "predicted": 9,
-        "gt_hour": 2,
+        "gt_hour": 10,
         "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0079",
         "type": "trr",
         "predicted": 3,
-        "gt_hour": 1,
+        "gt_hour": 11,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1038,34 +1038,34 @@
         "qid": "trr_0081",
         "type": "trr",
         "predicted": 7,
-        "gt_hour": 8,
-        "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
-      },
-      {
-        "qid": "trr_0082",
-        "type": "trr",
-        "predicted": 3,
-        "gt_hour": 8,
+        "gt_hour": 4,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
       },
       {
-        "qid": "trr_0083",
+        "qid": "trr_0082",
         "type": "trr",
-        "predicted": 1,
-        "gt_hour": 2,
+        "predicted": 3,
+        "gt_hour": 4,
         "hour_correct": false,
         "quadrant_correct": true,
         "adjacent_correct": true
       },
       {
+        "qid": "trr_0083",
+        "type": "trr",
+        "predicted": 1,
+        "gt_hour": 10,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": false
+      },
+      {
         "qid": "trr_0084",
         "type": "trr",
         "predicted": 5,
-        "gt_hour": 11,
+        "gt_hour": 1,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1074,7 +1074,7 @@
         "qid": "trr_0085",
         "type": "trr",
         "predicted": 3,
-        "gt_hour": 1,
+        "gt_hour": 11,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1083,16 +1083,16 @@
         "qid": "trr_0086",
         "type": "trr",
         "predicted": 9,
-        "gt_hour": 1,
+        "gt_hour": 11,
         "hour_correct": false,
-        "quadrant_correct": false,
+        "quadrant_correct": true,
         "adjacent_correct": false
       },
       {
         "qid": "trr_0087",
         "type": "trr",
         "predicted": 7,
-        "gt_hour": 1,
+        "gt_hour": 11,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1101,34 +1101,34 @@
         "qid": "trr_0088",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 11,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "gt_hour": 1,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0089",
         "type": "trr",
         "predicted": 9,
-        "gt_hour": 2,
+        "gt_hour": 10,
         "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0090",
         "type": "trr",
         "predicted": 5,
-        "gt_hour": 7,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "gt_hour": 5,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0091",
         "type": "trr",
         "predicted": 3,
-        "gt_hour": 1,
+        "gt_hour": 11,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1137,7 +1137,7 @@
         "qid": "trr_0092",
         "type": "trr",
         "predicted": 7,
-        "gt_hour": 11,
+        "gt_hour": 1,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1146,16 +1146,16 @@
         "qid": "trr_0093",
         "type": "trr",
         "predicted": 5,
-        "gt_hour": 9,
+        "gt_hour": 3,
         "hour_correct": false,
-        "quadrant_correct": false,
+        "quadrant_correct": true,
         "adjacent_correct": false
       },
       {
         "qid": "trr_0094",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 9,
+        "gt_hour": 3,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1164,10 +1164,10 @@
         "qid": "trr_0095",
         "type": "trr",
         "predicted": 11,
-        "gt_hour": 10,
+        "gt_hour": 2,
         "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0096",
@@ -1182,16 +1182,16 @@
         "qid": "trr_0097",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 1,
-        "hour_correct": true,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "gt_hour": 11,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0098",
         "type": "trr",
         "predicted": 5,
-        "gt_hour": 2,
+        "gt_hour": 10,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1200,10 +1200,10 @@
         "qid": "trr_0099",
         "type": "trr",
         "predicted": 9,
-        "gt_hour": 2,
+        "gt_hour": 10,
         "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0100",
@@ -1218,34 +1218,34 @@
         "qid": "trr_0101",
         "type": "trr",
         "predicted": 9,
-        "gt_hour": 9,
-        "hour_correct": true,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "gt_hour": 3,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0102",
         "type": "trr",
         "predicted": 5,
-        "gt_hour": 9,
+        "gt_hour": 3,
         "hour_correct": false,
-        "quadrant_correct": false,
+        "quadrant_correct": true,
         "adjacent_correct": false
       },
       {
         "qid": "trr_0103",
         "type": "trr",
         "predicted": 3,
-        "gt_hour": 3,
-        "hour_correct": true,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "gt_hour": 9,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0104",
         "type": "trr",
         "predicted": 7,
-        "gt_hour": 1,
+        "gt_hour": 11,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1254,7 +1254,7 @@
         "qid": "trr_0105",
         "type": "trr",
         "predicted": 5,
-        "gt_hour": 1,
+        "gt_hour": 11,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1263,25 +1263,25 @@
         "qid": "trr_0106",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 1,
-        "hour_correct": true,
-        "quadrant_correct": true,
-        "adjacent_correct": true
-      },
-      {
-        "qid": "trr_0107",
-        "type": "trr",
-        "predicted": 11,
-        "gt_hour": 1,
+        "gt_hour": 11,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
       },
       {
+        "qid": "trr_0107",
+        "type": "trr",
+        "predicted": 11,
+        "gt_hour": 11,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
+      },
+      {
         "qid": "trr_0108",
         "type": "trr",
         "predicted": 7,
-        "gt_hour": 1,
+        "gt_hour": 11,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1290,25 +1290,25 @@
         "qid": "trr_0109",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 2,
+        "gt_hour": 10,
         "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0110",
         "type": "trr",
         "predicted": 7,
-        "gt_hour": 8,
+        "gt_hour": 4,
         "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0111",
         "type": "trr",
         "predicted": 5,
-        "gt_hour": 2,
+        "gt_hour": 10,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1317,7 +1317,7 @@
         "qid": "trr_0112",
         "type": "trr",
         "predicted": 3,
-        "gt_hour": 1,
+        "gt_hour": 11,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1326,7 +1326,7 @@
         "qid": "trr_0113",
         "type": "trr",
         "predicted": 7,
-        "gt_hour": 10,
+        "gt_hour": 2,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1335,19 +1335,19 @@
         "qid": "trr_0114",
         "type": "trr",
         "predicted": 3,
-        "gt_hour": 10,
+        "gt_hour": 2,
         "hour_correct": false,
         "quadrant_correct": false,
-        "adjacent_correct": false
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0115",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 10,
+        "gt_hour": 2,
         "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0116",
@@ -1362,16 +1362,16 @@
         "qid": "trr_0117",
         "type": "trr",
         "predicted": 3,
-        "gt_hour": 8,
+        "gt_hour": 4,
         "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0118",
         "type": "trr",
         "predicted": 7,
-        "gt_hour": 9,
+        "gt_hour": 3,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -1380,7 +1380,7 @@
         "qid": "trr_0119",
         "type": "trr",
         "predicted": 1,
-        "gt_hour": 9,
+        "gt_hour": 3,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false

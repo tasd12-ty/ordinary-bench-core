@@ -1,8 +1,8 @@
 # ordinary-bench 3D grid data generation configuration
 
 [blender]
-executable = "/mnt/d/tools/blender/blender.exe"
-use_gpu = true
+executable = "/Applications/Blender.app/Contents/MacOS/Blender"
+use_gpu = false
 
 [rendering]
 width = 480
@@ -20,24 +20,44 @@ labels = false              # 是否渲染 3D 标签 (A1-1 ~ D4-4)
 
 [objects]
 min_count = 4
-max_count = 12              # 64 格中最多放 12 个
+max_count = 10
 
 [output]
 dir = "./output"
 seed = 42
 
-# 按物体数量分 split
+# 按物体数量分 split — 7 splits × 20 scenes = 140 total
 [splits.g04]
-n_scenes = 10
+n_scenes = 20
 min_objects = 4
 max_objects = 4
 
+[splits.g05]
+n_scenes = 20
+min_objects = 5
+max_objects = 5
+
+[splits.g06]
+n_scenes = 20
+min_objects = 6
+max_objects = 6
+
+[splits.g07]
+n_scenes = 20
+min_objects = 7
+max_objects = 7
+
 [splits.g08]
-n_scenes = 10
+n_scenes = 20
 min_objects = 8
 max_objects = 8
 
-[splits.g12]
-n_scenes = 10
-min_objects = 12
-max_objects = 12
+[splits.g09]
+n_scenes = 20
+min_objects = 9
+max_objects = 9
+
+[splits.g10]
+n_scenes = 20
+min_objects = 10
+max_objects = 10

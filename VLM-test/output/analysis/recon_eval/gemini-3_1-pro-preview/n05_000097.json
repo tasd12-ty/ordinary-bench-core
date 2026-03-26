@@ -1,0 +1,25 @@
+{
+  "scene_id": "n05_000097",
+  "model": "gemini-3.1-pro-preview",
+  "n_objects": 5,
+  "level1": {
+    "pass": true,
+    "n_qrr": 45,
+    "hard_violations": 0,
+    "soft_violations": 3,
+    "csr_qrr": 0.9333,
+    "k_geom": 4
+  },
+  "level2": {
+    "pass": false,
+    "n_trr": 60,
+    "trr_adj_satisfied": 59,
+    "trr_adj_total": 60,
+    "trr_adj_csr": 0.9833,
+    "trr_adj_violations": 1
+  },
+  "gt_metrics": {
+    "kendall_tau": 0.8222,
+    "nrms": 0.1125
+  }
+}

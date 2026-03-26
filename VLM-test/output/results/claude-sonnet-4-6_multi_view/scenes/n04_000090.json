@@ -12,9 +12,9 @@
     "qrr_disjoint_total": 2,
     "qrr_shared_anchor_correct": 0,
     "qrr_shared_anchor_total": 0,
-    "trr_hour_correct": 1,
-    "trr_quadrant_correct": 9,
-    "trr_adjacent_correct": 7,
+    "trr_hour_correct": 2,
+    "trr_quadrant_correct": 4,
+    "trr_adjacent_correct": 5,
     "trr_total": 24,
     "fdr_exact_correct": 2,
     "fdr_total": 4,
@@ -27,7 +27,7 @@
         "qid": "trr_0001",
         "type": "trr",
         "predicted": 3,
-        "gt_hour": 1,
+        "gt_hour": 11,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -36,16 +36,16 @@
         "qid": "trr_0002",
         "type": "trr",
         "predicted": 2,
-        "gt_hour": 3,
+        "gt_hour": 9,
         "hour_correct": false,
         "quadrant_correct": false,
-        "adjacent_correct": true
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0003",
         "type": "trr",
         "predicted": 4,
-        "gt_hour": 11,
+        "gt_hour": 1,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -54,16 +54,16 @@
         "qid": "trr_0004",
         "type": "trr",
         "predicted": 3,
-        "gt_hour": 9,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "gt_hour": 3,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0005",
         "type": "trr",
         "predicted": 3,
-        "gt_hour": 11,
+        "gt_hour": 1,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -72,67 +72,13 @@
         "qid": "trr_0006",
         "type": "trr",
         "predicted": 2,
-        "gt_hour": 1,
+        "gt_hour": 11,
         "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0007",
-        "type": "trr",
-        "predicted": 10,
-        "gt_hour": 8,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
-      },
-      {
-        "qid": "trr_0008",
-        "type": "trr",
-        "predicted": 11,
-        "gt_hour": 9,
-        "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": false
-      },
-      {
-        "qid": "trr_0009",
-        "type": "trr",
-        "predicted": 9,
-        "gt_hour": 1,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
-      },
-      {
-        "qid": "trr_0010",
-        "type": "trr",
-        "predicted": 6,
-        "gt_hour": 9,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
-      },
-      {
-        "qid": "trr_0011",
-        "type": "trr",
-        "predicted": 12,
-        "gt_hour": 1,
-        "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
-      },
-      {
-        "qid": "trr_0012",
-        "type": "trr",
-        "predicted": 12,
-        "gt_hour": 2,
-        "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": false
-      },
-      {
-        "qid": "trr_0013",
         "type": "trr",
         "predicted": 10,
         "gt_hour": 4,
@@ -141,16 +87,16 @@
         "adjacent_correct": false
       },
       {
-        "qid": "trr_0014",
+        "qid": "trr_0008",
         "type": "trr",
-        "predicted": 9,
-        "gt_hour": 1,
+        "predicted": 11,
+        "gt_hour": 3,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
       },
       {
-        "qid": "trr_0015",
+        "qid": "trr_0009",
         "type": "trr",
         "predicted": 9,
         "gt_hour": 11,
@@ -159,10 +105,64 @@
         "adjacent_correct": false
       },
       {
+        "qid": "trr_0010",
+        "type": "trr",
+        "predicted": 6,
+        "gt_hour": 3,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": false
+      },
+      {
+        "qid": "trr_0011",
+        "type": "trr",
+        "predicted": 12,
+        "gt_hour": 11,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": true
+      },
+      {
+        "qid": "trr_0012",
+        "type": "trr",
+        "predicted": 12,
+        "gt_hour": 10,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": false
+      },
+      {
+        "qid": "trr_0013",
+        "type": "trr",
+        "predicted": 10,
+        "gt_hour": 8,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": false
+      },
+      {
+        "qid": "trr_0014",
+        "type": "trr",
+        "predicted": 9,
+        "gt_hour": 11,
+        "hour_correct": false,
+        "quadrant_correct": true,
+        "adjacent_correct": false
+      },
+      {
+        "qid": "trr_0015",
+        "type": "trr",
+        "predicted": 9,
+        "gt_hour": 1,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": false
+      },
+      {
         "qid": "trr_0016",
         "type": "trr",
         "predicted": 3,
-        "gt_hour": 1,
+        "gt_hour": 11,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -171,73 +171,73 @@
         "qid": "trr_0017",
         "type": "trr",
         "predicted": 9,
-        "gt_hour": 11,
+        "gt_hour": 1,
         "hour_correct": false,
-        "quadrant_correct": true,
+        "quadrant_correct": false,
         "adjacent_correct": false
       },
       {
         "qid": "trr_0018",
         "type": "trr",
         "predicted": 3,
-        "gt_hour": 10,
+        "gt_hour": 2,
         "hour_correct": false,
         "quadrant_correct": false,
-        "adjacent_correct": false
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0019",
         "type": "trr",
         "predicted": 9,
-        "gt_hour": 3,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
-      },
-      {
-        "qid": "trr_0020",
-        "type": "trr",
-        "predicted": 11,
-        "gt_hour": 11,
+        "gt_hour": 9,
         "hour_correct": true,
         "quadrant_correct": true,
         "adjacent_correct": true
       },
       {
+        "qid": "trr_0020",
+        "type": "trr",
+        "predicted": 11,
+        "gt_hour": 1,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": false
+      },
+      {
         "qid": "trr_0021",
         "type": "trr",
         "predicted": 10,
-        "gt_hour": 9,
-        "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
-      },
-      {
-        "qid": "trr_0022",
-        "type": "trr",
-        "predicted": 10,
-        "gt_hour": 11,
-        "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
-      },
-      {
-        "qid": "trr_0023",
-        "type": "trr",
-        "predicted": 8,
         "gt_hour": 3,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
       },
       {
-        "qid": "trr_0024",
+        "qid": "trr_0022",
         "type": "trr",
-        "predicted": 2,
-        "gt_hour": 3,
+        "predicted": 10,
+        "gt_hour": 1,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": false
+      },
+      {
+        "qid": "trr_0023",
+        "type": "trr",
+        "predicted": 8,
+        "gt_hour": 9,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": true
+      },
+      {
+        "qid": "trr_0024",
+        "type": "trr",
+        "predicted": 2,
+        "gt_hour": 9,
+        "hour_correct": false,
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "qrr_0001",

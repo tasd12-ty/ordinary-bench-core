@@ -7,9 +7,9 @@
   "scores": {
     "qrr_correct": 1,
     "qrr_total": 3,
-    "trr_hour_correct": 0,
-    "trr_quadrant_correct": 6,
-    "trr_adjacent_correct": 6,
+    "trr_hour_correct": 2,
+    "trr_quadrant_correct": 8,
+    "trr_adjacent_correct": 8,
     "trr_total": 24,
     "missing": 0,
     "per_question": [
@@ -47,10 +47,10 @@
         "qid": "trr_0002",
         "type": "trr",
         "predicted": 11,
-        "gt_hour": 10,
+        "gt_hour": 2,
         "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0003",
@@ -65,28 +65,28 @@
         "qid": "trr_0004",
         "type": "trr",
         "predicted": 10,
-        "gt_hour": 2,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
-      },
-      {
-        "qid": "trr_0005",
-        "type": "trr",
-        "predicted": 2,
-        "gt_hour": 1,
-        "hour_correct": false,
+        "gt_hour": 10,
+        "hour_correct": true,
         "quadrant_correct": true,
         "adjacent_correct": true
       },
       {
-        "qid": "trr_0006",
+        "qid": "trr_0005",
         "type": "trr",
         "predicted": 2,
         "gt_hour": 11,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
+      },
+      {
+        "qid": "trr_0006",
+        "type": "trr",
+        "predicted": 2,
+        "gt_hour": 1,
+        "hour_correct": false,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0007",
@@ -101,10 +101,10 @@
         "qid": "trr_0008",
         "type": "trr",
         "predicted": 2,
-        "gt_hour": 3,
+        "gt_hour": 9,
         "hour_correct": false,
         "quadrant_correct": false,
-        "adjacent_correct": true
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0009",
@@ -119,7 +119,7 @@
         "qid": "trr_0010",
         "type": "trr",
         "predicted": 8,
-        "gt_hour": 2,
+        "gt_hour": 10,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
@@ -128,18 +128,18 @@
         "qid": "trr_0011",
         "type": "trr",
         "predicted": 10,
-        "gt_hour": 11,
+        "gt_hour": 1,
         "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
+        "quadrant_correct": false,
+        "adjacent_correct": false
       },
       {
         "qid": "trr_0012",
         "type": "trr",
         "predicted": 12,
-        "gt_hour": 10,
+        "gt_hour": 2,
         "hour_correct": false,
-        "quadrant_correct": false,
+        "quadrant_correct": true,
         "adjacent_correct": false
       },
       {
@@ -155,10 +155,10 @@
         "qid": "trr_0014",
         "type": "trr",
         "predicted": 2,
-        "gt_hour": 9,
+        "gt_hour": 3,
         "hour_correct": false,
         "quadrant_correct": false,
-        "adjacent_correct": false
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0015",
@@ -173,40 +173,31 @@
         "qid": "trr_0016",
         "type": "trr",
         "predicted": 1,
+        "gt_hour": 2,
+        "hour_correct": false,
+        "quadrant_correct": true,
+        "adjacent_correct": true
+      },
+      {
+        "qid": "trr_0017",
+        "type": "trr",
+        "predicted": 10,
+        "gt_hour": 11,
+        "hour_correct": false,
+        "quadrant_correct": true,
+        "adjacent_correct": true
+      },
+      {
+        "qid": "trr_0018",
+        "type": "trr",
+        "predicted": 12,
         "gt_hour": 10,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
       },
       {
-        "qid": "trr_0017",
-        "type": "trr",
-        "predicted": 10,
-        "gt_hour": 1,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
-      },
-      {
-        "qid": "trr_0018",
-        "type": "trr",
-        "predicted": 12,
-        "gt_hour": 2,
-        "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": false
-      },
-      {
         "qid": "trr_0019",
-        "type": "trr",
-        "predicted": 10,
-        "gt_hour": 9,
-        "hour_correct": false,
-        "quadrant_correct": true,
-        "adjacent_correct": true
-      },
-      {
-        "qid": "trr_0020",
         "type": "trr",
         "predicted": 10,
         "gt_hour": 3,
@@ -215,37 +206,46 @@
         "adjacent_correct": false
       },
       {
-        "qid": "trr_0021",
+        "qid": "trr_0020",
         "type": "trr",
-        "predicted": 1,
-        "gt_hour": 2,
+        "predicted": 10,
+        "gt_hour": 9,
         "hour_correct": false,
         "quadrant_correct": true,
         "adjacent_correct": true
       },
       {
-        "qid": "trr_0022",
+        "qid": "trr_0021",
         "type": "trr",
-        "predicted": 11,
-        "gt_hour": 2,
+        "predicted": 1,
+        "gt_hour": 10,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false
+      },
+      {
+        "qid": "trr_0022",
+        "type": "trr",
+        "predicted": 11,
+        "gt_hour": 10,
+        "hour_correct": false,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0023",
         "type": "trr",
         "predicted": 2,
-        "gt_hour": 10,
-        "hour_correct": false,
-        "quadrant_correct": false,
-        "adjacent_correct": false
+        "gt_hour": 2,
+        "hour_correct": true,
+        "quadrant_correct": true,
+        "adjacent_correct": true
       },
       {
         "qid": "trr_0024",
         "type": "trr",
         "predicted": 4,
-        "gt_hour": 10,
+        "gt_hour": 2,
         "hour_correct": false,
         "quadrant_correct": false,
         "adjacent_correct": false

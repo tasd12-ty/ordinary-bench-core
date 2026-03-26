@@ -1,7 +1,7 @@
 {
   "name": "ORDINARY-BENCH 3D Grid Dataset",
   "version": "1.0",
-  "created": "2026-03-22T16:44:48.855335",
+  "created": "2026-03-25T22:41:24.444725",
   "placement_mode": "grid3d",
   "config": {
     "n_views": 6,
@@ -29,35 +29,71 @@
   },
   "splits": {
     "g04": {
-      "n_scenes": 1,
+      "n_scenes": 20,
       "min_objects": 4,
       "max_objects": 4
     },
+    "g05": {
+      "n_scenes": 20,
+      "min_objects": 5,
+      "max_objects": 5
+    },
+    "g06": {
+      "n_scenes": 20,
+      "min_objects": 6,
+      "max_objects": 6
+    },
+    "g07": {
+      "n_scenes": 20,
+      "min_objects": 7,
+      "max_objects": 7
+    },
     "g08": {
-      "n_scenes": 1,
+      "n_scenes": 20,
       "min_objects": 8,
       "max_objects": 8
     },
-    "g12": {
-      "n_scenes": 1,
-      "min_objects": 12,
-      "max_objects": 12
+    "g09": {
+      "n_scenes": 20,
+      "min_objects": 9,
+      "max_objects": 9
+    },
+    "g10": {
+      "n_scenes": 20,
+      "min_objects": 10,
+      "max_objects": 10
     }
   },
   "statistics": {
     "g04": {
-      "n_scenes": 1,
-      "n_images": 6
+      "n_scenes": 20,
+      "n_images": 120
+    },
+    "g05": {
+      "n_scenes": 20,
+      "n_images": 120
+    },
+    "g06": {
+      "n_scenes": 20,
+      "n_images": 120
+    },
+    "g07": {
+      "n_scenes": 20,
+      "n_images": 120
     },
     "g08": {
-      "n_scenes": 1,
-      "n_images": 6
+      "n_scenes": 20,
+      "n_images": 120
     },
-    "g12": {
-      "n_scenes": 1,
-      "n_images": 6
+    "g09": {
+      "n_scenes": 20,
+      "n_images": 120
+    },
+    "g10": {
+      "n_scenes": 20,
+      "n_images": 120
     }
   },
-  "total_scenes": 3,
-  "total_images": 18
+  "total_scenes": 140,
+  "total_images": 840
 }

@@ -1,0 +1,25 @@
+{
+  "scene_id": "n04_000085",
+  "model": "doubao-seed-2.0-pro",
+  "n_objects": 4,
+  "level1": {
+    "pass": true,
+    "n_qrr": 15,
+    "hard_violations": 0,
+    "soft_violations": 0,
+    "csr_qrr": 1.0,
+    "k_geom": 2
+  },
+  "level2": {
+    "pass": false,
+    "n_trr": 24,
+    "trr_adj_satisfied": 3,
+    "trr_adj_total": 24,
+    "trr_adj_csr": 0.125,
+    "trr_adj_violations": 21
+  },
+  "gt_metrics": {
+    "kendall_tau": 0.8667,
+    "nrms": 0.2663
+  }
+}

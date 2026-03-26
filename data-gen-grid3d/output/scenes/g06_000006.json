@@ -1,0 +1,1095 @@
+{
+  "scene_id": "g06_000006",
+  "split": "g06",
+  "image_index": 6,
+  "n_objects": 6,
+  "placement_mode": "grid3d",
+  "grid_info": {
+    "rows": 4,
+    "cols": 4,
+    "layers": 4,
+    "cell_size": 1.5,
+    "grid_extent_xy": [
+      -3.0,
+      3.0
+    ],
+    "grid_extent_z": [
+      0.0,
+      6.0
+    ],
+    "labels_visible": false
+  },
+  "objects": [
+    {
+      "id": "obj_0",
+      "shape": "cube",
+      "size": "small",
+      "material": "rubber",
+      "3d_coords": [
+        -0.75,
+        -0.75,
+        0.75
+      ],
+      "rotation": 243.07651929747246,
+      "pixel_coords": [
+        215,
+        315,
+        15.75
+      ],
+      "color": "red",
+      "cell_row": 1,
+      "cell_col": 1,
+      "cell_layer": 0,
+      "cell_label": "B2-1"
+    },
+    {
+      "id": "obj_1",
+      "shape": "cube",
+      "size": "small",
+      "material": "rubber",
+      "3d_coords": [
+        -2.25,
+        -2.25,
+        5.25
+      ],
+      "rotation": 338.9746058024722,
+      "pixel_coords": [
+        172,
+        172,
+        17.25
+      ],
+      "color": "cyan",
+      "cell_row": 0,
+      "cell_col": 0,
+      "cell_layer": 3,
+      "cell_label": "A1-4"
+    },
+    {
+      "id": "obj_2",
+      "shape": "cylinder",
+      "size": "small",
+      "material": "rubber",
+      "3d_coords": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "rotation": 222.97734371955713,
+      "pixel_coords": [
+        333,
+        271,
+        12.75
+      ],
+      "color": "green",
+      "cell_row": 3,
+      "cell_col": 3,
+      "cell_layer": 1,
+      "cell_label": "D4-2"
+    },
+    {
+      "id": "obj_3",
+      "shape": "sphere",
+      "size": "small",
+      "material": "metal",
+      "3d_coords": [
+        -2.25,
+        0.75,
+        0.75
+      ],
+      "rotation": 73.53331179247311,
+      "pixel_coords": [
+        263,
+        308,
+        17.25
+      ],
+      "color": "purple",
+      "cell_row": 2,
+      "cell_col": 0,
+      "cell_layer": 0,
+      "cell_label": "C1-1"
+    },
+    {
+      "id": "obj_4",
+      "shape": "cylinder",
+      "size": "small",
+      "material": "rubber",
+      "3d_coords": [
+        -0.75,
+        -2.25,
+        2.25
+      ],
+      "rotation": 95.62122451128738,
+      "pixel_coords": [
+        165,
+        265,
+        15.75
+      ],
+      "color": "purple",
+      "cell_row": 0,
+      "cell_col": 1,
+      "cell_layer": 1,
+      "cell_label": "A2-2"
+    },
+    {
+      "id": "obj_5",
+      "shape": "cube",
+      "size": "small",
+      "material": "metal",
+      "3d_coords": [
+        -0.75,
+        2.25,
+        3.75
+      ],
+      "rotation": 113.82379065786745,
+      "pixel_coords": [
+        315,
+        215,
+        15.75
+      ],
+      "color": "brown",
+      "cell_row": 3,
+      "cell_col": 1,
+      "cell_layer": 2,
+      "cell_label": "D2-3"
+    }
+  ],
+  "world_constraints": {},
+  "views": [
+    {
+      "view_id": "top",
+      "image_path": "g06_000006.png",
+      "camera": {
+        "camera_id": "top",
+        "azimuth": 0.0,
+        "elevation": 90.0,
+        "distance": 15.0,
+        "position": [
+          9.18485099360515e-16,
+          0.0,
+          18.0
+        ],
+        "look_at": [
+          0.0,
+          0.0,
+          3.0
+        ]
+      },
+      "projection": "orthographic",
+      "ortho_scale": 8.0,
+      "objects": [
+        {
+          "id": "obj_0",
+          "shape": "cube",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -0.75,
+            -0.75,
+            0.75
+          ],
+          "rotation": 243.07651929747246,
+          "pixel_coords": [
+            285,
+            195,
+            17.25
+          ],
+          "color": "red",
+          "cell_row": 1,
+          "cell_col": 1,
+          "cell_layer": 0,
+          "cell_label": "B2-1"
+        },
+        {
+          "id": "obj_1",
+          "shape": "cube",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -2.25,
+            -2.25,
+            5.25
+          ],
+          "rotation": 338.9746058024722,
+          "pixel_coords": [
+            375,
+            105,
+            12.75
+          ],
+          "color": "cyan",
+          "cell_row": 0,
+          "cell_col": 0,
+          "cell_layer": 3,
+          "cell_label": "A1-4"
+        },
+        {
+          "id": "obj_2",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            2.25,
+            2.25,
+            2.25
+          ],
+          "rotation": 222.97734371955713,
+          "pixel_coords": [
+            105,
+            375,
+            15.75
+          ],
+          "color": "green",
+          "cell_row": 3,
+          "cell_col": 3,
+          "cell_layer": 1,
+          "cell_label": "D4-2"
+        },
+        {
+          "id": "obj_3",
+          "shape": "sphere",
+          "size": "small",
+          "material": "metal",
+          "3d_coords": [
+            -2.25,
+            0.75,
+            0.75
+          ],
+          "rotation": 73.53331179247311,
+          "pixel_coords": [
+            375,
+            285,
+            17.25
+          ],
+          "color": "purple",
+          "cell_row": 2,
+          "cell_col": 0,
+          "cell_layer": 0,
+          "cell_label": "C1-1"
+        },
+        {
+          "id": "obj_4",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -0.75,
+            -2.25,
+            2.25
+          ],
+          "rotation": 95.62122451128738,
+          "pixel_coords": [
+            285,
+            105,
+            15.75
+          ],
+          "color": "purple",
+          "cell_row": 0,
+          "cell_col": 1,
+          "cell_layer": 1,
+          "cell_label": "A2-2"
+        },
+        {
+          "id": "obj_5",
+          "shape": "cube",
+          "size": "small",
+          "material": "metal",
+          "3d_coords": [
+            -0.75,
+            2.25,
+            3.75
+          ],
+          "rotation": 113.82379065786745,
+          "pixel_coords": [
+            285,
+            375,
+            14.25
+          ],
+          "color": "brown",
+          "cell_row": 3,
+          "cell_col": 1,
+          "cell_layer": 2,
+          "cell_label": "D2-3"
+        }
+      ]
+    },
+    {
+      "view_id": "bottom",
+      "image_path": "g06_000006.png",
+      "camera": {
+        "camera_id": "bottom",
+        "azimuth": 0.0,
+        "elevation": -90.0,
+        "distance": 15.0,
+        "position": [
+          9.18485099360515e-16,
+          0.0,
+          -12.0
+        ],
+        "look_at": [
+          0.0,
+          0.0,
+          3.0
+        ]
+      },
+      "projection": "orthographic",
+      "ortho_scale": 8.0,
+      "objects": [
+        {
+          "id": "obj_0",
+          "shape": "cube",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -0.75,
+            -0.75,
+            0.75
+          ],
+          "rotation": 243.07651929747246,
+          "pixel_coords": [
+            195,
+            195,
+            12.75
+          ],
+          "color": "red",
+          "cell_row": 1,
+          "cell_col": 1,
+          "cell_layer": 0,
+          "cell_label": "B2-1"
+        },
+        {
+          "id": "obj_1",
+          "shape": "cube",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -2.25,
+            -2.25,
+            5.25
+          ],
+          "rotation": 338.9746058024722,
+          "pixel_coords": [
+            105,
+            105,
+            17.25
+          ],
+          "color": "cyan",
+          "cell_row": 0,
+          "cell_col": 0,
+          "cell_layer": 3,
+          "cell_label": "A1-4"
+        },
+        {
+          "id": "obj_2",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            2.25,
+            2.25,
+            2.25
+          ],
+          "rotation": 222.97734371955713,
+          "pixel_coords": [
+            375,
+            375,
+            14.25
+          ],
+          "color": "green",
+          "cell_row": 3,
+          "cell_col": 3,
+          "cell_layer": 1,
+          "cell_label": "D4-2"
+        },
+        {
+          "id": "obj_3",
+          "shape": "sphere",
+          "size": "small",
+          "material": "metal",
+          "3d_coords": [
+            -2.25,
+            0.75,
+            0.75
+          ],
+          "rotation": 73.53331179247311,
+          "pixel_coords": [
+            105,
+            285,
+            12.75
+          ],
+          "color": "purple",
+          "cell_row": 2,
+          "cell_col": 0,
+          "cell_layer": 0,
+          "cell_label": "C1-1"
+        },
+        {
+          "id": "obj_4",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -0.75,
+            -2.25,
+            2.25
+          ],
+          "rotation": 95.62122451128738,
+          "pixel_coords": [
+            195,
+            105,
+            14.25
+          ],
+          "color": "purple",
+          "cell_row": 0,
+          "cell_col": 1,
+          "cell_layer": 1,
+          "cell_label": "A2-2"
+        },
+        {
+          "id": "obj_5",
+          "shape": "cube",
+          "size": "small",
+          "material": "metal",
+          "3d_coords": [
+            -0.75,
+            2.25,
+            3.75
+          ],
+          "rotation": 113.82379065786745,
+          "pixel_coords": [
+            195,
+            375,
+            15.75
+          ],
+          "color": "brown",
+          "cell_row": 3,
+          "cell_col": 1,
+          "cell_layer": 2,
+          "cell_label": "D2-3"
+        }
+      ]
+    },
+    {
+      "view_id": "front",
+      "image_path": "g06_000006.png",
+      "camera": {
+        "camera_id": "front",
+        "azimuth": 0.0,
+        "elevation": 0.0,
+        "distance": 15.0,
+        "position": [
+          15.0,
+          0.0,
+          3.0
+        ],
+        "look_at": [
+          0.0,
+          0.0,
+          3.0
+        ]
+      },
+      "projection": "orthographic",
+      "ortho_scale": 8.0,
+      "objects": [
+        {
+          "id": "obj_0",
+          "shape": "cube",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -0.75,
+            -0.75,
+            0.75
+          ],
+          "rotation": 243.07651929747246,
+          "pixel_coords": [
+            195,
+            375,
+            15.75
+          ],
+          "color": "red",
+          "cell_row": 1,
+          "cell_col": 1,
+          "cell_layer": 0,
+          "cell_label": "B2-1"
+        },
+        {
+          "id": "obj_1",
+          "shape": "cube",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -2.25,
+            -2.25,
+            5.25
+          ],
+          "rotation": 338.9746058024722,
+          "pixel_coords": [
+            105,
+            105,
+            17.25
+          ],
+          "color": "cyan",
+          "cell_row": 0,
+          "cell_col": 0,
+          "cell_layer": 3,
+          "cell_label": "A1-4"
+        },
+        {
+          "id": "obj_2",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            2.25,
+            2.25,
+            2.25
+          ],
+          "rotation": 222.97734371955713,
+          "pixel_coords": [
+            375,
+            285,
+            12.75
+          ],
+          "color": "green",
+          "cell_row": 3,
+          "cell_col": 3,
+          "cell_layer": 1,
+          "cell_label": "D4-2"
+        },
+        {
+          "id": "obj_3",
+          "shape": "sphere",
+          "size": "small",
+          "material": "metal",
+          "3d_coords": [
+            -2.25,
+            0.75,
+            0.75
+          ],
+          "rotation": 73.53331179247311,
+          "pixel_coords": [
+            285,
+            375,
+            17.25
+          ],
+          "color": "purple",
+          "cell_row": 2,
+          "cell_col": 0,
+          "cell_layer": 0,
+          "cell_label": "C1-1"
+        },
+        {
+          "id": "obj_4",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -0.75,
+            -2.25,
+            2.25
+          ],
+          "rotation": 95.62122451128738,
+          "pixel_coords": [
+            105,
+            285,
+            15.75
+          ],
+          "color": "purple",
+          "cell_row": 0,
+          "cell_col": 1,
+          "cell_layer": 1,
+          "cell_label": "A2-2"
+        },
+        {
+          "id": "obj_5",
+          "shape": "cube",
+          "size": "small",
+          "material": "metal",
+          "3d_coords": [
+            -0.75,
+            2.25,
+            3.75
+          ],
+          "rotation": 113.82379065786745,
+          "pixel_coords": [
+            375,
+            195,
+            15.75
+          ],
+          "color": "brown",
+          "cell_row": 3,
+          "cell_col": 1,
+          "cell_layer": 2,
+          "cell_label": "D2-3"
+        }
+      ]
+    },
+    {
+      "view_id": "back",
+      "image_path": "g06_000006.png",
+      "camera": {
+        "camera_id": "back",
+        "azimuth": 180.0,
+        "elevation": 0.0,
+        "distance": 15.0,
+        "position": [
+          -15.0,
+          1.83697019872103e-15,
+          3.0
+        ],
+        "look_at": [
+          0.0,
+          0.0,
+          3.0
+        ]
+      },
+      "projection": "orthographic",
+      "ortho_scale": 8.0,
+      "objects": [
+        {
+          "id": "obj_0",
+          "shape": "cube",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -0.75,
+            -0.75,
+            0.75
+          ],
+          "rotation": 243.07651929747246,
+          "pixel_coords": [
+            285,
+            375,
+            14.25
+          ],
+          "color": "red",
+          "cell_row": 1,
+          "cell_col": 1,
+          "cell_layer": 0,
+          "cell_label": "B2-1"
+        },
+        {
+          "id": "obj_1",
+          "shape": "cube",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -2.25,
+            -2.25,
+            5.25
+          ],
+          "rotation": 338.9746058024722,
+          "pixel_coords": [
+            375,
+            105,
+            12.75
+          ],
+          "color": "cyan",
+          "cell_row": 0,
+          "cell_col": 0,
+          "cell_layer": 3,
+          "cell_label": "A1-4"
+        },
+        {
+          "id": "obj_2",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            2.25,
+            2.25,
+            2.25
+          ],
+          "rotation": 222.97734371955713,
+          "pixel_coords": [
+            105,
+            285,
+            17.25
+          ],
+          "color": "green",
+          "cell_row": 3,
+          "cell_col": 3,
+          "cell_layer": 1,
+          "cell_label": "D4-2"
+        },
+        {
+          "id": "obj_3",
+          "shape": "sphere",
+          "size": "small",
+          "material": "metal",
+          "3d_coords": [
+            -2.25,
+            0.75,
+            0.75
+          ],
+          "rotation": 73.53331179247311,
+          "pixel_coords": [
+            195,
+            375,
+            12.75
+          ],
+          "color": "purple",
+          "cell_row": 2,
+          "cell_col": 0,
+          "cell_layer": 0,
+          "cell_label": "C1-1"
+        },
+        {
+          "id": "obj_4",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -0.75,
+            -2.25,
+            2.25
+          ],
+          "rotation": 95.62122451128738,
+          "pixel_coords": [
+            375,
+            285,
+            14.25
+          ],
+          "color": "purple",
+          "cell_row": 0,
+          "cell_col": 1,
+          "cell_layer": 1,
+          "cell_label": "A2-2"
+        },
+        {
+          "id": "obj_5",
+          "shape": "cube",
+          "size": "small",
+          "material": "metal",
+          "3d_coords": [
+            -0.75,
+            2.25,
+            3.75
+          ],
+          "rotation": 113.82379065786745,
+          "pixel_coords": [
+            105,
+            195,
+            14.25
+          ],
+          "color": "brown",
+          "cell_row": 3,
+          "cell_col": 1,
+          "cell_layer": 2,
+          "cell_label": "D2-3"
+        }
+      ]
+    },
+    {
+      "view_id": "left",
+      "image_path": "g06_000006.png",
+      "camera": {
+        "camera_id": "left",
+        "azimuth": 270.0,
+        "elevation": 0.0,
+        "distance": 15.0,
+        "position": [
+          -2.7554552980815444e-15,
+          -15.0,
+          3.0
+        ],
+        "look_at": [
+          0.0,
+          0.0,
+          3.0
+        ]
+      },
+      "projection": "orthographic",
+      "ortho_scale": 8.0,
+      "objects": [
+        {
+          "id": "obj_0",
+          "shape": "cube",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -0.75,
+            -0.75,
+            0.75
+          ],
+          "rotation": 243.07651929747246,
+          "pixel_coords": [
+            195,
+            375,
+            14.249999046325684
+          ],
+          "color": "red",
+          "cell_row": 1,
+          "cell_col": 1,
+          "cell_layer": 0,
+          "cell_label": "B2-1"
+        },
+        {
+          "id": "obj_1",
+          "shape": "cube",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -2.25,
+            -2.25,
+            5.25
+          ],
+          "rotation": 338.9746058024722,
+          "pixel_coords": [
+            105,
+            105,
+            12.75
+          ],
+          "color": "cyan",
+          "cell_row": 0,
+          "cell_col": 0,
+          "cell_layer": 3,
+          "cell_label": "A1-4"
+        },
+        {
+          "id": "obj_2",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            2.25,
+            2.25,
+            2.25
+          ],
+          "rotation": 222.97734371955713,
+          "pixel_coords": [
+            375,
+            285,
+            17.25
+          ],
+          "color": "green",
+          "cell_row": 3,
+          "cell_col": 3,
+          "cell_layer": 1,
+          "cell_label": "D4-2"
+        },
+        {
+          "id": "obj_3",
+          "shape": "sphere",
+          "size": "small",
+          "material": "metal",
+          "3d_coords": [
+            -2.25,
+            0.75,
+            0.75
+          ],
+          "rotation": 73.53331179247311,
+          "pixel_coords": [
+            105,
+            375,
+            15.749999046325684
+          ],
+          "color": "purple",
+          "cell_row": 2,
+          "cell_col": 0,
+          "cell_layer": 0,
+          "cell_label": "C1-1"
+        },
+        {
+          "id": "obj_4",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -0.75,
+            -2.25,
+            2.25
+          ],
+          "rotation": 95.62122451128738,
+          "pixel_coords": [
+            195,
+            285,
+            12.749999046325684
+          ],
+          "color": "purple",
+          "cell_row": 0,
+          "cell_col": 1,
+          "cell_layer": 1,
+          "cell_label": "A2-2"
+        },
+        {
+          "id": "obj_5",
+          "shape": "cube",
+          "size": "small",
+          "material": "metal",
+          "3d_coords": [
+            -0.75,
+            2.25,
+            3.75
+          ],
+          "rotation": 113.82379065786745,
+          "pixel_coords": [
+            195,
+            195,
+            17.25
+          ],
+          "color": "brown",
+          "cell_row": 3,
+          "cell_col": 1,
+          "cell_layer": 2,
+          "cell_label": "D2-3"
+        }
+      ]
+    },
+    {
+      "view_id": "right",
+      "image_path": "g06_000006.png",
+      "camera": {
+        "camera_id": "right",
+        "azimuth": 90.0,
+        "elevation": 0.0,
+        "distance": 15.0,
+        "position": [
+          9.18485099360515e-16,
+          15.0,
+          3.0
+        ],
+        "look_at": [
+          0.0,
+          0.0,
+          3.0
+        ]
+      },
+      "projection": "orthographic",
+      "ortho_scale": 8.0,
+      "objects": [
+        {
+          "id": "obj_0",
+          "shape": "cube",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -0.75,
+            -0.75,
+            0.75
+          ],
+          "rotation": 243.07651929747246,
+          "pixel_coords": [
+            285,
+            375,
+            15.749999046325684
+          ],
+          "color": "red",
+          "cell_row": 1,
+          "cell_col": 1,
+          "cell_layer": 0,
+          "cell_label": "B2-1"
+        },
+        {
+          "id": "obj_1",
+          "shape": "cube",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -2.25,
+            -2.25,
+            5.25
+          ],
+          "rotation": 338.9746058024722,
+          "pixel_coords": [
+            375,
+            105,
+            17.25
+          ],
+          "color": "cyan",
+          "cell_row": 0,
+          "cell_col": 0,
+          "cell_layer": 3,
+          "cell_label": "A1-4"
+        },
+        {
+          "id": "obj_2",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            2.25,
+            2.25,
+            2.25
+          ],
+          "rotation": 222.97734371955713,
+          "pixel_coords": [
+            105,
+            285,
+            12.749999046325684
+          ],
+          "color": "green",
+          "cell_row": 3,
+          "cell_col": 3,
+          "cell_layer": 1,
+          "cell_label": "D4-2"
+        },
+        {
+          "id": "obj_3",
+          "shape": "sphere",
+          "size": "small",
+          "material": "metal",
+          "3d_coords": [
+            -2.25,
+            0.75,
+            0.75
+          ],
+          "rotation": 73.53331179247311,
+          "pixel_coords": [
+            375,
+            375,
+            14.249999046325684
+          ],
+          "color": "purple",
+          "cell_row": 2,
+          "cell_col": 0,
+          "cell_layer": 0,
+          "cell_label": "C1-1"
+        },
+        {
+          "id": "obj_4",
+          "shape": "cylinder",
+          "size": "small",
+          "material": "rubber",
+          "3d_coords": [
+            -0.75,
+            -2.25,
+            2.25
+          ],
+          "rotation": 95.62122451128738,
+          "pixel_coords": [
+            285,
+            285,
+            17.25
+          ],
+          "color": "purple",
+          "cell_row": 0,
+          "cell_col": 1,
+          "cell_layer": 1,
+          "cell_label": "A2-2"
+        },
+        {
+          "id": "obj_5",
+          "shape": "cube",
+          "size": "small",
+          "material": "metal",
+          "3d_coords": [
+            -0.75,
+            2.25,
+            3.75
+          ],
+          "rotation": 113.82379065786745,
+          "pixel_coords": [
+            285,
+            195,
+            12.75
+          ],
+          "color": "brown",
+          "cell_row": 3,
+          "cell_col": 1,
+          "cell_layer": 2,
+          "cell_label": "D2-3"
+        }
+      ]
+    }
+  ]
+}

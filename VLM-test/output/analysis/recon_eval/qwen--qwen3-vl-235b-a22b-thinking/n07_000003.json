@@ -1,0 +1,22 @@
+{
+  "scene_id": "n07_000003",
+  "model": "qwen/qwen3-vl-235b-a22b-thinking",
+  "n_objects": 7,
+  "level1": {
+    "pass": false,
+    "n_qrr": 98,
+    "hard_violations": 1,
+    "soft_violations": 3,
+    "csr_qrr": 0.9592,
+    "k_geom": 3
+  },
+  "level2": {
+    "pass": false,
+    "reason": "level1_failed",
+    "n_trr": 210
+  },
+  "gt_metrics": {
+    "kendall_tau": 0.5143,
+    "nrms": 0.2905
+  }
+}
