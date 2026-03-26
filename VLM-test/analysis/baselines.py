@@ -1,9 +1,9 @@
 """
-Random and null model baselines for Belief Faithfulness Gap computation.
+信念忠实度差距（Belief Faithfulness Gap, BFG）计算所用的随机基线与空模型基线。
 
-BFG = NRMS(VLM) - NRMS(random)
+BFG = NRMS(random) - NRMS(VLM)
 
-A positive BFG means VLM reconstruction is better than random guessing.
+正 BFG 表示 VLM 重建效果优于随机猜测。
 """
 
 import json
@@ -24,13 +24,13 @@ def generate_random_answers(
     questions: List[dict],
     seed: int = 42,
 ) -> dict:
-    """Generate random VLM-like answers for all questions.
+    """为所有问题生成随机的 VLM 风格答案。
 
-    QRR: uniform random from {<, ~=, >}
-    TRR: uniform random from {1, 2, ..., 12}
+    QRR：从 {<, ~=, >} 中均匀随机选取
+    TRR：从 {1, 2, ..., 12} 中均匀随机选取
 
     Returns:
-        scoring_result compatible dict with per_question
+        与 scoring_result 兼容的字典，包含 per_question 字段
     """
     rng = np.random.RandomState(seed)
     qrr_choices = ["<", "~=", ">"]
@@ -85,10 +85,9 @@ def compute_random_baseline_nrms(
     n_samples: int = 10,
     n_restarts: int = 5,
 ) -> dict:
-    """Compute random baseline NRMS distribution.
+    """计算随机基线的 NRMS 分布。
 
-    Generates n_samples random answer sets, reconstructs each,
-    and returns statistics.
+    生成 n_samples 组随机答案集，分别重建后返回统计量。
 
     Returns:
         {
@@ -132,12 +131,11 @@ def compute_belief_faithfulness_gap(
     vlm_nrms: float,
     random_nrms: float,
 ) -> float:
-    """Compute Belief Faithfulness Gap.
+    """计算信念忠实度差距（Belief Faithfulness Gap，BFG）。
 
     BFG = NRMS(random) - NRMS(VLM)
 
-    Positive BFG means VLM is better than random.
-    Negative BFG means VLM is worse than random.
+    正值表示 VLM 优于随机基线；负值表示 VLM 劣于随机基线。
     """
     return random_nrms - vlm_nrms
 
@@ -147,16 +145,16 @@ def compute_gt_reconstruction_baseline(
     gt_positions: Dict[str, np.ndarray],
     n_restarts: int = 10,
 ) -> dict:
-    """Compute GT baseline: reconstruction from perfect answers.
+    """计算真值基线：基于完美答案进行重建。
 
-    This gives the solver error floor.
+    此基线给出求解器误差的下界（solver error floor）。
 
     Returns:
-        dict with NRMS, CSR, Kendall tau at GT.
+        包含 NRMS、CSR、Kendall tau 的字典（真值基线）。
     """
     from reconstruct import reconstruct_from_scoring
 
-    # Create perfect scoring result
+    # 构造完美评分结果（所有题均答对）
     per_question = []
     for q in questions:
         if q["type"] == "qrr":

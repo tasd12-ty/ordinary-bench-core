@@ -1,11 +1,11 @@
 """
-Three-condition experiment runner.
+三条件实验运行器。
 
-Condition A: Correct image + spatial questions (normal)
-Condition B: Wrong image (random scene) + spatial questions
-Condition C: No image + spatial questions (text-only)
+条件 A：正确图片 + 空间问题（正常流程）
+条件 B：错误图片（随机场景）+ 空间问题
+条件 C：无图片 + 空间问题（纯文本）
 
-Usage:
+用法：
     python API-test/run_three_condition.py --condition [A|B|C] [--split n04] [--max-scenes 10]
 """
 
@@ -27,7 +27,7 @@ from response_parser import parse_batch_response
 from scoring import score_batch_scene
 
 
-# No-image system prompt: same as batch but without image reference
+# 无图片模式的 system prompt：与 batch 模式相同，但不引用图片
 NO_IMAGE_SYSTEM_PROMPT = """\
 You are a spatial reasoning assistant. You will receive a description of objects \
 in a 3D scene (NO image is provided) and a set of spatial questions.
@@ -63,16 +63,16 @@ def run_condition(
     max_scenes: int = None,
     wrong_image_seed: int = 42,
 ):
-    """Run a single condition of the three-condition experiment.
+    """运行三条件实验的单个条件。
 
     Args:
-        condition: "A" (correct image), "B" (wrong image), "C" (no image)
-        questions_dir: path to question files
-        images_dir: path to scene images
-        output_dir: output directory (auto-generated if None)
-        split: optional split filter (e.g., "n04")
-        max_scenes: optional limit
-        wrong_image_seed: seed for selecting wrong images in condition B
+        condition: "A"（正确图片）、"B"（错误图片）、"C"（无图片）
+        questions_dir: 问题文件目录
+        images_dir: 场景图片目录
+        output_dir: 输出目录（为 None 时自动生成）
+        split: 可选的 split 过滤（如 "n04"）
+        max_scenes: 可选的场景数量限制
+        wrong_image_seed: 条件 B 中随机选错误图片的随机种子
     """
     condition = condition.upper()
     assert condition in ("A", "B", "C"), f"Invalid condition: {condition}"
@@ -84,7 +84,7 @@ def run_condition(
     os.makedirs(os.path.join(output_dir, "raw"), exist_ok=True)
     os.makedirs(os.path.join(output_dir, "scenes"), exist_ok=True)
 
-    # Discover scenes
+    # 收集场景文件列表
     q_dir = Path(questions_dir)
     scene_files = sorted(q_dir.glob("*.json"))
     if split:
@@ -96,7 +96,7 @@ def run_condition(
     print(f"Model: {VLM_MODEL}")
     print(f"Output: {output_dir}")
 
-    # For condition B: collect all available image paths for random selection
+    # 条件 B：预收集所有可用图片路径，用于随机错误图片选取
     all_image_paths = []
     if condition == "B":
         img_dir = Path(images_dir)
@@ -112,7 +112,7 @@ def run_condition(
         scene_id = scene_data["scene_id"]
         objects = scene_data["objects"]
 
-        # Check if already processed
+        # 跳过已处理的场景
         scene_out = os.path.join(output_dir, "scenes", f"{scene_id}.json")
         if os.path.exists(scene_out):
             return None
@@ -127,9 +127,9 @@ def run_condition(
 
             user_prompt = format_batch_user_prompt(objects, questions)
 
-            # Build messages based on condition
+            # 根据条件构建消息
             if condition == "A":
-                # Normal: correct image
+                # 正常：使用正确图片
                 img_path = os.path.join(images_dir, f"{scene_id}.png")
                 if not os.path.exists(img_path):
                     print(f"  {scene_id}: image not found at {img_path}")
@@ -138,7 +138,7 @@ def run_condition(
                 messages = build_messages(BATCH_SYSTEM_PROMPT, user_prompt, img_b64)
 
             elif condition == "B":
-                # Wrong image: random scene image
+                # 错误图片：随机选取其他场景的图片
                 candidates = [p for p in all_image_paths
                               if p.stem != scene_id]
                 if not candidates:
@@ -148,7 +148,7 @@ def run_condition(
                 messages = build_messages(BATCH_SYSTEM_PROMPT, user_prompt, img_b64)
 
             elif condition == "C":
-                # No image: text-only
+                # 无图片：纯文本模式
                 messages = [
                     {"role": "system", "content": NO_IMAGE_SYSTEM_PROMPT},
                     {"role": "user", "content": user_prompt},
@@ -163,7 +163,7 @@ def run_condition(
                 parsed = parse_batch_response(response)
                 all_predictions.update(parsed)
 
-                # Save raw response
+                # 保存原始响应
                 raw_out = os.path.join(output_dir, "raw",
                                        f"{scene_id}_batch_{batch_id}.json")
                 with open(raw_out, "w") as f:
@@ -178,7 +178,7 @@ def run_condition(
             except Exception as e:
                 print(f"  {scene_id} batch {batch_id}: ERROR {e}")
 
-        # Score
+        # 评分
         scores = score_batch_scene(all_predictions, all_questions)
 
         result = {
@@ -203,7 +203,7 @@ def run_condition(
 
         return result
 
-    # Process scenes concurrently
+    # 并发处理所有场景
     results = []
     with ThreadPoolExecutor(max_workers=VLM_CONCURRENCY) as executor:
         futures = {executor.submit(process_scene, f): f for f in scene_files}
@@ -212,7 +212,7 @@ def run_condition(
             if result:
                 results.append(result)
 
-    # Save summary
+    # 保存汇总结果
     if results:
         from scoring import aggregate_batch_results
         summary = aggregate_batch_results(results)
