@@ -1,13 +1,13 @@
 """
-Main analysis entry point.
+分析流程入口。
 
-Runs all analyses on evaluated models:
-  1. Accuracy aggregation (Table 1)
-  2. Batch scene reconstruction (Table 2, Figure 2-4)
-  3. Consistency analysis (Table 4)
-  4. Visualization generation
+对已评估的模型依次运行以下分析：
+  1. 准确率汇总（Table 1）
+  2. 批量场景重建（Table 2，Figure 2-4）
+  3. 一致性分析（Table 4）
+  4. 可视化生成
 
-Usage:
+用法：
     python analysis/run_analysis.py [--models MODEL_DIR ...] [--max-scenes N]
 """
 
@@ -37,7 +37,7 @@ from analysis.reconstruct_scenes import (
 
 
 def discover_models(results_base: str) -> dict:
-    """Auto-discover model result directories."""
+    """自动发现模型评估结果目录。"""
     base = Path(results_base)
     models = {}
     for d in sorted(base.iterdir()):
@@ -55,7 +55,7 @@ def run_full_analysis(
     max_scenes: int = None,
     n_restarts: int = 10,
 ):
-    """Run complete analysis pipeline."""
+    """运行完整分析流程。"""
     os.makedirs(output_dir, exist_ok=True)
 
     models = discover_models(results_base)
@@ -106,7 +106,7 @@ def run_full_analysis(
             gt = load_scene_gt(gt_path) if os.path.exists(gt_path) else None
 
             try:
-                # Belief reconstruction (all VLM predictions)
+                # 信念重建（使用所有 VLM 预测）
                 result = reconstruct_single_scene(
                     scene, questions, gt,
                     use_correct_only=False,
@@ -127,7 +127,7 @@ def run_full_analysis(
 
         all_recon[model_name] = recon_results
 
-        # Summary
+        # 输出摘要
         if recon_results:
             summary = summarize_reconstructions(recon_results)
             print(f"\n  Summary ({model_name}):")
@@ -138,7 +138,7 @@ def run_full_analysis(
                     print(f"    {k}: {summary[f'{k}_mean']:.4f} "
                           f"± {summary.get(f'{k}_std', 0):.4f}")
 
-            # Save
+            # 保存结果
             model_out = os.path.join(output_dir, f"recon_{model_name}.json")
             with open(model_out, "w") as f:
                 json.dump(recon_results, f, indent=2, default=str)
@@ -225,7 +225,7 @@ def run_full_analysis(
         viz_dir = os.path.join(output_dir, "figures")
         os.makedirs(viz_dir, exist_ok=True)
 
-        # Figure 1: Accuracy vs complexity
+        # Figure 1：准确率 vs 复杂度
         for model_name, model_dir in models.items():
             psa = per_scene_accuracy(model_dir)
             if psa:
@@ -235,7 +235,7 @@ def run_full_analysis(
                 )
                 print(f"  Saved accuracy plot for {model_name}")
 
-        # Figure 2: Configuration comparisons (first 3 scenes per model)
+        # Figure 2：配置对比图（每个模型取前 3 个场景）
         for model_name, recon_results in all_recon.items():
             for result in recon_results[:3]:
                 sid = result["scene_id"]
@@ -257,7 +257,7 @@ def run_full_analysis(
                 )
                 print(f"  Saved config comparison: {model_name}/{sid}")
 
-        # Figure 3: Reconstruction quality distribution
+        # Figure 3：重建质量分布图
         for model_name, recon_results in all_recon.items():
             if recon_results:
                 plot_reconstruction_quality_distribution(
@@ -277,13 +277,13 @@ def run_full_analysis(
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Run full Ordinary-Bench analysis")
+    parser = argparse.ArgumentParser(description="运行完整 Ordinary-Bench 分析流程")
     parser.add_argument("--results-base", default="output/results")
     parser.add_argument("--questions-dir", default="output/questions")
     parser.add_argument("--scenes-dir", default="../data-gen/output/scenes")
     parser.add_argument("--output-dir", default="output/analysis")
     parser.add_argument("--max-scenes", type=int, default=None,
-                        help="Limit scenes per model (for testing)")
+                        help="限制每个模型处理的场景数量（用于测试）")
     parser.add_argument("--restarts", type=int, default=10)
     args = parser.parse_args()
 

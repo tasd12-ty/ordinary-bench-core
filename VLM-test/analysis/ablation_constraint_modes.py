@@ -1,9 +1,8 @@
 """
-Ablation study: compare reconstruction across constraint modes.
+消融研究：比较不同约束模式下的重建效果。
 
-Runs FDR-only, QRR-only, FDR+QRR, and full (FDR+QRR+TRR) reconstruction
-on the same prepared bundles, then outputs a cross-mode comparison table
-and FDR vs QRR conflict report.
+在相同的预处理场景包上依次运行 FDR-only、QRR-only、FDR+QRR、以及
+完整模式（FDR+QRR+TRR）的重建，输出跨模式对比表和 FDR 与 QRR 冲突报告。
 """
 
 import argparse
@@ -58,13 +57,13 @@ def run_ablation(prepared_dir: Path, modes: list, n_restarts: int,
     if not files:
         raise SystemExit(f"No prepared scene files found in {prepared_dir}")
 
-    # Load all prepared inputs once
+    # 一次性加载所有预处理输入
     prepared_inputs = []
     for path in files:
         with open(path) as f:
             prepared_inputs.append(PreparedSceneInput.from_dict(json.load(f)))
 
-    # Run conflict detection
+    # 运行冲突检测
     conflict_report = {"per_scene": [], "aggregate": {}}
     total_overlapping = 0
     total_contradictory = 0
@@ -91,7 +90,7 @@ def run_ablation(prepared_dir: Path, modes: list, n_restarts: int,
         "consistency_rate": total_consistent / total_overlapping if total_overlapping else 1.0,
     }
 
-    # Run reconstruction for each mode
+    # 对每种模式运行重建
     results_by_mode = {}
     for mode in modes:
         print(f"\n=== Mode: {mode} ===")
@@ -114,7 +113,7 @@ def run_ablation(prepared_dir: Path, modes: list, n_restarts: int,
             "summary": summarize_reconstructions(mode_outputs),
         }
 
-    # Build comparison table
+    # 构建跨模式对比表
     comparison = {}
     metric_keys = ["csr_qrr_mean", "csr_trr_mean", "kendall_tau_mean",
                    "nrms_mean", "spread_mean", "feasible_rate"]
@@ -137,7 +136,7 @@ def run_ablation(prepared_dir: Path, modes: list, n_restarts: int,
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Ablation: compare reconstruction across constraint modes")
+        description="消融研究：比较不同约束模式下的重建效果")
     parser.add_argument("--prepared-dir", "-p", required=True,
                         help="Directory with prepared scene bundles")
     parser.add_argument("--output", "-o", required=True,
@@ -161,7 +160,7 @@ def main() -> None:
     with open(out_path, "w") as f:
         json.dump(result, f, indent=2, default=str)
 
-    # Print comparison table
+    # 打印对比表
     print("\n" + "=" * 70)
     print("CROSS-MODE COMPARISON")
     print("=" * 70)
@@ -177,7 +176,7 @@ def main() -> None:
               f"{c.get('nrms_mean', 0) or 0:.4f}   "
               f"{c.get('feasible_rate', 0):.4f}")
 
-    # Print conflict summary
+    # 打印冲突摘要
     agg = result["conflict_report"]["aggregate"]
     print(f"\nFDR vs QRR CONFLICT REPORT")
     print(f"  Overlapping constraints: {agg['total_overlapping']}")
