@@ -1,0 +1,22 @@
+{
+  "scene_id": "n05_000080",
+  "model": "claude-sonnet-4-6",
+  "n_objects": 5,
+  "level1": {
+    "pass": false,
+    "n_qrr": 45,
+    "hard_violations": 1,
+    "soft_violations": 5,
+    "csr_qrr": 0.8667,
+    "k_geom": 3
+  },
+  "level2": {
+    "pass": false,
+    "reason": "level1_failed",
+    "n_trr": 60
+  },
+  "gt_metrics": {
+    "kendall_tau": 0.6444,
+    "nrms": 0.1377
+  }
+}

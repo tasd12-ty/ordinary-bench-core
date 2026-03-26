@@ -1,0 +1,48 @@
+{
+  "scene_id": "n04_000000",
+  "model": "mock/static",
+  "n_objects": 4,
+  "n_batches": 1,
+  "total_questions": 3,
+  "scores": {
+    "qrr_correct": 0,
+    "qrr_total": 3,
+    "qrr_disjoint_correct": 0,
+    "qrr_disjoint_total": 3,
+    "qrr_shared_anchor_correct": 0,
+    "qrr_shared_anchor_total": 0,
+    "trr_hour_correct": 0,
+    "trr_quadrant_correct": 0,
+    "trr_adjacent_correct": 0,
+    "trr_total": 0,
+    "fdr_exact_correct": 0,
+    "fdr_total": 0,
+    "fdr_kendall_mean": 0.0,
+    "fdr_pairwise_mean": 0.0,
+    "fdr_top1_mean": 0.0,
+    "missing": 3,
+    "per_question": [
+      {
+        "qid": "qrr_0001",
+        "type": "qrr",
+        "predicted": null,
+        "correct": false,
+        "variant": "disjoint"
+      },
+      {
+        "qid": "qrr_0002",
+        "type": "qrr",
+        "predicted": null,
+        "correct": false,
+        "variant": "disjoint"
+      },
+      {
+        "qid": "qrr_0003",
+        "type": "qrr",
+        "predicted": null,
+        "correct": false,
+        "variant": "disjoint"
+      }
+    ]
+  }
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ORDINARY-BENCH 人类基线测试</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <!-- ==================== 欢迎页 ==================== -->
+  <div id="view-welcome" class="view">
+    <div class="welcome-card">
+      <h1 class="welcome-title">ORDINARY-BENCH</h1>
+      <p class="welcome-subtitle">空间关系推理 — 人类基线测试</p>
+
+      <div class="welcome-desc">
+        <p>本测试考察您对 3D 场景中物体空间关系的判断能力。</p>
+        <p>每个场景会按<strong>递进式</strong>提供视角：先给出单视角，如果全部回答正确则跳过后续视角；否则提供更多视角帮助您修正答案。</p>
+        <ul>
+          <li><strong>第 1 轮</strong> — 单视角（1 张图）</li>
+          <li><strong>第 2 轮</strong> — 四视角（4 张图）仅重答错题</li>
+          <li><strong>第 3 轮</strong> — 五视角（5 张图）仅重答剩余错题</li>
+        </ul>
+      </div>
+
+      <div class="welcome-form">
+        <label for="input-annotator" class="form-label">标注员 ID</label>
+        <input
+          id="input-annotator"
+          type="text"
+          class="form-input"
+          placeholder="请输入您的标识"
+          autocomplete="off"
+        />
+        <button id="btn-start" class="btn btn-primary btn-lg" disabled>
+          开始测试
+        </button>
+        <p id="welcome-error" class="error-text"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 答题页 ==================== -->
+  <div id="view-quiz" class="view hidden">
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="topbar-brand">ORDINARY-BENCH</span>
+        <span id="topbar-scene" class="topbar-tag"></span>
+        <span id="topbar-round" class="topbar-tag tag-round"></span>
+      </div>
+      <div class="topbar-right">
+        <span id="topbar-progress" class="topbar-info"></span>
+        <span id="topbar-timer" class="topbar-timer">00:00</span>
+      </div>
+    </header>
+
+    <!-- 轮次提示横幅 -->
+    <div id="round-banner" class="round-banner hidden">
+      <span id="round-banner-text"></span>
+    </div>
+
+    <!-- 主内容：图片 + 题目 -->
+    <div class="quiz-layout">
+      <!-- 左：图片面板 -->
+      <aside class="image-panel" id="image-panel">
+        <div id="image-area" class="image-area"></div>
+        <!-- 物体图例 -->
+        <div class="object-legend">
+          <h3 class="legend-title">场景物体</h3>
+          <div id="object-list" class="object-list"></div>
+        </div>
+      </aside>
+
+      <!-- 右：题目面板 -->
+      <main class="question-panel">
+        <div class="question-header">
+          <span id="answer-count" class="answer-count"></span>
+          <button id="btn-submit-round" class="btn btn-primary" disabled>
+            提交本轮
+          </button>
+        </div>
+        <div id="question-list" class="question-list"></div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ==================== 批改结果页 ==================== -->
+  <div id="view-grading" class="view hidden">
+    <div class="grading-card">
+      <div id="grading-summary" class="grading-summary"></div>
+      <div id="grading-results" class="grading-results"></div>
+      <div class="grading-actions">
+        <button id="btn-next-round" class="btn btn-primary btn-lg hidden">
+          进入下一轮
+        </button>
+        <button id="btn-next-scene" class="btn btn-primary btn-lg hidden">
+          下一个场景
+        </button>
+        <button id="btn-finish" class="btn btn-primary btn-lg hidden">
+          测试完成
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 完成页 ==================== -->
+  <div id="view-done" class="view hidden">
+    <div class="done-card">
+      <div class="done-icon">&#9733;</div>
+      <h2>全部完成</h2>
+      <p class="done-subtitle">感谢您的参与！</p>
+      <div id="done-stats" class="done-stats"></div>
+      <button id="btn-restart" class="btn btn-outline btn-lg">
+        重新开始
+      </button>
+    </div>
+  </div>
+
+  <!-- 图片灯箱 -->
+  <div id="lightbox" class="lightbox hidden" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

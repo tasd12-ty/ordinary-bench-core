@@ -1,0 +1,25 @@
+{
+  "scene_id": "n05_000005",
+  "model": "qwen/qwen3-vl-235b-a22b-thinking",
+  "n_objects": 5,
+  "level1": {
+    "pass": true,
+    "n_qrr": 14,
+    "hard_violations": 0,
+    "soft_violations": 0,
+    "csr_qrr": 1.0,
+    "k_geom": 1
+  },
+  "level2": {
+    "pass": false,
+    "n_trr": 60,
+    "trr_adj_satisfied": 17,
+    "trr_adj_total": 60,
+    "trr_adj_csr": 0.2833,
+    "trr_adj_violations": 43
+  },
+  "gt_metrics": {
+    "kendall_tau": 0.4222,
+    "nrms": 0.1882
+  }
+}

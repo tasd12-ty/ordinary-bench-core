@@ -6,7 +6,7 @@
 python run_eval.py --job jobs/openai_single_v2.toml
 ```
 
-旧脚本如 `run_batch_v2.py`、`run_batch_gemini.py`、`run_multi_view.py` 等仍然存在，但现在只是兼容包装层；正式实现都走同一个 `eval_engine.py`。
+旧的 `run_batch*.py` / `run_multi_view*.py` / `run_three_condition.py` 已移除；正式实现只保留这一条入口。
 
 ## 目录
 
@@ -98,7 +98,7 @@ run_name = "example_run"
 ## 兼容说明
 
 - `question_layout = "auto"`：优先读 v2，找不到时回退到 v1
-- 旧 runner 仍可用，但建议只用 `run_eval.py`
+- 以前的 provider-specific runner 和 config 文件都已移除，不再保留第二套执行入口
 - 输出目录仍保持：
   `output/results/<run_name>/{raw,scenes,summary.json}`
 

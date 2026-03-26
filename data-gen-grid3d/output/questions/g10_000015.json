@@ -1,0 +1,159 @@
+{
+  "scene_id": "g10_000015",
+  "split": "g10",
+  "n_objects": 10,
+  "system_prompt": "You are analyzing a 3D scene where objects are placed in a 4×4×4 grid.\n\nCoordinate system:\n- Row: A, B, C, D (A=front, D=back)\n- Column: 1, 2, 3, 4 (1=left, 4=right)\n- Layer: 1, 2, 3, 4 (1=bottom, 4=top)\n- Position format: RowCol-Layer, e.g. \"B3-4\" = Row B, Column 3, Layer 4\n\nYou will receive 6 orthographic views of the scene, each labeled.\nUse multiple views together to determine each object's 3D grid cell.\n\nRespond ONLY with a JSON array.",
+  "user_prompt": "Here are 6 orthographic views of a 3D grid scene:\n\n[Image 1 — TOP VIEW (looking down): rows=A-D top-to-bottom, columns=1-4 left-to-right]\n\n[Image 2 — FRONT VIEW (looking from front): columns=1-4 left-to-right, layers=1-4 bottom-to-top]\n\n[Image 3 — RIGHT VIEW (looking from right side): rows=A-D left-to-right, layers=1-4 bottom-to-top]\n\n[Image 4 — BACK VIEW (looking from back): columns=4-1 left-to-right, layers=1-4 bottom-to-top]\n\n[Image 5 — LEFT VIEW (looking from left side): rows=D-A left-to-right, layers=1-4 bottom-to-top]\n\n[Image 6 — BOTTOM VIEW (looking up): rows=A-D top-to-bottom, columns=4-1 left-to-right]\n\nObjects in this scene:\n  1. brown metal cube\n  2. yellow rubber cylinder\n  3. purple metal sphere\n  4. cyan metal cylinder\n  5. green metal cube\n  6. gray metal sphere\n  7. cyan metal cylinder\n  8. blue metal cylinder\n  9. purple rubber cube\n  10. red metal sphere\n\nFor each object, determine its grid position by combining information from at least two views. Answer as JSON:\n\n[\n  {\"object\": \"brown metal cube\", \"cell\": \"?\"},\n  {\"object\": \"yellow rubber cylinder\", \"cell\": \"?\"},\n  {\"object\": \"purple metal sphere\", \"cell\": \"?\"},\n  {\"object\": \"cyan metal cylinder\", \"cell\": \"?\"},\n  {\"object\": \"green metal cube\", \"cell\": \"?\"},\n  {\"object\": \"gray metal sphere\", \"cell\": \"?\"},\n  {\"object\": \"cyan metal cylinder\", \"cell\": \"?\"},\n  {\"object\": \"blue metal cylinder\", \"cell\": \"?\"},\n  {\"object\": \"purple rubber cube\", \"cell\": \"?\"},\n  {\"object\": \"red metal sphere\", \"cell\": \"?\"}\n]",
+  "images": [
+    {
+      "view": "top",
+      "label": "TOP VIEW (looking down): rows=A-D top-to-bottom, columns=1-4 left-to-right",
+      "path": "images/top/g10_000015.png",
+      "exists": true
+    },
+    {
+      "view": "front",
+      "label": "FRONT VIEW (looking from front): columns=1-4 left-to-right, layers=1-4 bottom-to-top",
+      "path": "images/front/g10_000015.png",
+      "exists": true
+    },
+    {
+      "view": "right",
+      "label": "RIGHT VIEW (looking from right side): rows=A-D left-to-right, layers=1-4 bottom-to-top",
+      "path": "images/right/g10_000015.png",
+      "exists": true
+    },
+    {
+      "view": "back",
+      "label": "BACK VIEW (looking from back): columns=4-1 left-to-right, layers=1-4 bottom-to-top",
+      "path": "images/back/g10_000015.png",
+      "exists": true
+    },
+    {
+      "view": "left",
+      "label": "LEFT VIEW (looking from left side): rows=D-A left-to-right, layers=1-4 bottom-to-top",
+      "path": "images/left/g10_000015.png",
+      "exists": true
+    },
+    {
+      "view": "bottom",
+      "label": "BOTTOM VIEW (looking up): rows=A-D top-to-bottom, columns=4-1 left-to-right",
+      "path": "images/bottom/g10_000015.png",
+      "exists": true
+    }
+  ],
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "brown metal cube"
+    },
+    {
+      "id": "obj_1",
+      "desc": "yellow rubber cylinder"
+    },
+    {
+      "id": "obj_2",
+      "desc": "purple metal sphere"
+    },
+    {
+      "id": "obj_3",
+      "desc": "cyan metal cylinder"
+    },
+    {
+      "id": "obj_4",
+      "desc": "green metal cube"
+    },
+    {
+      "id": "obj_5",
+      "desc": "gray metal sphere"
+    },
+    {
+      "id": "obj_6",
+      "desc": "cyan metal cylinder"
+    },
+    {
+      "id": "obj_7",
+      "desc": "blue metal cylinder"
+    },
+    {
+      "id": "obj_8",
+      "desc": "purple rubber cube"
+    },
+    {
+      "id": "obj_9",
+      "desc": "red metal sphere"
+    }
+  ],
+  "ground_truth": [
+    {
+      "object": "brown metal cube",
+      "cell": "A3-1",
+      "row": 0,
+      "col": 2,
+      "layer": 0
+    },
+    {
+      "object": "yellow rubber cylinder",
+      "cell": "B1-2",
+      "row": 1,
+      "col": 0,
+      "layer": 1
+    },
+    {
+      "object": "purple metal sphere",
+      "cell": "D1-2",
+      "row": 3,
+      "col": 0,
+      "layer": 1
+    },
+    {
+      "object": "cyan metal cylinder",
+      "cell": "D1-3",
+      "row": 3,
+      "col": 0,
+      "layer": 2
+    },
+    {
+      "object": "green metal cube",
+      "cell": "D2-3",
+      "row": 3,
+      "col": 1,
+      "layer": 2
+    },
+    {
+      "object": "gray metal sphere",
+      "cell": "B3-3",
+      "row": 1,
+      "col": 2,
+      "layer": 2
+    },
+    {
+      "object": "cyan metal cylinder",
+      "cell": "B2-2",
+      "row": 1,
+      "col": 1,
+      "layer": 1
+    },
+    {
+      "object": "blue metal cylinder",
+      "cell": "D4-1",
+      "row": 3,
+      "col": 3,
+      "layer": 0
+    },
+    {
+      "object": "purple rubber cube",
+      "cell": "C1-1",
+      "row": 2,
+      "col": 0,
+      "layer": 0
+    },
+    {
+      "object": "red metal sphere",
+      "cell": "D4-3",
+      "row": 3,
+      "col": 3,
+      "layer": 2
+    }
+  ]
+}

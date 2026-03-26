@@ -1,0 +1,43 @@
+job_name = "dashscope_multi_view"
+
+[provider]
+adapter = "openai_chat"
+model = "qwen3.5-plus-2026-02-15"
+base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+api_key = "env:DASHSCOPE_API_KEY"
+
+[provider.options]
+temperature = 0.0
+max_tokens = 65536
+max_retries = 5
+retry_base_delay = 3.0
+timeout = 300
+max_concurrency = 5
+
+[input]
+questions_dir = "../../output/questions"
+question_layout = "v1"
+question_grouping = "mixed"
+question_types = ["qrr", "trr", "fdr"]
+batch_size = 20
+
+[images]
+mode = "multi_view"
+multi_view_root = "../../../data-gen/output/images/multi_view"
+n_views = 4
+
+[selection]
+split = ""
+scene = ""
+test_only = false
+train_only = false
+
+[prompt]
+react_max_rounds = 2
+missing_threshold = 0.2
+react_chunk_size = 50
+save_prompt = true
+
+[output]
+results_dir = "../../output/results"
+run_name = "qwen3_5_plus_multi_view"

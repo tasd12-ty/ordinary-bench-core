@@ -1,0 +1,84 @@
+{
+  "belief": {
+    "n_scenes": 22,
+    "csr_mean": 0.6185,
+    "csr_std": 0.1855,
+    "csr_median": 0.6,
+    "n_total_sum": 498,
+    "n_violated_sum": 195,
+    "confusion_matrix_sum": {
+      "<_to_<": 251,
+      "<_to_~=": 51,
+      "<_to_>": 122,
+      "~=_to_<": 0,
+      "~=_to_~=": 1,
+      "~=_to_>": 1,
+      ">_to_<": 16,
+      ">_to_~=": 5,
+      ">_to_>": 51
+    },
+    "by_variant": {
+      "disjoint": {
+        "n_total": 126,
+        "n_satisfied": 78,
+        "csr": 0.619
+      },
+      "shared_anchor": {
+        "n_total": 372,
+        "n_satisfied": 225,
+        "csr": 0.6048
+      }
+    },
+    "by_split": {
+      "n04": {
+        "n_scenes": 16,
+        "csr_mean": 0.6292
+      },
+      "n05": {
+        "n_scenes": 6,
+        "csr_mean": 0.59
+      }
+    }
+  },
+  "gt": {
+    "n_scenes": 22,
+    "csr_mean": 0.6466,
+    "csr_std": 0.1661,
+    "csr_median": 0.6429,
+    "n_total_sum": 498,
+    "n_violated_sum": 179,
+    "confusion_matrix_sum": {
+      "<_to_<": 267,
+      "<_to_~=": 50,
+      "<_to_>": 96,
+      "~=_to_<": 6,
+      "~=_to_~=": 2,
+      "~=_to_>": 10,
+      ">_to_<": 12,
+      ">_to_~=": 5,
+      ">_to_>": 50
+    },
+    "by_variant": {
+      "disjoint": {
+        "n_total": 126,
+        "n_satisfied": 76,
+        "csr": 0.6032
+      },
+      "shared_anchor": {
+        "n_total": 372,
+        "n_satisfied": 243,
+        "csr": 0.6532
+      }
+    },
+    "by_split": {
+      "n04": {
+        "n_scenes": 16,
+        "csr_mean": 0.6545
+      },
+      "n05": {
+        "n_scenes": 6,
+        "csr_mean": 0.6257
+      }
+    }
+  }
+}

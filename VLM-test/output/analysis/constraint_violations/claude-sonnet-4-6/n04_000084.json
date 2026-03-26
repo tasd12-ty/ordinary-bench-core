@@ -1,0 +1,705 @@
+{
+  "scene_id": "n04_000084",
+  "model": "claude-sonnet-4-6",
+  "n_objects": 4,
+  "positions": {
+    "obj_0": [
+      0.0,
+      0.0
+    ],
+    "obj_1": [
+      1.0,
+      0.0
+    ],
+    "obj_2": [
+      0.20179893438718688,
+      -0.6512538527575397
+    ],
+    "obj_3": [
+      0.4283809614931681,
+      -0.20416984597413615
+    ]
+  },
+  "recon_status": "infeasible",
+  "recon_feasible": false,
+  "belief_analysis": {
+    "n_total": 15,
+    "n_satisfied": 8,
+    "n_violated": 7,
+    "csr": 0.5333,
+    "confusion_matrix": {
+      "<_to_<": 6,
+      "<_to_~=": 2,
+      "<_to_>": 4,
+      "~=_to_<": 0,
+      "~=_to_~=": 0,
+      "~=_to_>": 0,
+      ">_to_<": 1,
+      ">_to_~=": 0,
+      ">_to_>": 2
+    },
+    "by_variant": {
+      "disjoint": {
+        "n_total": 3,
+        "n_satisfied": 2,
+        "csr": 0.6667
+      },
+      "shared_anchor": {
+        "n_total": 12,
+        "n_satisfied": 6,
+        "csr": 0.5
+      }
+    },
+    "by_source": {
+      "qrr": {
+        "n_total": 3,
+        "n_satisfied": 2,
+        "csr": 0.6667
+      },
+      "fdr_decomposition": {
+        "n_total": 12,
+        "n_satisfied": 6,
+        "csr": 0.5
+      }
+    },
+    "details": [
+      {
+        "qid": "qrr_0001",
+        "pair1": [
+          "obj_0",
+          "obj_1"
+        ],
+        "pair2": [
+          "obj_2",
+          "obj_3"
+        ],
+        "variant": "disjoint",
+        "source": "qrr",
+        "constraint_cmp": ">",
+        "recon_cmp": ">",
+        "d1": 1.0,
+        "d2": 0.501222,
+        "delta_log": 0.690706,
+        "satisfied": true
+      },
+      {
+        "qid": "qrr_0002",
+        "pair1": [
+          "obj_0",
+          "obj_2"
+        ],
+        "pair2": [
+          "obj_1",
+          "obj_3"
+        ],
+        "variant": "disjoint",
+        "source": "qrr",
+        "constraint_cmp": ">",
+        "recon_cmp": ">",
+        "d1": 0.681802,
+        "d2": 0.606987,
+        "delta_log": 0.116232,
+        "satisfied": true
+      },
+      {
+        "qid": "qrr_0003",
+        "pair1": [
+          "obj_0",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_1",
+          "obj_2"
+        ],
+        "variant": "disjoint",
+        "source": "qrr",
+        "constraint_cmp": ">",
+        "recon_cmp": "<",
+        "d1": 0.474548,
+        "d2": 1.030173,
+        "delta_log": -0.77512,
+        "satisfied": false
+      },
+      {
+        "qid": "fdr_0001__pair_0_1",
+        "pair1": [
+          "obj_0",
+          "obj_2"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_3"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": ">",
+        "d1": 0.681802,
+        "d2": 0.474548,
+        "delta_log": 0.362377,
+        "satisfied": false,
+        "anchor": "obj_0"
+      },
+      {
+        "qid": "fdr_0001__pair_0_2",
+        "pair1": [
+          "obj_0",
+          "obj_2"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_1"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "<",
+        "d1": 0.681802,
+        "d2": 1.0,
+        "delta_log": -0.383016,
+        "satisfied": true,
+        "anchor": "obj_0"
+      },
+      {
+        "qid": "fdr_0001__pair_1_2",
+        "pair1": [
+          "obj_0",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_1"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "<",
+        "d1": 0.474548,
+        "d2": 1.0,
+        "delta_log": -0.745393,
+        "satisfied": true,
+        "anchor": "obj_0"
+      },
+      {
+        "qid": "fdr_0002__pair_0_1",
+        "pair1": [
+          "obj_1",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_1",
+          "obj_2"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "<",
+        "d1": 0.606987,
+        "d2": 1.030173,
+        "delta_log": -0.528974,
+        "satisfied": true,
+        "anchor": "obj_1"
+      },
+      {
+        "qid": "fdr_0002__pair_0_2",
+        "pair1": [
+          "obj_1",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_1"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "<",
+        "d1": 0.606987,
+        "d2": 1.0,
+        "delta_log": -0.499247,
+        "satisfied": true,
+        "anchor": "obj_1"
+      },
+      {
+        "qid": "fdr_0002__pair_1_2",
+        "pair1": [
+          "obj_1",
+          "obj_2"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_1"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "~=",
+        "d1": 1.030173,
+        "d2": 1.0,
+        "delta_log": 0.029727,
+        "satisfied": false,
+        "anchor": "obj_1"
+      },
+      {
+        "qid": "fdr_0003__pair_0_1",
+        "pair1": [
+          "obj_2",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_1",
+          "obj_2"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "<",
+        "d1": 0.501222,
+        "d2": 1.030173,
+        "delta_log": -0.720433,
+        "satisfied": true,
+        "anchor": "obj_2"
+      },
+      {
+        "qid": "fdr_0003__pair_0_2",
+        "pair1": [
+          "obj_2",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_2"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "<",
+        "d1": 0.501222,
+        "d2": 0.681802,
+        "delta_log": -0.307691,
+        "satisfied": true,
+        "anchor": "obj_2"
+      },
+      {
+        "qid": "fdr_0003__pair_1_2",
+        "pair1": [
+          "obj_1",
+          "obj_2"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_2"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": ">",
+        "d1": 1.030173,
+        "d2": 0.681802,
+        "delta_log": 0.412742,
+        "satisfied": false,
+        "anchor": "obj_2"
+      },
+      {
+        "qid": "fdr_0004__pair_0_1",
+        "pair1": [
+          "obj_1",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_2",
+          "obj_3"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": ">",
+        "d1": 0.606987,
+        "d2": 0.501222,
+        "delta_log": 0.191459,
+        "satisfied": false,
+        "anchor": "obj_3"
+      },
+      {
+        "qid": "fdr_0004__pair_0_2",
+        "pair1": [
+          "obj_1",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_3"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": ">",
+        "d1": 0.606987,
+        "d2": 0.474548,
+        "delta_log": 0.246146,
+        "satisfied": false,
+        "anchor": "obj_3"
+      },
+      {
+        "qid": "fdr_0004__pair_1_2",
+        "pair1": [
+          "obj_2",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_3"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "~=",
+        "d1": 0.501222,
+        "d2": 0.474548,
+        "delta_log": 0.054687,
+        "satisfied": false,
+        "anchor": "obj_3"
+      }
+    ]
+  },
+  "gt_analysis": {
+    "n_total": 15,
+    "n_satisfied": 9,
+    "n_violated": 6,
+    "csr": 0.6,
+    "confusion_matrix": {
+      "<_to_<": 7,
+      "<_to_~=": 2,
+      "<_to_>": 3,
+      "~=_to_<": 0,
+      "~=_to_~=": 0,
+      "~=_to_>": 0,
+      ">_to_<": 1,
+      ">_to_~=": 0,
+      ">_to_>": 2
+    },
+    "by_variant": {
+      "disjoint": {
+        "n_total": 3,
+        "n_satisfied": 2,
+        "csr": 0.6667
+      },
+      "shared_anchor": {
+        "n_total": 12,
+        "n_satisfied": 7,
+        "csr": 0.5833
+      }
+    },
+    "by_source": {
+      "qrr": {
+        "n_total": 3,
+        "n_satisfied": 2,
+        "csr": 0.6667
+      },
+      "fdr_decomposition": {
+        "n_total": 12,
+        "n_satisfied": 7,
+        "csr": 0.5833
+      }
+    },
+    "details": [
+      {
+        "qid": "qrr_0001",
+        "pair1": [
+          "obj_0",
+          "obj_1"
+        ],
+        "pair2": [
+          "obj_2",
+          "obj_3"
+        ],
+        "variant": "disjoint",
+        "source": "qrr",
+        "constraint_cmp": ">",
+        "recon_cmp": ">",
+        "d1": 1.0,
+        "d2": 0.501222,
+        "delta_log": 0.690706,
+        "satisfied": true
+      },
+      {
+        "qid": "qrr_0002",
+        "pair1": [
+          "obj_0",
+          "obj_2"
+        ],
+        "pair2": [
+          "obj_1",
+          "obj_3"
+        ],
+        "variant": "disjoint",
+        "source": "qrr",
+        "constraint_cmp": ">",
+        "recon_cmp": ">",
+        "d1": 0.681802,
+        "d2": 0.606987,
+        "delta_log": 0.116232,
+        "satisfied": true
+      },
+      {
+        "qid": "qrr_0003",
+        "pair1": [
+          "obj_0",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_1",
+          "obj_2"
+        ],
+        "variant": "disjoint",
+        "source": "qrr",
+        "constraint_cmp": ">",
+        "recon_cmp": "<",
+        "d1": 0.474548,
+        "d2": 1.030173,
+        "delta_log": -0.77512,
+        "satisfied": false
+      },
+      {
+        "qid": "fdr_0001__pair_0_1",
+        "pair1": [
+          "obj_0",
+          "obj_2"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_3"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": ">",
+        "d1": 0.681802,
+        "d2": 0.474548,
+        "delta_log": 0.362377,
+        "satisfied": false,
+        "anchor": "obj_0"
+      },
+      {
+        "qid": "fdr_0001__pair_0_2",
+        "pair1": [
+          "obj_0",
+          "obj_2"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_1"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "<",
+        "d1": 0.681802,
+        "d2": 1.0,
+        "delta_log": -0.383016,
+        "satisfied": true,
+        "anchor": "obj_0"
+      },
+      {
+        "qid": "fdr_0001__pair_1_2",
+        "pair1": [
+          "obj_0",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_1"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "<",
+        "d1": 0.474548,
+        "d2": 1.0,
+        "delta_log": -0.745393,
+        "satisfied": true,
+        "anchor": "obj_0"
+      },
+      {
+        "qid": "fdr_0002__pair_0_1",
+        "pair1": [
+          "obj_1",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_1",
+          "obj_2"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "<",
+        "d1": 0.606987,
+        "d2": 1.030173,
+        "delta_log": -0.528974,
+        "satisfied": true,
+        "anchor": "obj_1"
+      },
+      {
+        "qid": "fdr_0002__pair_0_2",
+        "pair1": [
+          "obj_1",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_1"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "<",
+        "d1": 0.606987,
+        "d2": 1.0,
+        "delta_log": -0.499247,
+        "satisfied": true,
+        "anchor": "obj_1"
+      },
+      {
+        "qid": "fdr_0002__pair_1_2",
+        "pair1": [
+          "obj_1",
+          "obj_2"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_1"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "~=",
+        "d1": 1.030173,
+        "d2": 1.0,
+        "delta_log": 0.029727,
+        "satisfied": false,
+        "anchor": "obj_1"
+      },
+      {
+        "qid": "fdr_0003__pair_0_1",
+        "pair1": [
+          "obj_2",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_2"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "<",
+        "d1": 0.501222,
+        "d2": 0.681802,
+        "delta_log": -0.307691,
+        "satisfied": true,
+        "anchor": "obj_2"
+      },
+      {
+        "qid": "fdr_0003__pair_0_2",
+        "pair1": [
+          "obj_2",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_1",
+          "obj_2"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "<",
+        "d1": 0.501222,
+        "d2": 1.030173,
+        "delta_log": -0.720433,
+        "satisfied": true,
+        "anchor": "obj_2"
+      },
+      {
+        "qid": "fdr_0003__pair_1_2",
+        "pair1": [
+          "obj_0",
+          "obj_2"
+        ],
+        "pair2": [
+          "obj_1",
+          "obj_2"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "<",
+        "d1": 0.681802,
+        "d2": 1.030173,
+        "delta_log": -0.412742,
+        "satisfied": true,
+        "anchor": "obj_2"
+      },
+      {
+        "qid": "fdr_0004__pair_0_1",
+        "pair1": [
+          "obj_1",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_2",
+          "obj_3"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": ">",
+        "d1": 0.606987,
+        "d2": 0.501222,
+        "delta_log": 0.191459,
+        "satisfied": false,
+        "anchor": "obj_3"
+      },
+      {
+        "qid": "fdr_0004__pair_0_2",
+        "pair1": [
+          "obj_1",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_3"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": ">",
+        "d1": 0.606987,
+        "d2": 0.474548,
+        "delta_log": 0.246146,
+        "satisfied": false,
+        "anchor": "obj_3"
+      },
+      {
+        "qid": "fdr_0004__pair_1_2",
+        "pair1": [
+          "obj_2",
+          "obj_3"
+        ],
+        "pair2": [
+          "obj_0",
+          "obj_3"
+        ],
+        "variant": "shared_anchor",
+        "source": "fdr_decomposition",
+        "constraint_cmp": "<",
+        "recon_cmp": "~=",
+        "d1": 0.501222,
+        "d2": 0.474548,
+        "delta_log": 0.054687,
+        "satisfied": false,
+        "anchor": "obj_3"
+      }
+    ]
+  }
+}
