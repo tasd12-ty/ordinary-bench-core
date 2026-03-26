@@ -132,13 +132,27 @@ def compute_rms(X: np.ndarray, Y: np.ndarray) -> float:
     return float(np.sqrt(np.mean(np.sum(residuals ** 2, axis=1))))
 
 
-def compute_nrms(X: np.ndarray, Y: np.ndarray) -> float:
-    """Normalized RMS: Procrustes-aligned RMS divided by spatial extent of Y."""
-    _, rms = procrustes_align(X, Y)
+def compute_nrms(X: np.ndarray, Y: np.ndarray, allow_reflection: bool = True) -> float:
+    """Normalized RMS: Procrustes-aligned RMS divided by spatial extent of Y.
+
+    Tries both with and without reflection, returns the better (lower) NRMS.
+    This is correct because reconstruction is determined only up to similarity
+    transformations including reflection.
+    """
     extent = np.max(np.ptp(Y, axis=0))
     if extent < 1e-12:
+        _, rms = procrustes_align(X, Y, allow_reflection=False)
         return rms
-    return rms / extent
+
+    _, rms_no_ref = procrustes_align(X, Y, allow_reflection=False)
+    nrms = rms_no_ref / extent
+
+    if allow_reflection:
+        _, rms_ref = procrustes_align(X, Y, allow_reflection=True)
+        nrms_ref = rms_ref / extent
+        nrms = min(nrms, nrms_ref)
+
+    return nrms
 
 
 # ── Pair Key Helpers ──
