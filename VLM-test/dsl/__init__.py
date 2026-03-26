@@ -1,4 +1,4 @@
-"""DSL module for ordinal spatial relations."""
+"""序数空间关系 DSL 模块。"""
 
 from .comparators import Comparator, compare
 from .predicates import (

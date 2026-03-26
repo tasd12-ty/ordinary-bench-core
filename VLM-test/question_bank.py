@@ -1,8 +1,8 @@
 """
-Question enumeration and batch splitting.
+问题枚举与批次分割。
 
-Enumerates all QRR and TRR questions from GT constraints,
-assigns question IDs, and splits into configurable batches.
+从 GT 约束中枚举所有 QRR、TRR 和 FDR 问题，
+分配问题 ID，并按可配置大小分批。
 """
 
 from itertools import combinations, permutations
@@ -22,17 +22,17 @@ def enumerate_qrr(
     include_shared_anchor: bool = True,
 ) -> List[dict]:
     """
-    Enumerate QRR questions with GT answers.
+    枚举带真值答案的 QRR 问题。
 
-    Variants:
-      - disjoint: compare two disjoint pairs
-      - shared_anchor: compare distances from a common anchor
+    变体：
+      - disjoint：比较两对不相交的物体对
+      - shared_anchor：比较从公共锚点出发的距离
 
-    For N objects:
-      - disjoint count = 3 * C(N,4)
-      - shared-anchor count = N * C(N-1, 2)
+    对于 N 个物体：
+      - disjoint 数量 = 3 * C(N,4)
+      - shared_anchor 数量 = N * C(N-1, 2)
 
-    Returns list of question dicts.
+    返回问题字典列表。
     """
     obj_ids = sorted(objects.keys())
     metric_func = METRIC_FUNCTIONS[metric]
@@ -100,11 +100,11 @@ def enumerate_trr(
     use_3d: bool = True,
 ) -> List[dict]:
     """
-    Enumerate all TRR questions with GT answers.
+    枚举带真值答案的所有 TRR 问题。
 
-    For N objects, TRR count = P(N,3) = N*(N-1)*(N-2)
+    对于 N 个物体，TRR 数量 = P(N,3) = N*(N-1)*(N-2)
 
-    Returns list of question dicts.
+    返回问题字典列表。
     """
     obj_ids = sorted(objects.keys())
     questions = []
@@ -133,11 +133,11 @@ def enumerate_fdr(
     tau: float = 0.10,
 ) -> List[dict]:
     """
-    Enumerate all FDR (Full Distance Ranking) questions.
+    枚举所有 FDR（全距离排序）问题。
 
-    For N objects, FDR count = N (one per anchor object).
+    对于 N 个物体，FDR 数量 = N（每个锚点物体一个）。
 
-    Returns list of question dicts.
+    返回问题字典列表。
     """
     obj_ids = sorted(objects.keys())
     questions = []
@@ -161,9 +161,9 @@ def enumerate_fdr(
 
 def make_batches(questions: List[dict], batch_size: int) -> List[dict]:
     """
-    Split questions into batches.
+    将问题列表按批次分割。
 
-    Returns list of batch dicts with batch_id and questions.
+    返回包含 batch_id 和 questions 的批次字典列表。
     """
     batches = []
     for i in range(0, len(questions), batch_size):
@@ -178,10 +178,10 @@ def make_batches(questions: List[dict], batch_size: int) -> List[dict]:
 
 def question_counts(n_objects: int) -> dict:
     """
-    Calculate expected question counts for N objects.
+    计算 N 个物体的预期问题数量。
 
-    QRR combines disjoint pair-vs-pair and shared-anchor comparisons.
-    TRR: P(N,3) = N*(N-1)*(N-2)
+    QRR 包含 disjoint 对比对和 shared_anchor 比较两种变体。
+    TRR：P(N,3) = N*(N-1)*(N-2)
     """
     qrr_count = 0
     qrr_disjoint = 0

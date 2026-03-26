@@ -1,12 +1,12 @@
 """
-SVG vector renderer for scene belief reconstruction comparison.
+场景信念重建对比的 SVG 矢量渲染器。
 
-Renders GT vs reconstructed scene layouts as publication-quality SVG.
-- Real object shapes: sphere→circle, cube→rect, cylinder→rounded-rect
-- Real colors from scene JSON
-- GT / Recon / Overlay panels with displacement arrows
-- Optional embedded Blender rendered image
-- No matplotlib dependency — pure Python SVG generation
+将 GT 和重建的场景布局渲染为出版质量的 SVG 图像。
+- 真实物体形状：sphere→circle、cube→rect、cylinder→rounded-rect
+- 从场景 JSON 读取真实颜色
+- GT / 重建 / 叠加三面板，含偏差箭头
+- 可选嵌入 Blender 渲染图
+- 无 matplotlib 依赖——纯 Python SVG 生成
 """
 
 import base64
@@ -24,9 +24,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from reconstruct.utils import procrustes_align
 
 
-# ── Color Mapping ──
+# ── 颜色映射 ──
 
-# Blender-style colors (name → hex fill, darker stroke)
+# Blender 风格颜色（名称 → 填充色十六进制、描边色）
 COLOR_MAP = {
     "red":    ("#e74c3c", "#c0392b"),
     "blue":   ("#3498db", "#2980b9"),
@@ -44,13 +44,13 @@ COLOR_MAP = {
 
 DEFAULT_COLOR = ("#95a5a6", "#7f8c8d")
 
-# Material → opacity
+# 材质 → 不透明度
 MATERIAL_OPACITY = {
     "metal": 1.0,
     "rubber": 0.85,
 }
 
-# Size → SVG shape radius
+# 尺寸 → SVG 形状半径
 SIZE_RADIUS = {
     "large": 18,
     "small": 12,
@@ -58,7 +58,7 @@ SIZE_RADIUS = {
 DEFAULT_RADIUS = 15
 
 
-# ── SVG Primitives ──
+# ── SVG 基础元素 ──
 
 def _svg_header(width: int, height: int, bg: str = "#ffffff") -> str:
     return (
@@ -84,7 +84,7 @@ def _svg_shape(
     obj_id: str = "",
     ghost: bool = False,
 ) -> str:
-    """Render a single object as SVG shape at (cx, cy)."""
+    """在 (cx, cy) 处将单个物体渲染为 SVG 形状。"""
     fill, stroke = COLOR_MAP.get(color, DEFAULT_COLOR)
     r = SIZE_RADIUS.get(size, DEFAULT_RADIUS)
     opacity = MATERIAL_OPACITY.get(material, 0.9)
@@ -93,7 +93,7 @@ def _svg_shape(
     stroke_w = 2.0 if not ghost else 1.0
     stroke_dash = '' if not ghost else ' stroke-dasharray="4,3"'
 
-    # Metal → add a subtle gradient shimmer
+    # 金属材质 → 添加渐变高光
     gradient_id = f"grad_{obj_id}" if material == "metal" and not ghost else ""
     gradient_def = ""
     if gradient_id:
@@ -137,10 +137,10 @@ def _svg_shape(
             f'rx="{w:.1f}" ry="{w * 0.35:.1f}" {common}/>'
         )
     else:
-        # Fallback: circle
+        # 降级处理：使用圆形
         parts.append(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{r}" {common}/>')
 
-    # Label
+    # 标签
     label_y = cy - r - 5
     font_size = 10 if not ghost else 9
     parts.append(
@@ -156,13 +156,13 @@ def _svg_arrow(
     x1: float, y1: float, x2: float, y2: float,
     color: str = "#e74c3c", width: float = 1.5, opacity: float = 0.7,
 ) -> str:
-    """SVG arrow from (x1,y1) to (x2,y2)."""
+    """从 (x1,y1) 到 (x2,y2) 的 SVG 箭头。"""
     dx, dy = x2 - x1, y2 - y1
     length = math.sqrt(dx * dx + dy * dy)
     if length < 2:
         return ''
 
-    # Arrowhead
+    # 箭头头部
     head_len = min(8, length * 0.3)
     angle = math.atan2(dy, dx)
     ha1 = angle + math.radians(150)
@@ -201,7 +201,7 @@ def _svg_grid(
     ox: float, oy: float, w: float, h: float,
     n_lines: int = 5, color: str = "#ecf0f1",
 ) -> str:
-    """Light grid background."""
+    """浅色网格背景。"""
     lines = []
     for i in range(n_lines + 1):
         x = ox + i * w / n_lines
@@ -214,7 +214,7 @@ def _svg_grid(
             f'<line x1="{ox:.1f}" y1="{y:.1f}" x2="{ox + w:.1f}" y2="{y:.1f}" '
             f'stroke="{color}" stroke-width="0.5"/>'
         )
-    # Border
+    # 边框
     lines.append(
         f'<rect x="{ox:.1f}" y="{oy:.1f}" width="{w:.1f}" height="{h:.1f}" '
         f'fill="none" stroke="#ddd" stroke-width="1"/>'
@@ -223,7 +223,7 @@ def _svg_grid(
 
 
 def _svg_legend(x: float, y: float) -> str:
-    """Small legend for overlay panel."""
+    """叠加面板的小图例。"""
     return (
         f'<circle cx="{x}" cy="{y}" r="5" fill="#95a5a6" stroke="#333" stroke-width="1"/>'
         f'<text x="{x + 10}" y="{y + 4}" font-size="9" fill="#555">GT</text>'
@@ -236,7 +236,7 @@ def _svg_legend(x: float, y: float) -> str:
     )
 
 
-# ── Coordinate Transform ──
+# ── 坐标变换 ──
 
 def _world_to_svg(
     positions: Dict[str, np.ndarray],
@@ -244,7 +244,7 @@ def _world_to_svg(
     panel_w: float, panel_h: float,
     margin: float = 35,
 ) -> Dict[str, Tuple[float, float]]:
-    """Map world coordinates to SVG pixel coordinates within a panel."""
+    """将世界坐标映射为面板内的 SVG 像素坐标。"""
     if not positions:
         return {}
 
@@ -252,7 +252,7 @@ def _world_to_svg(
     xmin, ymin = coords.min(axis=0)
     xmax, ymax = coords.max(axis=0)
 
-    # Add padding
+    # 添加边距
     dx = xmax - xmin if xmax - xmin > 1e-6 else 1.0
     dy = ymax - ymin if ymax - ymin > 1e-6 else 1.0
 
@@ -260,7 +260,7 @@ def _world_to_svg(
     usable_h = panel_h - 2 * margin
     scale = min(usable_w / dx, usable_h / dy)
 
-    # Center
+    # 居中
     cx_world = (xmin + xmax) / 2
     cy_world = (ymin + ymax) / 2
     cx_svg = panel_ox + panel_w / 2
@@ -270,17 +270,17 @@ def _world_to_svg(
     for k in sorted(positions.keys()):
         wx, wy = positions[k][0], positions[k][1]
         sx = cx_svg + (wx - cx_world) * scale
-        sy = cy_svg - (wy - cy_world) * scale  # flip Y
+        sy = cy_svg - (wy - cy_world) * scale  # 翻转 Y 轴（SVG Y 轴向下）
         result[k] = (sx, sy)
 
     return result
 
 
-# ── Public API ──
+# ── 公共接口 ──
 
 @dataclass
 class ObjectInfo:
-    """Visual attributes of a scene object."""
+    """场景物体的视觉属性。"""
     obj_id: str
     shape: str = "sphere"
     color: str = "gray"
@@ -289,7 +289,7 @@ class ObjectInfo:
 
 
 def load_object_info(scene_json_path: str) -> Dict[str, ObjectInfo]:
-    """Load object visual attributes from scene JSON."""
+    """从场景 JSON 加载物体视觉属性。"""
     with open(scene_json_path) as f:
         scene = json.load(f)
 
@@ -315,20 +315,20 @@ def render_scene_comparison_svg(
     panel_size: int = 300,
     show_overlay: bool = True,
 ) -> str:
-    """Render GT vs Recon comparison as SVG string.
+    """将 GT 与重建结果对比渲染为 SVG 字符串。
 
     Args:
-        gt_positions: {obj_id: [x, y, ...]} ground truth
-        recon_positions: {obj_id: [x, y, ...]} reconstructed
-        object_info: {obj_id: ObjectInfo} visual attributes
-        scene_id: scene identifier
-        metrics: optional {csr_qrr, csr_trr, nrms, kendall_tau, K_geom}
-        blender_image_path: optional path to Blender rendered PNG
-        panel_size: pixel size of each panel
-        show_overlay: whether to include overlay panel
+        gt_positions: {obj_id: [x, y, ...]} 真实位置
+        recon_positions: {obj_id: [x, y, ...]} 重建位置
+        object_info: {obj_id: ObjectInfo} 视觉属性
+        scene_id: 场景标识符
+        metrics: 可选指标字典 {csr_qrr, csr_trr, nrms, kendall_tau, K_geom}
+        blender_image_path: 可选的 Blender 渲染 PNG 路径
+        panel_size: 每个面板的像素尺寸
+        show_overlay: 是否显示叠加面板
 
     Returns:
-        SVG string
+        SVG 字符串
     """
     obj_ids = sorted(set(gt_positions.keys()) & set(recon_positions.keys()))
     if len(obj_ids) < 2:
@@ -343,7 +343,7 @@ def render_scene_comparison_svg(
     gt_dict = {oid: gt_mat[i] for i, oid in enumerate(obj_ids)}
     recon_dict = {oid: recon_aligned[i] for i, oid in enumerate(obj_ids)}
 
-    # Panel layout
+    # 面板布局
     has_blender = bool(blender_image_path and os.path.exists(blender_image_path))
     n_panels = 2 + int(show_overlay) + int(has_blender)
 
@@ -356,10 +356,10 @@ def render_scene_comparison_svg(
 
     parts = [_svg_header(total_w, total_h, "#fafafa")]
 
-    # Title
+    # 标题
     parts.append(_svg_title(total_w / 2, 22, f"Scene: {scene_id}"))
 
-    # Metrics subtitle
+    # 指标副标题
     if metrics:
         metric_parts = []
         if isinstance(metrics.get("csr_qrr"), (int, float)):
@@ -380,13 +380,13 @@ def render_scene_comparison_svg(
     def panel_x(idx):
         return 20 + idx * (pw + gap)
 
-    # Helper: default object info
+    # 辅助函数：获取默认物体信息
     def get_info(oid):
         if object_info and oid in object_info:
             return object_info[oid]
         return ObjectInfo(obj_id=oid)
 
-    # ── Panel: Blender Image ──
+    # ── 面板：Blender 渲染图 ──
     if has_blender:
         px = panel_x(panel_idx)
         parts.append(_svg_grid(px, panel_y, pw, ph))
@@ -394,7 +394,7 @@ def render_scene_comparison_svg(
 
         with open(blender_image_path, "rb") as f:
             img_b64 = base64.b64encode(f.read()).decode()
-        # Fit image into panel with padding
+        # 将图像适配到面板（含边距）
         img_margin = 5
         parts.append(
             f'<image x="{px + img_margin}" y="{panel_y + img_margin}" '
@@ -404,7 +404,7 @@ def render_scene_comparison_svg(
         )
         panel_idx += 1
 
-    # ── Panel: Ground Truth ──
+    # ── 面板：真实值（Ground Truth）──
     px = panel_x(panel_idx)
     parts.append(_svg_grid(px, panel_y, pw, ph))
     parts.append(_svg_title(px + pw / 2, panel_y - 5, "Ground Truth", 12))
@@ -419,7 +419,7 @@ def render_scene_comparison_svg(
         ))
     panel_idx += 1
 
-    # ── Panel: Reconstructed ──
+    # ── 面板：重建结果 ──
     px = panel_x(panel_idx)
     parts.append(_svg_grid(px, panel_y, pw, ph))
     parts.append(_svg_title(px + pw / 2, panel_y - 5, "Reconstructed", 12))
@@ -434,7 +434,7 @@ def render_scene_comparison_svg(
         ))
     panel_idx += 1
 
-    # ── Panel: Overlay ──
+    # ── 面板：叠加对比 ──
     if show_overlay:
         px = panel_x(panel_idx)
         parts.append(_svg_grid(px, panel_y, pw, ph))
@@ -446,11 +446,11 @@ def render_scene_comparison_svg(
             f"Overlay (NRMS={nrms_val:.3f})", 12,
         ))
 
-        # Use GT coordinate space for both
+        # 两者均使用 GT 坐标系
         overlay_gt = _world_to_svg(gt_dict, px, panel_y, pw, ph)
         overlay_recon = _world_to_svg(recon_dict, px, panel_y, pw, ph)
 
-        # Draw arrows first (behind shapes)
+        # 先绘制箭头（在形状下方）
         for oid in obj_ids:
             gx, gy = overlay_gt[oid]
             rx, ry = overlay_recon[oid]
@@ -458,7 +458,7 @@ def render_scene_comparison_svg(
             arrow_color, _ = COLOR_MAP.get(info.color, DEFAULT_COLOR)
             parts.append(_svg_arrow(gx, gy, rx, ry, color=arrow_color, width=1.8))
 
-        # GT shapes (solid)
+        # GT 形状（实心）
         for oid in obj_ids:
             info = get_info(oid)
             sx, sy = overlay_gt[oid]
@@ -467,7 +467,7 @@ def render_scene_comparison_svg(
                 material=info.material, size=info.size, obj_id=oid,
             ))
 
-        # Recon shapes (ghost)
+        # 重建形状（半透明幽灵）
         for oid in obj_ids:
             info = get_info(oid)
             sx, sy = overlay_recon[oid]
@@ -477,7 +477,7 @@ def render_scene_comparison_svg(
                 obj_id="", ghost=True,
             ))
 
-        # Legend
+        # 图例
         parts.append(_svg_legend(px + pw - 70, panel_y + 10))
 
     parts.append(_svg_footer())
@@ -494,7 +494,7 @@ def render_three_condition_svg(
     blender_image_path: Optional[str] = None,
     panel_size: int = 260,
 ) -> str:
-    """Render three-condition comparison (A/B/C) as SVG.
+    """将三条件对比（A/B/C）渲染为 SVG。
 
     GT | Blender | Cond A | Cond B | Cond C
     """
@@ -531,7 +531,7 @@ def render_three_condition_svg(
             return object_info[oid]
         return ObjectInfo(obj_id=oid)
 
-    # GT panel
+    # GT 面板
     px = panel_x(panel_idx)
     parts.append(_svg_grid(px, panel_y, pw, ph))
     parts.append(_svg_title(px + pw / 2, panel_y - 5, "Ground Truth", 11))
@@ -543,7 +543,7 @@ def render_three_condition_svg(
                                 info.material, info.size, oid))
     panel_idx += 1
 
-    # Blender panel
+    # Blender 面板
     if has_blender:
         px = panel_x(panel_idx)
         parts.append(_svg_grid(px, panel_y, pw, ph))
@@ -558,12 +558,12 @@ def render_three_condition_svg(
         )
         panel_idx += 1
 
-    # Condition panels
+    # 条件面板
     for cond_name, cond_pos in active_conditions:
         px = panel_x(panel_idx)
         parts.append(_svg_grid(px, panel_y, pw, ph))
 
-        # Align to GT
+        # 对齐到 GT
         common = sorted(set(obj_ids) & set(cond_pos.keys()))
         if len(common) >= 3:
             c_mat = np.array([cond_pos[oid][:2] for oid in common])
@@ -596,7 +596,7 @@ def render_three_condition_svg(
     return '\n'.join(parts)
 
 
-# ── CLI Entry Point ──
+# ── 命令行入口 ──
 
 def render_scene_from_files(
     scene_json_path: str,
@@ -605,16 +605,16 @@ def render_scene_from_files(
     blender_image_path: Optional[str] = None,
     panel_size: int = 300,
 ):
-    """Convenience: render from file paths and save SVG.
+    """便捷函数：从文件路径读取数据并保存 SVG。
 
     Args:
-        scene_json_path: path to scene JSON (for GT positions + object info)
-        recon_result: reconstruction result dict (from pipeline.ReconstructResult.to_dict())
-        output_path: where to save the SVG
-        blender_image_path: optional Blender rendered image
-        panel_size: panel size in px
+        scene_json_path: 场景 JSON 路径（用于 GT 位置和物体信息）
+        recon_result: 重建结果字典（来自 pipeline.ReconstructResult.to_dict()）
+        output_path: SVG 保存路径
+        blender_image_path: 可选的 Blender 渲染图路径
+        panel_size: 面板像素尺寸
     """
-    # Load GT
+    # 加载 GT
     with open(scene_json_path) as f:
         scene = json.load(f)
 
@@ -622,10 +622,10 @@ def render_scene_from_files(
     for obj in scene["objects"]:
         gt_positions[obj["id"]] = np.array(obj["3d_coords"][:2], dtype=float)
 
-    # Load object info
+    # 加载物体信息
     object_info = load_object_info(scene_json_path)
 
-    # Reconstructed positions
+    # 重建位置
     recon_positions = {}
     for oid, coords in recon_result["positions"].items():
         recon_positions[oid] = np.array(coords, dtype=float)

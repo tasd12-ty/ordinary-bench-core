@@ -1,8 +1,8 @@
 """
-Batch reconstruction of evaluated scenes.
+批量场景重建。
 
-Runs the reconstruction pipeline on all scene results for a given model,
-producing per-scene reconstruction metrics and aggregate statistics.
+对给定模型的所有场景评估结果运行重建管线，
+生成逐场景的重建指标和聚合统计。
 """
 
 import json
@@ -13,7 +13,7 @@ from typing import Dict, List, Optional
 
 import numpy as np
 
-# Add parent to path for imports
+# 将父目录加入 sys.path，使 reconstruct 等模块可被导入
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from reconstruct import (
@@ -27,7 +27,7 @@ from analysis.aggregate import load_scene_results
 
 
 def load_scene_gt(scene_path: str) -> Optional[Dict[str, np.ndarray]]:
-    """Load ground truth 2D positions from scene JSON."""
+    """从场景 JSON 加载真值 2D 位置。"""
     loaded = load_scene_gt_positions(scene_path)
     if not loaded:
         return None
@@ -41,7 +41,7 @@ def prepare_single_scene(
     use_correct_only: bool = True,
     question_metadata: Optional[dict] = None,
 ) -> PreparedSceneInput:
-    """Prepare a single scene for reconstruction without solving it."""
+    """为单个场景准备重建输入（不执行求解）。"""
     gt_serialized = None
     if gt_positions is not None:
         gt_serialized = {
@@ -81,17 +81,17 @@ def reconstruct_single_scene(
     n_restarts: int = 10,
     question_metadata: Optional[dict] = None,
 ) -> dict:
-    """Reconstruct a single scene and return metrics.
+    """重建单个场景并返回指标。
 
-    Args:
-        scene_result: from load_scene_results()
-        questions: flattened question list for this scene
-        gt_positions: ground truth positions
-        use_correct_only: if True, use only correct answers
-        n_restarts: number of optimization restarts
+    参数：
+        scene_result: load_scene_results() 的输出
+        questions: 该场景的扁平化问题列表
+        gt_positions: 真值位置
+        use_correct_only: 若为 True，仅使用正确回答
+        n_restarts: 优化重启次数
 
-    Returns:
-        dict with scene_id, status, metrics, positions
+    返回：
+        包含 scene_id、status、metrics、positions 的字典
     """
     prepared = prepare_single_scene(
         scene_result=scene_result,
@@ -125,7 +125,7 @@ def prepare_all_scenes(
     use_correct_only: bool = True,
     max_scenes: Optional[int] = None,
 ) -> List[dict]:
-    """Prepare reconstruction inputs for all evaluated scenes."""
+    """为所有已评估场景准备重建输入。"""
     scene_results = load_scene_results(results_dir)
     if max_scenes:
         scene_results = scene_results[:max_scenes]
@@ -202,19 +202,19 @@ def reconstruct_all_scenes(
     n_restarts: int = 10,
     max_scenes: Optional[int] = None,
 ) -> List[dict]:
-    """Reconstruct all evaluated scenes for a model.
+    """对模型的所有已评估场景执行重建。
 
-    Args:
-        results_dir: path to model results directory
-        questions_dir: path to questions directory
-        scenes_dir: path to scene data directory (for GT)
-        output_path: optional path to save results JSON
-        use_correct_only: if True, use only correct answers
-        n_restarts: number of optimization restarts
-        max_scenes: optional limit on number of scenes
+    参数：
+        results_dir: 模型结果目录路径
+        questions_dir: 问题目录路径
+        scenes_dir: 场景数据目录路径（用于 GT）
+        output_path: 可选，结果 JSON 保存路径
+        use_correct_only: 若为 True，仅使用正确回答
+        n_restarts: 优化重启次数
+        max_scenes: 可选，限制处理的场景数量
 
-    Returns:
-        List of per-scene reconstruction results
+    返回：
+        逐场景重建结果列表
     """
     scene_results = load_scene_results(results_dir)
     if max_scenes:
@@ -225,19 +225,19 @@ def reconstruct_all_scenes(
     for i, scene_result in enumerate(scene_results):
         scene_id = scene_result["scene_id"]
 
-        # Load questions
+        # 加载问题
         questions, question_meta = load_questions_auto(questions_dir, scene_id)
         if not questions:
             print(f"  [{i+1}/{len(scene_results)}] {scene_id}: no questions found, skipping")
             continue
 
-        # Load GT
+        # 加载真值
         scene_path = os.path.join(scenes_dir, f"{scene_id}.json")
         gt_positions = None
         if os.path.exists(scene_path):
             gt_positions = load_scene_gt(scene_path)
 
-        # Reconstruct
+        # 执行重建
         try:
             output = reconstruct_single_scene(
                 scene_result, questions, gt_positions,
@@ -257,7 +257,7 @@ def reconstruct_all_scenes(
             print(f"  [{i+1}/{len(scene_results)}] {scene_id}: ERROR {e}")
             continue
 
-    # Save if output_path specified
+    # 若指定了输出路径则保存结果
     if output_path and all_outputs:
         os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
         with open(output_path, "w") as f:
@@ -268,7 +268,7 @@ def reconstruct_all_scenes(
 
 
 def summarize_reconstructions(results: List[dict]) -> dict:
-    """Aggregate reconstruction metrics across scenes."""
+    """跨场景汇总重建指标。"""
     if not results:
         return {}
 
@@ -281,7 +281,7 @@ def summarize_reconstructions(results: List[dict]) -> dict:
         "feasible_rate": 0.0,
     }
 
-    # Status counts
+    # 统计各状态出现次数
     for r in results:
         status = r["status"]
         summary["status_counts"][status] = summary["status_counts"].get(status, 0) + 1
@@ -290,7 +290,7 @@ def summarize_reconstructions(results: List[dict]) -> dict:
         1 for r in results if r["feasible"]
     ) / len(results)
 
-    # Aggregate metrics
+    # 汇总各项指标
     for key in metrics_keys:
         values = [r["metrics"][key] for r in results
                   if r["metrics"].get(key) is not None]
@@ -307,7 +307,7 @@ def summarize_reconstructions(results: List[dict]) -> dict:
             summary[f"{key}_std"] = float(np.std(values))
             summary[f"{key}_n"] = len(values)
 
-    # By split
+    # 按 split 分组统计
     by_split = {}
     for r in results:
         split = r["scene_id"].rsplit("_", 1)[0]

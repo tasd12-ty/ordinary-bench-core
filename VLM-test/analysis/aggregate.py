@@ -1,7 +1,7 @@
 """
-Aggregate evaluation results across scenes and models.
+跨场景和模型聚合评估结果。
 
-Produces summary tables for the paper (Table 1, etc.).
+生成论文用的汇总表格（表1等）。
 """
 
 import json
@@ -17,7 +17,7 @@ from reconstruct.preparation import load_questions_auto
 
 
 def load_scene_results(results_dir: str) -> List[dict]:
-    """Load all scene result files from a model's scenes/ directory."""
+    """从模型的 scenes/ 目录加载所有场景结果文件。"""
     scenes_dir = Path(results_dir) / "scenes"
     if not scenes_dir.exists():
         return []
@@ -30,7 +30,7 @@ def load_scene_results(results_dir: str) -> List[dict]:
 
 
 def load_questions(questions_dir: str, scene_id: str) -> List[dict]:
-    """Load all questions for a scene from flat or split layout."""
+    """从平铺或分目录布局加载场景的所有问题。"""
     questions, _meta = load_questions_auto(questions_dir, scene_id)
     return questions
 
@@ -39,11 +39,11 @@ def compute_accuracy_table(
     results_dirs: Dict[str, str],
     by_split: bool = True,
 ) -> dict:
-    """Compute accuracy breakdown per model and split.
+    """按模型和 split 计算准确率明细。
 
     Args:
         results_dirs: {model_name: path_to_results_dir}
-        by_split: if True, break down by n-object split
+        by_split: 若为 True，则按物体数量 split 分组统计
 
     Returns:
         {
@@ -63,7 +63,7 @@ def compute_accuracy_table(
         if not scenes:
             continue
 
-        # Aggregate
+        # 汇总统计
         total = defaultdict(int)
         splits = defaultdict(lambda: defaultdict(int))
 
@@ -107,11 +107,11 @@ def compute_accuracy_table(
 
 
 def format_accuracy_table_markdown(table: dict) -> str:
-    """Format accuracy table as markdown for paper."""
+    """将准确率表格格式化为论文用的 Markdown 格式。"""
     models = table["models"]
     lines = []
 
-    # Overall table
+    # 总体汇总表
     lines.append("## Overall Accuracy")
     lines.append("")
     header = "| Model | QRR Acc | TRR Hour | TRR Quad | TRR Adj | Missing | N Scenes |"
@@ -128,7 +128,7 @@ def format_accuracy_table_markdown(table: dict) -> str:
             f"| {o['missing_rate']:.2%} | {o['n_scenes']} |"
         )
 
-    # By-split table
+    # 按 split 分组表
     if table["by_split"]:
         lines.append("")
         lines.append("## Accuracy by Split")
@@ -152,7 +152,7 @@ def format_accuracy_table_markdown(table: dict) -> str:
 
 
 def per_scene_accuracy(results_dir: str) -> List[dict]:
-    """Get per-scene accuracy for plotting."""
+    """获取逐场景准确率，用于绘图。"""
     scenes = load_scene_results(results_dir)
     output = []
     for scene in scenes:
