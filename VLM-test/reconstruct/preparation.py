@@ -1,10 +1,10 @@
 """
-Preparation helpers for scene reconstruction.
+场景重建的准备辅助模块。
 
-This module separates:
-  1. loading/normalizing question + scene metadata
-  2. extracting auditable relation constraints from model-scoring output
-  3. serializing a per-scene prepared bundle for later reconstruction
+本模块分离以下职责：
+  1. 加载/规范化问题和场景元数据
+  2. 从模型评分输出中提取可审计的关系约束
+  3. 序列化逐场景准备包以供后续重建使用
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ QUESTION_TYPES = ("qrr", "trr", "fdr")
 
 @dataclass
 class PreparedSceneInput:
-    """Serializable reconstruction input with audit information."""
+    """可序列化的重建输入，包含审计信息。"""
 
     scene_id: str
     model: Optional[str] = None
@@ -92,14 +92,14 @@ def _flatten_batches(doc: dict) -> List[dict]:
 
 
 def load_questions_auto(questions_dir: str, scene_id: str) -> Tuple[List[dict], dict]:
-    """Load flattened questions for a scene from flat or split layout.
+    """从平面或分题型目录布局中加载场景的扁平化问题。
 
-    Preference order:
-      1. split layout (`questions/{qrr,trr,fdr}/{scene_id}.json`)
-      2. legacy flat layout (`questions/{scene_id}.json`)
+    优先顺序：
+      1. 分题型布局 (`questions/{qrr,trr,fdr}/{scene_id}.json`)
+      2. 旧式平面布局 (`questions/{scene_id}.json`)
 
-    When both layouts exist, split is preferred because it is the current
-    recommended storage format and avoids silently dropping question types.
+    当两种布局都存在时，优先使用分题型布局，因为它是当前
+    推荐的存储格式，且避免静默丢弃问题类型。
     """
     base = Path(questions_dir)
     flat_path = base / f"{scene_id}.json"
@@ -159,7 +159,7 @@ def load_questions_auto(questions_dir: str, scene_id: str) -> Tuple[List[dict], 
 
 
 def load_scene_gt_positions(scene_path: str) -> Optional[Dict[str, List[float]]]:
-    """Load 2D GT positions from a scene JSON file."""
+    """从场景 JSON 文件中加载 2D 真值位置。"""
     path = Path(scene_path)
     if not path.exists():
         return None
@@ -177,7 +177,7 @@ def load_scene_gt_positions(scene_path: str) -> Optional[Dict[str, List[float]]]
 
 
 def infer_object_ids_from_questions(questions: Iterable[dict]) -> List[str]:
-    """Infer the object universe touched by the question set."""
+    """推断问题集涉及的对象全集。"""
     obj_set = set()
     for q in questions:
         if q["type"] == "qrr":
@@ -266,7 +266,7 @@ def prepare_reconstruction_input_from_scoring(
     use_correct_only: bool = True,
     metadata: Optional[Dict[str, object]] = None,
 ) -> PreparedSceneInput:
-    """Prepare an auditable per-scene bundle from scoring output."""
+    """从评分输出准备可审计的逐场景包。"""
     metadata = dict(metadata or {})
     per_question = list(scoring_result.get("per_question", []))
     q_lookup = {q["qid"]: q for q in questions}
@@ -382,7 +382,7 @@ def prepare_reconstruction_input_from_scoring(
                         "ref2": question["ref2"],
                         "hour": pred_hour,
                         "weight": 1.0,
-                        "level": "hour",
+                        "level": "quadrant",
                     }
                     trr_constraints.append(constraint)
                     audit["selected"] = True

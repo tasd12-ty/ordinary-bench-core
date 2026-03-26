@@ -1,10 +1,10 @@
 """
-2D scene belief solver: gauge-fixed L-BFGS-B optimization.
+2D 场景信念求解器：规范固定的 L-BFGS-B 优化。
 
-Stage 2 of the reconstruction pipeline:
-  - 3-anchor gauge fixing (eliminate translation/rotation/scale/reflection)
-  - Log-domain QRR loss + sector-tolerance TRR loss + separation regularization
-  - Multi-start optimization with solution collection
+重建管线的第 2 阶段：
+  - 3 锚点规范固定（消除平移/旋转/缩放/镜像反射自由度）
+  - 对数域 QRR 损失 + 扇区容差 TRR 损失 + 分离正则化
+  - 多重启优化与解收集
 """
 
 import math
@@ -14,41 +14,41 @@ from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass, field
 
 from .constraints import QRREntry, TRREntry
-from .utils import pair_key, rotate_vec2
+from .utils import hour_to_angle_deg, pair_key, rotate_vec2
 
 
-# ── Hyperparameters ──
+# ── 超参数 ──
 
 @dataclass
 class SolverConfig:
-    # QRR loss
+    # QRR 损失
     qrr_margin: float = 0.1
     qrr_delta_eq: float = 0.1
     qrr_eps: float = 1e-6
     qrr_beta: float = 10.0
 
-    # TRR loss
+    # TRR 损失
     trr_tau: float = 0.1
     trr_hour_tol_deg: float = 15.0
     trr_quadrant_tol_deg: float = 45.0
     trr_beta: float = 10.0
 
-    # Separation
+    # 分离正则化
     sep_eps: float = 0.2
     sep_lambda: float = 5.0
 
-    # Solver
+    # 求解器
     n_restarts: int = 10
     maxiter: int = 500
     ftol: float = 1e-10
     gtol: float = 1e-7
 
 
-# ── Solution Container ──
+# ── 解容器 ──
 
 @dataclass
 class SolverSolution:
-    """A single optimization result."""
+    """单次优化结果。"""
     positions: Dict[str, np.ndarray]
     loss: float
     loss_qrr: float
@@ -58,19 +58,19 @@ class SolverSolution:
     n_iter: int
 
 
-# ── Gauge Fixing ──
+# ── 规范固定 ──
 
 def select_anchors(
     object_ids: List[str],
     qrr_entries: List[QRREntry],
     trr_entries: List[TRREntry],
 ) -> Tuple[str, str, str]:
-    """Select 3 anchor objects by constraint participation frequency.
+    """按约束参与频率选择 3 个锚点对象。
 
-    Returns (anchor_a, anchor_b, anchor_c) where:
+    返回 (anchor_a, anchor_b, anchor_c)，其中：
       anchor_a -> (0, 0)
       anchor_b -> (1, 0)
-      anchor_c -> y >= 0 (only enforced when no TRR constraints)
+      anchor_c -> y >= 0（仅在无 TRR 约束时强制执行）
     """
     freq: Dict[str, int] = {}
     for oid in object_ids:
@@ -83,11 +83,11 @@ def select_anchors(
         for obj in [entry.target, entry.ref1, entry.ref2]:
             freq[obj] = freq.get(obj, 0) + 1
 
-    # Sort by frequency (descending), then by id (for stability)
+    # 按频率降序排列，然后按 id 排列（保证稳定性）
     sorted_objs = sorted(object_ids, key=lambda o: (-freq.get(o, 0), o))
 
     if len(sorted_objs) < 3:
-        # Pad with remaining objects
+        # 用剩余对象填充
         while len(sorted_objs) < 3:
             sorted_objs.append(sorted_objs[-1])
 
@@ -101,14 +101,14 @@ def pack_free_variables(
     anchor_c: str,
     object_ids: List[str],
 ) -> np.ndarray:
-    """Pack positions into free variable vector (excluding gauge-fixed DOFs).
+    """将位置打包为自由变量向量（排除规范固定的自由度）。
 
-    Gauge fixing (5 DOF removed):
-      anchor_a = (0, 0)     -> 2 DOF (translation)
-      anchor_b = (1, 0)     -> 2 DOF (rotation + scale)
-      y_c >= 0              -> 1 DOF (reflection)
+    规范固定（消除 5 个自由度）：
+      anchor_a = (0, 0)     -> 2 自由度（平移）
+      anchor_b = (1, 0)     -> 2 自由度（旋转 + 缩放）
+      y_c >= 0              -> 1 自由度（镜像反射）
 
-    Free variables: [x_c, y_c, x_3, y_3, x_4, y_4, ...]
+    自由变量：[x_c, y_c, x_3, y_3, x_4, y_4, ...]
     """
     free = []
     free_objs = [oid for oid in object_ids
@@ -127,10 +127,10 @@ def unpack_free_variables(
     anchor_c: str,
     object_ids: List[str],
 ) -> Dict[str, np.ndarray]:
-    """Unpack free variables to positions dict.
+    """将自由变量解包为位置字典。
 
-    anchor_a = (0, 0), anchor_b = (1, 0) are fixed.
-    y_c >= 0 optionally enforced via L-BFGS-B bounds in solve().
+    anchor_a = (0, 0)、anchor_b = (1, 0) 是固定的。
+    y_c >= 0 可选地通过 solve() 中的 L-BFGS-B 边界约束强制执行。
     """
     positions = {}
     positions[anchor_a] = np.array([0.0, 0.0])
@@ -148,10 +148,10 @@ def unpack_free_variables(
     return positions
 
 
-# ── Loss Functions ──
+# ── 损失函数 ──
 
 def _softplus(x: float, beta: float = 1.0) -> float:
-    """Numerically stable softplus: log(1 + exp(beta*x)) / beta."""
+    """数值稳定的 softplus：log(1 + exp(beta*x)) / beta。"""
     bx = beta * x
     if bx > 20:
         return x
@@ -165,9 +165,9 @@ def compute_qrr_loss(
     qrr_entries: List[QRREntry],
     config: SolverConfig,
 ) -> float:
-    """Log-domain QRR ranking loss.
+    """对数域 QRR 排序损失。
 
-    For each constraint:
+    对于每个约束：
       delta = log(d1) - log(d2)
       <:   softplus(delta + margin)
       >:   softplus(-delta + margin)
@@ -192,7 +192,7 @@ def compute_qrr_loss(
         elif entry.comparator == ">":
             loss = _softplus(-delta + margin, beta)
         else:  # ~=
-            # Huber loss
+            # Huber 损失
             x = delta / delta_eq
             if abs(x) <= 1:
                 loss = 0.5 * x * x * delta_eq
@@ -209,13 +209,13 @@ def compute_trr_loss(
     trr_entries: List[TRREntry],
     config: SolverConfig,
 ) -> float:
-    """Sector-tolerance TRR loss.
+    """扇区容差 TRR 损失。
 
-    For each constraint (target, ref1, ref2, hour):
-      u = normalize(x_ref2 - x_ref1)  [12 o'clock direction]
-      v = normalize(x_target - x_ref1) [target direction]
+    对于每个约束 (target, ref1, ref2, hour)：
+      u = normalize(x_ref2 - x_ref1)  [12 点方向]
+      v = normalize(x_target - x_ref1) [目标方向]
       alpha = hour_to_angle_rad(hour)
-      u_alpha = rotate(u, alpha)
+      u_alpha = rotate(u, -alpha)
       cos_diff = dot(u_alpha, v)
       loss = softplus((cos(tol) - cos_diff) / tau)
     """
@@ -228,29 +228,29 @@ def compute_trr_loss(
         x_ref2 = positions[entry.ref2]
         x_target = positions[entry.target]
 
-        # Reference direction: ref1 -> ref2 (12 o'clock)
+        # 参考方向：ref1 -> ref2（12 点方向）
         ref_vec = x_ref2 - x_ref1
         ref_norm = np.linalg.norm(ref_vec)
         if ref_norm < 1e-10:
-            # Degenerate: ref1 ≈ ref2, add penalty to push apart
+            # 退化情况：ref1 ≈ ref2，添加惩罚以推开
             total += entry.weight * 2.0
             continue
         u = ref_vec / ref_norm
 
-        # Target direction: ref1 -> target
+        # 目标方向：ref1 -> target
         tgt_vec = x_target - x_ref1
         tgt_norm = np.linalg.norm(tgt_vec)
         if tgt_norm < 1e-10:
-            # Degenerate: target ≈ ref1, add penalty to push apart
+            # 退化情况：target ≈ ref1，添加惩罚以推开
             total += entry.weight * 2.0
             continue
         v = tgt_vec / tgt_norm
 
-        # Expected angle from hour
-        alpha_rad = math.radians((entry.hour % 12) * 30.0)
-        u_alpha = rotate_vec2(u, alpha_rad)
+        # 根据钟面小时计算期望方向：从 12 点方向顺时针旋转。
+        alpha_rad = math.radians(hour_to_angle_deg(entry.hour))
+        u_alpha = rotate_vec2(u, -alpha_rad)
 
-        # Tolerance half-width
+        # 容差半宽
         if entry.level == "hour":
             tol_rad = math.radians(config.trr_hour_tol_deg)
         else:
@@ -259,7 +259,7 @@ def compute_trr_loss(
         cos_diff = float(np.dot(u_alpha, v))
         cos_tol = math.cos(tol_rad)
 
-        # Loss: penalize when cos_diff < cos_tol (i.e., outside sector)
+        # 损失：当 cos_diff < cos_tol 时施加惩罚（即在扇区外）
         loss = _softplus((cos_tol - cos_diff) / tau, beta)
 
         total += entry.weight * loss
@@ -271,7 +271,7 @@ def compute_sep_loss(
     positions: Dict[str, np.ndarray],
     config: SolverConfig,
 ) -> float:
-    """Separation regularization: prevent object collapse."""
+    """分离正则化：防止对象坍缩。"""
     total = 0.0
     objs = list(positions.keys())
     eps = config.sep_eps
@@ -295,7 +295,7 @@ def compute_total_loss(
     trr_entries: List[TRREntry],
     config: SolverConfig,
 ) -> float:
-    """Total loss function for L-BFGS-B."""
+    """L-BFGS-B 的总损失函数。"""
     positions = unpack_free_variables(x, anchor_a, anchor_b, anchor_c, object_ids)
     l_qrr = compute_qrr_loss(positions, qrr_entries, config)
     l_trr = compute_trr_loss(positions, trr_entries, config)
@@ -303,7 +303,7 @@ def compute_total_loss(
     return l_qrr + l_trr + l_sep
 
 
-# ── Multi-Start Solver ──
+# ── 多重启求解器 ──
 
 def solve(
     object_ids: List[str],
@@ -312,32 +312,32 @@ def solve(
     config: Optional[SolverConfig] = None,
     gt_positions: Optional[Dict[str, np.ndarray]] = None,
 ) -> List[SolverSolution]:
-    """Run multi-start L-BFGS-B optimization.
+    """运行多重启 L-BFGS-B 优化。
 
-    Args:
-        object_ids: list of object IDs
-        qrr_entries: QRR constraints
-        trr_entries: TRR constraints
-        config: solver hyperparameters
-        gt_positions: ground truth positions (for initialization seeding)
+    参数:
+        object_ids: 对象 ID 列表
+        qrr_entries: QRR 约束
+        trr_entries: TRR 约束
+        config: 求解器超参数
+        gt_positions: 真值位置（用于初始化种子）
 
-    Returns:
-        List of SolverSolution objects (one per restart, sorted by loss)
+    返回:
+        SolverSolution 对象列表（每次重启一个，按损失排序）
     """
     if config is None:
         config = SolverConfig()
 
     n = len(object_ids)
     if n < 3:
-        # Not enough objects for meaningful reconstruction
+        # 对象数不足，无法进行有意义的重建
         return []
 
-    # Select anchors
+    # 选择锚点
     anchor_a, anchor_b, anchor_c = select_anchors(
         object_ids, qrr_entries, trr_entries
     )
 
-    n_free = 2 * (n - 2)  # 2 coords per free object (anchors a,b are fixed)
+    n_free = 2 * (n - 2)  # 每个自由对象 2 个坐标（锚点 a、b 已固定）
 
     solutions = []
     free_objs = [oid for oid in object_ids
@@ -345,17 +345,16 @@ def solve(
     c_idx = free_objs.index(anchor_c) if anchor_c in free_objs else -1
 
     for restart in range(config.n_restarts):
-        # Random initialization: spread out around gauge-fixed anchors
+        # 随机初始化：在规范固定锚点周围分散
         rng = np.random.RandomState(restart * 42 + 7)
         x0 = rng.randn(n_free) * 1.5
 
-        # Note: y_c >= 0 constraint is intentionally omitted when TRR
-        # constraints are present, as TRR angular constraints naturally
-        # break the reflection ambiguity. Forcing y_c >= 0 can conflict
-        # with TRR constraints by reversing all angles.
+        # 注意：当存在 TRR 约束时，有意省略 y_c >= 0 约束，
+        # 因为 TRR 角度约束自然打破了镜像反射歧义。
+        # 强制 y_c >= 0 可能通过反转所有角度而与 TRR 约束冲突。
         bounds = [(None, None)] * n_free
         if c_idx >= 0 and not trr_entries:
-            # Only enforce y_c >= 0 when no TRR constraints
+            # 仅在无 TRR 约束时强制 y_c >= 0
             y_c_pos = c_idx * 2 + 1
             bounds[y_c_pos] = (0, None)
             x0[y_c_pos] = abs(x0[y_c_pos])
@@ -396,6 +395,6 @@ def solve(
             warnings.warn(f"Restart {restart} failed: {e}")
             continue
 
-    # Sort by total loss
+    # 按总损失排序
     solutions.sort(key=lambda s: s.loss)
     return solutions

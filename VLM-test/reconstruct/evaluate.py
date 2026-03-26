@@ -1,7 +1,7 @@
 """
-Evaluation metrics for scene belief reconstruction.
+场景信念重建的评估指标。
 
-CSR, K_geom, spread, Kendall tau, NRMS + multi-solution clustering.
+CSR、K_geom、spread、Kendall tau、NRMS + 多解聚类。
 """
 
 import math
@@ -13,30 +13,38 @@ from scipy.stats import kendalltau
 
 from .constraints import QRREntry, TRREntry
 from .solver import SolverSolution, SolverConfig
-from .utils import procrustes_align, compute_nrms, compute_rms, pair_key
+from .utils import (
+    angular_distance,
+    compute_nrms,
+    compute_rms,
+    hour_to_angle_deg,
+    pair_key,
+    procrustes_align,
+    relative_clock_angle_deg,
+)
 
 
-# ── Reflection Helper ──
+# ── 镜像反射辅助函数 ──
 
 def reflect_positions_y(positions: Dict[str, np.ndarray]) -> Dict[str, np.ndarray]:
-    """Reflect all positions through the x-axis: (x, y) -> (x, -y).
+    """将所有位置沿 x 轴镜像反射：(x, y) -> (x, -y)。
 
-    In the gauge-fixed frame (anchor_a=(0,0), anchor_b=(1,0)),
-    this is the only non-trivial reflection that preserves the gauge.
+    在规范固定坐标系 (anchor_a=(0,0), anchor_b=(1,0)) 中，
+    这是唯一保持规范不变的非平凡镜像反射。
     """
     return {oid: np.array([pos[0], -pos[1]]) for oid, pos in positions.items()}
 
 
-# ── Constraint Satisfaction Rate ──
+# ── 约束满足率 ──
 
 def compute_csr_qrr(
     positions: Dict[str, np.ndarray],
     qrr_entries: List[QRREntry],
     tau: float = 0.10,
 ) -> float:
-    """Fraction of QRR constraints satisfied by the reconstructed positions.
+    """重建位置满足的 QRR 约束比例。
 
-    Uses the same ratio-based tolerance as the original comparator.
+    使用与原始比较器相同的比率容差。
     """
     if not qrr_entries:
         return 1.0
@@ -49,7 +57,7 @@ def compute_csr_qrr(
         d1 = float(np.linalg.norm(positions[p1[0]] - positions[p1[1]]))
         d2 = float(np.linalg.norm(positions[p2[0]] - positions[p2[1]]))
 
-        # Determine what the reconstructed comparator would be
+        # 确定重建后的比较器
         max_val = max(d1, d2)
         if max_val < 1e-12:
             recon_cmp = "~="
@@ -63,7 +71,7 @@ def compute_csr_qrr(
             else:
                 recon_cmp = ">"
 
-        # Strict matching: comparator must match exactly
+        # 严格匹配：比较器必须完全一致
         if recon_cmp == entry.comparator:
             satisfied += 1
 
@@ -74,7 +82,7 @@ def compute_csr_trr(
     positions: Dict[str, np.ndarray],
     trr_entries: List[TRREntry],
 ) -> float:
-    """Fraction of TRR constraints satisfied (reconstructed angle within tolerance)."""
+    """满足的 TRR 约束比例（重建角度在容差范围内）。"""
     if not trr_entries:
         return 1.0
 
@@ -94,17 +102,10 @@ def compute_csr_trr(
 
         evaluated += 1
 
-        # Compute reconstructed angle
-        ref_angle = math.atan2(ref_vec[1], ref_vec[0])
-        tgt_angle = math.atan2(tgt_vec[1], tgt_vec[0])
-        rel_angle = math.degrees(tgt_angle - ref_angle) % 360
-
-        # Expected angle from hour
-        expected_angle = (entry.hour % 12) * 30.0
-
-        # Angular distance
-        diff = abs(rel_angle - expected_angle)
-        diff = min(diff, 360 - diff)
+        # 计算重建后的顺时针钟面角度
+        rel_angle = relative_clock_angle_deg(ref_vec, tgt_vec)
+        expected_angle = hour_to_angle_deg(entry.hour)
+        diff = angular_distance(rel_angle, expected_angle)
 
         if entry.level == "hour":
             if diff <= 15.0:
@@ -116,11 +117,11 @@ def compute_csr_trr(
     return satisfied / evaluated if evaluated > 0 else 1.0
 
 
-# ── Multi-Solution Clustering ──
+# ── 多解聚类 ──
 
 @dataclass
 class ClusterResult:
-    """Result of clustering multiple solutions."""
+    """多解聚类结果。"""
     K_geom: int = 1
     spread: float = 0.0
     cluster_sizes: List[int] = field(default_factory=list)
@@ -133,18 +134,18 @@ def cluster_solutions(
     rms_threshold: float = 0.10,
     loss_ratio_cutoff: float = 3.0,
 ) -> ClusterResult:
-    """Cluster solutions by RMS distance (in unified gauge space).
+    """按 RMS 距离对解进行聚类（在统一规范空间中）。
 
-    Since all solutions share the same gauge (3-anchor), no Procrustes needed.
-    Simple greedy clustering: assign each solution to nearest cluster or create new.
+    由于所有解共享相同的规范（3 锚点），无需 Procrustes 对齐。
+    简单贪心聚类：将每个解分配到最近的聚类，或创建新聚类。
 
-    Only considers solutions with loss <= loss_ratio_cutoff * best_loss to
-    filter out failed local minima that aren't true geometric modes.
+    仅考虑 loss <= loss_ratio_cutoff * best_loss 的解，
+    以过滤掉非真实几何模态的失败局部最小值。
     """
     if not solutions:
         return ClusterResult()
 
-    # Filter by loss quality (solutions are sorted by loss)
+    # 按损失质量过滤（解已按损失排序）
     best_loss = solutions[0].loss
     cutoff = max(best_loss * loss_ratio_cutoff, best_loss + 0.5)
     good_solutions = [s for s in solutions if s.loss <= cutoff]
@@ -160,7 +161,7 @@ def cluster_solutions(
             all_assignments=[0],
         )
 
-    # Extract position matrices (from good solutions only)
+    # 提取位置矩阵（仅从优质解中）
     obj_ids = sorted(good_solutions[0].positions.keys())
 
     def to_matrix(pos: Dict[str, np.ndarray]) -> np.ndarray:
@@ -168,7 +169,7 @@ def cluster_solutions(
 
     matrices = [to_matrix(s.positions) for s in good_solutions]
 
-    # Greedy clustering
+    # 贪心聚类
     clusters: List[List[int]] = []
     cluster_reps: List[np.ndarray] = []
 
@@ -184,18 +185,18 @@ def cluster_solutions(
             clusters.append([i])
             cluster_reps.append(mat)
 
-    # Compute spread: average RMS of good solutions from best solution
+    # 计算 spread：优质解与最优解之间的平均 RMS
     best_mat = matrices[0]
     rms_values = [compute_rms(m, best_mat) for m in matrices]
     spread = float(np.mean(rms_values))
 
-    # Build assignments
+    # 构建分配结果
     assignments = [0] * len(good_solutions)
     for c_idx, members in enumerate(clusters):
         for m in members:
             assignments[m] = c_idx
 
-    # Representatives: best (lowest loss) solution in each cluster
+    # 代表解：每个聚类中损失最低的解
     representatives = []
     for members in clusters:
         best_in_cluster = min(members, key=lambda i: good_solutions[i].loss)
@@ -210,15 +211,15 @@ def cluster_solutions(
     )
 
 
-# ── Kendall Tau ──
+# ── Kendall Tau 秩相关 ──
 
 def compute_kendall_tau(
     positions: Dict[str, np.ndarray],
     gt_positions: Dict[str, np.ndarray],
 ) -> float:
-    """Kendall rank correlation between reconstructed and GT pairwise distances.
+    """重建与真值的成对距离之间的 Kendall 秩相关系数。
 
-    Higher tau means the ordinal structure (distance ranking) is better preserved.
+    tau 越高表示序数结构（距离排序）保持得越好。
     """
     obj_ids = sorted(set(positions.keys()) & set(gt_positions.keys()))
     if len(obj_ids) < 2:
@@ -241,11 +242,11 @@ def compute_kendall_tau(
     return float(tau_val)
 
 
-# ── Full Evaluation ──
+# ── 完整评估 ──
 
 @dataclass
 class EvalMetrics:
-    """Complete evaluation metrics for a reconstruction."""
+    """重建的完整评估指标。"""
     csr_qrr: float = 0.0
     csr_trr: float = 0.0
     K_geom: int = 1
@@ -255,7 +256,7 @@ class EvalMetrics:
     best_loss: float = float("inf")
     n_solutions: int = 0
     cluster_sizes: List[int] = field(default_factory=list)
-    reflected: bool = False  # True if y-reflected chirality gave better CSR_TRR
+    reflected: bool = False  # 若 y 镜像反射的手性给出了更好的 CSR_TRR 则为 True
 
 
 def evaluate_reconstruction(
@@ -266,31 +267,30 @@ def evaluate_reconstruction(
     rms_threshold: float = 0.10,
     tau: float = 0.10,
 ) -> EvalMetrics:
-    """Compute all evaluation metrics for a set of reconstruction solutions.
+    """为一组重建解计算所有评估指标。
 
-    Reconstruction is determined only up to similarity transformations
-    (translation, rotation, scale, AND reflection).  For CSR_TRR and NRMS
-    we evaluate both chiralities and keep the better result.
-    CSR_QRR and Kendall tau are reflection-invariant by construction.
+    重建结果仅在相似变换（平移、旋转、缩放和镜像反射）意义下确定。
+    对于 CSR_TRR 和 NRMS，我们评估两种手性并保留较优结果。
+    CSR_QRR 和 Kendall tau 在构造上具有镜像反射不变性。
     """
     if not solutions:
         return EvalMetrics()
 
-    best = solutions[0]  # sorted by loss
+    best = solutions[0]  # 已按损失排序
 
-    # CSR_QRR: invariant under reflection (distances preserved)
+    # CSR_QRR：在镜像反射下不变（距离保持）
     csr_qrr = compute_csr_qrr(best.positions, qrr_entries, tau=tau)
 
-    # CSR_TRR: try both chiralities, take the better one
+    # CSR_TRR：尝试两种手性，取较优者
     csr_trr_orig = compute_csr_trr(best.positions, trr_entries)
     reflected = reflect_positions_y(best.positions)
     csr_trr_refl = compute_csr_trr(reflected, trr_entries)
     csr_trr = max(csr_trr_orig, csr_trr_refl)
-    # Track which chirality is better for downstream use
+    # 记录哪种手性更优，供下游使用
     used_reflection = csr_trr_refl > csr_trr_orig
     best_positions = reflected if used_reflection else best.positions
 
-    # Clustering
+    # 聚类
     cluster = cluster_solutions(solutions, rms_threshold=rms_threshold)
 
     metrics = EvalMetrics(
@@ -304,8 +304,8 @@ def evaluate_reconstruction(
         reflected=used_reflection,
     )
 
-    # GT-dependent metrics (Kendall tau is reflection-invariant,
-    # NRMS uses Procrustes with allow_reflection=True)
+    # 依赖真值的指标（Kendall tau 具有镜像反射不变性，
+    # NRMS 使用 allow_reflection=True 的 Procrustes 对齐）
     if gt_positions is not None:
         obj_ids = sorted(set(best_positions.keys()) & set(gt_positions.keys()))
         if len(obj_ids) >= 3:

@@ -1,7 +1,7 @@
 """
-Scene Belief Reconstruction module.
+场景信念重建模块。
 
-Reconstructs 2D spatial configurations from VLM ordinal spatial judgments.
+根据 VLM 序数空间判断重建 2D 空间配置。
 """
 
 from .pipeline import (
