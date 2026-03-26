@@ -1,10 +1,9 @@
 """
-Dynamic scene renderer for Blender (--background mode).
+Blender 动态场景渲染器（--background 模式）。
 
-Reads a motion plan JSON, creates objects once, then updates positions per-frame
-and renders each frame.
+读取运动规划 JSON，一次性创建所有物体，然后逐帧更新位置并渲染。
 
-Usage:
+用法：
     blender --background --python render_dynamic.py -- \
         --plan_json /path/to/plan.json \
         --base_scene_blendfile /path/to/base_scene_v5.blend \
@@ -15,8 +14,8 @@ Usage:
         --width 480 --height 320 --samples 128 \
         --camera_distance 12.0 --elevation 30.0 --azimuth 45.0
 
-DESIGN: Position formulas are inlined (no import of motion/ package) to avoid
-Blender's built-in Python dependency issues.
+设计说明：位置公式内联实现（不导入 motion/ 包），以避免
+Blender 内置 Python 的依赖问题。
 """
 
 from __future__ import print_function
@@ -45,11 +44,11 @@ if INSIDE_BLENDER:
 
 
 # ---------------------------------------------------------------------------
-# Inlined position formulas (mirrors motion/models.py, no numpy needed)
+# 内联位置公式（镜像 motion/models.py，无需 numpy）
 # ---------------------------------------------------------------------------
 
 def get_position(obj_plan, t):
-    """Get (x, y) for frame t. Uses precomputed positions if available, else computes inline."""
+    """获取第 t 帧的 (x, y)。优先使用预计算位置，否则内联计算。"""
     if "positions" in obj_plan and t < len(obj_plan["positions"]):
         p = obj_plan["positions"][t]
         return (p[0], p[1])
@@ -57,7 +56,7 @@ def get_position(obj_plan, t):
 
 
 def get_velocity(obj_plan, t):
-    """Get (vx, vy) for frame t. Uses precomputed velocities if available, else computes inline."""
+    """获取第 t 帧的 (vx, vy)。优先使用预计算速度，否则内联计算。"""
     if "velocities" in obj_plan and t < len(obj_plan["velocities"]):
         v = obj_plan["velocities"][t]
         return (v[0], v[1])
@@ -65,7 +64,7 @@ def get_velocity(obj_plan, t):
 
 
 def _compute_position(motion_dict, t):
-    """Fallback: compute (x, y) for frame t from a serialized motion dict."""
+    """回退方案：从序列化运动字典计算第 t 帧的 (x, y)。"""
     mtype = motion_dict["type"]
     if mtype == "static":
         return (motion_dict["x0"], motion_dict["y0"])
@@ -89,7 +88,7 @@ def _compute_position(motion_dict, t):
 
 
 def _compute_velocity(motion_dict, t):
-    """Fallback: compute (vx, vy) for frame t."""
+    """回退方案：计算第 t 帧的 (vx, vy)。"""
     mtype = motion_dict["type"]
     if mtype == "static":
         return (0.0, 0.0)
@@ -109,11 +108,11 @@ def _compute_velocity(motion_dict, t):
 
 
 # ---------------------------------------------------------------------------
-# Camera setup (mirrors render_multiview.py CameraConfig)
+# 相机设置（镜像 render_multiview.py 中的 CameraConfig）
 # ---------------------------------------------------------------------------
 
 def setup_camera(distance, elevation_deg, azimuth_deg, look_at=(0, 0, 0)):
-    """Position the camera at spherical coordinates, looking at target."""
+    """将相机放置于球坐标位置，朝向目标点。"""
     az = math.radians(azimuth_deg)
     el = math.radians(elevation_deg)
     x = distance * math.cos(el) * math.cos(az) + look_at[0]
@@ -129,11 +128,11 @@ def setup_camera(distance, elevation_deg, azimuth_deg, look_at=(0, 0, 0)):
 
 
 # ---------------------------------------------------------------------------
-# Main render logic
+# 主渲染逻辑
 # ---------------------------------------------------------------------------
 
 def main(args):
-    # Load plan
+    # 加载规划
     with open(args.plan_json) as f:
         plan = json.load(f)
 
@@ -141,13 +140,13 @@ def main(args):
     n_frames = plan["n_frames"]
     fps = plan.get("fps", 24)
 
-    # Load base scene
+    # 加载基础场景
     bpy.ops.wm.open_mainfile(filepath=args.base_scene_blendfile)
 
-    # Load materials
+    # 加载材质
     utils.load_materials(args.material_dir)
 
-    # Render settings
+    # 渲染设置
     render = bpy.context.scene.render
     render.engine = "CYCLES"
     render.resolution_x = args.width
@@ -169,23 +168,23 @@ def main(args):
                 continue
         bpy.context.scene.cycles.device = "GPU"
 
-    # Load color RGBA mapping
+    # 加载颜色 RGBA 映射
     with open(args.properties_json) as f:
         properties = json.load(f)
     color_name_to_rgba = {}
     for name, rgb in properties["colors"].items():
         color_name_to_rgba[name] = [c / 255.0 for c in rgb] + [1.0]
-    # shape name -> blend file name
+    # 形状名称 -> blend 文件名
     shape_mapping = properties["shapes"]
     material_mapping = properties["materials"]
 
-    # Setup camera (check plan for camera motion)
+    # 设置相机（检查规划是否含相机运动）
     camera_plan = plan.get("camera", None)
     camera = setup_camera(
         args.camera_distance, args.elevation, args.azimuth,
     )
 
-    # Create all objects at their frame-0 positions
+    # 在第 0 帧位置创建所有物体
     blender_objects = []
     for obj_plan in objects_plan:
         x0, y0 = get_position(obj_plan, 0)
@@ -198,26 +197,26 @@ def main(args):
         obj = bpy.context.object
         blender_objects.append(obj)
 
-        # Apply material
+        # 应用材质
         mat_blend_name = material_mapping.get(obj_plan["material"], obj_plan["material"])
         rgba = color_name_to_rgba.get(obj_plan["color"], [0.5, 0.5, 0.5, 1.0])
         utils.add_material(mat_blend_name, Color=rgba)
 
-    # Prepare output dirs
+    # 准备输出目录
     frames_dir = os.path.join(args.output_dir, "frames")
     os.makedirs(frames_dir, exist_ok=True)
 
-    # Per-frame rendering loop
+    # 逐帧渲染循环
     scene_frames = []
     for t in range(n_frames):
         try:
-            # Pass 1: update all object positions
+            # 第一遍：更新所有物体位置
             for idx, obj_plan in enumerate(objects_plan):
                 x, y = get_position(obj_plan, t)
                 blender_objects[idx].location.x = x
                 blender_objects[idx].location.y = y
 
-            # Update camera if plan has per-frame camera params
+            # 若规划含逐帧相机参数则更新相机
             if camera_plan and "frames" in camera_plan:
                 cf = camera_plan["frames"]
                 if t < len(cf):
@@ -229,10 +228,10 @@ def main(args):
                         look_at=tuple(cp.get("look_at", (0, 0, 0))),
                     )
 
-            # Single scene update after all positions set
+            # 所有位置设置完毕后统一更新场景
             bpy.context.view_layer.update()
 
-            # Pass 2: collect frame data
+            # 第二遍：收集帧数据
             frame_objects = []
             for idx, obj_plan in enumerate(objects_plan):
                 x, y = get_position(obj_plan, t)
@@ -251,7 +250,7 @@ def main(args):
                     "velocity": [vx, vy, 0.0],
                 })
 
-            # Render frame
+            # 渲染帧
             frame_path = os.path.join(frames_dir, f"frame_{t:04d}.png")
             bpy.context.scene.render.filepath = frame_path
             bpy.ops.render.render(write_still=True)
@@ -274,7 +273,7 @@ def main(args):
             })
             continue
 
-    # Build temporal scene JSON
+    # 构建时序场景 JSON
     scene_id = plan.get("scene_id", "unknown")
     temporal_scene = {
         "scene_id": scene_id,
@@ -307,12 +306,12 @@ def main(args):
 
 
 # ---------------------------------------------------------------------------
-# Argument parser
+# 参数解析器
 # ---------------------------------------------------------------------------
 
 parser = argparse.ArgumentParser(description="Dynamic scene renderer for Blender")
 
-parser.add_argument("--plan_json", required=True, help="Motion plan JSON path")
+parser.add_argument("--plan_json", required=True, help="运动规划 JSON 路径")
 parser.add_argument("--base_scene_blendfile", default="assets/base_scene_v5.blend")
 parser.add_argument("--properties_json", default="assets/properties.json")
 parser.add_argument("--shape_dir", default="assets/shapes_v5")

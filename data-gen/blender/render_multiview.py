@@ -4,18 +4,17 @@
 # This source code is licensed under the BSD-style license found in the
 # LICENSE file in the root directory of this source tree.
 #
-# Extended for multi-view rendering support
+# 扩展以支持多视角渲染
 
 """
-Multi-view rendering script for ORDINAL-SPATIAL benchmark.
+ORDINAL-SPATIAL 基准的多视角渲染脚本。
 
-Renders the same scene from multiple camera viewpoints for multi-view
-spatial reasoning evaluation.
+从多个相机视角渲染同一场景，用于多视角空间推理评测。
 
-Usage:
+用法：
     blender --background --python render_multiview.py -- [arguments]
 
-Example:
+示例：
     blender --background --python render_multiview.py -- \
         --num_images 10 \
         --n_views 4 \
@@ -49,7 +48,7 @@ if INSIDE_BLENDER:
     try:
         import utils
     except ImportError:
-        # Try to add the script directory to sys.path and retry.
+        # 尝试将脚本目录加入 sys.path 后重试。
         script_dir = os.path.dirname(os.path.abspath(__file__))
         if script_dir not in sys.path:
             sys.path.insert(0, script_dir)
@@ -64,19 +63,19 @@ if INSIDE_BLENDER:
 
 @dataclass
 class CameraConfig:
-    """Configuration for a single camera viewpoint."""
+    """单个相机视角的配置。"""
     camera_id: str
-    azimuth: float      # Azimuth angle in degrees (0 = +X direction)
-    elevation: float    # Elevation angle in degrees (0 = horizontal)
-    distance: float     # Distance from scene center
+    azimuth: float      # 方位角（度），0 = +X 方向
+    elevation: float    # 仰角（度），0 = 水平
+    distance: float     # 距场景中心的距离
     look_at: Tuple[float, float, float] = (0.0, 0.0, 0.0)
 
     def to_cartesian(self) -> Tuple[float, float, float]:
         """
-        Convert spherical coordinates to Cartesian.
+        将球坐标转换为笛卡尔坐标。
 
         Returns:
-            (x, y, z) camera position
+            (x, y, z) 相机位置
         """
         azimuth_rad = math.radians(self.azimuth)
         elevation_rad = math.radians(self.elevation)
@@ -92,7 +91,7 @@ class CameraConfig:
         )
 
     def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary for JSON serialization."""
+        """转换为 JSON 可序列化的字典。"""
         pos = self.to_cartesian()
         return {
             "camera_id": self.camera_id,
@@ -106,26 +105,26 @@ class CameraConfig:
 
 @dataclass
 class MultiViewConfig:
-    """Configuration for multi-view rendering."""
+    """多视角渲染配置。"""
     n_views: int = 4
     camera_distance: float = 12.0
     elevation: float = 30.0
-    azimuth_start: float = 45.0  # Start at 45 degrees for better coverage
+    azimuth_start: float = 45.0  # 起始方位角 45°，覆盖效果更好
     look_at: Tuple[float, float, float] = (0.0, 0.0, 0.0)
 
     def generate_cameras(self) -> List[CameraConfig]:
         """
-        Generate camera configurations for all viewpoints.
+        为所有视角生成相机配置。
 
         Returns:
-            List of CameraConfig objects
+            CameraConfig 对象列表
         """
         cameras = []
         azimuth_step = 360.0 / self.n_views
 
         for i in range(self.n_views):
             azimuth = self.azimuth_start + i * azimuth_step
-            # Normalize to [0, 360)
+            # 归一化到 [0, 360)
             azimuth = azimuth % 360.0
 
             cameras.append(CameraConfig(
@@ -143,7 +142,7 @@ def compute_top_view_ortho_scale(
     objects_3d: List[Dict],
     padding: float = 2.5,
 ) -> float:
-    """Compute an orthographic scale that comfortably fits the scene."""
+    """计算能舒适容纳场景的正交投影缩放比例。"""
     if not objects_3d:
         return 10.0
 
@@ -162,10 +161,10 @@ def compute_top_view_frame(
     aspect_ratio: float = 1.0,
 ) -> Tuple[Tuple[float, float, float], float]:
     """
-    Compute a centered orthographic frame that fits the full scene.
+    计算能容纳完整场景的居中正交帧参数。
 
-    The top view should be centered on the scene bounds, not the world origin,
-    and the fitted width must account for the render aspect ratio.
+    俯视图应以场景包围盒为中心而非世界原点，
+    拟合宽度须考虑渲染宽高比。
     """
     if blender_objects:
         min_x = float("inf")
@@ -222,7 +221,7 @@ def compute_top_view_height(
     blender_objects: Optional[List[Any]] = None,
     min_clearance: float = 1.0,
 ) -> float:
-    """Place the orthographic camera just above the tallest object."""
+    """将正交相机放置在最高物体正上方。"""
     if blender_objects:
         max_z = float("-inf")
         for obj in blender_objects:
@@ -235,7 +234,7 @@ def compute_top_view_height(
 
 
 def get_object_by_name(name: str, alternative_names: Optional[List[str]] = None):
-    """Get Blender object by name with fallbacks."""
+    """按名称获取 Blender 对象，支持备用名称回退。"""
     if name in bpy.data.objects:
         return bpy.data.objects[name]
     if alternative_names:
@@ -247,19 +246,19 @@ def get_object_by_name(name: str, alternative_names: Optional[List[str]] = None)
 
 def set_camera_position(camera_config: CameraConfig) -> None:
     """
-    Set Blender camera position and orientation.
+    设置 Blender 相机的位置和朝向。
 
     Args:
-        camera_config: Camera configuration with position parameters
+        camera_config: 包含位置参数的相机配置
     """
     camera = bpy.data.objects['Camera']
     position = camera_config.to_cartesian()
     look_at = camera_config.look_at
 
-    # Set position
+    # 设置位置
     camera.location = position
 
-    # Calculate direction and set rotation
+    # 计算方向并设置旋转
     direction = Vector(look_at) - Vector(position)
     rot_quat = direction.to_track_quat('-Z', 'Y')
     camera.rotation_euler = rot_quat.to_euler()
@@ -267,11 +266,11 @@ def set_camera_position(camera_config: CameraConfig) -> None:
 
 def refresh_camera_state() -> None:
     """
-    Flush Blender's camera transform updates before reading projected coordinates.
+    在读取投影坐标前刷新 Blender 相机变换更新。
 
-    Without this, the render can use the new viewpoint while world_to_camera_view
-    still sees the previous camera matrix for one step, which corrupts per-view
-    pixel_coords in saved metadata.
+    若不刷新，渲染时已使用新视角，但 world_to_camera_view
+    仍会在一步内看到旧相机矩阵，导致保存元数据中的逐视角
+    pixel_coords 出错。
     """
     view_layer = getattr(bpy.context, "view_layer", None)
     if view_layer is not None:
@@ -280,14 +279,14 @@ def refresh_camera_state() -> None:
 
 def compute_pixel_coords_for_view(camera, objects_3d: List[Dict]) -> List[Dict]:
     """
-    Compute pixel coordinates for all objects from current camera view.
+    从当前相机视角计算所有物体的像素坐标。
 
     Args:
-        camera: Blender camera object
-        objects_3d: List of object dictionaries with 3d_coords
+        camera: Blender 相机对象
+        objects_3d: 包含 3d_coords 的物体字典列表
 
     Returns:
-        List of objects with updated pixel_coords
+        已更新 pixel_coords 的物体列表
     """
     updated_objects = []
     for obj in objects_3d:
@@ -301,15 +300,15 @@ def compute_pixel_coords_for_view(camera, objects_3d: List[Dict]) -> List[Dict]:
 
 def compute_directions_for_view(camera) -> Dict[str, Tuple[float, float, float]]:
     """
-    Compute cardinal directions relative to current camera view.
+    计算相对于当前相机视角的基本方向向量。
 
     Args:
-        camera: Blender camera object
+        camera: Blender 相机对象
 
     Returns:
-        Dictionary mapping direction names to vectors
+        方向名称到向量的映射字典
     """
-    # Create temporary plane to get ground normal
+    # 创建临时平面以获取地面法线
     if IS_BLENDER_280_OR_LATER:
         bpy.ops.mesh.primitive_plane_add(size=10)
     else:
@@ -330,7 +329,7 @@ def compute_directions_for_view(camera) -> Dict[str, Tuple[float, float, float]]
     plane_left = (cam_left - cam_left.project(plane_normal)).normalized()
     plane_up = cam_up.project(plane_normal).normalized()
 
-    # Delete temporary plane
+    # 删除临时平面
     utils.delete_object(plane)
 
     return {
@@ -350,32 +349,32 @@ def render_single_view(
     args
 ) -> Dict[str, Any]:
     """
-    Render scene from a single camera viewpoint.
+    从单个相机视角渲染场景。
 
     Args:
-        camera_config: Camera configuration
-        output_image: Output image path
-        objects_3d: List of objects with 3D coordinates
-        args: Command line arguments
+        camera_config: 相机配置
+        output_image: 输出图像路径
+        objects_3d: 包含 3D 坐标的物体列表
+        args: 命令行参数
 
     Returns:
-        View metadata dictionary
+        视角元数据字典
     """
-    # Set camera position
+    # 设置相机位置
     set_camera_position(camera_config)
     refresh_camera_state()
 
     camera = bpy.data.objects['Camera']
 
-    # Compute view-specific data
+    # 计算视角相关数据
     objects_with_pixels = compute_pixel_coords_for_view(camera, objects_3d)
     directions = compute_directions_for_view(camera)
 
-    # Set output path and render
+    # 设置输出路径并渲染
     bpy.context.scene.render.filepath = output_image
     bpy.ops.render.render(write_still=True)
 
-    # Build view metadata
+    # 构建视角元数据
     view_data = {
         "view_id": camera_config.camera_id,
         "image_path": os.path.basename(output_image),
@@ -393,7 +392,7 @@ def render_top_view(
     blender_objects: Optional[List[Any]],
     args,
 ) -> Dict[str, Any]:
-    """Render an additional orthographic top-down view."""
+    """渲染额外的正交俯视图。"""
     camera = bpy.data.objects['Camera']
     original_type = camera.data.type
     original_ortho_scale = getattr(camera.data, "ortho_scale", None)
@@ -461,36 +460,36 @@ def render_multiview_scene(
     mv_config: MultiViewConfig
 ) -> Dict[str, Any]:
     """
-    Render a complete multi-view scene.
+    渲染完整的多视角场景。
 
     Args:
-        args: Command line arguments
-        num_objects: Number of objects to place
-        output_index: Scene index
-        output_split: Dataset split name
-        output_dir: Output directory for this scene
-        mv_config: Multi-view configuration
+        args: 命令行参数
+        num_objects: 放置的物体数量
+        output_index: 场景索引
+        output_split: 数据集 split 名称
+        output_dir: 本场景的输出目录
+        mv_config: 多视角配置
 
     Returns:
-        Complete scene metadata
+        完整的场景元数据
     """
-    # Create output directory
+    # 创建输出目录
     os.makedirs(output_dir, exist_ok=True)
 
-    # Load base scene
+    # 加载基础场景
     bpy.ops.wm.open_mainfile(filepath=args.base_scene_blendfile)
 
-    # Load materials
+    # 加载材质
     utils.load_materials(args.material_dir)
 
-    # Set render settings
+    # 设置渲染参数
     render_args = bpy.context.scene.render
     render_args.engine = "CYCLES"
     render_args.resolution_x = args.width
     render_args.resolution_y = args.height
     render_args.resolution_percentage = 100
 
-    # GPU settings
+    # GPU 设置
     if args.use_gpu == 1:
         if IS_BLENDER_280_OR_LATER:
             cycles_prefs = bpy.context.preferences.addons['cycles'].preferences
@@ -510,7 +509,7 @@ def render_multiview_scene(
     if IS_BLENDER_280_OR_LATER:
         bpy.context.scene.cycles.transparent_max_bounces = args.render_max_bounces
 
-    # Initialize scene structure
+    # 初始化场景结构
     scene_id = f"{output_split}_{output_index:06d}"
     scene_struct = {
         "scene_id": scene_id,
@@ -522,7 +521,7 @@ def render_multiview_scene(
         "views": []
     }
 
-    # Add random jitter to lights
+    # 为灯光添加随机抖动
     def rand(L):
         return 2.0 * L * (random.random() - 0.5)
 
@@ -540,11 +539,11 @@ def render_multiview_scene(
         for i in range(3):
             lamp_fill.location[i] += rand(args.fill_light_jitter)
 
-    # Place objects (using first camera position for initial setup)
+    # 放置物体（使用第一个相机位置进行初始设置）
     cameras = mv_config.generate_cameras()
     set_camera_position(cameras[0])
 
-    # Create temporary plane for direction computation
+    # 创建临时平面用于方向计算
     if IS_BLENDER_280_OR_LATER:
         bpy.ops.mesh.primitive_plane_add(size=10)
     else:
@@ -564,7 +563,7 @@ def render_multiview_scene(
     plane_behind = (cam_behind - cam_behind.project(plane_normal)).normalized()
     plane_left = (cam_left - cam_left.project(plane_normal)).normalized()
 
-    # Store directions for object placement
+    # 存储物体放置所用的方向
     temp_directions = {
         'behind': tuple(plane_behind),
         'front': tuple(-plane_behind),
@@ -574,14 +573,14 @@ def render_multiview_scene(
 
     utils.delete_object(plane)
 
-    # Add objects
+    # 添加物体
     objects_3d, blender_objects = add_random_objects(
         temp_directions, num_objects, args, camera
     )
 
     scene_struct["objects"] = objects_3d
 
-    # Render from each viewpoint
+    # 从每个视角渲染
     for cam_config in cameras:
         img_path = os.path.join(output_dir, f"{cam_config.camera_id}.png")
 
@@ -604,18 +603,18 @@ def render_multiview_scene(
             args,
         )
 
-    # Save scene metadata
+    # 保存场景元数据
     metadata_path = os.path.join(output_dir, "metadata.json")
     with open(metadata_path, 'w') as f:
         json.dump(scene_struct, f, indent=2)
 
-    # Also render single-view image (view_0) to single_view directory
+    # 同时将单视角图像（view_0）渲染到 single_view 目录
     if args.output_single_view_dir:
         single_view_dir = args.output_single_view_dir
         os.makedirs(single_view_dir, exist_ok=True)
         single_img_path = os.path.join(single_view_dir, f"{scene_id}.png")
 
-        # Copy view_0 image or re-render
+        # 复制 view_0 图像或重新渲染
         import shutil
         view0_path = os.path.join(output_dir, "view_0.png")
         if os.path.exists(view0_path):
@@ -626,35 +625,35 @@ def render_multiview_scene(
 
 def add_random_objects(directions, num_objects, args, camera, _retry_count=0):
     """
-    Add random objects to the scene.
-    Adapted from render_images.py with retry limit.
+    向场景中添加随机物体。
+    改编自 render_images.py，带有重试次数限制。
 
-    Placement area scales with number of objects to accommodate dense scenes.
+    放置区域随物体数量缩放，以适应密集场景。
     """
-    MAX_RETRIES = 100  # Increased for dense scenes
+    MAX_RETRIES = 100  # 为密集场景增加重试次数
     if _retry_count >= MAX_RETRIES:
         raise RuntimeError(f"Failed to place objects after {MAX_RETRIES} attempts")
 
-    # Scale placement area based on number of objects
-    # Base area: 3.0 for up to 6 objects
-    # For more objects, scale up to accommodate density
+    # 根据物体数量缩放放置区域
+    # 基础区域：6 个物体以内为 3.0
+    # 更多物体时扩大以适应密度
     if num_objects <= 6:
         placement_range = 3.0
     elif num_objects <= 10:
         placement_range = 3.5
     else:
-        # For 11-15 objects, use larger area
+        # 11-15 个物体时使用更大区域
         placement_range = 4.0
 
-    # Adjust spacing for dense scenes
+    # 为密集场景调整间距
     effective_min_dist = args.min_dist
     effective_margin = args.margin
     if num_objects > 10:
-        # Reduce spacing requirements for very dense scenes
+        # 极密集场景降低间距要求
         effective_min_dist = max(0.15, args.min_dist * 0.7)
         effective_margin = max(0.25, args.margin * 0.7)
 
-    # Load properties
+    # 加载属性
     with open(args.properties_json, 'r') as f:
         properties = json.load(f)
         color_name_to_rgba = {}
@@ -672,7 +671,7 @@ def add_random_objects(directions, num_objects, args, camera, _retry_count=0):
     for i in range(num_objects):
         size_name, r = random.choice(size_mapping)
 
-        # Try to place object
+        # 尝试放置物体
         num_tries = 0
         while True:
             num_tries += 1
@@ -687,7 +686,7 @@ def add_random_objects(directions, num_objects, args, camera, _retry_count=0):
             x = random.uniform(-placement_range, placement_range)
             y = random.uniform(-placement_range, placement_range)
 
-            # Check distances
+            # 检查距离
             dists_good = True
             margins_good = True
             for (xx, yy, rr) in positions:
@@ -708,7 +707,7 @@ def add_random_objects(directions, num_objects, args, camera, _retry_count=0):
             if dists_good and margins_good:
                 break
 
-        # Choose random color and shape
+        # 随机选择颜色和形状
         obj_name, obj_name_out = random.choice(object_mapping)
         color_name, rgba = random.choice(list(color_name_to_rgba.items()))
 
@@ -717,17 +716,17 @@ def add_random_objects(directions, num_objects, args, camera, _retry_count=0):
 
         theta = 360.0 * random.random()
 
-        # Add object
+        # 添加物体
         utils.add_object(args.shape_dir, obj_name, r, (x, y), theta=theta)
         obj = bpy.context.object
         blender_objects.append(obj)
         positions.append((x, y, r))
 
-        # Add material
+        # 添加材质
         mat_name, mat_name_out = random.choice(material_mapping)
         utils.add_material(mat_name, Color=rgba)
 
-        # Record object data
+        # 记录物体数据
         pixel_coords = utils.get_camera_coords(camera, obj.location)
         objects.append({
             "id": f"obj_{i}",
@@ -744,13 +743,13 @@ def add_random_objects(directions, num_objects, args, camera, _retry_count=0):
 
 
 def main(args):
-    """Main entry point for multi-view rendering."""
-    # Seed for reproducibility: base seed + start_idx ensures different
-    # incremental batches produce different but deterministic scenes
+    """多视角渲染的主入口。"""
+    # 可复现性种子：基础种子 + start_idx 确保不同增量批次
+    # 生成不同但确定性的场景
     random.seed(args.seed + args.start_idx)
     print(f"Starting multi-view rendering: {args.num_images} scenes, {args.n_views} views each (seed={args.seed + args.start_idx})")
 
-    # Create multi-view config
+    # 创建多视角配置
     mv_config = MultiViewConfig(
         n_views=args.n_views,
         camera_distance=args.camera_distance,
@@ -758,7 +757,7 @@ def main(args):
         azimuth_start=args.azimuth_start
     )
 
-    # Create output directories
+    # 创建输出目录
     multiview_dir = os.path.join(args.output_dir, "multi_view")
     single_view_dir = os.path.join(args.output_dir, "single_view")
     top_view_dir = os.path.join(args.output_dir, "top_view")
@@ -800,7 +799,7 @@ def main(args):
 
     print(f"\nRendering complete: {successful} successful, {failed} failed")
 
-    # Save combined scenes file
+    # 保存合并的场景文件
     output_file = os.path.join(args.output_dir, f"{args.split}_scenes.json")
     output_data = {
         "info": {
@@ -819,23 +818,23 @@ def main(args):
     print(f"Saved scenes to {output_file}")
 
 
-# Argument parser
+# 参数解析器
 parser = argparse.ArgumentParser(description="Multi-view scene rendering")
 
-# Input options
+# 输入选项
 parser.add_argument('--base_scene_blendfile', default='assets/base_scene_v5.blend')
 parser.add_argument('--properties_json', default='assets/properties.json')
 parser.add_argument('--shape_dir', default='assets/shapes_v5')
 parser.add_argument('--material_dir', default='assets/materials_v5')
 
-# Object settings
+# 物体设置
 parser.add_argument('--min_objects', default=4, type=int)
 parser.add_argument('--max_objects', default=10, type=int)
 parser.add_argument('--min_dist', default=0.25, type=float)
 parser.add_argument('--margin', default=0.4, type=float)
 parser.add_argument('--max_retries', default=50, type=int)
 
-# Multi-view settings
+# 多视角设置
 parser.add_argument('--n_views', default=4, type=int,
     help="Number of camera viewpoints")
 parser.add_argument('--camera_distance', default=12.0, type=float,
@@ -851,7 +850,7 @@ parser.add_argument('--top_view_height', default=None, type=float,
 parser.add_argument('--top_view_padding', default=0.35, type=float,
     help="Minimal safety margin for orthographic top-view framing")
 
-# Output settings
+# 输出设置
 parser.add_argument('--output_dir', default='../output/multiview/',
     help="Output directory for rendered scenes")
 parser.add_argument('--start_idx', default=0, type=int)
@@ -860,7 +859,7 @@ parser.add_argument('--split', default='train')
 parser.add_argument('--seed', default=42, type=int,
     help="Random seed for reproducible scene generation")
 
-# Render settings
+# 渲染设置
 parser.add_argument('--use_gpu', default=0, type=int)
 parser.add_argument('--width', default=480, type=int)
 parser.add_argument('--height', default=320, type=int)

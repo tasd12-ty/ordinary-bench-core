@@ -1,8 +1,8 @@
 """
-Motion models for dynamic scene generation.
+动态场景生成的运动模型。
 
-Pure Python + math, no Blender dependency.
-`t` is an integer frame index; physical time = t / fps.
+纯 Python + math，无 Blender 依赖。
+`t` 为整数帧索引；物理时间 = t / fps。
 """
 
 import math
@@ -13,32 +13,32 @@ import numpy as np
 
 
 class MotionModel(ABC):
-    """Abstract base class for all motion models."""
+    """所有运动模型的抽象基类。"""
 
     @abstractmethod
     def position(self, t: int) -> Tuple[float, float]:
-        """Return (x, y) at frame t."""
+        """返回第 t 帧的 (x, y)。"""
 
     @abstractmethod
     def velocity(self, t: int) -> Tuple[float, float]:
-        """Return (vx, vy) at frame t."""
+        """返回第 t 帧的 (vx, vy)。"""
 
     def trajectory(self, n_frames: int) -> np.ndarray:
-        """Return full trajectory as (n_frames, 2) array."""
+        """返回完整轨迹，形状为 (n_frames, 2) 的数组。"""
         return np.array([self.position(t) for t in range(n_frames)])
 
     @abstractmethod
     def to_dict(self) -> dict:
-        """Serialize to JSON-compatible dict."""
+        """序列化为 JSON 兼容字典。"""
 
     @classmethod
     def from_dict(cls, d: dict) -> "MotionModel":
-        """Deserialize from dict. Dispatches via MOTION_REGISTRY."""
+        """从字典反序列化。通过 MOTION_REGISTRY 分发。"""
         return motion_from_dict(d)
 
 
 class StaticMotion(MotionModel):
-    """Object stays at a fixed position."""
+    """物体保持在固定位置。"""
 
     def __init__(self, x0: float, y0: float):
         self.x0 = x0
@@ -55,7 +55,7 @@ class StaticMotion(MotionModel):
 
 
 class LinearMotion(MotionModel):
-    """Uniform linear motion: pos(t) = (x0 + vx*t, y0 + vy*t)."""
+    """匀速线性运动：pos(t) = (x0 + vx*t, y0 + vy*t)。"""
 
     def __init__(self, x0: float, y0: float, vx: float, vy: float):
         self.x0 = x0
@@ -78,7 +78,7 @@ class LinearMotion(MotionModel):
 
 
 class CircularMotion(MotionModel):
-    """Uniform circular motion around (cx, cy)."""
+    """绕 (cx, cy) 的匀速圆周运动。"""
 
     def __init__(
         self, cx: float, cy: float, radius: float,
@@ -87,8 +87,8 @@ class CircularMotion(MotionModel):
         self.cx = cx
         self.cy = cy
         self.radius = radius
-        self.omega = omega  # radians per frame
-        self.phase0 = phase0  # initial phase in radians
+        self.omega = omega  # 每帧弧度数
+        self.phase0 = phase0  # 初始相位（弧度）
 
     def position(self, t: int) -> Tuple[float, float]:
         angle = self.phase0 + self.omega * t
@@ -112,7 +112,7 @@ class CircularMotion(MotionModel):
 
 
 class AcceleratedLinearMotion(MotionModel):
-    """Linear motion with constant acceleration: pos(t) = p0 + v0*t + 0.5*a*t²."""
+    """匀加速线性运动：pos(t) = p0 + v0*t + 0.5*a*t²。"""
 
     def __init__(self, x0: float, y0: float, vx: float, vy: float, ax: float, ay: float):
         self.x0 = x0
@@ -142,17 +142,17 @@ class AcceleratedLinearMotion(MotionModel):
 
 class WaypointMotion(MotionModel):
     """
-    Piecewise-linear motion through a sequence of waypoints.
+    经过一系列路点的分段线性运动。
 
-    The object moves at constant speed between consecutive waypoints,
-    reaching each one at evenly-spaced frame intervals.
+    物体在相邻路点之间以恒定速度运动，
+    在均匀间隔的帧时刻到达每个路点。
     """
 
     def __init__(self, waypoints: list, n_frames: int):
         """
         Args:
-            waypoints: List of (x, y) tuples. Must have at least 2 points.
-            n_frames: Total animation frames. Used to space waypoints evenly.
+            waypoints: (x, y) 元组列表，至少需要 2 个点。
+            n_frames: 动画总帧数，用于均匀分配路点间隔。
         """
         self.waypoints = [(float(x), float(y)) for x, y in waypoints]
         self.n_frames = n_frames
@@ -160,7 +160,7 @@ class WaypointMotion(MotionModel):
         self._frames_per_seg = n_frames / n_segs if n_segs > 0 else n_frames
 
     def _segment_interp(self, t: int):
-        """Return interpolated position and velocity at frame t."""
+        """返回第 t 帧的插值位置和速度。"""
         n_segs = len(self.waypoints) - 1
         if n_segs <= 0:
             wp = self.waypoints[0]
@@ -176,7 +176,7 @@ class WaypointMotion(MotionModel):
         x = p0[0] + (p1[0] - p0[0]) * frac
         y = p0[1] + (p1[1] - p0[1]) * frac
 
-        # Velocity = displacement per frame along this segment
+        # 速度 = 该段每帧的位移量
         vx = (p1[0] - p0[0]) / self._frames_per_seg
         vy = (p1[1] - p0[1]) / self._frames_per_seg
         return (x, y), (vx, vy)
@@ -199,10 +199,10 @@ class WaypointMotion(MotionModel):
 
 class BounceMotion(MotionModel):
     """
-    Linear motion that bounces off rectangular bounds.
+    在矩形边界上弹跳的线性运动。
 
-    The object starts at (x0, y0) with velocity (vx, vy) and reflects
-    elastically when hitting the boundary.  Positions are precomputed.
+    物体从 (x0, y0) 以速度 (vx, vy) 出发，碰到边界时弹性反射。
+    位置已预计算。
     """
 
     def __init__(self, x0: float, y0: float, vx: float, vy: float,
@@ -261,7 +261,7 @@ class BounceMotion(MotionModel):
 
 
 # ---------------------------------------------------------------------------
-# Registry / factory
+# 注册表 / 工厂
 # ---------------------------------------------------------------------------
 
 MOTION_REGISTRY: dict = {
@@ -283,7 +283,7 @@ MOTION_REGISTRY: dict = {
 
 
 def motion_from_dict(d: dict) -> MotionModel:
-    """Reconstruct a MotionModel from its serialized dict."""
+    """从序列化字典重建 MotionModel。"""
     mtype = d["type"]
     if mtype not in MOTION_REGISTRY:
         raise ValueError(f"Unknown motion type: {mtype}")

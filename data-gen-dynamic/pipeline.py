@@ -1,5 +1,5 @@
 """
-Three-stage pipeline: plan_motion -> render_dynamic -> encode_video -> organize.
+三阶段管线：plan_motion -> render_dynamic -> encode_video -> organize。
 """
 
 import json
@@ -33,7 +33,7 @@ def plan_motion(
     min_reversals: int = None,
     camera_plan: dict = None,
 ) -> Path:
-    """Stage 1: Generate motion plan JSON."""
+    """第一阶段：生成运动规划 JSON。"""
     plans = plan_scene(
         n_objects=n_objects,
         n_frames=n_frames,
@@ -72,7 +72,7 @@ def render_dynamic(
     render_output: Path,
     cfg: dict,
 ) -> Path:
-    """Stage 2: Call Blender subprocess to render frames."""
+    """第二阶段：调用 Blender 子进程渲染帧。"""
     blender = cfg["blender"]["executable"]
     rendering = cfg["rendering"]
 
@@ -102,7 +102,7 @@ def render_dynamic(
 
     logger.info(f"Rendering: {plan_path.name} -> {render_output}")
 
-    n_frames = 48  # default
+    n_frames = 48  # 默认值
     try:
         with open(plan_path) as f:
             n_frames = json.load(f).get("n_frames", 48)
@@ -140,7 +140,7 @@ def encode_video(
     fps: int = 24,
     crf: int = 18,
 ) -> bool:
-    """Encode PNG frames to MP4 using ffmpeg. Returns True on success."""
+    """使用 ffmpeg 将 PNG 帧编码为 MP4。成功时返回 True。"""
     frame_pattern = str(frames_dir / "frame_%04d.png")
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -162,7 +162,7 @@ def encode_video(
         logger.info(f"Video encoded: {output_path}")
         return True
     except FileNotFoundError:
-        logger.error("ffmpeg not found. Install ffmpeg for video encoding.")
+        logger.error("未找到 ffmpeg，请安装 ffmpeg 以启用视频编码。")
         return False
     except subprocess.TimeoutExpired:
         logger.error("ffmpeg timed out")
@@ -176,7 +176,7 @@ def organize_scene(
     video_cfg: dict = None,
     fps: int = 24,
 ) -> dict:
-    """Stage 3: Fill events, copy frames and scene JSON to final output."""
+    """第三阶段：填充事件、复制帧和场景 JSON 到最终输出目录。"""
     src_json = render_output / "temporal_scene.json"
     dst_json = output_dir / "scenes" / f"{scene_id}.json"
     dst_json.parent.mkdir(parents=True, exist_ok=True)
@@ -185,11 +185,11 @@ def organize_scene(
         logger.warning(f"temporal_scene.json not found in {render_output}")
         return {"scene_id": scene_id, "status": "missing_json"}
 
-    # Load and enrich temporal scene
+    # 加载并丰富时序场景数据
     with open(src_json) as f:
         temporal_scene = json.load(f)
 
-    # Fill events via QRR + TRR change detection
+    # 通过 QRR + TRR 变化检测填充事件
     from extraction.temporal import detect_qrr_changes, detect_trr_changes
     events = []
     try:
@@ -206,11 +206,11 @@ def organize_scene(
         logger.warning(f"  TRR event detection failed: {e}")
     temporal_scene["events"] = events
 
-    # Write enriched JSON
+    # 写入丰富后的 JSON
     with open(dst_json, "w") as f:
         json.dump(temporal_scene, f, indent=2)
 
-    # Copy frame images
+    # 复制帧图像
     src_frames = render_output / "frames"
     dst_frames = output_dir / "images" / scene_id
     if src_frames.exists():
@@ -218,13 +218,13 @@ def organize_scene(
             shutil.rmtree(dst_frames)
         shutil.copytree(src_frames, dst_frames)
 
-    # Validate output completeness
+    # 验证输出完整性
     n_expected = temporal_scene.get("n_frames", 0)
     actual_frames = list(dst_frames.glob("frame_*.png")) if dst_frames.exists() else []
     if len(actual_frames) < n_expected:
         logger.warning(f"  Missing frames: expected {n_expected}, got {len(actual_frames)}")
 
-    # Video encoding
+    # 视频编码
     video_path = None
     if video_cfg and video_cfg.get("encode", False) and dst_frames.exists():
         videos_dir = output_dir / "videos"
@@ -236,7 +236,7 @@ def organize_scene(
             shutil.rmtree(dst_frames)
             logger.info(f"  Frames removed (keep_frames=false)")
 
-    # Cleanup temp render dir
+    # 清理临时渲染目录
     try:
         shutil.rmtree(render_output)
     except Exception as e:
@@ -258,7 +258,7 @@ def build_scene(
     cfg: dict,
     seed: int,
 ) -> dict:
-    """Run the full 3-stage pipeline for a single scene."""
+    """为单个场景运行完整的 3 阶段管线。"""
     output_dir = Path(cfg["output"]["dir"])
     animation = cfg.get("animation", {})
     motion_cfg = cfg.get("motion", {})
@@ -277,12 +277,12 @@ def build_scene(
             objects_cfg.get("max_count", 5),
         )
 
-    # Load properties
+    # 加载属性
     props_path = ASSETS_DIR / "properties.json"
     with open(props_path) as f:
         properties = json.load(f)
 
-    # Build motion mix from all known motion types in config
+    # 从配置中所有已知运动类型构建运动混合比例
     motion_mix = {}
     for mtype in ("static", "linear", "circular", "accelerated_linear",
                    "waypoint", "bounce"):
@@ -298,7 +298,7 @@ def build_scene(
     n_moving = motion_cfg.get("n_moving", None)
     min_reversals = motion_cfg.get("min_reversals", None)
 
-    # Camera motion plan
+    # 相机运动规划
     camera_cfg = cfg.get("camera", None)
     camera_plan = None
     if camera_cfg and camera_cfg.get("type", "static") != "static":
@@ -308,7 +308,7 @@ def build_scene(
     plans_dir = output_dir / "plans"
     render_temp = output_dir / "render_temp" / scene_id
 
-    # Stage 1
+    # 第一阶段
     plan_path = plan_motion(
         scene_id=scene_id,
         n_objects=n_objects,
@@ -326,9 +326,9 @@ def build_scene(
         camera_plan=camera_plan,
     )
 
-    # Multi-camera: build additional camera plans if configured
+    # 多相机：若已配置则构建额外相机规划
     multi_camera = cfg.get("multi_camera", None)
-    camera_plans_list = [(None, camera_plan)]  # (suffix, plan) - None suffix = primary
+    camera_plans_list = [(None, camera_plan)]  # (后缀, 规划) - None 后缀 = 主相机
     if multi_camera:
         from motion.camera import build_camera_plan as _build_cam
         for i, cam_cfg in enumerate(multi_camera):
@@ -341,7 +341,7 @@ def build_scene(
         cur_scene_id = scene_id if cam_suffix is None else f"{scene_id}{cam_suffix}"
         cur_render_temp = output_dir / "render_temp" / cur_scene_id
 
-        # If secondary camera, update the plan JSON with new camera
+        # 若为副相机，用新相机更新规划 JSON
         if cam_suffix is not None:
             with open(plan_path) as f:
                 plan_data = json.load(f)
@@ -354,20 +354,20 @@ def build_scene(
         else:
             cur_plan_path = plan_path
 
-        # Stage 2: Render
+        # 第二阶段：渲染
         render_output = render_dynamic(cur_plan_path, cur_render_temp, cfg)
 
-        # Stage 3: Organize
+        # 第三阶段：整理
         result = organize_scene(cur_scene_id, render_output, output_dir,
                                 video_cfg=video_cfg, fps=fps)
         results.append(result)
 
-    # Return primary result (first camera)
+    # 返回主相机（第一个）的结果
     return results[0]
 
 
 def build_split(split_name: str, split_cfg: dict, cfg: dict) -> dict:
-    """Build all scenes for a split."""
+    """构建一个 split 的所有场景。"""
     n_scenes = split_cfg["n_scenes"]
     start_idx = split_cfg.get("start_idx", 0)
     base_seed = cfg["output"].get("seed", 42)
@@ -388,7 +388,7 @@ def build_split(split_name: str, split_cfg: dict, cfg: dict) -> dict:
             logger.error(f"  Failed {scene_id}: {e}", exc_info=True)
             split_entries.append({"scene_id": scene_id, "status": "failed", "error": str(e)})
 
-    # Save split index
+    # 保存 split 索引
     splits_dir = output_dir / "splits"
     splits_dir.mkdir(parents=True, exist_ok=True)
     split_file = splits_dir / f"{split_name}.json"

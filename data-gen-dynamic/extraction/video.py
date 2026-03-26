@@ -1,7 +1,7 @@
 """
-Video frame extraction utilities.
+视频帧提取工具。
 
-Extract frames from MP4 videos for VLM evaluation (e.g., uniform sampling).
+从 MP4 视频中提取帧，用于 VLM 评测（如均匀采样）。
 """
 
 import subprocess
@@ -17,16 +17,16 @@ def extract_frames(
     fps: int = 24,
 ) -> List[str]:
     """
-    Extract specific frames by index from a video.
+    按索引从视频中提取指定帧。
 
     Args:
-        video_path: Path to MP4 video.
-        frame_indices: List of 0-based frame indices to extract.
-        output_dir: Directory for extracted PNGs. Uses temp dir if None.
-        fps: Video framerate (for timestamp calculation).
+        video_path: MP4 视频路径。
+        frame_indices: 待提取帧的 0 起始索引列表。
+        output_dir: 提取 PNG 的输出目录，为 None 时使用临时目录。
+        fps: 视频帧率（用于时间戳计算）。
 
     Returns:
-        List of output PNG file paths.
+        输出 PNG 文件路径列表。
     """
     if output_dir is None:
         output_dir = tempfile.mkdtemp(prefix="frames_")
@@ -60,22 +60,22 @@ def extract_uniform_frames(
     fps: int = 24,
 ) -> List[str]:
     """
-    Extract N uniformly spaced frames from a video.
+    从视频中均匀提取 N 帧。
 
     Args:
-        video_path: Path to MP4 video.
-        n_frames: Number of frames to extract.
-        output_dir: Directory for extracted PNGs. Uses temp dir if None.
-        total_frames: Total frames in video. Auto-detected if None.
-        fps: Video framerate.
+        video_path: MP4 视频路径。
+        n_frames: 要提取的帧数。
+        output_dir: 提取 PNG 的输出目录，为 None 时使用临时目录。
+        total_frames: 视频总帧数，为 None 时自动检测。
+        fps: 视频帧率。
 
     Returns:
-        List of output PNG file paths.
+        输出 PNG 文件路径列表。
     """
     if total_frames is None:
         total_frames = get_frame_count(video_path)
         if total_frames is None:
-            total_frames = fps * 15  # fallback: assume 15s
+            total_frames = fps * 15  # 回退：假设视频为 15 秒
 
     if n_frames >= total_frames:
         indices = list(range(total_frames))
@@ -89,7 +89,7 @@ def extract_uniform_frames(
 
 
 def get_frame_count(video_path: str) -> Optional[int]:
-    """Get total frame count from a video using ffprobe."""
+    """使用 ffprobe 获取视频总帧数。"""
     cmd = [
         "ffprobe",
         "-v", "error",
@@ -109,7 +109,7 @@ def get_frame_count(video_path: str) -> Optional[int]:
 
 
 def get_video_info(video_path: str) -> Optional[dict]:
-    """Get video metadata (duration, fps, resolution) via ffprobe."""
+    """通过 ffprobe 获取视频元数据（时长、帧率、分辨率）。"""
     cmd = [
         "ffprobe",
         "-v", "error",

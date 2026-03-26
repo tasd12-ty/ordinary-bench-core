@@ -1,6 +1,6 @@
 """
-Temporal extraction: frame slicing compatible with VLM-test/extraction.py,
-kinematics computation, and spatial-relation event detection.
+时序提取：与 VLM-test/extraction.py 兼容的帧切片、
+运动学计算和空间关系事件检测。
 """
 
 import math
@@ -11,16 +11,15 @@ import numpy as np
 
 def frame_to_static_scene(temporal_scene: dict, frame_idx: int) -> dict:
     """
-    Extract a single frame as a static scene dict compatible with
-    VLM-test/extraction.py::parse_objects().
+    将单帧提取为与 VLM-test/extraction.py::parse_objects() 兼容的静态场景字典。
 
-    The returned dict has the same format as a data-gen scene JSON:
+    返回字典格式与 data-gen 场景 JSON 相同：
         {"objects": [{"id", "shape", "size", "material", "color",
                        "3d_coords", "pixel_coords", "rotation"}, ...]}
     """
     frame = temporal_scene["frames"][frame_idx]
     objects = []
-    # Get static attributes from the top-level objects list
+    # 从顶层 objects 列表获取静态属性
     static_attrs = {
         o.get("id", o.get("obj_id", "")): o
         for o in temporal_scene.get("objects", [])
@@ -51,18 +50,18 @@ def frame_to_static_scene(temporal_scene: dict, frame_idx: int) -> dict:
 
 def compute_frame_kinematics(temporal_scene: dict) -> dict:
     """
-    Compute per-object velocity and acceleration via finite differences (central diff).
+    通过有限差分（中心差分）计算每个物体的速度和加速度。
 
     Returns:
         {obj_id: {"velocity": (n_frames, 2), "acceleration": (n_frames, 2)}}
-        as numpy arrays.
+        为 numpy 数组。
     """
     frames = temporal_scene["frames"]
     n_frames = len(frames)
     if n_frames == 0:
         return {}
 
-    # Gather positions: {obj_id: (n_frames, 2)}
+    # 收集位置：{obj_id: (n_frames, 2)}
     obj_ids = [o["id"] for o in frames[0]["objects"]]
     positions = {oid: np.zeros((n_frames, 2)) for oid in obj_ids}
 
@@ -81,7 +80,7 @@ def compute_frame_kinematics(temporal_scene: dict) -> dict:
         vel = np.zeros_like(pos)
         acc = np.zeros_like(pos)
 
-        # Central differences (forward/backward at boundaries)
+        # 中心差分（边界处用前向/后向差分）
         for t in range(n_frames):
             if t == 0:
                 vel[t] = (pos[1] - pos[0]) / dt if n_frames > 1 else 0
@@ -104,7 +103,7 @@ def compute_frame_kinematics(temporal_scene: dict) -> dict:
 
 
 def _pairwise_distances(frame_objects: list) -> Dict[Tuple[str, str], float]:
-    """Compute all pairwise 2D distances for a single frame."""
+    """计算单帧中所有物体对的 2D 距离。"""
     n = len(frame_objects)
     dists = {}
     for i in range(n):
@@ -121,9 +120,9 @@ def _pairwise_distances(frame_objects: list) -> Dict[Tuple[str, str], float]:
 
 
 def _compute_hour(dx: float, dy: float) -> int:
-    """Compute TRR hour (1-12 clock direction) from dx, dy offset."""
-    angle_deg = math.degrees(math.atan2(-dy, dx))  # screen coords: y-down
-    # Convert to clock: 12 o'clock = up = 90°
+    """由 dx, dy 偏移量计算 TRR 小时方向（1-12 钟面方向）。"""
+    angle_deg = math.degrees(math.atan2(-dy, dx))  # 屏幕坐标：y 轴向下
+    # 转换为钟面：12 点方向 = 向上 = 90°
     clock_angle = (90 - angle_deg) % 360
     hour = int(clock_angle / 30) + 1
     return min(max(hour, 1), 12)
@@ -133,9 +132,9 @@ def detect_trr_changes(
     temporal_scene: dict,
 ) -> List[dict]:
     """
-    Detect frames where the TRR hour direction between object pairs changes.
+    检测物体对之间 TRR 小时方向发生变化的帧。
 
-    Returns list of event dicts:
+    返回事件字典列表：
         {"frame": t, "from_obj": id, "to_obj": id, "type": "trr_change",
          "old_hour": h1, "new_hour": h2}
     """
@@ -147,7 +146,7 @@ def detect_trr_changes(
     n = len(obj_ids)
     events = []
 
-    # Compute initial hours
+    # 计算初始小时方向
     prev_hours = {}
     for fobj_a in frames[0]["objects"]:
         for fobj_b in frames[0]["objects"]:
@@ -193,13 +192,12 @@ def detect_qrr_changes(
     temporal_scene: dict, tau: float = 0.10,
 ) -> List[dict]:
     """
-    Detect frames where the distance ranking among object pairs changes
-    (QRR relation reversal).
+    检测物体对间距离排序发生变化的帧（QRR 关系反转）。
 
-    A reversal is detected when for anchor A, the ordering of distances
-    d(A,B) vs d(A,C) flips between consecutive frames (beyond tau tolerance).
+    当锚点 A 的距离顺序 d(A,B) vs d(A,C) 在相邻帧间翻转
+    （超出 tau 容差）时，判定为反转。
 
-    Returns list of event dicts:
+    返回事件字典列表：
         {"frame": t, "anchor": id, "pair": (id1, id2), "type": "qrr_reversal"}
     """
     frames = temporal_scene["frames"]
@@ -214,14 +212,14 @@ def detect_qrr_changes(
     for t in range(1, len(frames)):
         curr_dists = _pairwise_distances(frames[t]["objects"])
 
-        # For each anchor, check all pairs of other objects
+        # 对每个锚点，检查其他物体的所有配对
         for a_idx in range(n):
             anchor = obj_ids[a_idx]
             others = [oid for oid in obj_ids if oid != anchor]
             for i in range(len(others)):
                 for j in range(i + 1, len(others)):
                     b, c = others[i], others[j]
-                    # Get distances from anchor
+                    # 获取到锚点的距离
                     key_ab = tuple(sorted([anchor, b]))
                     key_ac = tuple(sorted([anchor, c]))
 
@@ -233,7 +231,7 @@ def detect_qrr_changes(
                     prev_diff = prev_ab - prev_ac
                     curr_diff = curr_ab - curr_ac
 
-                    # Reversal: sign changed and both differences exceed tau
+                    # 反转：符号改变且两个差值均超过 tau
                     if (abs(prev_diff) > tau and abs(curr_diff) > tau
                             and prev_diff * curr_diff < 0):
                         events.append({
@@ -254,13 +252,12 @@ def detect_occlusions(
     pixel_dist_threshold: float = 50.0,
 ) -> List[dict]:
     """
-    Detect occlusion events using pixel coordinates and depth values.
+    使用像素坐标和深度值检测遮挡事件。
 
-    Two objects are considered occluding when their pixel positions are close
-    (within pixel_dist_threshold) and their depth values differ significantly
-    (> depth_threshold). The object with smaller depth (closer to camera) occludes.
+    当两物体像素位置相近（在 pixel_dist_threshold 内）且深度值差异显著
+    （> depth_threshold）时，判定为遮挡。深度值较小（距相机较近）的物体为遮挡者。
 
-    Returns list of event dicts:
+    返回事件字典列表：
         {"frame": t, "occluder": id, "occluded": id, "type": "occlusion",
          "pixel_dist": float, "depth_diff": float}
     """
@@ -277,12 +274,12 @@ def detect_occlusions(
                 pa = a.get("pixel_coords", [0, 0, 0])
                 pb = b.get("pixel_coords", [0, 0, 0])
 
-                # 2D pixel distance
+                # 2D 像素距离
                 px_dist = math.sqrt((pa[0] - pb[0])**2 + (pa[1] - pb[1])**2)
                 if px_dist > pixel_dist_threshold:
                     continue
 
-                # Depth comparison (smaller = closer to camera)
+                # 深度比较（值越小 = 距相机越近）
                 depth_a = pa[2] if len(pa) > 2 else 0
                 depth_b = pb[2] if len(pb) > 2 else 0
                 depth_diff = abs(depth_a - depth_b)

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-ordinary-bench data generation entry point.
+ordinary-bench 数据生成入口。
 
-Usage:
-    python generate.py                            # use config.toml (70 scenes)
-    python generate.py --preset test              # 1 scene/split, fast test
-    python generate.py --config my.toml           # custom config
-    python generate.py --preset test --dry-run    # just print config
-    python generate.py --workers 4                # parallel Blender processes
+用法：
+    python generate.py                            # 使用 config.toml（70 个场景）
+    python generate.py --preset test              # 每 split 1 个场景，快速测试
+    python generate.py --config my.toml           # 自定义配置文件
+    python generate.py --preset test --dry-run    # 仅打印配置后退出
+    python generate.py --workers 4                # 并行运行 4 个 Blender 进程
 """
 
 import argparse
@@ -33,7 +33,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# test preset: 1 scene per object count, low quality, for quick validation
+# test 预设：每个物体数量 1 个场景，低质量，用于快速验证
 PRESETS = {
   "test": {
     "splits": {
@@ -80,7 +80,7 @@ DEFAULT_CONFIG = {
 
 
 def deep_merge(base, override):
-  """Recursively merge override into base (override wins)."""
+  """递归将 override 合并到 base 中（override 优先）。"""
   result = dict(base)
   for k, v in override.items():
     if k in result and isinstance(result[k], dict) and isinstance(v, dict):
@@ -91,10 +91,10 @@ def deep_merge(base, override):
 
 
 def load_config(config_path, preset, cli_args):
-  """Load config from TOML file, apply preset, then CLI overrides."""
+  """从 TOML 文件加载配置，应用预设，再应用命令行覆盖。"""
   cfg = dict(DEFAULT_CONFIG)
 
-  # Layer 1: TOML file
+  # 第一层：TOML 文件
   if config_path:
     p = Path(config_path)
     if not p.exists():
@@ -109,14 +109,14 @@ def load_config(config_path, preset, cli_args):
       file_cfg = tomllib.load(f)
     cfg = deep_merge(cfg, file_cfg)
 
-  # Layer 2: preset (replaces splits entirely)
+  # 第二层：预设（完全替换 splits）
   if preset:
     if preset not in PRESETS:
       logger.error(f"Unknown preset: {preset}. Choose from: {list(PRESETS)}")
       sys.exit(1)
     cfg = deep_merge(cfg, PRESETS[preset])
 
-  # Layer 3: CLI overrides
+  # 第三层：命令行覆盖
   if cli_args.blender:
     cfg["blender"]["executable"] = cli_args.blender
   if cli_args.output_dir:
@@ -128,14 +128,14 @@ def load_config(config_path, preset, cli_args):
 
 
 def create_directories(cfg):
-  """Create output directory structure."""
+  """创建输出目录结构。"""
   output = Path(cfg["output"]["dir"])
   for sub in ["images/single_view", "images/multi_view", "images/top_view", "scenes", "splits"]:
     (output / sub).mkdir(parents=True, exist_ok=True)
 
 
 def _run_split(args_tuple):
-  """Worker function for parallel execution."""
+  """并行执行的工作函数。"""
   split_name, split_cfg, cfg = args_tuple
   return split_name, pipeline.build_split(split_name, split_cfg, cfg)
 
@@ -179,7 +179,7 @@ def main():
 
   args = parser.parse_args()
 
-  # If no explicit config given, try config.toml in script directory
+  # 如果未显式指定配置，尝试脚本目录下的 config.toml
   config_path = args.config
   if config_path is None:
     default_toml = Path(__file__).resolve().parent / "config.toml"
@@ -188,7 +188,7 @@ def main():
 
   cfg = load_config(config_path, args.preset, args)
 
-  # Inject start_idx into all splits for incremental generation
+  # 将 start_idx 注入所有 split，用于增量生成
   if args.start_idx > 0:
     for split_cfg in cfg["splits"].values():
       if "start_idx" not in split_cfg:
@@ -202,7 +202,7 @@ def main():
     print(json.dumps(cfg, indent=2))
     return
 
-  # Validate Blender executable
+  # 验证 Blender 可执行文件
   blender = cfg["blender"]["executable"]
   if blender == "blender":
     logger.warning(
@@ -227,13 +227,13 @@ def main():
   all_stats = {}
 
   if workers <= 1:
-    # Sequential
+    # 顺序执行
     for split_name, split_cfg in cfg["splits"].items():
       logger.info(f"\n--- Split: {split_name} ---")
       stats = pipeline.build_split(split_name, split_cfg, cfg)
       all_stats[split_name] = stats
   else:
-    # Parallel
+    # 并行执行
     tasks = [
       (name, scfg, cfg) for name, scfg in cfg["splits"].items()
     ]
@@ -251,7 +251,7 @@ def main():
 
   pipeline.save_dataset_info(cfg, all_stats)
 
-  # Summary
+  # 汇总统计
   total_scenes = sum(s["n_scenes"] for s in all_stats.values())
   total_images = sum(
     s["n_single_view_images"] + s["n_multi_view_images"] + s.get("n_top_view_images", 0)
