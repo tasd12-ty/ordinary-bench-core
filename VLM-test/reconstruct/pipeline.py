@@ -23,7 +23,7 @@ from .preparation import (
     prepare_reconstruction_input_from_scoring,
 )
 from .solver import SolverConfig, SolverSolution, solve
-from .evaluate import EvalMetrics, evaluate_reconstruction, cluster_solutions
+from .evaluate import EvalMetrics, evaluate_reconstruction, cluster_solutions, reflect_positions_y
 
 
 CONSTRAINT_MODES = ("all", "fdr_only", "qrr_only", "fdr_qrr", "qrr_trr", "fdr_trr")
@@ -59,6 +59,7 @@ class ReconstructResult:
                 "best_loss": self.metrics.best_loss,
                 "n_solutions": self.metrics.n_solutions,
                 "cluster_sizes": self.metrics.cluster_sizes,
+                "reflected": self.metrics.reflected,
             },
             "K_geom": self.K_geom,
             "n_solutions": len(self.all_solutions),
@@ -312,9 +313,8 @@ def _run_pipeline(
         return result
 
     result.all_solutions = solutions
-    result.positions = solutions[0].positions  # Best solution
 
-    # ── Stage 4-5: Evaluation ──
+    # ── Stage 4-5: Evaluation (considers both chiralities) ──
     metrics = evaluate_reconstruction(
         solutions=solutions,
         qrr_entries=qrr_entries,
@@ -323,6 +323,12 @@ def _run_pipeline(
     )
     result.metrics = metrics
     result.K_geom = metrics.K_geom
+
+    # Use the best-chirality positions
+    if metrics.reflected:
+        result.positions = reflect_positions_y(solutions[0].positions)
+    else:
+        result.positions = solutions[0].positions
 
     # ── Status Determination ──
     csr_ok = metrics.csr_qrr >= 0.95 and metrics.csr_trr >= 0.95

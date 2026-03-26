@@ -16,6 +16,17 @@ from .solver import SolverSolution, SolverConfig
 from .utils import procrustes_align, compute_nrms, compute_rms, pair_key
 
 
+# ── Reflection Helper ──
+
+def reflect_positions_y(positions: Dict[str, np.ndarray]) -> Dict[str, np.ndarray]:
+    """Reflect all positions through the x-axis: (x, y) -> (x, -y).
+
+    In the gauge-fixed frame (anchor_a=(0,0), anchor_b=(1,0)),
+    this is the only non-trivial reflection that preserves the gauge.
+    """
+    return {oid: np.array([pos[0], -pos[1]]) for oid, pos in positions.items()}
+
+
 # ── Constraint Satisfaction Rate ──
 
 def compute_csr_qrr(
@@ -244,6 +255,7 @@ class EvalMetrics:
     best_loss: float = float("inf")
     n_solutions: int = 0
     cluster_sizes: List[int] = field(default_factory=list)
+    reflected: bool = False  # True if y-reflected chirality gave better CSR_TRR
 
 
 def evaluate_reconstruction(
@@ -254,15 +266,29 @@ def evaluate_reconstruction(
     rms_threshold: float = 0.10,
     tau: float = 0.10,
 ) -> EvalMetrics:
-    """Compute all evaluation metrics for a set of reconstruction solutions."""
+    """Compute all evaluation metrics for a set of reconstruction solutions.
+
+    Reconstruction is determined only up to similarity transformations
+    (translation, rotation, scale, AND reflection).  For CSR_TRR and NRMS
+    we evaluate both chiralities and keep the better result.
+    CSR_QRR and Kendall tau are reflection-invariant by construction.
+    """
     if not solutions:
         return EvalMetrics()
 
     best = solutions[0]  # sorted by loss
 
-    # CSR
+    # CSR_QRR: invariant under reflection (distances preserved)
     csr_qrr = compute_csr_qrr(best.positions, qrr_entries, tau=tau)
-    csr_trr = compute_csr_trr(best.positions, trr_entries)
+
+    # CSR_TRR: try both chiralities, take the better one
+    csr_trr_orig = compute_csr_trr(best.positions, trr_entries)
+    reflected = reflect_positions_y(best.positions)
+    csr_trr_refl = compute_csr_trr(reflected, trr_entries)
+    csr_trr = max(csr_trr_orig, csr_trr_refl)
+    # Track which chirality is better for downstream use
+    used_reflection = csr_trr_refl > csr_trr_orig
+    best_positions = reflected if used_reflection else best.positions
 
     # Clustering
     cluster = cluster_solutions(solutions, rms_threshold=rms_threshold)
@@ -275,16 +301,18 @@ def evaluate_reconstruction(
         best_loss=best.loss,
         n_solutions=len(solutions),
         cluster_sizes=cluster.cluster_sizes,
+        reflected=used_reflection,
     )
 
-    # GT-dependent metrics
+    # GT-dependent metrics (Kendall tau is reflection-invariant,
+    # NRMS uses Procrustes with allow_reflection=True)
     if gt_positions is not None:
-        obj_ids = sorted(set(best.positions.keys()) & set(gt_positions.keys()))
+        obj_ids = sorted(set(best_positions.keys()) & set(gt_positions.keys()))
         if len(obj_ids) >= 3:
-            recon_mat = np.array([best.positions[oid] for oid in obj_ids])
+            recon_mat = np.array([best_positions[oid] for oid in obj_ids])
             gt_mat = np.array([gt_positions[oid][:2] for oid in obj_ids])
 
-            metrics.kendall_tau = compute_kendall_tau(best.positions, gt_positions)
-            metrics.nrms = compute_nrms(recon_mat, gt_mat)
+            metrics.kendall_tau = compute_kendall_tau(best_positions, gt_positions)
+            metrics.nrms = compute_nrms(recon_mat, gt_mat, allow_reflection=True)
 
     return metrics

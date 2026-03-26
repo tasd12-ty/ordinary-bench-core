@@ -359,6 +359,7 @@ def run_belief_reconstruction(
                     "K_geom": m.get("K_geom"),
                     "best_loss": m.get("best_loss"),
                     "n_solutions": m.get("n_solutions"),
+                    "reflected": m.get("reflected", False),
                 })
 
             except Exception as e:
@@ -383,7 +384,7 @@ def add_recon_sheet(wb, recon_rows: List[dict]):
     headers = [
         "Model", "Scene_ID", "N_Objects", "Status", "Feasible",
         "CSR_QRR", "CSR_TRR", "NRMS", "Kendall_Tau", "K_geom",
-        "Best_Loss", "N_Solutions",
+        "Best_Loss", "N_Solutions", "Reflected",
     ]
     ws.append(headers)
 
@@ -407,6 +408,7 @@ def add_recon_sheet(wb, recon_rows: List[dict]):
             r.get("K_geom"),
             r.get("best_loss"),
             r.get("n_solutions"),
+            r.get("reflected", False),
         ])
 
     # Format
