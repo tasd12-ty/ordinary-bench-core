@@ -1,9 +1,9 @@
 """
-Pipeline: Blender subprocess orchestration + output organization for 3D grid mode.
+流水线：3D 网格模式的 Blender 子进程编排与输出整理。
 
-Two phases per split:
-  1. render_split()   — call Blender to render 3D grid scenes
-  2. organize_split() — copy images, save scene JSONs, build split index
+每个 split 分两阶段处理：
+  1. render_split()   — 调用 Blender 渲染 3D 网格场景
+  2. organize_split() — 复制图像、保存场景 JSON、构建 split 索引
 """
 
 import json
@@ -35,7 +35,7 @@ def _wsl_to_win(path: Path) -> str:
 
 
 def render_split(split_name: str, split_cfg: dict, cfg: dict) -> Path:
-  """Render scenes for one split via Blender subprocess."""
+  """通过 Blender 子进程渲染一个 split 的场景。"""
   blender = cfg["blender"]["executable"]
   rendering = cfg["rendering"]
   objects = cfg["objects"]
@@ -88,7 +88,7 @@ def render_split(split_name: str, split_cfg: dict, cfg: dict) -> Path:
     "--render_num_samples", str(rendering["samples"]),
     "--start_idx", str(start_idx),
     "--seed", str(cfg["output"].get("seed", 42)),
-    # 3D Grid parameters
+    # 3D 网格参数
     "--grid_rows", str(grid.get("rows", 4)),
     "--grid_cols", str(grid.get("cols", 4)),
     "--grid_layers", str(grid.get("layers", 4)),
@@ -130,7 +130,7 @@ def organize_split(
   output_dir: Path,
   effective_split: str = None,
 ) -> list:
-  """Copy images from Blender output to final directory structure."""
+  """将 Blender 输出的图像复制到最终目录结构。"""
   if effective_split is None:
     effective_split = split_name
   scenes_file = render_output / f"{effective_split}_scenes.json"
@@ -146,7 +146,7 @@ def organize_split(
   for scene in scenes_data.get("scenes", []):
     scene_id = scene.get("scene_id", "")
 
-    # Copy 6 view images
+    # 复制 6 个视角图像
     view_images = {}
     src_scene_dir = render_output / "scenes_render" / scene_id
     for view_name in VIEW_NAMES:
@@ -158,7 +158,7 @@ def organize_split(
         shutil.copy2(src_img, dst_img)
         view_images[view_name] = f"images/{view_name}/{scene_id}.png"
 
-    # Save scene metadata
+    # 保存场景元数据
     scene_file = output_dir / "scenes" / f"{scene_id}.json"
     scene_file.parent.mkdir(parents=True, exist_ok=True)
     with open(scene_file, 'w') as f:
@@ -174,7 +174,7 @@ def organize_split(
     }
     split_entries.append(entry)
 
-  # Cleanup
+  # 清理临时目录
   try:
     shutil.rmtree(render_output)
     logger.info(f"Cleaned up temp dir: {render_output}")
@@ -185,7 +185,7 @@ def organize_split(
 
 
 def build_split(split_name: str, split_cfg: dict, cfg: dict) -> dict:
-  """Render + organize one split."""
+  """渲染并整理一个 split。"""
   output_dir = Path(cfg["output"]["dir"])
   start_idx = split_cfg.get("start_idx", 0)
   effective_split = split_cfg.get("split_prefix", split_name)
@@ -209,12 +209,12 @@ def build_split(split_name: str, split_cfg: dict, cfg: dict) -> dict:
 
   return {
     "n_scenes": len(entries),
-    "n_images": len(entries) * 6,  # 6 views per scene
+    "n_images": len(entries) * 6,  # 每个场景 6 个视角
   }
 
 
 def save_dataset_info(cfg: dict, all_stats: dict):
-  """Write dataset_info.json summary."""
+  """写入 dataset_info.json 摘要文件。"""
   output_dir = Path(cfg["output"]["dir"])
   rendering = cfg["rendering"]
   grid = cfg.get("grid", {})

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Adapt Infinigen frame metadata to ordinary-bench scene JSON."""
+"""将 Infinigen 帧元数据转换为 ordinary-bench 场景 JSON 格式。"""
 
 import argparse
 import json
@@ -508,10 +508,10 @@ def export_native_record(
     dest_dir: Path,
     copy_image: bool = False,
 ) -> dict:
-    """Preserve the original Infinigen record alongside the adapted scene.
+    """将原始 Infinigen 记录与适配后的场景一并保存。
 
-    The goal is to keep Infinigen-native metadata in a stable, benchmark-local
-    location without replacing or reformatting it.
+    目标是将 Infinigen 原生元数据保存在稳定的基准本地位置，
+    不对其进行替换或重新格式化。
     """
     view_bundles = discover_view_bundles(source_root)
     dest_dir.mkdir(parents=True, exist_ok=True)

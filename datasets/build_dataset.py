@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """
-Build ORDINARY-BENCH HuggingFace dataset from existing outputs.
+从现有输出构建 ORDINARY-BENCH HuggingFace 数据集。
 
-Reads scene JSONs, question files, and images from data-gen/ and VLM-test/
-outputs, then assembles Parquet files and copies images into the dataset folder.
+从 data-gen/ 和 VLM-test/ 的输出中读取场景 JSON、问题文件和图像，
+生成 Parquet 文件并将图像复制到数据集目录。
 
-Usage:
+用法：
     python build_dataset.py
     python build_dataset.py --data-gen-dir ../data-gen/output --questions-dir ../VLM-test/output/questions
-    python build_dataset.py --dry-run          # stats only, no writes
-    python build_dataset.py --skip-images      # skip image copying (faster for dev)
+    python build_dataset.py --dry-run          # 仅统计，不写入
+    python build_dataset.py --skip-images      # 跳过图像复制（开发阶段用于加速）
 
-Requirements:
+依赖：
     pip install pandas pyarrow datasets pillow
 """
 
@@ -26,17 +26,17 @@ from typing import Any, Dict, List, Optional, Tuple
 import pandas as pd
 
 
-# ── Paths (defaults relative to this script) ──
+# ── 路径（默认相对于此脚本）──
 
 SCRIPT_DIR = Path(__file__).parent
 DEFAULT_DATA_GEN = SCRIPT_DIR.parent / "data-gen" / "output"
 DEFAULT_QUESTIONS = SCRIPT_DIR.parent / "VLM-test" / "output" / "questions"
 
 
-# ── Question text generation (replicated from VLM-test/API-test/prompts.py) ──
+# ── 问题文本生成（复制自 VLM-test/API-test/prompts.py）──
 
 def make_question_text(q: dict, objects: List[dict]) -> str:
-    """Generate natural language question text for a single question."""
+    """为单个问题生成自然语言问题文本。"""
     if q["type"] == "qrr":
         p1a, p1b = q["pair1"]
         p2a, p2b = q["pair2"]
@@ -68,10 +68,10 @@ def make_question_text(q: dict, objects: List[dict]) -> str:
     return ""
 
 
-# ── Scene loading ──
+# ── 场景加载 ──
 
 def load_scene_json(scenes_dir: Path, scene_id: str) -> Optional[dict]:
-    """Load scene metadata JSON."""
+    """加载场景元数据 JSON 文件。"""
     p = scenes_dir / f"{scene_id}.json"
     if not p.exists():
         return None
@@ -80,7 +80,7 @@ def load_scene_json(scenes_dir: Path, scene_id: str) -> Optional[dict]:
 
 
 def load_question_file(questions_dir: Path, qtype: str, scene_id: str) -> Optional[dict]:
-    """Load a per-type question file."""
+    """加载按题型分类的问题文件。"""
     p = questions_dir / qtype / f"{scene_id}.json"
     if not p.exists():
         return None
@@ -88,20 +88,20 @@ def load_question_file(questions_dir: Path, qtype: str, scene_id: str) -> Option
         return json.load(f)
 
 
-# ── Train/test split ──
+# ── 训练/测试集划分 ──
 
 def load_split_assignment(data_gen_dir: Path) -> Dict[str, str]:
-    """Return {scene_id: 'train'|'test'} mapping from dataset_split.json."""
+    """从 dataset_split.json 返回 {scene_id: 'train'|'test'} 映射。"""
     split_file = data_gen_dir / "dataset_split.json"
     if split_file.exists():
         with open(split_file) as f:
             info = json.load(f)
-        # test_index_range = "80-max" means index >= 80 is test
+        # test_index_range = "80-max" 表示索引 >= 80 的场景为测试集
         test_start = int(info.get("test_index_range", "80-max").split("-")[0])
     else:
         test_start = 80
 
-    # Build mapping by parsing scene_id = "n04_000042" -> index 42
+    # 通过解析 scene_id（如 "n04_000042"）提取索引 42 来构建映射
     assignment = {}
     scenes_dir = data_gen_dir / "scenes"
     if scenes_dir.exists():
@@ -113,7 +113,7 @@ def load_split_assignment(data_gen_dir: Path) -> Dict[str, str]:
     return assignment
 
 
-# ── Row building ──
+# ── 行数据构建 ──
 
 def _build_scene_rows(
     scene_id: str,
@@ -122,7 +122,7 @@ def _build_scene_rows(
     questions_dir: Path,
     data_gen_dir: Path,
 ) -> Tuple[List[dict], dict]:
-    """Build rows for a single scene. Returns (rows, stats_delta)."""
+    """为单个场景构建数据行。返回 (rows, stats_delta)。"""
     stats = {"qrr": 0, "trr": 0, "fdr": 0}
     n_objects = scene["n_objects"]
     obj_split = scene["split"]
@@ -134,7 +134,7 @@ def _build_scene_rows(
     objects_json = json.dumps(objects_desc, ensure_ascii=False)
     scene_metadata = json.dumps(scene, ensure_ascii=False)
 
-    # Read single-view image bytes for embedding in parquet
+    # 读取单视角图像字节以嵌入 Parquet 文件
     sv_path = data_gen_dir / "images" / "single_view" / f"{scene_id}.png"
     single_view_bytes = sv_path.read_bytes() if sv_path.exists() else None
 
@@ -193,10 +193,10 @@ def _build_scene_rows(
     return rows, stats
 
 
-# ── Parquet writing (streaming per-scene to avoid memory blowup) ──
+# ── Parquet 写入（逐场景流式处理以避免内存溢出）──
 
 def _build_features(columns: List[str], image_columns: List[str]) -> "datasets.Features":
-    """Build HuggingFace Features schema from column names."""
+    """从列名构建 HuggingFace Features 模式。"""
     import datasets as ds
 
     feature_map = {}
@@ -214,7 +214,7 @@ def _build_features(columns: List[str], image_columns: List[str]) -> "datasets.F
     return ds.Features(feature_map)
 
 
-# Config definitions
+# 配置定义
 _QRR_COLS = ["qrr_variant", "qrr_pair1", "qrr_pair2", "qrr_metric", "qrr_gt_comparator"]
 _TRR_COLS = ["trr_target", "trr_ref1", "trr_ref2", "trr_gt_hour", "trr_gt_quadrant", "trr_gt_angle_deg"]
 _FDR_COLS = ["fdr_anchor", "fdr_n_ranked", "fdr_gt_ranking", "fdr_gt_distances", "fdr_gt_tie_groups"]
@@ -225,8 +225,8 @@ CONFIGS = {
     "qrr":  {"filter": "qrr", "drop": _TRR_COLS + _FDR_COLS + _MV_COLS, "image_cols": ["image"]},
     "trr":  {"filter": "trr", "drop": _QRR_COLS + _FDR_COLS + _MV_COLS, "image_cols": ["image"]},
     "fdr":  {"filter": "fdr", "drop": _QRR_COLS + _TRR_COLS + _MV_COLS, "image_cols": ["image"]},
-    # multiview omitted: embedding 5 images per row is too large for parquet.
-    # Multi-view images are available in the images/multi_view/ directory.
+    # 多视角配置已省略：每行嵌入 5 张图像对 Parquet 来说过大。
+    # 多视角图像可在 images/multi_view/ 目录中获取。
 }
 
 
@@ -235,7 +235,7 @@ def build_and_write(
     questions_dir: Path,
     output_dir: Path,
 ) -> dict:
-    """Build rows scene-by-scene and write parquet incrementally."""
+    """逐场景构建数据行并增量写入 Parquet 文件。"""
     import datasets as ds
 
     scenes_dir = data_gen_dir / "scenes"
@@ -243,8 +243,8 @@ def build_and_write(
     scene_ids = sorted(split_map.keys())
     data_dir = output_dir / "data"
 
-    # Accumulators: config -> hf_split -> list of rows (without image bytes)
-    # We process one config at a time to control memory
+    # 累加器：config -> hf_split -> 行列表（不含图像字节）
+    # 每次处理一个配置以控制内存占用
     stats = {"scenes": 0, "qrr": 0, "trr": 0, "fdr": 0, "skipped_scenes": 0}
 
     import gc
@@ -258,7 +258,7 @@ def build_and_write(
             if not split_scenes:
                 continue
 
-            # Write one parquet shard per scene to keep memory low
+            # 每个场景写入一个 Parquet 分片以保持低内存占用
             shard_paths = []
             for scene_id in split_scenes:
                 scene = load_scene_json(scenes_dir, scene_id)
@@ -311,16 +311,16 @@ def build_and_write(
     return stats
 
 
-# ── Image copying ──
+# ── 图像复制 ──
 
 def copy_images(data_gen_dir: Path, output_dir: Path):
-    """Copy single-view and multi-view images into dataset folder."""
+    """将单视角和多视角图像复制到数据集目录。"""
     src_single = data_gen_dir / "images" / "single_view"
     dst_single = output_dir / "images" / "single_view"
     src_multi = data_gen_dir / "images" / "multi_view"
     dst_multi = output_dir / "images" / "multi_view"
 
-    # Single-view
+    # 单视角
     dst_single.mkdir(parents=True, exist_ok=True)
     count = 0
     for f in sorted(src_single.glob("*.png")):
@@ -330,7 +330,7 @@ def copy_images(data_gen_dir: Path, output_dir: Path):
         count += 1
     print(f"  Single-view images: {count}")
 
-    # Multi-view
+    # 多视角
     count = 0
     for scene_dir in sorted(src_multi.iterdir()):
         if not scene_dir.is_dir():
@@ -345,7 +345,7 @@ def copy_images(data_gen_dir: Path, output_dir: Path):
     print(f"  Multi-view scenes: {count}")
 
 
-# ── Main ──
+# ── 主程序 ──
 
 def main():
     parser = argparse.ArgumentParser(
@@ -377,7 +377,7 @@ def main():
     questions_dir = Path(args.questions_dir)
     output_dir = Path(args.output_dir)
 
-    # Validate paths
+    # 验证路径
     if not (data_gen_dir / "scenes").exists():
         print(f"Error: scenes directory not found at {data_gen_dir / 'scenes'}")
         sys.exit(1)
@@ -392,7 +392,7 @@ def main():
     print()
 
     if args.dry_run:
-        # Dry run: count without reading images
+        # 试运行：仅统计，不读取图像
         split_map = load_split_assignment(data_gen_dir)
         scenes_dir = data_gen_dir / "scenes"
         stats = {"scenes": 0, "qrr": 0, "trr": 0, "fdr": 0, "skipped_scenes": 0}
@@ -425,7 +425,7 @@ def main():
         print("\n[Dry run] No files written.")
         return
 
-    # Build and write parquet (streaming per-scene, images embedded as bytes)
+    # 构建并写入 Parquet（逐场景流式处理，图像以字节方式嵌入）
     print("Building and writing Parquet files (images embedded)...")
     stats = build_and_write(data_gen_dir, questions_dir, output_dir)
 

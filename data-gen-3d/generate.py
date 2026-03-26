@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-ordinary-bench-3d data generation entry point.
+ordinary-bench-3d 数据生成入口。
 
-Generates 3D scenes with objects at varying heights.
+生成物体处于不同高度的 3D 场景。
 
-Usage:
-    python generate.py                            # use config.toml
-    python generate.py --preset test              # 1 scene/split, fast test
-    python generate.py --config my.toml           # custom config
-    python generate.py --preset test --dry-run    # just print config
-    python generate.py --workers 4                # parallel Blender processes
+用法：
+    python generate.py                            # 使用 config.toml
+    python generate.py --preset test              # 每个 split 生成 1 个场景，快速测试
+    python generate.py --config my.toml           # 使用自定义配置
+    python generate.py --preset test --dry-run    # 仅打印配置，不执行
+    python generate.py --workers 4                # 并行 Blender 进程数
 """
 
 import argparse
@@ -92,7 +92,7 @@ DEFAULT_CONFIG = {
 
 
 def deep_merge(base, override):
-    """Recursively merge override into base (override wins)."""
+    """递归地将 override 合并到 base 中（override 的值优先）。"""
     result = dict(base)
     for k, v in override.items():
         if k in result and isinstance(result[k], dict) and isinstance(v, dict):
@@ -103,7 +103,7 @@ def deep_merge(base, override):
 
 
 def load_config(config_path, preset, cli_args):
-    """Load config: TOML -> preset -> CLI overrides."""
+    """加载配置：TOML 文件 -> 预设 -> 命令行覆盖。"""
     cfg = dict(DEFAULT_CONFIG)
 
     if config_path:
@@ -135,7 +135,7 @@ def load_config(config_path, preset, cli_args):
 
 
 def create_directories(cfg):
-    """Create output directory structure."""
+    """创建输出目录结构。"""
     output = Path(cfg["output"]["dir"])
     for sub in [
         "images/single_view", "images/multi_view",
@@ -146,7 +146,7 @@ def create_directories(cfg):
 
 
 def _run_split(args_tuple):
-    """Worker function for parallel execution."""
+    """并行执行的工作函数。"""
     split_name, split_cfg, cfg = args_tuple
     return split_name, pipeline.build_split(split_name, split_cfg, cfg)
 

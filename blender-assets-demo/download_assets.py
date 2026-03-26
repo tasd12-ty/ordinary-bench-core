@@ -1,10 +1,10 @@
 """
-Download 3D models from Objaverse for demo scenes.
+从 Objaverse 下载演示场景所需的 3D 模型。
 
-Targets: 2 humans, 1 table, 1 chair, 1 plant.
-Downloads .glb files and copies them to models/ with descriptive names.
+目标：2 个人物、1 张桌子、1 把椅子、1 株植物。
+下载 .glb 文件并以具描述性的文件名复制到 models/ 目录。
 
-Usage:
+用法：
     pip install objaverse
     python download_assets.py
 """
@@ -16,8 +16,8 @@ import json
 import objaverse
 
 
-# Target models: category -> (filename, search keywords)
-# We'll search annotations to find suitable UIDs, then download.
+# 目标模型：类别 -> (文件名, 搜索关键词)
+# 将通过搜索注释来查找合适的 UID，然后下载。
 TARGETS = {
     "human_1": {
         "keywords": ["human", "person", "man", "character"],
@@ -41,12 +41,10 @@ TARGETS = {
     },
 }
 
-# Hand-picked UIDs from Objaverse that are known to be reasonable quality
-# and appropriately sized .glb models. These were selected by searching
-# objaverse annotations for common indoor objects.
+# 从 Objaverse 手动筛选的 UID，质量可接受且尺寸合适的 .glb 模型。
+# 通过搜索 objaverse 注释中常见室内物体关键词选出。
 #
-# If these UIDs become unavailable, run search_and_pick() below to find
-# replacements interactively.
+# 若这些 UID 不再可用，可运行下方的 search_and_pick() 以交互方式查找替代品。
 CURATED_UIDS = {
     "human_1": "16522107ad84410dad419e2e3977e721",  # low poly man walking+phone
     "human_2": "cf9b293059da44059ead548c043af92d",  # low-poly statuette boy with girl (textured)
@@ -59,7 +57,7 @@ OUTPUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models")
 
 
 def search_annotations(annotations, keywords, top_k=20):
-    """Search objaverse annotations for models matching keywords."""
+    """在 objaverse 注释中搜索匹配关键词的模型。"""
     results = []
     for uid, meta in annotations.items():
         name = (meta.get("name") or "").lower()
@@ -76,7 +74,7 @@ def search_annotations(annotations, keywords, top_k=20):
 
 
 def search_and_pick():
-    """Interactive search: find and display candidate UIDs for each target."""
+    """交互式搜索：为每个目标查找并展示候选 UID。"""
     print("Loading Objaverse annotations...")
     annotations = objaverse.load_annotations()
     print(f"Loaded {len(annotations)} annotations.\n")
@@ -90,7 +88,7 @@ def search_and_pick():
 
 
 def download_curated():
-    """Download the curated set of models."""
+    """下载精选的模型集合。"""
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     uids = list(CURATED_UIDS.values())
@@ -116,7 +114,7 @@ def download_curated():
             "size_mb": round(file_size_mb, 2),
         }
 
-    # Save manifest
+    # 保存清单文件
     manifest_path = os.path.join(OUTPUT_DIR, "manifest.json")
     with open(manifest_path, "w") as f:
         json.dump(manifest, f, indent=2)

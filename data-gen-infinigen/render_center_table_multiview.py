@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stage a large center table in an Infinigen living room and render four benchmark-like views."""
+"""在 Infinigen 客厅场景中布置大型中心桌，并渲染四个基准测试风格的视角。"""
 
 from __future__ import annotations
 

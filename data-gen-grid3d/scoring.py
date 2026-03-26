@@ -1,8 +1,8 @@
 """
-Scoring for 3D grid position questions.
+3D 网格位置问题的评分模块。
 
-Handles D4 symmetry: if a VLM's answers are a consistent rotation/reflection
-of the ground truth in the Row-Col plane, that counts as structurally correct.
+处理 D4 对称性：若 VLM 的回答在行列平面上是真值的一致旋转/反射，
+则视为结构正确。
 """
 
 import re
@@ -11,7 +11,7 @@ from typing import Optional
 ROW_LABELS = ['A', 'B', 'C', 'D']
 ROW_TO_IDX = {ch: i for i, ch in enumerate(ROW_LABELS)}
 
-# D4 symmetry group: 8 transformations of the Row-Col plane (index 0-3)
+# D4 对称群：行列平面的 8 种变换（索引 0-3）
 D4_TRANSFORMS = {
     "identity":      lambda r, c: (r, c),
     "rot90_cw":      lambda r, c: (c, 3 - r),
@@ -25,7 +25,7 @@ D4_TRANSFORMS = {
 
 
 def parse_cell_label(label: str) -> Optional[tuple]:
-    """Parse 'B3-4' → (row=1, col=2, layer=3). Returns None on failure."""
+    """解析 'B3-4' → (row=1, col=2, layer=3)。解析失败返回 None。"""
     if not label or not isinstance(label, str):
         return None
     m = re.match(r'^([A-Da-d])(\d)-(\d)$', label.strip())
@@ -43,23 +43,23 @@ def parse_cell_label(label: str) -> Optional[tuple]:
 
 
 def format_cell_label(row: int, col: int, layer: int) -> str:
-    """(1, 2, 3) → 'B3-4'"""
+    """将 (1, 2, 3) 格式化为 'B3-4'。"""
     return f"{ROW_LABELS[row]}{col + 1}-{layer + 1}"
 
 
 def match_objects(predictions: list, ground_truth: list) -> list:
     """
-    Match predictions to ground truth by object description.
-    Returns list of (pred_parsed, gt_parsed, object_desc) tuples.
-    Unmatched objects get pred_parsed=None.
+    按物体描述将预测结果与真值进行匹配。
+    返回 (pred_parsed, gt_parsed, object_desc) 元组列表。
+    未匹配的物体 pred_parsed=None。
     """
-    # Build lookup from description → gt
+    # 构建描述 → 真值的映射
     gt_by_desc = {}
     for gt in ground_truth:
         desc = gt["object"]
         gt_by_desc[desc] = parse_cell_label(gt["cell"])
 
-    # Build lookup from description → pred
+    # 构建描述 → 预测的映射
     pred_by_desc = {}
     for pred in predictions:
         desc = pred.get("object", "")
@@ -76,10 +76,8 @@ def match_objects(predictions: list, ground_truth: list) -> list:
 
 def find_best_transform(pairs: list) -> dict:
     """
-    Try all 8 D4 transforms. For each, check if applying the inverse
-    transform to predictions yields the ground truth positions.
-
-    We apply the transform to GT and check if it matches predictions.
+    尝试所有 8 种 D4 变换。对每种变换，检查将其应用到真值后
+    是否与预测位置匹配。
     """
     valid_pairs = [(p, g) for p, g, _ in pairs if p is not None and g is not None]
     total = len(valid_pairs)
@@ -98,7 +96,7 @@ def find_best_transform(pairs: list) -> dict:
         for pred, gt in valid_pairs:
             pr, pc, pl = pred
             gr, gc, gl = gt
-            # Transform GT row,col and compare with prediction
+            # 对真值的行列应用变换后与预测比较
             tr, tc = transform(gr, gc)
             if tr == pr and tc == pc and gl == pl:
                 count += 1
@@ -115,27 +113,27 @@ def find_best_transform(pairs: list) -> dict:
 
 def score_scene(predictions: list, ground_truth: list) -> dict:
     """
-    Score one scene's predictions against ground truth.
+    对单个场景的预测结果与真值进行评分。
 
-    Returns:
-        dict with exact, structural, per_dimension, and per_object scores.
+    返回：
+        包含 exact、structural、per_dimension 和 per_object 评分的字典。
     """
     pairs = match_objects(predictions, ground_truth)
     n_objects = len(pairs)
 
-    # --- Exact match ---
+    # --- 精确匹配 ---
     exact_correct = 0
     for pred, gt, desc in pairs:
         if pred is not None and gt is not None and pred == gt:
             exact_correct += 1
 
-    # --- D4 symmetry-aware match ---
+    # --- D4 对称感知匹配 ---
     transform_result = find_best_transform(pairs)
     best_transform_name = transform_result["best_transform"]
     best_transform = D4_TRANSFORMS[best_transform_name]
     structural_correct = transform_result["match_count"]
 
-    # --- Per-dimension accuracy under best transform ---
+    # --- 最优变换下各维度的准确率 ---
     row_correct = 0
     col_correct = 0
     layer_correct = 0
@@ -157,14 +155,14 @@ def score_scene(predictions: list, ground_truth: list) -> dict:
             pr, pc, pl = pred
             gr, gc, gl = gt
 
-            # Exact
+            # 精确匹配
             obj_result["exact_match"] = (pred == gt)
 
-            # Structural (under best transform)
+            # 结构匹配（最优变换下）
             tr, tc = best_transform(gr, gc)
             obj_result["structural_match"] = (tr == pr and tc == pc and gl == pl)
 
-            # Per-dimension (under best transform)
+            # 各维度匹配（最优变换下）
             if tr == pr:
                 row_correct += 1
             if tc == pc:
@@ -201,7 +199,7 @@ def score_scene(predictions: list, ground_truth: list) -> dict:
 
 
 def aggregate(scene_scores: list) -> dict:
-    """Aggregate scores across multiple scenes."""
+    """跨多个场景汇总评分。"""
     total_objects = 0
     total_exact = 0
     total_structural = 0

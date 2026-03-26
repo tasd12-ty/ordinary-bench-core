@@ -1,12 +1,12 @@
-# Extended for 3D scene rendering with height variation
+# 扩展自多视角渲染，支持物体高度变化的 3D 场景
 
 """
-3D scene rendering script for ORDINAL-SPATIAL-3D benchmark.
+ORDINAL-SPATIAL-3D 基准的 3D 场景渲染脚本。
 
-Renders scenes with objects at varying heights from multiple camera viewpoints
-designed to make height differences visible.
+从多个相机视角渲染物体高度不同的场景，
+视角设计使高度差异清晰可见。
 
-Usage:
+用法：
     blender --background --python render_3d.py -- [arguments]
 """
 
@@ -34,11 +34,11 @@ except ImportError:
     BLENDER_VERSION = (0, 0, 0)
 
 if INSIDE_BLENDER:
-    # Import utils from data-gen/blender/ directory
+    # 从 data-gen/blender/ 目录导入工具模块
     try:
         import utils
     except ImportError:
-        # Add data-gen/blender to sys.path
+        # 将 data-gen/blender 添加到 sys.path
         script_dir = os.path.dirname(os.path.abspath(__file__))
         parent_blender_dir = os.path.join(
             os.path.dirname(os.path.dirname(script_dir)),
@@ -57,7 +57,7 @@ if INSIDE_BLENDER:
 
 @dataclass
 class CameraConfig:
-    """Configuration for a single camera viewpoint."""
+    """单个相机视角的配置。"""
     camera_id: str
     azimuth: float
     elevation: float
@@ -155,7 +155,7 @@ def generate_cube_face_cameras(
 
 
 def set_camera_position(camera_config: CameraConfig) -> None:
-    """Set Blender camera position and orientation."""
+    """设置 Blender 相机的位置和朝向。"""
     camera = bpy.data.objects['Camera']
     position = camera_config.to_cartesian()
     look_at = camera_config.look_at
@@ -166,14 +166,14 @@ def set_camera_position(camera_config: CameraConfig) -> None:
 
 
 def refresh_camera_state() -> None:
-    """Flush Blender's camera transform updates."""
+    """刷新 Blender 相机变换更新。"""
     view_layer = getattr(bpy.context, "view_layer", None)
     if view_layer is not None:
         view_layer.update()
 
 
 def get_object_by_name(name: str, alternative_names: Optional[List[str]] = None):
-    """Get Blender object by name with fallbacks."""
+    """按名称获取 Blender 对象，支持备用名称。"""
     if name in bpy.data.objects:
         return bpy.data.objects[name]
     if alternative_names:
@@ -184,7 +184,7 @@ def get_object_by_name(name: str, alternative_names: Optional[List[str]] = None)
 
 
 def compute_pixel_coords_for_view(camera, objects_3d: List[Dict]) -> List[Dict]:
-    """Compute pixel coordinates for all objects from current camera view."""
+    """从当前相机视角计算所有物体的像素坐标。"""
     updated_objects = []
     for obj in objects_3d:
         obj_copy = obj.copy()
@@ -196,7 +196,7 @@ def compute_pixel_coords_for_view(camera, objects_3d: List[Dict]) -> List[Dict]:
 
 
 def compute_scene_center_3d(objects_3d: List[Dict]) -> Tuple[float, float, float]:
-    """Compute center of mass of objects in 3D."""
+    """计算 3D 物体的质心。"""
     if not objects_3d:
         return (0.0, 0.0, 0.0)
     xs = [obj["3d_coords"][0] for obj in objects_3d]
@@ -210,7 +210,7 @@ def compute_scene_center_3d(objects_3d: List[Dict]) -> Tuple[float, float, float
 
 
 def compute_scene_extent_3d(objects_3d: List[Dict]) -> float:
-    """Compute maximum extent of the scene in any axis."""
+    """计算场景在任意轴向上的最大跨度。"""
     if not objects_3d:
         return 6.0
     xs = [obj["3d_coords"][0] for obj in objects_3d]
@@ -223,7 +223,7 @@ def compute_scene_extent_3d(objects_3d: List[Dict]) -> float:
 
 
 def sample_z_coordinate(args) -> float:
-    """Sample z coordinate based on distribution mode."""
+    """根据分布模式采样 z 坐标。"""
     z_min = args.z_min
     z_max = args.z_max
 
@@ -243,7 +243,7 @@ def sample_z_coordinate(args) -> float:
 
 
 def distance_3d(pos1, pos2):
-    """3D Euclidean distance."""
+    """3D 欧氏距离。"""
     return math.sqrt(sum((a - b) ** 2 for a, b in zip(pos1, pos2)))
 
 

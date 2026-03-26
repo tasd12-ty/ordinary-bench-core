@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-ordinary-bench 3D grid data generation entry point.
+ordinary-bench 3D 网格数据生成入口。
 
-Generates scenes with objects placed in a visible 4x4x4 3D grid,
-rendered from 6 orthographic views (top, bottom, front, back, left, right).
+在可见的 4x4x4 3D 网格中摆放物体并生成场景，
+从 6 个正交视角（top、bottom、front、back、left、right）渲染。
 
-Usage:
-    python generate.py                            # use config.toml
-    python generate.py --preset test              # 1 scene/split, fast test
-    python generate.py --preset test --labels     # with grid labels
-    python generate.py --preset test --dry-run    # just print config
+用法：
+    python generate.py                            # 使用 config.toml
+    python generate.py --preset test              # 每个 split 生成 1 个场景，快速测试
+    python generate.py --preset test --labels     # 带网格标签
+    python generate.py --preset test --dry-run    # 仅打印配置
 """
 
 import argparse
@@ -78,7 +78,7 @@ DEFAULT_CONFIG = {
 
 
 def deep_merge(base, override):
-  """Recursively merge override into base (override wins)."""
+  """递归地将 override 合并到 base 中（override 的值优先）。"""
   result = dict(base)
   for k, v in override.items():
     if k in result and isinstance(result[k], dict) and isinstance(v, dict):
@@ -89,7 +89,7 @@ def deep_merge(base, override):
 
 
 def load_config(config_path, preset, cli_args):
-  """Load config: TOML file -> preset -> CLI overrides."""
+  """加载配置：TOML 文件 -> 预设 -> 命令行覆盖。"""
   cfg = dict(DEFAULT_CONFIG)
 
   if config_path:
@@ -123,7 +123,7 @@ def load_config(config_path, preset, cli_args):
 
 
 def create_directories(cfg):
-  """Create output directory structure with 6 view directories."""
+  """创建输出目录结构，包含 6 个视角子目录。"""
   output = Path(cfg["output"]["dir"])
   for view in ["top", "bottom", "front", "back", "left", "right"]:
     (output / "images" / view).mkdir(parents=True, exist_ok=True)

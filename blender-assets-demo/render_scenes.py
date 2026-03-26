@@ -1,13 +1,13 @@
 """
-Blender render script for demo scenes using downloaded .glb models.
+使用已下载 .glb 模型的演示场景 Blender 渲染脚本。
 
-Scene 1: table + chair + plant + human_1 (indoor feel)
-Scene 2: 2 humans + table + plant (outdoor / conversation feel)
+场景 1：桌子 + 椅子 + 植物 + human_1（室内风格）
+场景 2：2 个人物 + 桌子 + 植物（室外 / 对话风格）
 
-Usage:
+用法：
     /Applications/Blender.app/Contents/MacOS/Blender --background --python render_scenes.py
 
-Renders to output/ at 480x320, CYCLES engine.
+渲染输出至 output/ 目录，分辨率 480x320，使用 CYCLES 引擎。
 """
 
 import os
@@ -24,19 +24,19 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 MODELS_DIR = os.path.join(SCRIPT_DIR, "models")
 OUTPUT_DIR = os.path.join(SCRIPT_DIR, "output")
 
-# Render settings (consistent with existing pipeline)
+# 渲染设置（与现有管线保持一致）
 RENDER_WIDTH = 1920
 RENDER_HEIGHT = 1280
 RENDER_SAMPLES = 256
 RENDER_ENGINE = "CYCLES"
 
-# Camera settings (adapted from render_multiview.py)
+# 相机设置（改编自 render_multiview.py）
 CAMERA_DISTANCE = 10.0
-CAMERA_ELEVATION = 25.0  # degrees
-CAMERA_LOOK_AT = (0.0, 0.0, 0.5)  # slightly above ground
+CAMERA_ELEVATION = 25.0  # 仰角（度）
+CAMERA_LOOK_AT = (0.0, 0.0, 0.5)  # 略高于地面
 
 
-# ---------- Scene definitions ----------
+# ---------- 场景定义 ----------
 
 SCENE_CONFIGS = [
     {
@@ -64,14 +64,14 @@ SCENE_CONFIGS = [
 ]
 
 
-# ---------- Helpers ----------
+# ---------- 辅助函数 ----------
 
 def clear_scene():
-    """Remove all objects, meshes, materials from the scene."""
+    """移除场景中的所有物体、网格和材质。"""
     bpy.ops.object.select_all(action='SELECT')
     bpy.ops.object.delete(use_global=False)
 
-    # Purge orphan data
+    # 清除孤立数据块
     for block in bpy.data.meshes:
         if block.users == 0:
             bpy.data.meshes.remove(block)
@@ -81,7 +81,7 @@ def clear_scene():
 
 
 def setup_render_settings():
-    """Configure render engine and resolution."""
+    """配置渲染引擎和分辨率。"""
     scene = bpy.context.scene
     scene.render.engine = RENDER_ENGINE
     scene.render.resolution_x = RENDER_WIDTH
@@ -89,11 +89,11 @@ def setup_render_settings():
     scene.render.resolution_percentage = 100
     scene.render.film_transparent = False
 
-    # Cycles settings
+    # Cycles 设置
     scene.cycles.samples = RENDER_SAMPLES
     scene.cycles.use_denoising = True
 
-    # Try GPU, fall back to CPU
+    # 尝试使用 GPU，失败则回退至 CPU
     try:
         cycles_prefs = bpy.context.preferences.addons['cycles'].preferences
         for compute_type in ['METAL', 'CUDA', 'OPTIX', 'HIP', 'ONEAPI']:
@@ -116,7 +116,7 @@ def setup_render_settings():
 
 
 def add_ground_plane(size=20.0, color=(0.4, 0.4, 0.4, 1.0)):
-    """Add a ground plane with a simple diffuse material."""
+    """添加带有简单漫反射材质的地面平面。"""
     bpy.ops.mesh.primitive_plane_add(size=size, location=(0, 0, 0))
     plane = bpy.context.object
     plane.name = "GroundPlane"
@@ -132,8 +132,8 @@ def add_ground_plane(size=20.0, color=(0.4, 0.4, 0.4, 1.0)):
 
 
 def add_sky_light():
-    """Add environment lighting (world HDRI-like) and a sun lamp."""
-    # World background
+    """添加环境光照（类 HDRI 世界背景）和太阳灯。"""
+    # 世界背景
     world = bpy.data.worlds.get("World")
     if world is None:
         world = bpy.data.worlds.new("World")
@@ -145,14 +145,14 @@ def add_sky_light():
         bg_node.inputs["Color"].default_value = (0.7, 0.8, 1.0, 1.0)
         bg_node.inputs["Strength"].default_value = 0.8
 
-    # Sun lamp (key light)
+    # 太阳灯（主光）
     bpy.ops.object.light_add(type='SUN', location=(5, -5, 10))
     sun = bpy.context.object
     sun.name = "SunLight"
     sun.data.energy = 3.0
     sun.rotation_euler = Euler((math.radians(50), math.radians(10), math.radians(30)))
 
-    # Fill light (area light)
+    # 补光（面积光）
     bpy.ops.object.light_add(type='AREA', location=(-4, 3, 6))
     fill = bpy.context.object
     fill.name = "FillLight"
@@ -164,13 +164,13 @@ def add_sky_light():
 
 
 def add_camera(azimuth_deg, elevation_deg, distance, look_at):
-    """Add and position a camera."""
+    """添加相机并设置其位置。"""
     bpy.ops.object.camera_add()
     camera = bpy.context.object
     camera.name = "Camera"
     bpy.context.scene.camera = camera
 
-    # Spherical to Cartesian
+    # 球坐标转笛卡尔坐标
     az = math.radians(azimuth_deg)
     el = math.radians(elevation_deg)
     x = distance * math.cos(el) * math.cos(az) + look_at[0]
@@ -179,12 +179,12 @@ def add_camera(azimuth_deg, elevation_deg, distance, look_at):
 
     camera.location = (x, y, z)
 
-    # Point camera at look_at
+    # 将相机朝向目标点
     direction = Vector(look_at) - Vector((x, y, z))
     rot_quat = direction.to_track_quat('-Z', 'Y')
     camera.rotation_euler = rot_quat.to_euler()
 
-    # Lens
+    # 镜头
     camera.data.lens = 35
     camera.data.clip_start = 0.1
     camera.data.clip_end = 100.0
@@ -193,28 +193,28 @@ def add_camera(azimuth_deg, elevation_deg, distance, look_at):
 
 
 def import_glb(filepath, location=(0, 0, 0), scale=1.0, rotation_z_deg=0):
-    """Import a .glb model and position it."""
+    """导入 .glb 模型并设置其位置。"""
     if not os.path.exists(filepath):
         print(f"  WARNING: Model not found: {filepath}")
         return None
 
-    # Record existing objects
+    # 记录已有物体
     existing = set(bpy.data.objects.keys())
 
     bpy.ops.import_scene.gltf(filepath=filepath)
 
-    # Find newly imported objects
+    # 查找新导入的物体
     new_objects = [obj for name, obj in bpy.data.objects.items() if name not in existing]
 
     if not new_objects:
         print(f"  WARNING: No objects imported from {filepath}")
         return None
 
-    # Find root objects (no parent among new objects)
+    # 查找根物体（在新物体中没有父级的）
     new_set = set(id(o) for o in new_objects)
     roots = [o for o in new_objects if o.parent is None or id(o.parent) not in new_set]
 
-    # If multiple roots, parent them to an empty
+    # 若有多个根物体，将其父化到一个空物体
     if len(roots) > 1:
         bpy.ops.object.empty_add(location=location)
         parent_empty = bpy.context.object
@@ -225,8 +225,7 @@ def import_glb(filepath, location=(0, 0, 0), scale=1.0, rotation_z_deg=0):
     else:
         target = roots[0]
 
-    # Normalize size: compute bounding box of all new objects and scale
-    # to fit within a reasonable range (roughly 1-2 units tall)
+    # 归一化尺寸：计算所有新物体的包围盒并缩放至合理范围（大约 1-2 单位高）
     all_coords = []
     for obj in new_objects:
         if hasattr(obj, 'bound_box') and obj.type == 'MESH':
@@ -240,7 +239,7 @@ def import_glb(filepath, location=(0, 0, 0), scale=1.0, rotation_z_deg=0):
         zs = [c.z for c in all_coords]
         bbox_size = max(max(xs) - min(xs), max(ys) - min(ys), max(zs) - min(zs))
         if bbox_size > 0:
-            # Normalize to ~2 units max dimension, then apply user scale
+            # 归一化至最大维度约 2 单位，再应用用户缩放比例
             normalize_factor = 2.0 / bbox_size
             effective_scale = normalize_factor * scale
         else:
@@ -257,27 +256,27 @@ def import_glb(filepath, location=(0, 0, 0), scale=1.0, rotation_z_deg=0):
     return target
 
 
-# ---------- Main ----------
+# ---------- 主程序 ----------
 
 def build_and_render_scene(config):
-    """Build a single scene from config and render it."""
+    """根据配置构建单个场景并渲染。"""
     scene_name = config["name"]
     print(f"\n{'='*50}")
     print(f"Building scene: {scene_name}")
     print(f"  {config['description']}")
     print(f"{'='*50}")
 
-    # Clean slate
+    # 清空场景
     clear_scene()
 
-    # Setup rendering
+    # 配置渲染参数
     setup_render_settings()
 
-    # Add environment
+    # 添加环境
     add_ground_plane()
     add_sky_light()
 
-    # Add camera
+    # 添加相机
     add_camera(
         azimuth_deg=config["camera_azimuth"],
         elevation_deg=CAMERA_ELEVATION,
@@ -285,7 +284,7 @@ def build_and_render_scene(config):
         look_at=CAMERA_LOOK_AT,
     )
 
-    # Import models
+    # 导入模型
     for obj_config in config["objects"]:
         model_path = os.path.join(MODELS_DIR, obj_config["model"])
         import_glb(
@@ -295,7 +294,7 @@ def build_and_render_scene(config):
             rotation_z_deg=obj_config["rot_z"],
         )
 
-    # Render
+    # 渲染
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     output_path = os.path.join(OUTPUT_DIR, f"{scene_name}.png")
     bpy.context.scene.render.filepath = output_path

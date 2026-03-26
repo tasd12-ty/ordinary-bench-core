@@ -1,8 +1,7 @@
-"""SessionManager for human baseline question allocation and progress tracking.
+"""人类基准测试的问题分配与进度追踪 SessionManager。
 
-Handles loading test scenes, allocating pages of questions to annotators,
-tracking per-annotator progress, and saving responses in a format compatible
-with analyze_responses.py.
+负责加载测试场景、向标注者分配问题页、
+追踪各标注者的进度，以及以兼容 analyze_responses.py 的格式保存回答。
 """
 from __future__ import annotations
 
@@ -27,8 +26,8 @@ from common import (
 )
 
 
-# Default proportions per question type when assembling a page.
-# These are target counts for a page of size 12; they scale with page_size.
+# 组成一页时各题型的默认比例权重。
+# 以页面大小为 12 时的目标数量为基准，实际按 page_size 等比缩放。
 _TYPE_WEIGHTS: Dict[str, float] = {
     "qrr": 5.0,
     "trr": 4.0,
@@ -37,12 +36,10 @@ _TYPE_WEIGHTS: Dict[str, float] = {
 
 
 class SessionManager:
-    """Manages question allocation, progress tracking, and response submission
-    for human baseline annotations.
+    """管理人类基准标注的问题分配、进度追踪与回答提交。
 
-    Each annotator gets an independent progress file that records which question
-    IDs have been answered.  Pages are allocated one scene at a time with a
-    proportional mix of QRR, TRR, and FDR questions.
+    每位标注者拥有独立的进度文件，记录已回答的问题 ID。
+    每次按单场景分配一页问题，QRR、TRR 和 FDR 按比例混合。
     """
 
     def __init__(
@@ -71,24 +68,23 @@ class SessionManager:
         self._all_questions: Optional[Dict[str, Dict[str, List[dict]]]] = None
 
     # ------------------------------------------------------------------
-    # Scene discovery
+    # 场景发现
     # ------------------------------------------------------------------
 
     def _load_test_scene_ids(self) -> List[str]:
-        """Load test-only scene IDs.
+        """加载仅属于测试集的场景 ID。
 
-        Reads from the explicit test_scenes_file (or ``data-gen/output/test_scenes.json``
-        by default).  If no file exists, falls back to filtering scene IDs whose
-        numeric index is >= 80.
+        优先读取显式指定的 test_scenes_file（默认为 ``data-gen/output/test_scenes.json``）。
+        若文件不存在，则回退到从问题目录中发现场景 ID 并过滤数字索引 >= 80 的条目。
         """
         if self._test_scene_ids is not None:
             return self._test_scene_ids
 
-        # Try the explicit test-scenes manifest first.
+        # 优先尝试显式指定的测试场景清单。
         candidates: List[Path] = []
         if self.test_scenes_file is not None:
             candidates.append(self.test_scenes_file)
-        # Convention: test_scenes.json lives next to the scenes directory.
+        # 约定：test_scenes.json 与场景目录同级。
         candidates.append(self.scenes_dir.parent / "test_scenes.json")
 
         for path in candidates:
@@ -103,7 +99,7 @@ class SessionManager:
                     self._test_scene_ids = sorted(scene_ids)
                     return self._test_scene_ids
 
-        # Fallback: discover from the questions directory and filter index >= 80.
+        # 回退：从问题目录发现场景 ID 并过滤索引 >= 80 的条目。
         all_ids: Set[str] = set()
         for qtype in QUESTION_TYPES:
             qtype_dir = self.questions_dir / qtype
@@ -112,7 +108,7 @@ class SessionManager:
 
         test_ids: List[str] = []
         for sid in sorted(all_ids):
-            # Scene IDs follow the pattern ``nXX_YYYYYY`` where YYYYYY is the index.
+            # 场景 ID 格式为 ``nXX_YYYYYY``，其中 YYYYYY 为数字索引。
             parts = sid.rsplit("_", 1)
             if len(parts) == 2:
                 try:
@@ -126,14 +122,14 @@ class SessionManager:
         return self._test_scene_ids
 
     # ------------------------------------------------------------------
-    # Question loading
+    # 问题加载
     # ------------------------------------------------------------------
 
     def _load_all_questions(self) -> Dict[str, Dict[str, List[dict]]]:
-        """Load all questions for all test scenes.
+        """加载所有测试场景的全部问题。
 
-        Returns ``{scene_id: {qtype: [question, ...]}}``.  Each question dict
-        is the raw question object from the question JSON files.
+        返回 ``{scene_id: {qtype: [question, ...]}}``。
+        每个问题字典为问题 JSON 文件中的原始问题对象。
         """
         if self._all_questions is not None:
             return self._all_questions
@@ -165,25 +161,25 @@ class SessionManager:
         return self._all_questions
 
     # ------------------------------------------------------------------
-    # Progress persistence
+    # 进度持久化
     # ------------------------------------------------------------------
 
     def _progress_path(self, annotator_id: str) -> Path:
-        """Return the path to an annotator's progress file."""
+        """返回标注者进度文件的路径。"""
         safe_id = slugify(annotator_id)
         return self.responses_dir / safe_id / "progress.json"
 
     def _load_progress(self, annotator_id: str) -> dict:
-        """Load or create ``progress.json`` for *annotator_id*.
+        """加载或创建 *annotator_id* 的 ``progress.json``。
 
-        Progress structure::
+        进度结构::
 
             {
                 "annotator_id": "...",
                 "answered": {"scene_id": ["qid", ...]},
                 "pages_completed": 0,
-                "created_at": "ISO timestamp",
-                "updated_at": "ISO timestamp"
+                "created_at": "ISO 时间戳",
+                "updated_at": "ISO 时间戳"
             }
         """
         path = self._progress_path(annotator_id)
@@ -201,7 +197,7 @@ class SessionManager:
         }
 
     def _save_progress(self, annotator_id: str, progress: dict) -> None:
-        """Persist ``progress.json`` for *annotator_id*."""
+        """将 *annotator_id* 的 ``progress.json`` 持久化到磁盘。"""
         path = self._progress_path(annotator_id)
         path.parent.mkdir(parents=True, exist_ok=True)
         progress["updated_at"] = datetime.now(timezone.utc).isoformat()
@@ -209,14 +205,13 @@ class SessionManager:
             json.dump(progress, fh, indent=2, ensure_ascii=False)
 
     # ------------------------------------------------------------------
-    # Progress summary
+    # 进度汇总
     # ------------------------------------------------------------------
 
     def get_progress_summary(self, annotator_id: str) -> dict:
-        """Return progress statistics for an annotator.
+        """返回标注者的进度统计信息。
 
-        Includes total / answered / remaining counts broken down by question
-        type and by scene.
+        按题型和场景细分，包含总数 / 已回答 / 剩余数量。
         """
         progress = self._load_progress(annotator_id)
         all_qs = self._load_all_questions()
@@ -263,18 +258,17 @@ class SessionManager:
         }
 
     # ------------------------------------------------------------------
-    # Scene selection
+    # 场景选择
     # ------------------------------------------------------------------
 
     def _select_scene(self, progress: dict) -> Optional[str]:
-        """Select the best scene for the next page.
+        """为下一页选取最合适的场景。
 
-        Priority order:
-        1. Untouched scenes (no answered questions yet) -- pick the first one
-           in sorted order for determinism.
-        2. Scenes with the most unanswered questions.
+        优先级顺序：
+        1. 未接触场景（尚无已回答问题）——按排序顺序取第一个以保证确定性。
+        2. 未回答问题最多的场景。
 
-        Returns ``None`` if every question in every scene has been answered.
+        若所有场景的所有问题均已回答，则返回 ``None``。
         """
         all_qs = self._load_all_questions()
         answered_map: Dict[str, Set[str]] = {
@@ -283,7 +277,7 @@ class SessionManager:
         }
 
         untouched: List[str] = []
-        partial: List[Tuple[int, str]] = []  # (unanswered_count, scene_id)
+        partial: List[Tuple[int, str]] = []  # (未回答数量, 场景 ID)
 
         for scene_id in sorted(all_qs.keys()):
             scene_qs = all_qs[scene_id]
@@ -303,14 +297,14 @@ class SessionManager:
             return untouched[0]
 
         if partial:
-            # Pick the scene with the most unanswered questions.
+            # 选取未回答问题最多的场景。
             partial.sort(key=lambda pair: (-pair[0], pair[1]))
             return partial[0][1]
 
         return None
 
     # ------------------------------------------------------------------
-    # Question selection
+    # 问题选择
     # ------------------------------------------------------------------
 
     def _select_questions(
@@ -321,27 +315,24 @@ class SessionManager:
         page_size: int,
         min_page_size: int,
     ) -> List[dict]:
-        """Select questions for a page, mixing types proportionally.
+        """按比例混合各题型，为一页选取问题。
 
-        Each returned question dict is augmented with a ``"_repeat"`` boolean
-        flag indicating whether it was previously answered.
+        每个返回的问题字典附加 ``"_repeat"`` 布尔标志，
+        指示该问题是否已被回答过。
 
-        Algorithm:
-        1. Compute per-type target counts proportional to ``_TYPE_WEIGHTS``,
-           scaled to *page_size*.
-        2. Fill from unanswered questions first; if a type has fewer
-           unanswered than its target, take what is available.
-        3. If total selected < *min_page_size*, supplement with already-answered
-           questions (marked as repeats).
+        算法：
+        1. 按 ``_TYPE_WEIGHTS`` 比例计算各题型的目标数量，并缩放至 *page_size*。
+        2. 优先从未回答问题中填充；若某题型未回答数量不足目标值，则取所有可用问题。
+        3. 若已选总数 < *min_page_size*，则补充已回答问题（标记为重复）。
         """
-        # Separate unanswered and answered pools per type.
+        # 按题型分别建立未回答和已回答问题池。
         unanswered: Dict[str, List[dict]] = {}
         answered_pool: Dict[str, List[dict]] = {}
         for qtype, questions in scene_questions.items():
             unanswered[qtype] = [q for q in questions if q["qid"] not in answered_qids]
             answered_pool[qtype] = [q for q in questions if q["qid"] in answered_qids]
 
-        # Compute per-type targets.
+        # 计算各题型的目标数量。
         active_types = [qt for qt in QUESTION_TYPES if qt in scene_questions and scene_questions[qt]]
         if not active_types:
             return []
@@ -354,16 +345,16 @@ class SessionManager:
             targets[qt] = t
             assigned += t
 
-        # Adjust rounding so sum == page_size.
+        # 调整舍入误差使总和等于 page_size。
         diff = page_size - assigned
         if diff != 0 and active_types:
-            # Add/subtract from the type with the largest target.
+            # 对目标数量最大的题型进行加减调整。
             adjust_type = max(active_types, key=lambda qt: targets[qt])
             targets[adjust_type] = max(1, targets[adjust_type] + diff)
 
         selected: List[dict] = []
 
-        # Phase 1: fill with unanswered questions.
+        # 第一阶段：用未回答问题填充。
         for qt in QUESTION_TYPES:
             if qt not in targets:
                 continue
@@ -375,7 +366,7 @@ class SessionManager:
                 entry["_repeat"] = False
                 selected.append(entry)
 
-        # Phase 2: if under-filled, try unanswered from other types that have surplus.
+        # 第二阶段：若填充不足，从有剩余的其他题型中补充未回答问题。
         if len(selected) < min_page_size:
             remaining_needed = min_page_size - len(selected)
             selected_qids = {q["qid"] for q in selected}
@@ -391,7 +382,7 @@ class SessionManager:
                 entry["_repeat"] = False
                 selected.append(entry)
 
-        # Phase 3: if still under min_page_size, supplement with repeats.
+        # 第三阶段：若仍未达到最小页面大小，用已回答问题补充（标记为重复）。
         if len(selected) < min_page_size:
             remaining_needed = min_page_size - len(selected)
             selected_qids = {q["qid"] for q in selected}
@@ -410,28 +401,28 @@ class SessionManager:
         return selected
 
     # ------------------------------------------------------------------
-    # Image bundle
+    # 图像包
     # ------------------------------------------------------------------
 
     def _build_page_images(self, scene_id: str, test_type: str) -> dict:
-        """Build image paths for the page.
+        """为当前页面构建图像路径。
 
-        Returns a dict with ``single_view``, ``multi_view``, and optionally
-        ``labeled_single_view`` / ``labeled_multi_view`` keys.
+        返回包含 ``single_view``、``multi_view`` 键以及可选的
+        ``labeled_single_view`` / ``labeled_multi_view`` 键的字典。
         """
         bundle: Dict[str, Any] = {
             "single_view": f"images/single_view/{scene_id}.png",
             "multi_view": [],
         }
 
-        # Add multi-view images.
+        # 添加多视角图像。
         mv_dir = self.multi_view_images_dir / scene_id
         if mv_dir.is_dir():
             for i in range(4):
                 view_path = f"images/multi_view/{scene_id}/view_{i}.png"
                 bundle["multi_view"].append(view_path)
 
-        # Include labeled versions from tasks_dir if they exist.
+        # 若 tasks_dir 中存在带标注版本，则一并包含。
         labeled_dir = self.tasks_dir / "images" / scene_id
         if labeled_dir.is_dir():
             labeled_sv = labeled_dir / "single_view_labels.png"
@@ -453,28 +444,27 @@ class SessionManager:
         return bundle
 
     # ------------------------------------------------------------------
-    # Page allocation
+    # 页面分配
     # ------------------------------------------------------------------
 
     def allocate_page(self, annotator_id: str, test_type: str = "single_view") -> Optional[dict]:
-        """Allocate the next page of questions for *annotator_id*.
+        """为 *annotator_id* 分配下一页问题。
 
-        A page consists of one scene and 10-15 questions drawn proportionally
-        from QRR, TRR, and FDR pools.
+        一页由一个场景和 10-15 道题组成，按比例从 QRR、TRR、FDR 问题池中抽取。
 
-        Parameters
+        参数
         ----------
         annotator_id:
-            Identifier for the human annotator.
+            人类标注者的标识符。
         test_type:
-            ``"single_view"`` or ``"multi_view"``.
+            ``"single_view"`` 或 ``"multi_view"``。
 
-        Returns
+        返回值
         -------
-        dict or None
-            Page allocation dict with keys: ``page_id``, ``scene_id``,
-            ``test_type``, ``objects``, ``images``, ``questions``, ``n_new``,
-            ``n_repeat``.  Returns ``None`` when all questions are exhausted.
+        dict 或 None
+            包含以下键的页面分配字典：``page_id``、``scene_id``、
+            ``test_type``、``objects``、``images``、``questions``、``n_new``、
+            ``n_repeat``。所有问题耗尽时返回 ``None``。
         """
         progress = self._load_progress(annotator_id)
         all_qs = self._load_all_questions()
@@ -497,7 +487,7 @@ class SessionManager:
         if not selected:
             return None
 
-        # Load scene document for object info.
+        # 加载场景文档以获取物体信息。
         try:
             scene_doc = load_scene_doc(scene_id, str(self.scenes_dir))
         except (FileNotFoundError, json.JSONDecodeError):
@@ -506,7 +496,7 @@ class SessionManager:
         objects = build_object_catalog(scene_doc)
         object_lookup = build_object_lookup(objects)
 
-        # Enrich questions with prompt text and answer metadata.
+        # 为问题附加提示文本和答案元数据。
         enriched: List[dict] = []
         for q in selected:
             entry = dict(q)
@@ -544,25 +534,24 @@ class SessionManager:
         }
 
     # ------------------------------------------------------------------
-    # Page submission
+    # 页面提交
     # ------------------------------------------------------------------
 
     def submit_page(self, annotator_id: str, page_submission: dict) -> dict:
-        """Record page responses and persist them.
+        """记录并持久化一页的回答。
 
-        Parameters
+        参数
         ----------
         annotator_id:
-            The annotator who completed the page.
+            完成本页的标注者。
         page_submission:
-            Must contain at least ``page_id``, ``scene_id``, ``test_type``,
-            and ``responses`` (a list of ``{"qid": ..., "answer": ...}``
-            dicts).
+            至少须包含 ``page_id``、``scene_id``、``test_type``
+            以及 ``responses``（``{"qid": ..., "answer": ...}`` 字典列表）。
 
-        Returns
+        返回值
         -------
         dict
-            Updated progress summary for the annotator.
+            该标注者的最新进度汇总。
         """
         safe_id = slugify(annotator_id)
         scene_id = page_submission["scene_id"]
@@ -571,7 +560,7 @@ class SessionManager:
         responses: List[dict] = page_submission.get("responses", [])
         now = datetime.now(timezone.utc).isoformat()
 
-        # -- Update progress ------------------------------------------------
+        # -- 更新进度 ------------------------------------------------
         progress = self._load_progress(annotator_id)
         answered_map: Dict[str, List[str]] = progress.setdefault("answered", {})
         scene_answered: Set[str] = set(answered_map.get(scene_id, []))
@@ -583,8 +572,8 @@ class SessionManager:
         progress["pages_completed"] = progress.get("pages_completed", 0) + 1
         self._save_progress(annotator_id, progress)
 
-        # -- Build analyze_responses-compatible JSON payload ----------------
-        # Group responses by question type for batch structure.
+        # -- 构建兼容 analyze_responses 的 JSON 载荷 ----------------
+        # 按题型分组回答以构建批次结构。
         all_qs = self._load_all_questions()
         scene_qs = all_qs.get(scene_id, {})
         qid_to_type: Dict[str, str] = {}
@@ -622,7 +611,7 @@ class SessionManager:
             "raw_response": json.dumps(responses, ensure_ascii=False),
         }
 
-        # Persist the page response JSON.
+        # 将本页回答的 JSON 持久化到磁盘。
         out_dir = self.responses_dir / safe_id
         out_dir.mkdir(parents=True, exist_ok=True)
         out_path = out_dir / f"{scene_id}__{page_id}.json"

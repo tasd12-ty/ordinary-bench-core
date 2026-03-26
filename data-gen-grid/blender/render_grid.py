@@ -1,11 +1,11 @@
 """
-Grid-based rendering script for ORDINARY-BENCH.
+ORDINARY-BENCH 网格渲染脚本。
 
-Renders scenes with objects placed on a visible 4x4 grid.
-Each object occupies exactly one grid cell (strict centering).
-Supports optional grid coordinate labels.
+在可见的 4x4 网格上摆放物体并渲染场景。
+每个物体严格居中于一个网格单元格。
+支持可选的网格坐标标签。
 
-Usage:
+用法：
     blender --background --python render_grid.py -- [arguments]
 """
 
@@ -48,12 +48,12 @@ if INSIDE_BLENDER:
 
 
 # ---------------------------------------------------------------------------
-# Camera configuration (reused from render_multiview.py)
+# 相机配置（复用自 render_multiview.py）
 # ---------------------------------------------------------------------------
 
 @dataclass
 class CameraConfig:
-    """Configuration for a single camera viewpoint."""
+    """单个相机视角的配置。"""
     camera_id: str
     azimuth: float
     elevation: float
@@ -86,7 +86,7 @@ class CameraConfig:
 
 @dataclass
 class MultiViewConfig:
-    """Configuration for multi-view rendering."""
+    """多视角渲染配置。"""
     n_views: int = 4
     camera_distance: float = 12.0
     elevation: float = 30.0
@@ -109,7 +109,7 @@ class MultiViewConfig:
 
 
 # ---------------------------------------------------------------------------
-# Camera helpers (reused from render_multiview.py)
+# 相机辅助函数（复用自 render_multiview.py）
 # ---------------------------------------------------------------------------
 
 def compute_top_view_frame(
@@ -119,21 +119,20 @@ def compute_top_view_frame(
     aspect_ratio: float = 1.0,
     grid_size: Optional[Tuple[float, float]] = None,
 ) -> Tuple[Tuple[float, float, float], float]:
-    """Compute a centered orthographic frame that fits the full scene.
+    """计算能容纳整个场景的居中正交视口。
 
-    When *grid_size* ``(width, height)`` is given the frame is guaranteed to
-    cover the entire grid (centered at the origin) plus *padding*.  Object
-    bounds are still considered so that objects extending beyond the grid
-    expand the frame rather than get clipped.
+    若提供 *grid_size* ``(width, height)``，则视口保证覆盖整个网格
+    （以原点为中心）加上 *padding*。物体的包围盒仍会被考虑，
+    若物体超出网格范围，视口将相应扩大而非裁剪物体。
     """
-    # -- grid-based minimum frame --
+    # -- 基于网格的最小视口 --
     grid_width = 0.0
     if grid_size is not None:
         gw, gh = grid_size
         grid_width = max(gw + 2.0 * padding,
                          aspect_ratio * (gh + 2.0 * padding))
 
-    # -- object-based frame --
+    # -- 基于物体的视口 --
     obj_width = 0.0
     if blender_objects:
         min_x = float("inf")
@@ -163,7 +162,7 @@ def compute_top_view_frame(
                         aspect_ratio * (span_y + 2.0 * padding))
 
     if grid_size is not None:
-        # Grid takes priority; center on grid origin.
+        # 网格优先；以网格原点为中心。
         width = max(grid_width, obj_width)
         return (0.0, 0.0, 0.0), width
 
@@ -181,7 +180,7 @@ def compute_top_view_height(
     blender_objects: Optional[List[Any]] = None,
     min_clearance: float = 1.0,
 ) -> float:
-    """Place the orthographic camera just above the tallest object."""
+    """将正交相机置于最高物体的正上方。"""
     if blender_objects:
         max_z = float("-inf")
         for obj in blender_objects:
@@ -194,7 +193,7 @@ def compute_top_view_height(
 
 
 def get_object_by_name(name: str, alternative_names: Optional[List[str]] = None):
-    """Get Blender object by name with fallbacks."""
+    """按名称获取 Blender 对象，支持备用名称。"""
     if name in bpy.data.objects:
         return bpy.data.objects[name]
     if alternative_names:
@@ -205,7 +204,7 @@ def get_object_by_name(name: str, alternative_names: Optional[List[str]] = None)
 
 
 def set_camera_position(camera_config: CameraConfig) -> None:
-    """Set Blender camera position and orientation."""
+    """设置 Blender 相机的位置和朝向。"""
     camera = bpy.data.objects['Camera']
     position = camera_config.to_cartesian()
     look_at = camera_config.look_at
@@ -216,14 +215,14 @@ def set_camera_position(camera_config: CameraConfig) -> None:
 
 
 def refresh_camera_state() -> None:
-    """Flush Blender's camera transform updates."""
+    """刷新 Blender 相机变换更新。"""
     view_layer = getattr(bpy.context, "view_layer", None)
     if view_layer is not None:
         view_layer.update()
 
 
 def compute_pixel_coords_for_view(camera, objects_3d: List[Dict]) -> List[Dict]:
-    """Compute pixel coordinates for all objects from current camera view."""
+    """从当前相机视角计算所有物体的像素坐标。"""
     updated_objects = []
     for obj in objects_3d:
         obj_copy = obj.copy()
@@ -235,7 +234,7 @@ def compute_pixel_coords_for_view(camera, objects_3d: List[Dict]) -> List[Dict]:
 
 
 def compute_directions_for_view(camera) -> Dict[str, Tuple[float, float, float]]:
-    """Compute cardinal directions relative to current camera view."""
+    """计算相对于当前相机视角的基本方向。"""
     if IS_BLENDER_280_OR_LATER:
         bpy.ops.mesh.primitive_plane_add(size=10)
     else:
@@ -269,7 +268,7 @@ def compute_directions_for_view(camera) -> Dict[str, Tuple[float, float, float]]
 
 
 # ---------------------------------------------------------------------------
-# Render helpers (reused from render_multiview.py)
+# 渲染辅助函数（复用自 render_multiview.py）
 # ---------------------------------------------------------------------------
 
 def render_single_view(
@@ -278,7 +277,7 @@ def render_single_view(
     objects_3d: List[Dict],
     args,
 ) -> Dict[str, Any]:
-    """Render scene from a single camera viewpoint."""
+    """从单个相机视角渲染场景。"""
     set_camera_position(camera_config)
     refresh_camera_state()
 
@@ -304,7 +303,7 @@ def render_top_view(
     blender_objects: Optional[List[Any]],
     args,
 ) -> Dict[str, Any]:
-    """Render an orthographic top-down view."""
+    """渲染正交俯视图。"""
     camera = bpy.data.objects['Camera']
     original_type = camera.data.type
     original_ortho_scale = getattr(camera.data, "ortho_scale", None)
@@ -367,14 +366,14 @@ def render_top_view(
 
 
 # ---------------------------------------------------------------------------
-# Grid-specific functions
+# 网格专用函数
 # ---------------------------------------------------------------------------
 
 ROW_LABELS = ['A', 'B', 'C', 'D']
 
 
 def cell_center(row: int, col: int, rows: int, cols: int, cell_size: float) -> Tuple[float, float]:
-    """Compute world (x, y) for the center of grid cell (row, col)."""
+    """计算网格单元格 (row, col) 中心的世界坐标 (x, y)。"""
     grid_w = cols * cell_size
     grid_h = rows * cell_size
     x = (col + 0.5) * cell_size - grid_w / 2.0
@@ -383,32 +382,32 @@ def cell_center(row: int, col: int, rows: int, cols: int, cell_size: float) -> T
 
 
 def cell_label(row: int, col: int) -> str:
-    """Return human-readable label like A1, B3, etc."""
+    """返回易读的单元格标签，如 A1、B3 等。"""
     return f"{ROW_LABELS[row]}{col + 1}"
 
 
 def create_grid_lines(rows: int = 4, cols: int = 4, cell_size: float = 1.5,
                        line_width: float = 0.02) -> List[Any]:
     """
-    Create visible grid lines on the ground plane.
+    在地面平面上创建可见的网格线。
 
-    Lines are thin flat cubes with an emission material so they stay visible
-    regardless of lighting and camera angle.
+    网格线为细长扁平方块，使用自发光材质，
+    无论光照和相机角度如何都保持可见。
     """
-    grid_w = cols * cell_size   # total width  (X)
-    grid_h = rows * cell_size   # total height (Y)
+    grid_w = cols * cell_size   # 总宽度（X 方向）
+    grid_h = rows * cell_size   # 总高度（Y 方向）
     half_w = grid_w / 2.0
     half_h = grid_h / 2.0
     z_offset = 0.002  # slightly above ground to avoid z-fighting
 
     grid_objects = []
 
-    # Create emission material for grid lines
+    # 创建网格线的自发光材质
     mat = bpy.data.materials.new(name="GridLineMaterial")
     mat.use_nodes = True
     nodes = mat.node_tree.nodes
     links = mat.node_tree.links
-    # Remove default Principled BSDF
+    # 移除默认的 Principled BSDF 节点
     for node in list(nodes):
         if node.type != 'OUTPUT_MATERIAL':
             nodes.remove(node)
@@ -422,7 +421,7 @@ def create_grid_lines(rows: int = 4, cols: int = 4, cell_size: float = 1.5,
             break
     links.new(emission.outputs['Emission'], output_node.inputs['Surface'])
 
-    # Horizontal lines (constant Y, span full X width)
+    # 水平线（Y 固定，沿 X 方向延伸整个宽度）
     for i in range(rows + 1):
         y = i * cell_size - half_h
         if IS_BLENDER_280_OR_LATER:
@@ -435,7 +434,7 @@ def create_grid_lines(rows: int = 4, cols: int = 4, cell_size: float = 1.5,
         line.data.materials.append(mat)
         grid_objects.append(line)
 
-    # Vertical lines (constant X, span full Y height)
+    # 垂直线（X 固定，沿 Y 方向延伸整个高度）
     for j in range(cols + 1):
         x = j * cell_size - half_w
         if IS_BLENDER_280_OR_LATER:
@@ -453,14 +452,14 @@ def create_grid_lines(rows: int = 4, cols: int = 4, cell_size: float = 1.5,
 
 def create_grid_labels(rows: int = 4, cols: int = 4, cell_size: float = 1.5) -> List[Any]:
     """
-    Create text labels at each grid cell center (e.g. A1, B2, ..., D4).
+    在每个网格单元格中心创建文字标签（如 A1、B2、...、D4）。
 
-    Labels use an emission material and face upward so they are readable
-    from the top-down view and partially visible from perspective views.
+    标签使用自发光材质并朝上，
+    以便从俯视角清晰可读，并可从透视角部分可见。
     """
     label_objects = []
 
-    # Create emission material for labels
+    # 创建标签的自发光材质
     mat = bpy.data.materials.new(name="GridLabelMaterial")
     mat.use_nodes = True
     nodes = mat.node_tree.nodes
@@ -490,13 +489,13 @@ def create_grid_labels(rows: int = 4, cols: int = 4, cell_size: float = 1.5) -> 
             txt_obj.data.size = 0.3
             txt_obj.data.align_x = 'CENTER'
             txt_obj.data.align_y = 'CENTER'
-            # Rotate so text faces up (readable from top view)
+            # 旋转使文字朝上（从俯视角可读）
             txt_obj.rotation_euler[0] = math.radians(90)
-            # Offset so centered text aligns with cell center
+            # 偏移使居中文字对齐单元格中心
             txt_obj.location.x = cx
             txt_obj.location.y = cy
 
-            # Apply material
+            # 应用材质
             txt_obj.data.materials.append(mat)
             label_objects.append(txt_obj)
 
@@ -512,12 +511,12 @@ def add_grid_objects(
     cell_size: float = 1.5,
 ) -> Tuple[List[Dict], List[Any]]:
     """
-    Place objects at grid cell centers.
+    在网格单元格中心摆放物体。
 
-    Randomly selects num_objects cells from the grid, then places one object
-    at the exact center of each selected cell. Only uses 'small' size.
+    从网格中随机选取 num_objects 个单元格，
+    在每个选定单元格的精确中心摆放一个物体。仅使用 'small' 尺寸。
     """
-    # Load properties
+    # 加载属性文件
     with open(args.properties_json, 'r') as f:
         properties = json.load(f)
         color_name_to_rgba = {}
@@ -527,10 +526,10 @@ def add_grid_objects(
         material_mapping = [(v, k) for k, v in properties['materials'].items()]
         object_mapping = [(v, k) for k, v in properties['shapes'].items()]
 
-    # Fixed size for grid mode — small only
+    # 网格模式固定使用 small 尺寸
     size_scale = properties['sizes']['small']
 
-    # Build list of all cells and select randomly
+    # 构建所有单元格列表并随机选取
     all_cells = [(r, c) for r in range(rows) for c in range(cols)]
     selected_cells = random.sample(all_cells, min(num_objects, len(all_cells)))
 
@@ -540,7 +539,7 @@ def add_grid_objects(
     for i, (r, c) in enumerate(selected_cells):
         cx, cy = cell_center(r, c, rows, cols, cell_size)
 
-        # Random shape, color, material
+        # 随机选择形状、颜色和材质
         obj_name, obj_name_out = random.choice(object_mapping)
         color_name, rgba = random.choice(list(color_name_to_rgba.items()))
         mat_name, mat_name_out = random.choice(material_mapping)
@@ -551,15 +550,15 @@ def add_grid_objects(
 
         theta = 360.0 * random.random()
 
-        # Add object at cell center
+        # 在单元格中心添加物体
         utils.add_object(args.shape_dir, obj_name, r_scale, (cx, cy), theta=theta)
         obj = bpy.context.object
         blender_objects.append(obj)
 
-        # Apply material
+        # 应用材质
         utils.add_material(mat_name, Color=rgba)
 
-        # Record metadata
+        # 记录元数据
         pixel_coords = utils.get_camera_coords(camera, obj.location)
         objects_3d.append({
             "id": f"obj_{i}",
@@ -579,7 +578,7 @@ def add_grid_objects(
 
 
 # ---------------------------------------------------------------------------
-# Main scene render
+# 主场景渲染
 # ---------------------------------------------------------------------------
 
 def render_grid_scene(
@@ -590,14 +589,14 @@ def render_grid_scene(
     output_dir: str,
     mv_config: MultiViewConfig,
 ) -> Dict[str, Any]:
-    """Render a complete grid-based scene."""
+    """渲染完整的网格场景。"""
     os.makedirs(output_dir, exist_ok=True)
 
-    # Load base scene
+    # 加载基础场景
     bpy.ops.wm.open_mainfile(filepath=args.base_scene_blendfile)
     utils.load_materials(args.material_dir)
 
-    # Render settings
+    # 渲染设置
     render_args = bpy.context.scene.render
     render_args.engine = "CYCLES"
     render_args.resolution_x = args.width
@@ -622,7 +621,7 @@ def render_grid_scene(
     if IS_BLENDER_280_OR_LATER:
         bpy.context.scene.cycles.transparent_max_bounces = args.render_max_bounces
 
-    # Scene metadata
+    # 场景元数据
     scene_id = f"{output_split}_{output_index:06d}"
     scene_struct = {
         "scene_id": scene_id,
@@ -645,7 +644,7 @@ def render_grid_scene(
         "views": [],
     }
 
-    # Light jitter
+    # 光源抖动
     def rand(L):
         return 2.0 * L * (random.random() - 0.5)
 
@@ -663,7 +662,7 @@ def render_grid_scene(
         for i in range(3):
             lamp_fill.location[i] += rand(args.fill_light_jitter)
 
-    # Create grid lines
+    # 创建网格线
     create_grid_lines(
         rows=args.grid_rows,
         cols=args.grid_cols,
@@ -671,7 +670,7 @@ def render_grid_scene(
         line_width=args.grid_line_width,
     )
 
-    # Optionally create grid labels
+    # 可选地创建网格标签
     if args.grid_labels == 1:
         create_grid_labels(
             rows=args.grid_rows,
@@ -679,12 +678,12 @@ def render_grid_scene(
             cell_size=args.cell_size,
         )
 
-    # Set initial camera for object placement
+    # 设置物体摆放时的初始相机
     cameras = mv_config.generate_cameras()
     set_camera_position(cameras[0])
     camera = bpy.data.objects['Camera']
 
-    # Place objects on grid
+    # 在网格上摆放物体
     objects_3d, blender_objects = add_grid_objects(
         num_objects, args, camera,
         rows=args.grid_rows,
@@ -693,13 +692,13 @@ def render_grid_scene(
     )
     scene_struct["objects"] = objects_3d
 
-    # Render from each viewpoint
+    # 从每个视角渲染
     for cam_config in cameras:
         img_path = os.path.join(output_dir, f"{cam_config.camera_id}.png")
         view_data = render_single_view(cam_config, img_path, objects_3d, args)
         scene_struct["views"].append(view_data)
 
-    # Top view
+    # 俯视图
     if getattr(args, "render_top_view", 0) == 1 and getattr(args, "output_top_view_dir", None):
         os.makedirs(args.output_top_view_dir, exist_ok=True)
         top_img_path = os.path.join(args.output_top_view_dir, f"{scene_id}.png")
@@ -707,12 +706,12 @@ def render_grid_scene(
             top_img_path, objects_3d, blender_objects, args,
         )
 
-    # Save metadata
+    # 保存元数据
     metadata_path = os.path.join(output_dir, "metadata.json")
     with open(metadata_path, 'w') as f:
         json.dump(scene_struct, f, indent=2)
 
-    # Copy view_0 as single-view image
+    # 将 view_0 复制为单视角图像
     if args.output_single_view_dir:
         single_view_dir = args.output_single_view_dir
         os.makedirs(single_view_dir, exist_ok=True)
@@ -726,11 +725,11 @@ def render_grid_scene(
 
 
 # ---------------------------------------------------------------------------
-# Main
+# 主程序入口
 # ---------------------------------------------------------------------------
 
 def main(args):
-    """Main entry point for grid-based rendering."""
+    """网格渲染的主入口函数。"""
     random.seed(args.seed + args.start_idx)
     print(f"Starting grid rendering: {args.num_images} scenes, {args.n_views} views each "
           f"(grid {args.grid_rows}x{args.grid_cols}, seed={args.seed + args.start_idx})")
@@ -808,24 +807,24 @@ def main(args):
 
 
 # ---------------------------------------------------------------------------
-# Argument parser
+# 参数解析器
 # ---------------------------------------------------------------------------
 
 parser = argparse.ArgumentParser(description="Grid-based scene rendering")
 
-# Input options
+# 输入选项
 parser.add_argument('--base_scene_blendfile', default='assets/base_scene_v5.blend')
 parser.add_argument('--properties_json', default='assets/properties.json')
 parser.add_argument('--shape_dir', default='assets/shapes_v5')
 parser.add_argument('--material_dir', default='assets/materials_v5')
 
-# Object settings
+# 物体设置
 parser.add_argument('--min_objects', default=4, type=int)
 parser.add_argument('--max_objects', default=8, type=int)
 parser.add_argument('--min_dist', default=0.25, type=float)
 parser.add_argument('--margin', default=0.4, type=float)
 
-# Grid settings
+# 网格设置
 parser.add_argument('--grid_rows', default=4, type=int, help="Number of grid rows")
 parser.add_argument('--grid_cols', default=4, type=int, help="Number of grid columns")
 parser.add_argument('--cell_size', default=1.5, type=float, help="Grid cell size in BU")
@@ -833,7 +832,7 @@ parser.add_argument('--grid_line_width', default=0.02, type=float, help="Grid li
 parser.add_argument('--grid_labels', default=0, type=int,
     help="Whether to render cell labels (0=off, 1=on)")
 
-# Multi-view settings
+# 多视角设置
 parser.add_argument('--n_views', default=4, type=int)
 parser.add_argument('--camera_distance', default=12.0, type=float)
 parser.add_argument('--elevation', default=30.0, type=float)
@@ -842,14 +841,14 @@ parser.add_argument('--render_top_view', default=1, type=int)
 parser.add_argument('--top_view_height', default=None, type=float)
 parser.add_argument('--top_view_padding', default=0.5, type=float)
 
-# Output settings
+# 输出设置
 parser.add_argument('--output_dir', default='../output/')
 parser.add_argument('--start_idx', default=0, type=int)
 parser.add_argument('--num_images', default=5, type=int)
 parser.add_argument('--split', default='train')
 parser.add_argument('--seed', default=42, type=int)
 
-# Render settings
+# 渲染设置
 parser.add_argument('--use_gpu', default=0, type=int)
 parser.add_argument('--width', default=480, type=int)
 parser.add_argument('--height', default=480, type=int)

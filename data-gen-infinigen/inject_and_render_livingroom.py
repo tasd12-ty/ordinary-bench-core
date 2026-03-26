@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Open an Infinigen indoor scene, place geometric tabletop objects, and render one image."""
+"""打开 Infinigen 室内场景，在桌面上放置几何体探针对象，并渲染一张图像。"""
 
 from __future__ import annotations
 

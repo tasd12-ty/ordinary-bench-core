@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create a pseudo-Infinigen frame bundle from an existing data-gen scene."""
+"""从现有的 data-gen 场景创建伪 Infinigen 帧包。"""
 
 import argparse
 import json
@@ -24,7 +24,7 @@ def _camera_pose_from_view(view: dict) -> np.ndarray:
     forward = look_at - position
     forward = forward / np.linalg.norm(forward)
 
-    # Pseudo-Infinigen uses a CV-style camera frame: +X right, +Y down, +Z forward.
+    # 伪 Infinigen 使用 CV 风格相机坐标系：+X 向右，+Y 向下，+Z 向前。
     world_down = np.asarray([0.0, 1.0, 0.0], dtype=np.float64)
     right = np.cross(world_down, forward)
     right = right / np.linalg.norm(right)

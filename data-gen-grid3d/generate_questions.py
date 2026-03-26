@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-Generate VLM test questions for 3D grid scenes.
+为 3D 网格场景生成 VLM 测试问题。
 
-Reads scene JSONs and produces question JSONs with:
-- System/user prompts with coordinate system explanation
-- 6 orthographic view image paths with axis labels
-- Ground truth cell positions
+读取场景 JSON，生成包含以下内容的问题 JSON：
+- 含坐标系说明的系统/用户提示词
+- 带坐标轴标签的 6 个正交视角图像路径
+- 真实单元格位置（ground truth）
 
-Usage:
+用法：
     python generate_questions.py --data output
     python generate_questions.py --data output --split g04
     python generate_questions.py --data output --counts
@@ -62,12 +62,12 @@ VIEW_SPECS = [
 
 
 def object_desc(obj: dict) -> str:
-    """Build human-readable object description: 'cyan rubber cylinder'."""
+    """构建易读的物体描述，如 'cyan rubber cylinder'。"""
     return f"{obj['color']} {obj['material']} {obj['shape']}"
 
 
 def build_user_prompt(objects: list[dict]) -> str:
-    """Build the user prompt with view labels and object list."""
+    """构建包含视角标签和物体列表的用户提示词。"""
     lines = ["Here are 6 orthographic views of a 3D grid scene:\n"]
 
     for i, spec in enumerate(VIEW_SPECS, 1):
@@ -93,14 +93,14 @@ def build_user_prompt(objects: list[dict]) -> str:
 
 
 def generate_for_scene(scene_path: Path, data_dir: Path) -> dict:
-    """Generate question JSON for one scene."""
+    """为单个场景生成问题 JSON。"""
     with open(scene_path) as f:
         scene = json.load(f)
 
     scene_id = scene["scene_id"]
     objects = scene["objects"]
 
-    # Build image list with paths and labels
+    # 构建包含路径和标签的图像列表
     images = []
     for spec in VIEW_SPECS:
         img_path = f"images/{spec['view']}/{scene_id}.png"
@@ -112,7 +112,7 @@ def generate_for_scene(scene_path: Path, data_dir: Path) -> dict:
             "exists": full_path.exists(),
         })
 
-    # Build object list and ground truth
+    # 构建物体列表和真值
     obj_list = []
     ground_truth = []
     for obj in objects:
@@ -142,7 +142,7 @@ def generate_for_scene(scene_path: Path, data_dir: Path) -> dict:
 
 
 def find_scenes(data_dir: Path, split: str = None) -> list[Path]:
-    """Find scene JSON files, optionally filtered by split."""
+    """查找场景 JSON 文件，可按 split 过滤。"""
     scenes_dir = data_dir / "scenes"
     if not scenes_dir.exists():
         print(f"Error: scenes directory not found: {scenes_dir}")
@@ -182,7 +182,7 @@ def main():
         print(f"\nTotal: {len(scene_paths)} scenes, {total_questions} object-position questions")
         return
 
-    # Generate questions
+    # 生成问题文件
     out_dir = data_dir / "questions"
     out_dir.mkdir(parents=True, exist_ok=True)
 
