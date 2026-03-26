@@ -23,7 +23,10 @@ from .preparation import (
     prepare_reconstruction_input_from_scoring,
 )
 from .solver import SolverConfig, SolverSolution, solve
-from .evaluate import EvalMetrics, evaluate_reconstruction, cluster_solutions, reflect_positions_y
+from .evaluate import (
+    EvalMetrics, evaluate_reconstruction, cluster_solutions, reflect_positions_y,
+    compute_nrl, estimate_nrl_random, compute_significance,
+)
 
 
 CONSTRAINT_MODES = ("all", "fdr_only", "qrr_only", "fdr_qrr", "qrr_trr", "fdr_trr")
@@ -52,6 +55,10 @@ class ReconstructResult:
             "metrics": {
                 "csr_qrr": self.metrics.csr_qrr,
                 "csr_trr": self.metrics.csr_trr,
+                "csr_qrr_aligned": self.metrics.csr_qrr_aligned,
+                "nrl": self.metrics.nrl,
+                "p_value_qrr": self.metrics.p_value_qrr,
+                "p_value_trr": self.metrics.p_value_trr,
                 "K_geom": self.metrics.K_geom,
                 "spread": self.metrics.spread,
                 "kendall_tau": self.metrics.kendall_tau,
@@ -320,6 +327,7 @@ def _run_pipeline(
         qrr_entries=qrr_entries,
         trr_entries=trr_entries,
         gt_positions=gt_2d,
+        solver_config=config,
     )
     result.metrics = metrics
     result.K_geom = metrics.K_geom
@@ -330,9 +338,20 @@ def _run_pipeline(
     else:
         result.positions = solutions[0].positions
 
-    # ── 状态判定 ──
-    csr_ok = metrics.csr_qrr >= 0.95 and metrics.csr_trr >= 0.95
-    if not csr_ok:
+    # ── 状态判定（三层准则） ──
+    # Layer 2: 归一化损失优于随机基线 2 倍以上
+    nrl_random = estimate_nrl_random(config.qrr_margin, config.qrr_beta)
+    nrl_ok = metrics.nrl < nrl_random * 0.5
+
+    # Layer 3: 二项显著性检验（CSR 显著高于随机猜测）
+    _, _, sig_ok = compute_significance(
+        metrics.csr_qrr_aligned, len(qrr_entries),
+        metrics.csr_trr, len(trr_entries),
+    )
+
+    feasible = nrl_ok and sig_ok
+
+    if not feasible:
         result.feasible = False
         result.status = "infeasible"
     elif metrics.K_geom == 1 and metrics.spread <= 0.10:

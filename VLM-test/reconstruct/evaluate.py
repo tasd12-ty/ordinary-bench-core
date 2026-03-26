@@ -2,6 +2,7 @@
 场景信念重建的评估指标。
 
 CSR、K_geom、spread、Kendall tau、NRMS + 多解聚类。
+三层判定准则：solver 对齐 CSR、归一化损失 NRL、二项显著性检验。
 """
 
 import math
@@ -9,7 +10,7 @@ import numpy as np
 from itertools import combinations
 from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass, field
-from scipy.stats import kendalltau
+from scipy.stats import kendalltau, binom
 
 from .constraints import QRREntry, TRREntry
 from .solver import SolverSolution, SolverConfig
@@ -115,6 +116,101 @@ def compute_csr_trr(
                 satisfied += 1
 
     return satisfied / evaluated if evaluated > 0 else 1.0
+
+
+# ── Solver 对齐的 CSR（log 域） ──
+
+def compute_csr_qrr_aligned(
+    positions: Dict[str, np.ndarray],
+    qrr_entries: List[QRREntry],
+    config: Optional[SolverConfig] = None,
+) -> float:
+    """在 log 域评估 QRR 约束满足率，与 solver 损失函数容差一致。
+
+    solver 在 log(d1)-log(d2) 空间优化，使用 delta_eq 作为死区宽度。
+    本函数使用同一容差判定约束是否满足，消除 ratio 域和 log 域的边界不一致。
+    """
+    if not qrr_entries:
+        return 1.0
+
+    cfg = config or SolverConfig()
+    eps = cfg.qrr_eps
+    delta_eq = cfg.qrr_delta_eq
+
+    satisfied = 0
+    for entry in qrr_entries:
+        p1 = pair_key(*entry.pair1)
+        p2 = pair_key(*entry.pair2)
+
+        d1 = float(np.linalg.norm(positions[p1[0]] - positions[p1[1]])) + eps
+        d2 = float(np.linalg.norm(positions[p2[0]] - positions[p2[1]])) + eps
+        delta = math.log(d1) - math.log(d2)
+
+        if entry.comparator == "<":
+            if delta < delta_eq:
+                satisfied += 1
+        elif entry.comparator == ">":
+            if -delta < delta_eq:
+                satisfied += 1
+        else:  # ~=
+            if abs(delta) < delta_eq:
+                satisfied += 1
+
+    return satisfied / len(qrr_entries)
+
+
+# ── 归一化重建损失 ──
+
+def compute_nrl(best_loss: float, n_qrr: int, n_trr: int) -> float:
+    """归一化重建损失：solver 最优损失除以约束总数。"""
+    n_total = n_qrr + n_trr
+    if n_total == 0:
+        return 0.0
+    return best_loss / n_total
+
+
+def estimate_nrl_random(margin: float = 0.1, beta: float = 10.0) -> float:
+    """解析估算随机基线下的期望 NRL。
+
+    随机 QRR 约 1/3 正确（损失≈0），2/3 错误（损失≈softplus(margin, beta)）。
+    随机 TRR 约 1/12 正确，11/12 错误。
+    取 QRR 占主导的近似值。
+    """
+    bx = beta * margin
+    sp = math.log1p(math.exp(bx)) / beta if bx < 20 else margin
+    return (2.0 / 3.0) * sp
+
+
+# ── 二项显著性检验 ──
+
+def compute_significance(
+    csr_qrr: float,
+    n_qrr: int,
+    csr_trr: float,
+    n_trr: int,
+    alpha: float = 0.01,
+    p_chance_qrr: float = 1.0 / 3.0,
+    p_chance_trr: float = 1.0 / 12.0,
+) -> Tuple[float, float, bool]:
+    """二项检验：CSR 是否显著高于随机猜测。
+
+    返回 (p_value_qrr, p_value_trr, is_significant)。
+    """
+    if n_qrr > 0:
+        k_qrr = round(csr_qrr * n_qrr)
+        p_qrr = 1.0 - binom.cdf(k_qrr - 1, n_qrr, p_chance_qrr) if k_qrr > 0 else 1.0
+    else:
+        p_qrr = 1.0
+
+    if n_trr > 0:
+        k_trr = round(csr_trr * n_trr)
+        p_trr = 1.0 - binom.cdf(k_trr - 1, n_trr, p_chance_trr) if k_trr > 0 else 1.0
+    else:
+        p_trr = 1.0
+
+    qrr_sig = p_qrr < alpha if n_qrr > 0 else True
+    trr_sig = p_trr < alpha if n_trr > 0 else True
+    return float(p_qrr), float(p_trr), qrr_sig and trr_sig
 
 
 # ── 多解聚类 ──
@@ -249,6 +345,10 @@ class EvalMetrics:
     """重建的完整评估指标。"""
     csr_qrr: float = 0.0
     csr_trr: float = 0.0
+    csr_qrr_aligned: float = 0.0  # solver 对齐的 log 域 CSR
+    nrl: float = float("inf")     # 归一化重建损失
+    p_value_qrr: float = 1.0     # QRR 二项检验 p 值
+    p_value_trr: float = 1.0     # TRR 二项检验 p 值
     K_geom: int = 1
     spread: float = 0.0
     kendall_tau: Optional[float] = None
@@ -266,12 +366,18 @@ def evaluate_reconstruction(
     gt_positions: Optional[Dict[str, np.ndarray]] = None,
     rms_threshold: float = 0.10,
     tau: float = 0.10,
+    solver_config: Optional[SolverConfig] = None,
 ) -> EvalMetrics:
     """为一组重建解计算所有评估指标。
 
     重建结果仅在相似变换（平移、旋转、缩放和镜像反射）意义下确定。
     对于 CSR_TRR 和 NRMS，我们评估两种手性并保留较优结果。
     CSR_QRR 和 Kendall tau 在构造上具有镜像反射不变性。
+
+    新增三层判定指标：
+    - csr_qrr_aligned: solver 对齐的 log 域 CSR
+    - nrl: 归一化重建损失
+    - p_value_qrr/p_value_trr: 二项检验 p 值
     """
     if not solutions:
         return EvalMetrics()
@@ -280,6 +386,9 @@ def evaluate_reconstruction(
 
     # CSR_QRR：在镜像反射下不变（距离保持）
     csr_qrr = compute_csr_qrr(best.positions, qrr_entries, tau=tau)
+
+    # Solver 对齐的 CSR（log 域）
+    csr_qrr_aligned = compute_csr_qrr_aligned(best.positions, qrr_entries, solver_config)
 
     # CSR_TRR：尝试两种手性，取较优者
     csr_trr_orig = compute_csr_trr(best.positions, trr_entries)
@@ -290,12 +399,25 @@ def evaluate_reconstruction(
     used_reflection = csr_trr_refl > csr_trr_orig
     best_positions = reflected if used_reflection else best.positions
 
+    # 归一化重建损失
+    nrl = compute_nrl(best.loss, len(qrr_entries), len(trr_entries))
+
+    # 二项显著性检验
+    p_qrr, p_trr, _ = compute_significance(
+        csr_qrr_aligned, len(qrr_entries),
+        csr_trr, len(trr_entries),
+    )
+
     # 聚类
     cluster = cluster_solutions(solutions, rms_threshold=rms_threshold)
 
     metrics = EvalMetrics(
         csr_qrr=csr_qrr,
         csr_trr=csr_trr,
+        csr_qrr_aligned=csr_qrr_aligned,
+        nrl=nrl,
+        p_value_qrr=p_qrr,
+        p_value_trr=p_trr,
         K_geom=cluster.K_geom,
         spread=cluster.spread,
         best_loss=best.loss,
