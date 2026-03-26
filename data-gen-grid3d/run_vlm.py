@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
 """
-Run VLM API on 3D grid position questions.
+调用 VLM API 处理 3D 网格位置问题。
 
-Reads question JSONs, sends 6 orthographic view images + prompt to VLM,
-parses response, and saves predictions.
+读取问题 JSON，向 VLM 发送 6 个正交视角图像和提示词，
+解析响应并保存预测结果。
 
-Usage:
-    # Single scene
+用法：
+    # 单场景
     VLM_MODEL=openai/gpt-4o python run_vlm.py --question output/questions/g04_000000.json
 
-    # All scenes
+    # 所有场景
     VLM_MODEL=openai/gpt-4o python run_vlm.py --questions-dir output/questions
 
-Environment variables:
-    VLM_BASE_URL   — API endpoint (default: OpenRouter)
-    VLM_API_KEY    — API key
-    VLM_MODEL      — Model identifier
-    VLM_CONCURRENCY — Parallel workers (default: 2)
-    VLM_TIMEOUT    — Request timeout in seconds (default: 120)
-    VLM_MAX_RETRIES — Retry count (default: 5)
+环境变量：
+    VLM_BASE_URL   — API 端点（默认：OpenRouter）
+    VLM_API_KEY    — API 密钥
+    VLM_MODEL      — 模型标识符
+    VLM_CONCURRENCY — 并行工作线程数（默认：2）
+    VLM_TIMEOUT    — 请求超时秒数（默认：120）
+    VLM_MAX_RETRIES — 重试次数（默认：5）
 """
 
 import argparse
@@ -29,7 +29,7 @@ import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-# Add VLM-test/API-test to import path for reuse
+# 将 VLM-test/API-test 添加到导入路径以复用模块
 API_TEST_DIR = Path(__file__).resolve().parent.parent / "VLM-test" / "API-test"
 if str(API_TEST_DIR) not in sys.path:
     sys.path.insert(0, str(API_TEST_DIR))
@@ -47,21 +47,21 @@ logger = logging.getLogger(__name__)
 
 def build_messages(question: dict, data_dir: Path) -> list:
     """
-    Build OpenAI-compatible messages with 6 labeled images + prompt.
+    构建包含 6 张带标签图像和提示词的 OpenAI 兼容消息。
 
-    Each image is preceded by a text label identifying the view and axes.
+    每张图像前添加标识视角和坐标轴的文字标签。
     """
     system_prompt = question["system_prompt"]
 
-    # Build user content: interleave view labels + images, then prompt body
+    # 构建用户内容：交替排列视角标签和图像，最后附加提示词主体
     content = []
     for i, img_spec in enumerate(question["images"], 1):
-        # Text label before each image
+        # 每张图像前的文字标签
         content.append({
             "type": "text",
             "text": f"[Image {i} — {img_spec['label']}]",
         })
-        # Image
+        # 图像
         img_path = data_dir / img_spec["path"]
         if not img_path.exists():
             logger.warning(f"Image not found: {img_path}")
@@ -72,7 +72,7 @@ def build_messages(question: dict, data_dir: Path) -> list:
             "image_url": {"url": f"data:image/png;base64,{b64}"},
         })
 
-    # Object list and answer format (everything after the image descriptions)
+    # 物体列表和答案格式（图像描述之后的全部内容）
     objects = question["objects"]
     lines = ["\nObjects in this scene:"]
     for j, obj in enumerate(objects, 1):
@@ -98,7 +98,7 @@ def build_messages(question: dict, data_dir: Path) -> list:
 
 
 def parse_predictions(raw_response: str, objects: list) -> list:
-    """Parse VLM response into prediction list."""
+    """将 VLM 响应解析为预测列表。"""
     try:
         parsed = extract_json(raw_response)
     except Exception as e:
@@ -109,7 +109,7 @@ def parse_predictions(raw_response: str, objects: list) -> list:
         logger.warning(f"Expected list, got {type(parsed).__name__}")
         return [{"object": obj["desc"], "cell": None} for obj in objects]
 
-    # Build lookup from parsed response
+    # 构建解析响应的映射
     pred_by_obj = {}
     for item in parsed:
         if isinstance(item, dict):
@@ -117,7 +117,7 @@ def parse_predictions(raw_response: str, objects: list) -> list:
             cell = item.get("cell", None)
             pred_by_obj[obj_name] = cell
 
-    # Match against expected objects
+    # 与期望物体列表匹配
     predictions = []
     for obj in objects:
         desc = obj["desc"]
@@ -128,17 +128,17 @@ def parse_predictions(raw_response: str, objects: list) -> list:
 
 
 def run_scene(question_path: Path, data_dir: Path, output_dir: Path, client, config: dict) -> dict:
-    """Run VLM on one scene question."""
+    """在单个场景问题上运行 VLM。"""
     with open(question_path) as f:
         question = json.load(f)
 
     scene_id = question["scene_id"]
     logger.info(f"Processing {scene_id} ({question['n_objects']} objects)...")
 
-    # Build messages
+    # 构建消息
     messages = build_messages(question, data_dir)
 
-    # Call VLM
+    # 调用 VLM
     raw_response = call_vlm(
         client, messages, config["model"],
         temperature=config["temperature"],
@@ -149,10 +149,10 @@ def run_scene(question_path: Path, data_dir: Path, output_dir: Path, client, con
         provider=config.get("provider", ""),
     )
 
-    # Parse
+    # 解析
     predictions = parse_predictions(raw_response, question["objects"])
 
-    # Save
+    # 保存
     output_dir.mkdir(parents=True, exist_ok=True)
     pred_path = output_dir / f"{scene_id}.json"
     with open(pred_path, "w") as f:
@@ -192,7 +192,7 @@ def main():
     logger.info(f"Model: {config['model']}")
     logger.info(f"Output: {output_dir}")
 
-    # Collect question files
+    # 收集问题文件
     question_paths = []
     if args.question:
         question_paths = [Path(args.question)]
@@ -209,7 +209,7 @@ def main():
 
     logger.info(f"Scenes: {len(question_paths)}, Concurrency: {concurrency}")
 
-    # Run
+    # 执行推理
     results = []
     if concurrency <= 1 or len(question_paths) == 1:
         for qp in question_paths:
@@ -232,7 +232,7 @@ def main():
                 except Exception as e:
                     logger.error(f"Failed {qp.stem}: {e}")
 
-    # Summary
+    # 汇总
     total = sum(r["n_objects"] for r in results)
     valid = sum(r["n_valid"] for r in results)
     print(f"\nDone: {len(results)} scenes, {valid}/{total} objects parsed")

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-Evaluate VLM predictions on 3D grid position questions.
+评估 VLM 对 3D 网格位置问题的预测结果。
 
-Usage:
-    # Single scene
+用法：
+    # 单场景
     python evaluate.py --question output/questions/g04_000000.json \
                        --prediction pred.json
 
-    # Batch (directory)
+    # 批量（目录）
     python evaluate.py --questions-dir output/questions \
                        --predictions-dir results/ \
                        --output report.json
@@ -22,7 +22,7 @@ import scoring
 
 
 def evaluate_single(question_path: Path, prediction_path: Path) -> dict:
-    """Evaluate one scene."""
+    """评估单个场景。"""
     with open(question_path) as f:
         question = json.load(f)
     with open(prediction_path) as f:
@@ -35,7 +35,7 @@ def evaluate_single(question_path: Path, prediction_path: Path) -> dict:
 
 
 def print_scene_result(result: dict) -> None:
-    """Print a single scene's evaluation to terminal."""
+    """将单个场景的评估结果打印到终端。"""
     sid = result.get("scene_id", "?")
     n = result["n_objects"]
     ex = result["exact"]
@@ -64,7 +64,7 @@ def print_scene_result(result: dict) -> None:
 
 
 def print_aggregate(agg: dict) -> None:
-    """Print aggregate report to terminal."""
+    """将汇总报告打印到终端。"""
     s = agg["summary"]
     print(f"\n{'=' * 50}")
     print(f"AGGREGATE REPORT")
@@ -94,7 +94,7 @@ def main():
                         help="Output report JSON path")
     args = parser.parse_args()
 
-    # Single scene mode
+    # 单场景模式
     if args.question and args.prediction:
         result = evaluate_single(Path(args.question), Path(args.prediction))
         print_scene_result(result)
@@ -105,7 +105,7 @@ def main():
             print(f"\nReport saved: {args.output}")
         return
 
-    # Batch mode
+    # 批量模式
     if args.questions_dir and args.predictions_dir:
         q_dir = Path(args.questions_dir)
         p_dir = Path(args.predictions_dir)

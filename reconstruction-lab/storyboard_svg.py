@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """
-Experimental scene storyboard renderer for reconstruction analysis.
+用于重建分析的实验性场景故事板渲染器。
 
-This script is self-contained on purpose. It does not modify or depend on the
-main reconstruction pipeline implementation details.
+本脚本有意设计为自包含，不修改也不依赖主重建管线的实现细节。
 """
 
 from __future__ import annotations
@@ -188,7 +187,7 @@ def _world_to_panel(points: Dict[str, np.ndarray], x: float, y: float, w: float,
 
 
 def procrustes_align(source: np.ndarray, target: np.ndarray) -> Tuple[np.ndarray, float]:
-    """Similarity align source to target."""
+    """将 source 相似变换对齐到 target。"""
     src = np.asarray(source, dtype=float)
     tgt = np.asarray(target, dtype=float)
     src_mean = src.mean(axis=0)
@@ -356,7 +355,7 @@ def _render_image_panel(parts: List[str], panel_x: float, panel_y: float, panel_
             f'<image x="{img_x+4:.1f}" y="{img_y+4:.1f}" width="{img_w-8:.1f}" height="{img_h-8:.1f}" '
             f'xlink:href="data:image/png;base64,{b64}" preserveAspectRatio="xMidYMid meet"/>'
         )
-        # Current benchmark images are 480x320.
+        # 当前基准测试图像尺寸为 480x320。
         scale_x = (img_w - 8) / 480.0
         scale_y = (img_h - 8) / 320.0
         for info in object_map.values():
@@ -448,7 +447,7 @@ def render_storyboard(scene_id: str, object_map: Dict[str, ObjectInfo], image_pa
     parts.append(_svg_badge(badge_x + 336, badge_y, "NRMS", f"{metrics.get('nrms', 0):.3f}"))
     parts.append(_svg_badge(badge_x + 448, badge_y, "K geom", f"{metrics.get('K_geom', 'NA')}"))
 
-    # Main panels.
+    # 主面板。
     card_fill = "#fffdf8"
     for i in range(4):
         parts.append(_svg_rect(xs[i], top_y, panel_w, panel_h, fill=card_fill))
@@ -458,12 +457,12 @@ def render_storyboard(scene_id: str, object_map: Dict[str, ObjectInfo], image_pa
     gt_panel = _render_map_panel(parts, xs[1], top_y, panel_w, panel_h, "Ground Truth", "Top-down scene geometry from metadata", gt_points, object_map)
     belief_panel = _render_map_panel(parts, xs[2], top_y, panel_w, panel_h, "VLM Belief World", "Reconstruction aligned to GT for comparison", recon_aligned_map, object_map)
     _render_map_panel(parts, xs[3], top_y, panel_w, panel_h, "Overlay / Distortion", f"Arrow field after Procrustes alignment (NRMS={nrms_overlay:.3f})", gt_points, object_map, arrows_from=gt_panel, arrows_to=belief_panel)
-    # Add ghost belief layer on overlay.
+    # 在叠加层中添加透明信念层。
     overlay_area = _world_to_panel(recon_aligned_map, xs[3] + 18, top_y + 78, panel_w - 36, panel_h - 102)
     for oid, (px, py) in overlay_area.items():
         parts.append(_shape_svg(px, py, object_map[oid], ghost=True))
 
-    # Sidebar.
+    # 侧边栏。
     side_x = xs[4] + 18
     side_y = top_y + 26
     parts.append(_svg_text(side_x, side_y, "Audit Sidebar", size=20, weight="800"))

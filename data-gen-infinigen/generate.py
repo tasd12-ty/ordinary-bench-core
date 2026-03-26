@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Minimal Infinigen-Indoors wrapper for ordinary-bench style scene generation."""
+"""用于 ordinary-bench 风格场景生成的轻量级 Infinigen-Indoors 封装器。"""
 
 import argparse
 import json

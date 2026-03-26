@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Smoke-test the Infinigen adapter against a mock frame bundle."""
+"""对 Infinigen 适配器进行冒烟测试，使用模拟帧包验证基本功能。"""
 
 import json
 import sys

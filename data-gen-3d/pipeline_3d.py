@@ -1,10 +1,10 @@
 """
-Pipeline: Blender subprocess orchestration + output organization for 3D scenes.
+流水线：3D 场景的 Blender 子进程编排与输出整理。
 
-Extended from data-gen/pipeline.py to support:
-  - 3D object placement (z != 0)
-  - Additional camera views (side view, oblique views)
-  - Camera look_at target adjusted to scene center including z
+在 data-gen/pipeline.py 基础上扩展以支持：
+  - 3D 物体摆放（z != 0）
+  - 更多相机视角（侧视图、斜视角）
+  - 相机 look_at 目标调整为包含 z 分量的场景中心
 """
 
 import json
@@ -16,19 +16,19 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
-# Blender scripts and assets - reuse from data-gen
+# Blender 脚本和资产路径——复用 data-gen 目录
 DATA_GEN_DIR = Path(__file__).resolve().parent.parent / "data-gen"
 BLENDER_DIR = DATA_GEN_DIR / "blender"
 RENDER_SCRIPT = Path(__file__).resolve().parent / "blender" / "render_3d.py"
 ASSETS_DIR = BLENDER_DIR / "assets"
 
-# Fall back to data-gen render script if 3D-specific one doesn't exist yet
+# 若 3D 专用渲染脚本不存在，则回退到 data-gen 的渲染脚本
 if not RENDER_SCRIPT.exists():
     RENDER_SCRIPT = BLENDER_DIR / "render_multiview.py"
 
 
 def render_split(split_name: str, split_cfg: dict, cfg: dict) -> Path:
-    """Render scenes for one split via Blender subprocess."""
+    """通过 Blender 子进程渲染一个 split 的场景。"""
     blender = cfg["blender"]["executable"]
     rendering = cfg["rendering"]
     objects = cfg["objects"]
@@ -79,7 +79,7 @@ def render_split(split_name: str, split_cfg: dict, cfg: dict) -> Path:
         "--start_idx", str(start_idx),
         # 每个 split 使用不同 seed，避免不同物体数量的场景共享相同随机序列
         "--seed", str(cfg["output"].get("seed", 42) + hash(split_name) % 10000),
-        # 3D-specific args
+        # 3D 专用参数
         "--z_min", str(placement.get("z_range", [0, 2.5])[0]),
         "--z_max", str(placement.get("z_range", [0, 2.5])[1]),
         "--z_distribution", str(placement.get("z_distribution", "uniform")),
@@ -125,7 +125,7 @@ def organize_split(
     render_side_view: bool = False,
     effective_split: str = None,
 ) -> list:
-    """Copy images from Blender output to final directory structure."""
+    """将 Blender 输出的图像复制到最终目录结构。"""
     if effective_split is None:
         effective_split = split_name
     scenes_file = render_output / f"{effective_split}_scenes.json"
@@ -141,7 +141,7 @@ def organize_split(
     for scene in scenes_data.get("scenes", []):
         scene_id = scene.get("scene_id", "")
 
-        # Copy multi-view images
+        # 复制多视角图像
         src_mv = render_output / "multi_view" / scene_id
         dst_mv = output_dir / "images" / "multi_view" / scene_id
         if src_mv.exists():
@@ -149,25 +149,25 @@ def organize_split(
                 shutil.rmtree(dst_mv)
             shutil.copytree(src_mv, dst_mv)
 
-        # Copy single-view image
+        # 复制单视角图像
         src_sv = render_output / "single_view" / f"{scene_id}.png"
         dst_sv = output_dir / "images" / "single_view" / f"{scene_id}.png"
         if src_sv.exists():
             shutil.copy2(src_sv, dst_sv)
 
-        # Copy top-view image
+        # 复制俯视图像
         src_tv = render_output / "top_view" / f"{scene_id}.png"
         dst_tv = output_dir / "images" / "top_view" / f"{scene_id}.png"
         if src_tv.exists():
             shutil.copy2(src_tv, dst_tv)
 
-        # Copy side-view image (new for 3D)
+        # 复制侧视图像（3D 新增）
         src_side = render_output / "side_view" / f"{scene_id}.png"
         dst_side = output_dir / "images" / "side_view" / f"{scene_id}.png"
         if src_side.exists():
             shutil.copy2(src_side, dst_side)
 
-        # Save scene metadata
+        # 保存场景元数据
         scene_file = output_dir / "scenes" / f"{scene_id}.json"
         with open(scene_file, 'w') as f:
             json.dump(scene, f, indent=2)
@@ -197,7 +197,7 @@ def organize_split(
 
 
 def build_split(split_name: str, split_cfg: dict, cfg: dict) -> dict:
-    """Render + organize one split. Returns statistics dict."""
+    """渲染并整理一个 split，返回统计信息字典。"""
     output_dir = Path(cfg["output"]["dir"])
     n_views = cfg["rendering"]["n_views"]
     render_top_view = cfg["rendering"].get("render_top_view", False)
@@ -235,7 +235,7 @@ def build_split(split_name: str, split_cfg: dict, cfg: dict) -> dict:
 
 
 def save_dataset_info(cfg: dict, all_stats: dict):
-    """Write dataset_info.json summary."""
+    """写入 dataset_info.json 摘要文件。"""
     output_dir = Path(cfg["output"]["dir"])
     rendering = cfg["rendering"]
     placement = cfg.get("placement", {})

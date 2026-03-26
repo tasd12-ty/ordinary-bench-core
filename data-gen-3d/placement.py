@@ -1,8 +1,8 @@
 """
-3D object placement for ordinary-bench-3d.
+ordinary-bench-3d 的 3D 物体摆放模块。
 
-Extends 2D (x, y) placement with configurable z-coordinate sampling.
-Supports uniform, discrete_levels, and gaussian distributions for height.
+在 2D (x, y) 摆放基础上，扩展了可配置的 z 坐标采样。
+支持 uniform、discrete_levels 和 gaussian 三种高度分布。
 """
 
 import math
@@ -13,11 +13,11 @@ from typing import List, Tuple, Optional, Dict, Any
 
 @dataclass
 class PlacementConfig:
-    """Configuration for 3D object placement."""
+    """3D 物体摆放配置。"""
     x_range: Tuple[float, float] = (-3.0, 3.0)
     y_range: Tuple[float, float] = (-3.0, 3.0)
     z_range: Tuple[float, float] = (0.0, 2.5)
-    z_distribution: str = "uniform"  # "uniform" | "discrete_levels" | "gaussian"
+    z_distribution: str = "uniform"  # 高度分布类型："uniform" | "discrete_levels" | "gaussian"
     discrete_levels: List[float] = field(default_factory=lambda: [0.0, 1.0, 2.0])
     gaussian_mean: float = 1.0
     gaussian_std: float = 0.5
@@ -43,14 +43,14 @@ class PlacementConfig:
 
 
 def sample_z(config: PlacementConfig, rng: random.Random) -> float:
-    """Sample a z-coordinate based on the configured distribution."""
+    """根据配置的分布采样 z 坐标。"""
     z_min, z_max = config.z_range
 
     if config.z_distribution == "uniform":
         return rng.uniform(z_min, z_max)
 
     elif config.z_distribution == "discrete_levels":
-        # Filter levels within z_range
+        # 过滤 z_range 范围内的离散层级
         valid_levels = [
             z for z in config.discrete_levels
             if z_min <= z <= z_max
@@ -71,7 +71,7 @@ def distance_3d(
     pos1: Tuple[float, float, float],
     pos2: Tuple[float, float, float],
 ) -> float:
-    """Compute 3D Euclidean distance between two positions."""
+    """计算两个位置之间的 3D 欧氏距离。"""
     dx = pos1[0] - pos2[0]
     dy = pos1[1] - pos2[1]
     dz = pos1[2] - pos2[2]
@@ -80,11 +80,11 @@ def distance_3d(
 
 @dataclass
 class PlacedObject:
-    """A placed object with 3D position and size radius."""
+    """已摆放物体，包含 3D 位置和尺寸半径。"""
     x: float
     y: float
     z: float
-    radius: float  # Object size radius for collision checking
+    radius: float  # 用于碰撞检测的物体尺寸半径
 
     @property
     def position(self) -> Tuple[float, float, float]:
@@ -98,19 +98,19 @@ def place_objects_3d(
     size_radii: Optional[List[float]] = None,
 ) -> List[PlacedObject]:
     """
-    Place objects in 3D space with minimum distance constraints.
+    在 3D 空间中摆放物体，满足最小距离约束。
 
     Args:
-        num_objects: Number of objects to place
-        config: Placement configuration
-        rng: Random number generator (created if None)
-        size_radii: Per-object size radius for collision (default 0.35 each)
+        num_objects: 要摆放的物体数量
+        config: 摆放配置
+        rng: 随机数生成器（为 None 时自动创建）
+        size_radii: 各物体的碰撞半径（默认每个 0.35）
 
     Returns:
-        List of PlacedObject with 3D positions
+        包含 3D 位置的 PlacedObject 列表
 
     Raises:
-        RuntimeError: If placement fails after max retries
+        RuntimeError: 超过最大重试次数后仍无法摆放时抛出
     """
     if rng is None:
         rng = random.Random()
@@ -129,7 +129,7 @@ def place_objects_3d(
             y = rng.uniform(*config.y_range)
             z = sample_z(config, rng)
 
-            # Check 3D minimum distance against all placed objects
+            # 检查与所有已摆放物体的 3D 最小距离
             too_close = False
             for obj in placed:
                 dist = distance_3d((x, y, z), obj.position)
@@ -153,7 +153,7 @@ def place_objects_3d(
 
 
 def compute_scene_bounds(placed: List[PlacedObject]) -> Dict[str, Tuple[float, float]]:
-    """Compute bounding box of placed objects."""
+    """计算已摆放物体的包围盒。"""
     if not placed:
         return {"x": (0, 0), "y": (0, 0), "z": (0, 0)}
 
@@ -169,7 +169,7 @@ def compute_scene_bounds(placed: List[PlacedObject]) -> Dict[str, Tuple[float, f
 
 
 def compute_scene_center(placed: List[PlacedObject]) -> Tuple[float, float, float]:
-    """Compute center of mass of placed objects."""
+    """计算已摆放物体的质心。"""
     if not placed:
         return (0.0, 0.0, 0.0)
 

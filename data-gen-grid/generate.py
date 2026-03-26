@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-ordinary-bench grid data generation entry point.
+ordinary-bench 网格数据生成入口。
 
-Generates scenes with objects placed on a visible 4x4 grid.
+在可见的 4x4 网格上摆放物体并生成场景。
 
-Usage:
-    python generate.py                            # use config.toml
-    python generate.py --preset test              # 1 scene/split, fast test
-    python generate.py --config my.toml           # custom config
-    python generate.py --preset test --labels     # with grid labels
-    python generate.py --preset test --dry-run    # just print config
+用法：
+    python generate.py                            # 使用 config.toml
+    python generate.py --preset test              # 每个 split 生成 1 个场景，快速测试
+    python generate.py --config my.toml           # 使用自定义配置
+    python generate.py --preset test --labels     # 带网格标签
+    python generate.py --preset test --dry-run    # 仅打印配置
 """
 
 import argparse
@@ -84,7 +84,7 @@ DEFAULT_CONFIG = {
 
 
 def deep_merge(base, override):
-  """Recursively merge override into base (override wins)."""
+  """递归地将 override 合并到 base 中（override 的值优先）。"""
   result = dict(base)
   for k, v in override.items():
     if k in result and isinstance(result[k], dict) and isinstance(v, dict):
@@ -95,10 +95,10 @@ def deep_merge(base, override):
 
 
 def load_config(config_path, preset, cli_args):
-  """Load config from TOML file, apply preset, then CLI overrides."""
+  """从 TOML 文件加载配置，再依次应用预设和命令行覆盖。"""
   cfg = dict(DEFAULT_CONFIG)
 
-  # Layer 1: TOML file
+  # 第一层：TOML 文件
   if config_path:
     p = Path(config_path)
     if not p.exists():
@@ -113,14 +113,14 @@ def load_config(config_path, preset, cli_args):
       file_cfg = tomllib.load(f)
     cfg = deep_merge(cfg, file_cfg)
 
-  # Layer 2: preset
+  # 第二层：预设
   if preset:
     if preset not in PRESETS:
       logger.error(f"Unknown preset: {preset}. Choose from: {list(PRESETS)}")
       sys.exit(1)
     cfg = deep_merge(cfg, PRESETS[preset])
 
-  # Layer 3: CLI overrides
+  # 第三层：命令行覆盖
   if cli_args.blender:
     cfg["blender"]["executable"] = cli_args.blender
   if cli_args.output_dir:
@@ -134,14 +134,14 @@ def load_config(config_path, preset, cli_args):
 
 
 def create_directories(cfg):
-  """Create output directory structure."""
+  """创建输出目录结构。"""
   output = Path(cfg["output"]["dir"])
   for sub in ["images/single_view", "images/multi_view", "images/top_view", "scenes", "splits"]:
     (output / sub).mkdir(parents=True, exist_ok=True)
 
 
 def _run_split(args_tuple):
-  """Worker function for parallel execution."""
+  """并行执行的工作函数。"""
   split_name, split_cfg, cfg = args_tuple
   return split_name, pipeline.build_split(split_name, split_cfg, cfg)
 
@@ -189,7 +189,7 @@ def main():
 
   args = parser.parse_args()
 
-  # If no explicit config given, try config.toml in script directory
+  # 若未显式指定配置，则尝试脚本目录下的 config.toml
   config_path = args.config
   if config_path is None:
     default_toml = Path(__file__).resolve().parent / "config.toml"
@@ -198,7 +198,7 @@ def main():
 
   cfg = load_config(config_path, args.preset, args)
 
-  # Inject start_idx into all splits
+  # 将 start_idx 注入所有 split 配置
   if args.start_idx > 0:
     for split_cfg in cfg["splits"].values():
       if "start_idx" not in split_cfg:
@@ -212,7 +212,7 @@ def main():
     print(json.dumps(cfg, indent=2))
     return
 
-  # Validate Blender executable
+  # 验证 Blender 可执行路径
   blender = cfg["blender"]["executable"]
   if blender == "blender":
     logger.warning(

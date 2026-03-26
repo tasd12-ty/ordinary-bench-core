@@ -1,10 +1,10 @@
 """
-3D Grid rendering script for ORDINARY-BENCH.
+ORDINARY-BENCH 的 3D 网格渲染脚本。
 
-Renders scenes with objects placed in a visible 4x4x4 3D grid,
-from 6 orthographic views (top, bottom, front, back, left, right).
+将物体摆放在可见的 4×4×4 3D 网格中，从 6 个正交视角
+（顶部、底部、前方、后方、左侧、右侧）渲染场景。
 
-Usage:
+用法：
     blender --background --python render_grid3d.py -- [arguments]
 """
 
@@ -46,12 +46,12 @@ if INSIDE_BLENDER:
 
 
 # ---------------------------------------------------------------------------
-# Camera configuration
+# 相机配置
 # ---------------------------------------------------------------------------
 
 @dataclass
 class CameraConfig:
-    """Configuration for a single camera viewpoint."""
+    """单个相机视角的配置参数。"""
     camera_id: str
     azimuth: float
     elevation: float
@@ -95,11 +95,11 @@ ORTHO_VIEWS = [
 
 
 # ---------------------------------------------------------------------------
-# Camera helpers
+# 相机辅助函数
 # ---------------------------------------------------------------------------
 
 def get_object_by_name(name: str, alternative_names: Optional[List[str]] = None):
-    """Get Blender object by name with fallbacks."""
+    """按名称查找 Blender 对象，支持备用名称回退。"""
     if name in bpy.data.objects:
         return bpy.data.objects[name]
     if alternative_names:
@@ -110,7 +110,7 @@ def get_object_by_name(name: str, alternative_names: Optional[List[str]] = None)
 
 
 def set_camera_position(camera_config: CameraConfig) -> None:
-    """Set Blender camera position and orientation."""
+    """设置 Blender 相机的位置和朝向。"""
     camera = bpy.data.objects['Camera']
     position = camera_config.to_cartesian()
     look_at = camera_config.look_at
@@ -121,14 +121,14 @@ def set_camera_position(camera_config: CameraConfig) -> None:
 
 
 def refresh_camera_state() -> None:
-    """Flush Blender's camera transform updates."""
+    """刷新 Blender 相机变换更新。"""
     view_layer = getattr(bpy.context, "view_layer", None)
     if view_layer is not None:
         view_layer.update()
 
 
 def compute_pixel_coords_for_view(camera, objects_3d: List[Dict]) -> List[Dict]:
-    """Compute pixel coordinates for all objects from current camera view."""
+    """从当前相机视角计算所有物体的像素坐标。"""
     updated_objects = []
     for obj in objects_3d:
         obj_copy = obj.copy()
@@ -151,7 +151,7 @@ def cell_center_3d(
     rows: int, cols: int, layers: int,
     cell_size: float,
 ) -> Tuple[float, float, float]:
-    """Compute world (x, y, z) for the center of 3D grid cell."""
+    """计算 3D 网格单元中心的世界坐标 (x, y, z)。"""
     grid_w = cols * cell_size
     grid_h = rows * cell_size
     x = (col + 0.5) * cell_size - grid_w / 2.0
@@ -161,12 +161,12 @@ def cell_center_3d(
 
 
 def cell_label_3d(row: int, col: int, layer: int) -> str:
-    """Return human-readable 3D label like A1-1, B3-4."""
+    """返回可读的 3D 标签，如 A1-1、B3-4。"""
     return f"{ROW_LABELS[row]}{col + 1}-{layer + 1}"
 
 
 def create_emission_material(name: str, color: Tuple[float, ...]) -> Any:
-    """Create an emission material (visible regardless of lighting)."""
+    """创建自发光材质（不受光照影响，始终可见）。"""
     mat = bpy.data.materials.new(name=name)
     mat.use_nodes = True
     nodes = mat.node_tree.nodes
@@ -191,14 +191,14 @@ def create_grid_3d(
     cell_size: float = 1.5, line_width: float = 0.02,
 ) -> List[Any]:
     """
-    Create a 3D wireframe grid.
+    创建 3D 线框网格。
 
-    Three sets of lines along X, Y, Z axes forming a 3D lattice.
-    Total lines: 3 * (N+1)^2 = 75 for a 4x4x4 grid.
+    沿 X、Y、Z 三个轴方向各生成一组线段，构成三维格栅。
+    4×4×4 网格共计 3 * (N+1)^2 = 75 根线段。
     """
-    grid_w = cols * cell_size    # X extent
-    grid_h = rows * cell_size    # Y extent
-    grid_d = layers * cell_size  # Z extent
+    grid_w = cols * cell_size    # X 方向总长
+    grid_h = rows * cell_size    # Y 方向总长
+    grid_d = layers * cell_size  # Z 方向总长
     half_w = grid_w / 2.0
     half_h = grid_h / 2.0
     z_base = 0.0  # grid starts at z=0
@@ -217,7 +217,7 @@ def create_grid_3d(
         line.data.materials.append(mat)
         grid_objects.append(line)
 
-    # X-direction lines: at each (y_boundary, z_boundary) intersection
+    # X 方向线段：位于每个 (y 边界, z 边界) 的交叉处
     for j in range(rows + 1):
         y = j * cell_size - half_h
         for k in range(layers + 1):
@@ -228,7 +228,7 @@ def create_grid_3d(
                 (grid_w, line_width, line_width),
             )
 
-    # Y-direction lines: at each (x_boundary, z_boundary) intersection
+    # Y 方向线段：位于每个 (x 边界, z 边界) 的交叉处
     for i in range(cols + 1):
         x = i * cell_size - half_w
         for k in range(layers + 1):
@@ -239,7 +239,7 @@ def create_grid_3d(
                 (line_width, grid_h, line_width),
             )
 
-    # Z-direction lines: at each (x_boundary, y_boundary) intersection
+    # Z 方向线段：位于每个 (x 边界, y 边界) 的交叉处
     for i in range(cols + 1):
         x = i * cell_size - half_w
         for j in range(rows + 1):
@@ -258,7 +258,7 @@ def create_grid_labels_3d(
     rows: int = 4, cols: int = 4, layers: int = 4,
     cell_size: float = 1.5,
 ) -> List[Any]:
-    """Create text labels at each 3D cell center (e.g. A1-1, B3-4)."""
+    """在每个 3D 单元中心创建文字标签（如 A1-1、B3-4）。"""
     label_objects = []
     mat = create_emission_material("GridLabel3DMaterial", (0.3, 0.3, 0.3, 1.0))
 
@@ -282,7 +282,7 @@ def create_grid_labels_3d(
 
 
 def hide_ground_plane() -> None:
-    """Remove ground plane from scene so bottom view is unobstructed."""
+    """从场景中移除地面平面，确保底部视角不受遮挡。"""
     for name in ['Ground', 'ground', 'Plane', 'Floor']:
         if name in bpy.data.objects:
             utils.delete_object(bpy.data.objects[name])
@@ -295,7 +295,7 @@ def add_grid_objects_3d(
     rows: int = 4, cols: int = 4, layers: int = 4,
     cell_size: float = 1.5,
 ) -> Tuple[List[Dict], List[Any]]:
-    """Place objects at 3D grid cell centers."""
+    """将物体摆放在 3D 网格单元的中心位置。"""
     with open(args.properties_json, 'r') as f:
         properties = json.load(f)
         color_name_to_rgba = {}
@@ -307,7 +307,7 @@ def add_grid_objects_3d(
 
     size_scale = properties['sizes']['small']
 
-    # All 64 cells for 4x4x4
+    # 4×4×4 网格的全部 64 个单元
     all_cells = [
         (r, c, la)
         for r in range(rows)
@@ -358,7 +358,7 @@ def add_grid_objects_3d(
 
 
 # ---------------------------------------------------------------------------
-# Orthographic view rendering
+# 正交视角渲染
 # ---------------------------------------------------------------------------
 
 def render_ortho_view(
@@ -369,13 +369,13 @@ def render_ortho_view(
     ortho_scale: float,
     args,
 ) -> Dict[str, Any]:
-    """Render one orthographic view."""
+    """渲染单个正交视角。"""
     set_camera_position(camera_config)
     refresh_camera_state()
 
     camera = bpy.data.objects['Camera']
 
-    # Switch to orthographic
+    # 切换到正交投影
     original_type = camera.data.type
     original_ortho_scale = getattr(camera.data, "ortho_scale", None)
     original_clip_end = camera.data.clip_end
@@ -400,7 +400,7 @@ def render_ortho_view(
         "objects": objects_with_pixels,
     }
 
-    # Restore camera settings
+    # 恢复相机原始设置
     camera.data.type = original_type
     if original_ortho_scale is not None:
         camera.data.ortho_scale = original_ortho_scale
@@ -410,7 +410,7 @@ def render_ortho_view(
 
 
 # ---------------------------------------------------------------------------
-# Main scene render
+# 主场景渲染
 # ---------------------------------------------------------------------------
 
 def render_grid3d_scene(
@@ -420,13 +420,13 @@ def render_grid3d_scene(
     output_split: str,
     output_dir: str,
 ) -> Dict[str, Any]:
-    """Render a complete 3D grid scene from 6 orthographic views."""
+    """从 6 个正交视角渲染完整的 3D 网格场景。"""
     os.makedirs(output_dir, exist_ok=True)
 
     bpy.ops.wm.open_mainfile(filepath=args.base_scene_blendfile)
     utils.load_materials(args.material_dir)
 
-    # Render settings
+    # 渲染参数设置
     render_args = bpy.context.scene.render
     render_args.engine = "CYCLES"
     render_args.resolution_x = args.width
@@ -451,10 +451,10 @@ def render_grid3d_scene(
     if IS_BLENDER_280_OR_LATER:
         bpy.context.scene.cycles.transparent_max_bounces = args.render_max_bounces
 
-    # Remove ground plane for 3D rendering
+    # 移除地面平面以适配 3D 渲染
     hide_ground_plane()
 
-    # Scene metadata
+    # 场景元数据
     grid_center_z = (args.grid_layers * args.cell_size) / 2.0
     scene_id = f"{output_split}_{output_index:06d}"
     scene_struct = {
@@ -480,7 +480,7 @@ def render_grid3d_scene(
         "views": [],
     }
 
-    # Light jitter
+    # 灯光随机抖动
     def rand(L):
         return 2.0 * L * (random.random() - 0.5)
 
@@ -498,7 +498,7 @@ def render_grid3d_scene(
         for i in range(3):
             lamp_fill.location[i] += rand(args.fill_light_jitter)
 
-    # Create 3D grid
+    # 创建 3D 线框网格
     create_grid_3d(
         rows=args.grid_rows,
         cols=args.grid_cols,
@@ -507,7 +507,7 @@ def render_grid3d_scene(
         line_width=args.grid_line_width,
     )
 
-    # Optional labels
+    # 可选：添加单元格标签
     if args.grid_labels == 1:
         create_grid_labels_3d(
             rows=args.grid_rows,
@@ -516,7 +516,7 @@ def render_grid3d_scene(
             cell_size=args.cell_size,
         )
 
-    # Set initial camera for pixel coord computation
+    # 设置初始相机位置以计算像素坐标
     camera = bpy.data.objects['Camera']
     initial_cam = CameraConfig(
         camera_id="init", azimuth=0.0, elevation=0.0,
@@ -525,7 +525,7 @@ def render_grid3d_scene(
     set_camera_position(initial_cam)
     refresh_camera_state()
 
-    # Place objects
+    # 摆放物体
     objects_3d, blender_objects = add_grid_objects_3d(
         num_objects, args, camera,
         rows=args.grid_rows,
@@ -535,7 +535,7 @@ def render_grid3d_scene(
     )
     scene_struct["objects"] = objects_3d
 
-    # Render 6 orthographic views
+    # 渲染 6 个正交视角
     look_at = (0.0, 0.0, grid_center_z)
     for view_name, azimuth, elevation in ORTHO_VIEWS:
         cam_config = CameraConfig(
@@ -555,7 +555,7 @@ def render_grid3d_scene(
         )
         scene_struct["views"].append(view_data)
 
-    # Save metadata
+    # 保存元数据
     metadata_path = os.path.join(output_dir, "metadata.json")
     with open(metadata_path, 'w') as f:
         json.dump(scene_struct, f, indent=2)
@@ -564,11 +564,11 @@ def render_grid3d_scene(
 
 
 # ---------------------------------------------------------------------------
-# Main
+# 主程序入口
 # ---------------------------------------------------------------------------
 
 def main(args):
-    """Main entry point for 3D grid rendering."""
+    """3D 网格渲染的主入口。"""
     random.seed(args.seed + args.start_idx)
     print(f"Starting 3D grid rendering: {args.num_images} scenes, "
           f"grid {args.grid_rows}x{args.grid_cols}x{args.grid_layers} "
@@ -632,22 +632,22 @@ def main(args):
 
 
 # ---------------------------------------------------------------------------
-# Argument parser
+# 参数解析器
 # ---------------------------------------------------------------------------
 
 parser = argparse.ArgumentParser(description="3D grid scene rendering")
 
-# Input options
+# 输入选项
 parser.add_argument('--base_scene_blendfile', default='assets/base_scene_v5.blend')
 parser.add_argument('--properties_json', default='assets/properties.json')
 parser.add_argument('--shape_dir', default='assets/shapes_v5')
 parser.add_argument('--material_dir', default='assets/materials_v5')
 
-# Object settings
+# 物体设置
 parser.add_argument('--min_objects', default=4, type=int)
 parser.add_argument('--max_objects', default=12, type=int)
 
-# 3D Grid settings
+# 3D 网格设置
 parser.add_argument('--grid_rows', default=4, type=int)
 parser.add_argument('--grid_cols', default=4, type=int)
 parser.add_argument('--grid_layers', default=4, type=int)
@@ -656,18 +656,18 @@ parser.add_argument('--grid_line_width', default=0.02, type=float)
 parser.add_argument('--grid_labels', default=0, type=int)
 parser.add_argument('--ortho_scale', default=8.0, type=float)
 
-# Rendering settings
+# 渲染兼容设置
 parser.add_argument('--render_top_view', default=0, type=int, help="unused, kept for compat")
 parser.add_argument('--top_view_padding', default=0.5, type=float, help="unused, kept for compat")
 
-# Output settings
+# 输出设置
 parser.add_argument('--output_dir', default='../output/')
 parser.add_argument('--start_idx', default=0, type=int)
 parser.add_argument('--num_images', default=5, type=int)
 parser.add_argument('--split', default='train')
 parser.add_argument('--seed', default=42, type=int)
 
-# Render settings
+# 渲染参数
 parser.add_argument('--use_gpu', default=0, type=int)
 parser.add_argument('--width', default=480, type=int)
 parser.add_argument('--height', default=480, type=int)

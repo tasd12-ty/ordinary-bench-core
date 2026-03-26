@@ -1,9 +1,9 @@
 """
-Render a living-room style hybrid scene:
-- background/furniture via existing GLB assets
-- tabletop geometric probes via current ordinary-bench shape assets
+渲染客厅风格的混合场景：
+- 背景/家具通过现有 GLB 资产加载
+- 桌面几何体探针通过当前 ordinary-bench 形状资产生成
 
-Run with:
+运行方式：
   /Applications/Blender.app/Contents/MacOS/Blender --background --python data-gen-infinigen/render_livingroom_hybrid_demo.py
 """
 
