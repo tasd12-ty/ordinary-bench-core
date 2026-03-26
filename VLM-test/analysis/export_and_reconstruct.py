@@ -321,6 +321,7 @@ def run_belief_reconstruction(
                     json.dump(recon_output, f, indent=2, default=str)
 
                 # 有重建位置且有 GT 时生成 SVG
+                svg_generated = False
                 if recon_output.get("positions") and gt_positions and os.path.exists(scene_path):
                     try:
                         recon_positions = {
@@ -342,6 +343,7 @@ def run_belief_reconstruction(
                         svg_path = model_recon_dir / f"{scene_id}.svg"
                         with open(svg_path, "w") as f:
                             f.write(svg_str)
+                        svg_generated = True
                     except Exception as svg_err:
                         print(f"    SVG generation failed: {svg_err}")
 
@@ -354,12 +356,17 @@ def run_belief_reconstruction(
                     "feasible": recon_output.get("feasible", False),
                     "csr_qrr": m.get("csr_qrr"),
                     "csr_trr": m.get("csr_trr"),
+                    "csr_qrr_aligned": m.get("csr_qrr_aligned"),
+                    "nrl": m.get("nrl"),
+                    "p_value_qrr": m.get("p_value_qrr"),
+                    "p_value_trr": m.get("p_value_trr"),
                     "nrms": m.get("nrms"),
                     "kendall_tau": m.get("kendall_tau"),
                     "K_geom": m.get("K_geom"),
                     "best_loss": m.get("best_loss"),
                     "n_solutions": m.get("n_solutions"),
                     "reflected": m.get("reflected", False),
+                    "svg_generated": svg_generated,
                 })
 
             except Exception as e:
@@ -371,19 +378,23 @@ def run_belief_reconstruction(
                     "status": "error",
                     "feasible": False,
                     "error": str(e),
+                    "svg_generated": False,
                 })
 
     return all_recon_rows
 
 
 def add_recon_sheet(wb, recon_rows: List[dict]):
-    """向已有工作簿添加重建工作表。"""
+    """向已有工作簿添加重建工作表（含 SVG 建图状态）。"""
     from openpyxl.styles import Font, PatternFill
 
     ws = wb.create_sheet("Reconstruction")
     headers = [
         "Model", "Scene_ID", "N_Objects", "Status", "Feasible",
-        "CSR_QRR", "CSR_TRR", "NRMS", "Kendall_Tau", "K_geom",
+        "SVG_Generated",
+        "CSR_QRR", "CSR_TRR", "CSR_QRR_Aligned", "NRL",
+        "P_Value_QRR", "P_Value_TRR",
+        "NRMS", "Kendall_Tau", "K_geom",
         "Best_Loss", "N_Solutions", "Reflected",
     ]
     ws.append(headers)
@@ -401,8 +412,13 @@ def add_recon_sheet(wb, recon_rows: List[dict]):
             r.get("n_objects"),
             r.get("status"),
             r.get("feasible"),
+            r.get("svg_generated", False),
             r.get("csr_qrr"),
             r.get("csr_trr"),
+            r.get("csr_qrr_aligned"),
+            r.get("nrl"),
+            r.get("p_value_qrr"),
+            r.get("p_value_trr"),
             r.get("nrms"),
             r.get("kendall_tau"),
             r.get("K_geom"),
@@ -411,8 +427,8 @@ def add_recon_sheet(wb, recon_rows: List[dict]):
             r.get("reflected", False),
         ])
 
-    # 格式化
-    for row in ws.iter_rows(min_row=2, min_col=6, max_col=9):
+    # 格式化（CSR~NRL 第 7~10 列，P_Value 第 11~12 列，NRMS~Kendall 第 13~14 列）
+    for row in ws.iter_rows(min_row=2, min_col=7, max_col=14):
         for cell in row:
             if cell.value is not None:
                 cell.number_format = '0.0000'
@@ -420,6 +436,102 @@ def add_recon_sheet(wb, recon_rows: List[dict]):
     for col in ws.columns:
         max_len = max(len(str(c.value or "")) for c in col)
         ws.column_dimensions[col[0].column_letter].width = min(max_len + 3, 22)
+
+    ws.freeze_panes = "A2"
+
+
+def add_recon_summary_sheet(wb, recon_rows: List[dict]):
+    """添加重建汇总工作表：按模型统计建图/重建成功率及各类指标均值。"""
+    from openpyxl.styles import Font, PatternFill
+    from collections import defaultdict
+
+    ws = wb.create_sheet("Recon Summary")
+    headers = [
+        "Model",
+        "Total",
+        "SVG_Success",          # 建图成功数
+        "SVG_Success_Rate",
+        "Recon_Success",        # 重建成功数（feasible=True）
+        "Recon_Success_Rate",
+        "SVG_Yes_Recon_Yes",    # 建图成功 且 重建成功
+        "SVG_Yes_Recon_No",     # 建图成功 但 重建失败
+        "SVG_No",               # 建图失败（无 SVG）
+        # 建图成功场景的平均指标
+        "Avg_CSR_QRR_SVG",
+        "Avg_CSR_TRR_SVG",
+        "Avg_NRMS_SVG",
+        "Avg_Kendall_SVG",
+        # 重建成功场景的平均指标
+        "Avg_CSR_QRR_Recon",
+        "Avg_CSR_TRR_Recon",
+        "Avg_NRMS_Recon",
+        "Avg_Kendall_Recon",
+    ]
+    ws.append(headers)
+
+    header_font = Font(bold=True)
+    header_fill = PatternFill(start_color="E2EFDA", end_color="E2EFDA", fill_type="solid")
+    for cell in ws[1]:
+        cell.font = header_font
+        cell.fill = header_fill
+
+    # 按模型分组
+    by_model = defaultdict(list)
+    for r in recon_rows:
+        by_model[r["model"]].append(r)
+
+    def _avg(rows, key):
+        vals = [r[key] for r in rows if isinstance(r.get(key), (int, float))]
+        return sum(vals) / len(vals) if vals else None
+
+    for model in sorted(by_model.keys()):
+        rows = by_model[model]
+        total = len(rows)
+        svg_yes = [r for r in rows if r.get("svg_generated")]
+        recon_yes = [r for r in rows if r.get("feasible")]
+        svg_yes_recon_yes = [r for r in rows if r.get("svg_generated") and r.get("feasible")]
+        svg_yes_recon_no = [r for r in rows if r.get("svg_generated") and not r.get("feasible")]
+        svg_no = [r for r in rows if not r.get("svg_generated")]
+
+        ws.append([
+            model,
+            total,
+            len(svg_yes),
+            len(svg_yes) / total if total else None,
+            len(recon_yes),
+            len(recon_yes) / total if total else None,
+            len(svg_yes_recon_yes),
+            len(svg_yes_recon_no),
+            len(svg_no),
+            _avg(svg_yes, "csr_qrr"),
+            _avg(svg_yes, "csr_trr"),
+            _avg(svg_yes, "nrms"),
+            _avg(svg_yes, "kendall_tau"),
+            _avg(recon_yes, "csr_qrr"),
+            _avg(recon_yes, "csr_trr"),
+            _avg(recon_yes, "nrms"),
+            _avg(recon_yes, "kendall_tau"),
+        ])
+
+    # 格式化百分比列（SVG_Success_Rate=4, Recon_Success_Rate=6）
+    for row in ws.iter_rows(min_row=2, min_col=4, max_col=4):
+        for cell in row:
+            if cell.value is not None:
+                cell.number_format = '0.00%'
+    for row in ws.iter_rows(min_row=2, min_col=6, max_col=6):
+        for cell in row:
+            if cell.value is not None:
+                cell.number_format = '0.00%'
+
+    # 格式化指标列（10~17）
+    for row in ws.iter_rows(min_row=2, min_col=10, max_col=17):
+        for cell in row:
+            if cell.value is not None:
+                cell.number_format = '0.0000'
+
+    for col in ws.columns:
+        max_len = max(len(str(c.value or "")) for c in col)
+        ws.column_dimensions[col[0].column_letter].width = min(max_len + 3, 25)
 
     ws.freeze_panes = "A2"
 
@@ -457,8 +569,9 @@ def main():
             )
             if recon_rows:
                 add_recon_sheet(wb, recon_rows)
+                add_recon_summary_sheet(wb, recon_rows)
                 wb.save(str(excel_path))
-                print(f"\nUpdated Excel with Reconstruction sheet: {excel_path}")
+                print(f"\nUpdated Excel with Reconstruction & Recon Summary sheets: {excel_path}")
     else:
         # Recon only — load or create workbook
         from openpyxl import load_workbook, Workbook
@@ -471,12 +584,14 @@ def main():
             models, max_scenes=args.max_scenes, n_restarts=args.restarts,
         )
         if recon_rows:
-            # 若已存在重建工作表则先删除
-            if "Reconstruction" in wb.sheetnames:
-                del wb["Reconstruction"]
+            # 若已存在重建/汇总工作表则先删除
+            for sheet_name in ("Reconstruction", "Recon Summary"):
+                if sheet_name in wb.sheetnames:
+                    del wb[sheet_name]
             add_recon_sheet(wb, recon_rows)
+            add_recon_summary_sheet(wb, recon_rows)
             wb.save(str(excel_path))
-            print(f"\nSaved Reconstruction sheet to: {excel_path}")
+            print(f"\nSaved Reconstruction & Recon Summary sheets to: {excel_path}")
 
     print("\nDone.")
 
