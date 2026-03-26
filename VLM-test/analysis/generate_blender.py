@@ -1,16 +1,15 @@
 """
-Generate standalone Blender Python scripts for rendering reconstructed scenes.
+生成用于渲染重建场景的独立 Blender Python 脚本。
 
-Produces .py scripts that can be executed via:
+生成的 .py 脚本可通过以下方式执行：
     blender --background --python <script.py>
 
-Three rendering modes:
-  1. Single scene (GT or recon) with generate_blender_script()
-  2. Side-by-side GT vs recon pair with generate_comparison_script()
-  3. Overlay (GT solid + recon transparent + displacement lines) with generate_overlay_script()
+三种渲染模式：
+  1. 单场景渲染（真值或重建结果）— generate_blender_script()
+  2. 真值与重建结果并排对比 — generate_comparison_script()
+  3. 叠加渲染（真值实体 + 重建半透明 + 位移连线）— generate_overlay_script()
 
-The generated scripts are fully standalone -- they only use bpy and standard
-library imports available inside Blender's Python interpreter.
+生成的脚本完全独立，仅使用 Blender Python 解释器内置的 bpy 和标准库。
 """
 
 from __future__ import annotations
@@ -26,7 +25,7 @@ from typing import Dict, List, Optional, Tuple
 import numpy as np
 
 # ---------------------------------------------------------------------------
-# Constants
+# 常量定义
 # ---------------------------------------------------------------------------
 
 SHAPE_MAP = {
@@ -62,11 +61,11 @@ _DEFAULT_ASSETS_DIR = str(
 
 
 # ---------------------------------------------------------------------------
-# Internal helpers
+# 内部辅助函数
 # ---------------------------------------------------------------------------
 
 def _rgba_from_color_name(name: str) -> List[float]:
-    """Return [R, G, B, A] in 0-1 range for a named color."""
+    """根据颜色名称返回 0-1 范围的 [R, G, B, A] 值。"""
     rgb = COLOR_MAP.get(name, [128, 128, 128])
     return [c / 255.0 for c in rgb] + [1.0]
 
@@ -75,7 +74,7 @@ def _build_object_defs(
     positions: Dict[str, list],
     object_info: Dict[str, dict],
 ) -> str:
-    """Build a Python literal for object definitions to embed in a script."""
+    """构建待嵌入脚本的对象定义 Python 字面量字符串。"""
     entries = []
     for obj_id in sorted(positions.keys()):
         info = object_info.get(obj_id, {})
@@ -91,7 +90,7 @@ def _build_object_defs(
         rgba = _rgba_from_color_name(color)
 
         scale = SIZE_MAP.get(size, 0.7)
-        # Cubes use size / sqrt(2) as per the existing renderer
+        # 立方体按现有渲染器规范使用 size / sqrt(2)
         if shape == "cube":
             scale /= math.sqrt(2)
 
@@ -108,7 +107,7 @@ def _build_object_defs(
 
 
 # ---------------------------------------------------------------------------
-# Core script template
+# 核心脚本模板
 # ---------------------------------------------------------------------------
 
 _SCENE_SCRIPT_TEMPLATE = textwrap.dedent(r'''
@@ -297,7 +296,7 @@ main()
 ''').lstrip()
 
 # ---------------------------------------------------------------------------
-# Overlay script template (GT solid + recon transparent + displacement lines)
+# 叠加渲染脚本模板（真值实体 + 重建半透明 + 位移连线）
 # ---------------------------------------------------------------------------
 
 _OVERLAY_SCRIPT_TEMPLATE = textwrap.dedent(r'''
@@ -412,37 +411,37 @@ def add_material(obj, mat_group_name, rgba):
 
 
 def add_transparent_material(obj, rgba, alpha=0.3):
-    """Add a semi-transparent material using Principled BSDF for recon objects."""
+    """为重建对象添加基于 Principled BSDF 的半透明材质。"""
     mat_count = len(bpy.data.materials)
     mat = bpy.data.materials.new(name=f"TransparentMat_{{mat_count}}")
     mat.use_nodes = True
     mat.blend_method = "BLEND" if hasattr(mat, "blend_method") else None
 
-    # Remove default nodes
+    # 删除默认节点
     for node in mat.node_tree.nodes:
         mat.node_tree.nodes.remove(node)
 
     nodes = mat.node_tree.nodes
     links = mat.node_tree.links
 
-    # Output node
+    # 输出节点
     output_node = nodes.new("ShaderNodeOutputMaterial")
     output_node.location = (400, 0)
 
-    # Mix between transparent and the colored shader
+    # 透明与着色混合节点
     mix_node = nodes.new("ShaderNodeMixShader")
     mix_node.location = (200, 0)
-    mix_node.inputs[0].default_value = 1.0 - alpha  # Fac: higher = more of second input
+    mix_node.inputs[0].default_value = 1.0 - alpha  # Fac: 越大越倾向第二输入
 
-    # Transparent BSDF
+    # 透明 BSDF
     transparent_node = nodes.new("ShaderNodeBsdfTransparent")
     transparent_node.location = (0, 100)
 
-    # Principled BSDF for colored portion
+    # 有色部分使用 Principled BSDF
     principled_node = nodes.new("ShaderNodeBsdfPrincipled")
     principled_node.location = (0, -100)
     principled_node.inputs["Base Color"].default_value = rgba
-    # Make it slightly emissive so it's visible even when transparent
+    # 轻微自发光，确保半透明时仍可见
     if "Emission Color" in [inp.name for inp in principled_node.inputs]:
         principled_node.inputs["Emission Color"].default_value = rgba
         principled_node.inputs["Emission Strength"].default_value = 0.3
@@ -458,7 +457,7 @@ def add_transparent_material(obj, rgba, alpha=0.3):
 
 
 def create_displacement_line(start_xy, end_xy, radius=0.02):
-    """Create a thin red cylinder between two ground-plane points."""
+    """在地面两点之间创建一条细红色圆柱体作为位移连线。"""
     sx, sy = start_xy
     ex, ey = end_xy
     dx, dy = ex - sx, ey - sy
@@ -468,7 +467,7 @@ def create_displacement_line(start_xy, end_xy, radius=0.02):
 
     mid_x = (sx + ex) / 2.0
     mid_y = (sy + ey) / 2.0
-    mid_z = 0.15  # slightly above ground so it's visible
+    mid_z = 0.15  # 略高于地面以确保可见
 
     bpy.ops.mesh.primitive_cylinder_add(
         radius=radius,
@@ -478,11 +477,11 @@ def create_displacement_line(start_xy, end_xy, radius=0.02):
     line_obj = bpy.context.object
     line_obj.name = "DisplacementLine"
 
-    # Rotate to point from start to end
+    # 旋转使圆柱体从起点指向终点
     angle = math.atan2(dy, dx)
     line_obj.rotation_euler = (math.radians(90), 0, angle)
 
-    # Red material
+    # 红色材质
     mat = bpy.data.materials.new(name="RedLineMat")
     mat.use_nodes = True
     for node in mat.node_tree.nodes:
@@ -502,7 +501,7 @@ def create_displacement_line(start_xy, end_xy, radius=0.02):
     return line_obj
 
 
-# ── Scene setup ────────────────────────────────────────────────────────────
+# ── 场景初始化 ────────────────────────────────────────────────────────────
 
 def clear_scene_objects():
     keep_prefixes = ("Camera", "Lamp", "Light", "Ground", "ground")
@@ -562,7 +561,7 @@ def main():
     load_materials()
     clear_scene_objects()
 
-    # Add GT objects (solid)
+    # 添加真值对象（实体渲染）
     for obj_id, info in GT_OBJECTS.items():
         obj = add_object(info["shape"], info["scale"], info["pos"])
         if obj is not None:
@@ -570,13 +569,13 @@ def main():
             obj.select_set(True)
             add_material(obj, info["material"], info["rgba"])
 
-    # Add recon objects (transparent)
+    # 添加重建对象（半透明渲染）
     for obj_id, info in RECON_OBJECTS.items():
         obj = add_object(info["shape"], info["scale"], info["pos"])
         if obj is not None:
             add_transparent_material(obj, info["rgba"], alpha=0.3)
 
-    # Add displacement lines
+    # 添加位移连线
     for obj_id in GT_OBJECTS:
         if obj_id in RECON_OBJECTS:
             gt_pos = GT_OBJECTS[obj_id]["pos"]
@@ -597,7 +596,7 @@ main()
 
 
 # ---------------------------------------------------------------------------
-# Public API
+# 公开 API
 # ---------------------------------------------------------------------------
 
 def generate_blender_script(
@@ -611,23 +610,22 @@ def generate_blender_script(
     resolution: tuple = (480, 320),
     samples: int = 256,
 ) -> str:
-    """Generate a standalone Blender Python script to render a scene.
+    """生成用于渲染单个场景的独立 Blender Python 脚本。
 
-    Args:
-        positions: Object positions ``{obj_id: [x, y]}`` (2-D, placed at z=0).
-        object_info: Per-object metadata
-            ``{obj_id: {"shape", "color", "material", "size"}}``.
-        output_image_path: File path for the rendered image.
-        assets_dir: Root directory of Blender assets
-            (``data-gen/blender/assets/``).
-        camera_azimuth: Azimuth angle in degrees.
-        camera_elevation: Elevation angle in degrees.
-        camera_distance: Distance from scene centre.
-        resolution: ``(width, height)`` in pixels.
-        samples: Cycles render samples.
+    参数：
+        positions: 对象坐标 ``{obj_id: [x, y]}``（2D，z=0 平面）。
+        object_info: 逐对象元数据
+            ``{obj_id: {"shape", "color", "material", "size"}}``。
+        output_image_path: 渲染图像的输出路径。
+        assets_dir: Blender 资产根目录（``data-gen/blender/assets/``）。
+        camera_azimuth: 相机方位角（度）。
+        camera_elevation: 相机仰角（度）。
+        camera_distance: 相机距场景中心的距离。
+        resolution: 分辨率 ``(宽, 高)``（像素）。
+        samples: Cycles 渲染采样数。
 
-    Returns:
-        Complete Blender Python script as a string.
+    返回：
+        完整的 Blender Python 脚本字符串。
     """
     object_defs = _build_object_defs(positions, object_info)
     script = _SCENE_SCRIPT_TEMPLATE.format(
@@ -658,30 +656,29 @@ def generate_comparison_script(
     resolution: tuple = (480, 320),
     samples: int = 256,
 ) -> Tuple[str, str]:
-    """Generate a pair of Blender scripts for GT / recon side-by-side renders.
+    """生成一对 Blender 脚本，分别渲染真值和重建结果以供并排对比。
 
-    Applies Procrustes alignment to *recon_positions* so the two renders
-    are visually comparable.
+    对 *recon_positions* 应用 Procrustes 对齐，确保两幅渲染视觉可比。
 
-    Args:
-        gt_positions: Ground-truth positions ``{obj_id: [x, y]}``.
-        recon_positions: Reconstructed positions ``{obj_id: [x, y]}``.
-        object_info: Per-object metadata dict.
-        output_dir: Directory for generated scripts and rendered images.
-        scene_id: Scene identifier used in file names.
-        assets_dir: Blender assets root.
-        camera_azimuth: Azimuth angle in degrees.
-        camera_elevation: Elevation angle in degrees.
-        camera_distance: Camera distance.
-        resolution: ``(width, height)``.
-        samples: Cycles samples.
+    参数：
+        gt_positions: 真值坐标 ``{obj_id: [x, y]}``。
+        recon_positions: 重建坐标 ``{obj_id: [x, y]}``。
+        object_info: 逐对象元数据字典。
+        output_dir: 生成脚本和渲染图像的输出目录。
+        scene_id: 场景标识符，用于文件命名。
+        assets_dir: Blender 资产根目录。
+        camera_azimuth: 相机方位角（度）。
+        camera_elevation: 相机仰角（度）。
+        camera_distance: 相机距离。
+        resolution: 分辨率 ``(宽, 高)``。
+        samples: Cycles 采样数。
 
-    Returns:
-        Tuple of ``(gt_script_path, recon_script_path)`` that were written.
+    返回：
+        已写入文件的路径元组 ``(gt_script_path, recon_script_path)``。
     """
-    from reconstruct.utils import procrustes_align  # noqa: delayed import
+    from reconstruct.utils import procrustes_align  # noqa: 延迟导入
 
-    # Procrustes-align recon to GT
+    # 对重建坐标进行 Procrustes 对齐
     common_ids = sorted(set(gt_positions.keys()) & set(recon_positions.keys()))
     if len(common_ids) < 2:
         raise ValueError(
@@ -699,7 +696,7 @@ def generate_comparison_script(
 
     os.makedirs(output_dir, exist_ok=True)
 
-    # GT script
+    # 真值渲染脚本
     gt_image = os.path.join(output_dir, f"{scene_id}_gt.png")
     gt_script = generate_blender_script(
         positions=gt_positions,
@@ -716,7 +713,7 @@ def generate_comparison_script(
     with open(gt_script_path, "w") as f:
         f.write(gt_script)
 
-    # Recon script (using aligned positions)
+    # 重建渲染脚本（使用对齐后的坐标）
     recon_image = os.path.join(output_dir, f"{scene_id}_recon.png")
     recon_script = generate_blender_script(
         positions=aligned_positions,
@@ -749,31 +746,30 @@ def generate_overlay_script(
     resolution: tuple = (480, 320),
     samples: int = 256,
 ) -> str:
-    """Generate a Blender script that overlays GT and recon in one scene.
+    """生成将真值与重建结果叠加渲染在同一场景中的 Blender 脚本。
 
-    GT objects are rendered solid; reconstructed objects are rendered
-    semi-transparent (alpha=0.3). Thin red displacement lines connect each
-    GT object to its reconstructed counterpart.
+    真值对象以实体渲染；重建对象以半透明（alpha=0.3）渲染。
+    每对对应对象之间绘制细红色位移连线。
 
-    Procrustes alignment is applied to recon positions beforehand.
+    渲染前对重建坐标进行 Procrustes 对齐。
 
-    Args:
-        gt_positions: Ground-truth positions ``{obj_id: [x, y]}``.
-        recon_positions: Reconstructed positions ``{obj_id: [x, y]}``.
-        object_info: Per-object metadata dict.
-        output_dir: Directory for the generated script and rendered image.
-        scene_id: Scene identifier.
-        assets_dir: Blender assets root.
-        camera_azimuth: Azimuth angle in degrees.
-        camera_elevation: Elevation angle in degrees.
-        camera_distance: Camera distance.
-        resolution: ``(width, height)``.
-        samples: Cycles samples.
+    参数：
+        gt_positions: 真值坐标 ``{obj_id: [x, y]}``。
+        recon_positions: 重建坐标 ``{obj_id: [x, y]}``。
+        object_info: 逐对象元数据字典。
+        output_dir: 生成脚本和渲染图像的输出目录。
+        scene_id: 场景标识符。
+        assets_dir: Blender 资产根目录。
+        camera_azimuth: 相机方位角（度）。
+        camera_elevation: 相机仰角（度）。
+        camera_distance: 相机距离。
+        resolution: 分辨率 ``(宽, 高)``。
+        samples: Cycles 采样数。
 
-    Returns:
-        Path to the written overlay script.
+    返回：
+        已写入的叠加渲染脚本路径。
     """
-    from reconstruct.utils import procrustes_align  # noqa: delayed import
+    from reconstruct.utils import procrustes_align  # noqa: 延迟导入
 
     common_ids = sorted(set(gt_positions.keys()) & set(recon_positions.keys()))
     if len(common_ids) < 2:
@@ -822,15 +818,15 @@ def render_with_blender(
     blender_path: str = "blender",
     timeout: Optional[int] = None,
 ) -> subprocess.CompletedProcess:
-    """Run a generated Blender script in background mode.
+    """以后台模式运行已生成的 Blender 脚本。
 
-    Args:
-        script_path: Path to the Blender Python script.
-        blender_path: Path to the Blender executable.
-        timeout: Optional timeout in seconds.
+    参数：
+        script_path: Blender Python 脚本路径。
+        blender_path: Blender 可执行文件路径。
+        timeout: 可选超时时间（秒）。
 
-    Returns:
-        ``subprocess.CompletedProcess`` with stdout/stderr.
+    返回：
+        包含 stdout/stderr 的 ``subprocess.CompletedProcess`` 对象。
     """
     cmd = [blender_path, "--background", "--python", script_path]
     result = subprocess.run(

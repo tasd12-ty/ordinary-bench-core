@@ -1,8 +1,8 @@
 """
-Prepare per-scene reconstruction inputs from model scoring outputs.
+从模型评分输出中准备逐场景的重建输入数据。
 
-This script does not run the solver. It only extracts auditable relation
-constraints and writes a per-scene prepared bundle for later inspection.
+本脚本不运行求解器，仅提取可审查的关系约束，
+并将每个场景的预处理包写入文件供后续检查使用。
 """
 
 import argparse

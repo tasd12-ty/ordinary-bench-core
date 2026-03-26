@@ -1,14 +1,13 @@
 """
-Validate the reconstruction pipeline using ground-truth constraints.
+使用真值约束验证重建流程。
 
-Loads scene data, extracts GT QRR/TRR constraints from 3D coordinates,
-feeds them into the reconstruction solver, and evaluates whether the
-algorithm correctly recovers the original 2D layout.
+加载场景数据，从 3D 坐标提取 GT QRR/TRR 约束，
+将其输入重建求解器，并评估算法能否正确恢复原始 2D 布局。
 
-Expected results with perfect GT input:
+完美真值输入下的预期结果：
   - CSR_QRR ≈ 1.0, CSR_TRR ≈ 1.0
   - NRMS < 0.05
-  - K_geom = 1 (unique solution)
+  - K_geom = 1（唯一解）
   - status = "single_mode"
 """
 
@@ -22,7 +21,7 @@ from typing import Dict, List, Optional
 
 import numpy as np
 
-# Ensure VLM-test is on the path
+# 确保 VLM-test 在 sys.path 中
 sys.path.insert(0, str(Path(__file__).parent))
 
 from dsl.predicates import (
@@ -32,10 +31,10 @@ from extraction import parse_objects, load_scene
 from reconstruct import reconstruct, SolverConfig
 
 
-# ── Format Conversion ──
+# ── 格式转换 ──
 
 def qrr_to_dict(c) -> dict:
-    """Convert QRRConstraint (from DSL) to dict for reconstruct()."""
+    """将 DSL 中的 QRRConstraint 转换为 reconstruct() 所需的字典格式。"""
     data = {
         "pair1": c.pair1,
         "pair2": c.pair2,
@@ -49,7 +48,7 @@ def qrr_to_dict(c) -> dict:
 
 
 def trr_to_dict(c) -> dict:
-    """Convert TRRConstraint (from DSL) to dict for reconstruct()."""
+    """将 DSL 中的 TRRConstraint 转换为 reconstruct() 所需的字典格式。"""
     return {
         "target": c.target,
         "ref1": c.ref1,
@@ -61,7 +60,7 @@ def trr_to_dict(c) -> dict:
 
 
 def extract_gt_positions(scene: dict) -> Dict[str, np.ndarray]:
-    """Extract 2D ground truth positions from scene JSON."""
+    """从场景 JSON 中提取 2D 真值坐标。"""
     positions = {}
     for obj in scene.get("objects", []):
         coords = obj.get("3d_coords", [0, 0, 0])
@@ -69,17 +68,17 @@ def extract_gt_positions(scene: dict) -> Dict[str, np.ndarray]:
     return positions
 
 
-# ── Single Scene Validation ──
+# ── 单场景验证 ──
 
 def validate_single_scene(
     scene_path: str,
     tau: float = 0.10,
     n_restarts: int = 10,
 ) -> Optional[dict]:
-    """Validate reconstruction on a single scene using GT constraints.
+    """使用真值约束验证单个场景的重建结果。
 
-    Returns dict with scene_id, constraint counts, reconstruction metrics,
-    or None if the scene cannot be loaded.
+    返回包含 scene_id、约束数量和重建指标的字典，
+    若场景无法加载则返回 None。
     """
     scene = load_scene(scene_path)
     scene_id = scene.get("scene_id", Path(scene_path).stem)
@@ -88,7 +87,7 @@ def validate_single_scene(
     if len(objects) < 3:
         return None
 
-    # Extract GT constraints
+    # 提取真值约束
     qrr_constraints = extract_all_qrr(
         objects, MetricType.DIST_3D, tau=tau, disjoint_only=True
     )
@@ -99,13 +98,13 @@ def validate_single_scene(
     n_qrr_disjoint = sum(1 for c in qrr_constraints if c.variant == "disjoint")
     n_qrr_shared_anchor = sum(1 for c in qrr_constraints if c.variant == "shared_anchor")
 
-    # Convert to reconstruct() input format
+    # 转换为 reconstruct() 的输入格式
     qrr_dicts = [qrr_to_dict(c) for c in qrr_constraints]
     trr_dicts = [trr_to_dict(c) for c in trr_constraints]
     object_ids = sorted(objects.keys())
     gt_positions = extract_gt_positions(scene)
 
-    # Run reconstruction
+    # 执行重建
     result = reconstruct(
         qrr_constraints=qrr_dicts,
         trr_constraints=trr_dicts,
@@ -129,7 +128,7 @@ def validate_single_scene(
     }
 
 
-# ── Batch Validation ──
+# ── 批量验证 ──
 
 def validate_all(
     scenes_dir: str,
@@ -138,7 +137,7 @@ def validate_all(
     tau: float = 0.10,
     n_restarts: int = 10,
 ) -> List[dict]:
-    """Validate reconstruction on all scenes (or a specific split)."""
+    """在所有场景（或指定分组）上验证重建结果。"""
     scenes_path = Path(scenes_dir)
     scene_files = sorted(scenes_path.glob("*.json"))
 
@@ -194,7 +193,7 @@ def validate_all(
 
 
 def summarize(results: List[dict]) -> dict:
-    """Compute summary statistics across all validated scenes."""
+    """计算所有已验证场景的汇总统计指标。"""
     if not results:
         return {}
 
@@ -220,7 +219,7 @@ def summarize(results: List[dict]) -> dict:
             summary[f"{key}_min"] = float(np.min(values))
             summary[f"{key}_max"] = float(np.max(values))
 
-    # By split
+    # 按分组统计
     by_split = {}
     for r in results:
         sp = r["scene_id"].rsplit("_", 1)[0]
@@ -236,7 +235,7 @@ def summarize(results: List[dict]) -> dict:
                 sp_summary[f"{key}_mean"] = float(np.mean(values))
         summary["by_split"][sp] = sp_summary
 
-    # Flag failures
+    # 标记失败场景
     failures = [r for r in results if r["status"] != "single_mode"]
     summary["n_failures"] = len(failures)
     if failures:
@@ -251,7 +250,7 @@ def summarize(results: List[dict]) -> dict:
 
 
 def print_summary(summary: dict):
-    """Pretty-print summary statistics."""
+    """格式化打印汇总统计信息。"""
     print("\n" + "=" * 60)
     print(f"  GT Reconstruction Validation Summary ({summary['n_scenes']} scenes)")
     print("=" * 60)
@@ -287,7 +286,7 @@ def print_summary(summary: dict):
     print("=" * 60)
 
 
-# ── CLI ──
+# ── 命令行入口 ──
 
 def main():
     parser = argparse.ArgumentParser(
