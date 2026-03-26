@@ -43,6 +43,7 @@ def call_vlm(
     retry_base_delay: float = 2.0,
     timeout: int = 120,
     provider: str = "",
+    extra_body: dict | None = None,
 ) -> str:
     """
     调用 VLM API，带指数退避重试。
@@ -52,9 +53,9 @@ def call_vlm(
     provider: OpenRouter 指定供应商（如 "alibaba"），为空则不指定。
     """
     # OpenRouter 供应商路由
-    extra_body = {}
+    request_extra_body = dict(extra_body or {})
     if provider:
-        extra_body["provider"] = {"order": [provider]}
+        request_extra_body["provider"] = {"order": [provider]}
 
     for attempt in range(max_retries):
         try:
@@ -65,8 +66,8 @@ def call_vlm(
                 max_tokens=max_tokens,
                 timeout=timeout,
             )
-            if extra_body:
-                kwargs["extra_body"] = extra_body
+            if request_extra_body:
+                kwargs["extra_body"] = request_extra_body
             resp = client.chat.completions.create(**kwargs)
             msg = resp.choices[0].message
             content = msg.content
