@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-# DEPRECATED: Use generate_questions_v2.py instead (per-type directory storage).
+# 已废弃：请改用 generate_questions_v2.py（按题型分目录存储）。
 """
-Generate VLM evaluation questions from data-gen scene JSONs.
+从 data-gen 场景 JSON 生成 VLM 评估问题。
 
-Two output modes:
-  1. questions/     - Batch mode: all QRR/TRR enumerated, split into batches
-  2. extraction_tasks/ - Autonomous mode: objects + GT for later evaluation
+两种输出模式：
+  1. questions/        — 批量模式：枚举所有 QRR/TRR 问题并分批
+  2. extraction_tasks/ — 自治模式：输出对象列表与真值，供后续评估使用
 
-Usage:
+用法：
     python generate_questions.py --data ../data-gen/output
     python generate_questions.py --data ../data-gen/output --split n04 --batch-size 10
-    python generate_questions.py --data ../data-gen/output --counts  # just show counts
+    python generate_questions.py --data ../data-gen/output --counts  # 仅显示问题数量统计
 """
 
 import argparse
@@ -30,12 +30,12 @@ logger = logging.getLogger(__name__)
 
 
 def process_scene(scene_path: Path, batch_size: int, tau: float) -> dict:
-    """Process one scene: extract GT, enumerate questions, build batches."""
+    """处理单个场景：提取真值、枚举问题、划分批次。"""
     scene = load_scene(str(scene_path))
     scene_id = scene["scene_id"]
     objects = parse_objects(scene)
 
-    # Build object descriptions for VLM prompts
+    # 构建 VLM 提示所需的对象描述列表
     obj_list = []
     for obj_id in sorted(objects.keys()):
         obj = objects[obj_id]
@@ -44,7 +44,7 @@ def process_scene(scene_path: Path, batch_size: int, tau: float) -> dict:
             "desc": object_description(obj),
         })
 
-    # Enumerate all questions
+    # 枚举所有问题
     qrr_questions = enumerate_qrr(objects, tau=tau)
     trr_questions = enumerate_trr(objects, use_3d=True)
     fdr_questions = enumerate_fdr(objects, tau=tau)
@@ -54,7 +54,7 @@ def process_scene(scene_path: Path, batch_size: int, tau: float) -> dict:
     all_questions = qrr_questions + trr_questions + fdr_questions
     batches = make_batches(all_questions, batch_size)
 
-    # Batch mode output
+    # 批量模式输出
     batch_output = {
         "scene_id": scene_id,
         "image_path": f"images/single_view/{scene_id}.png",
@@ -71,7 +71,7 @@ def process_scene(scene_path: Path, batch_size: int, tau: float) -> dict:
         "batches": batches,
     }
 
-    # Extraction mode output
+    # 自治模式输出
     gt = extract_gt(scene, tau=tau)
     extraction_output = {
         "scene_id": scene_id,
@@ -146,7 +146,7 @@ def main():
     questions_dir.mkdir(parents=True, exist_ok=True)
     extraction_dir.mkdir(parents=True, exist_ok=True)
 
-    # Find scene files
+    # 查找场景文件
     scene_files = sorted(scenes_dir.glob("*.json"))
     if args.split:
         scene_files = [f for f in scene_files if f.stem.startswith(args.split)]
@@ -170,11 +170,11 @@ def main():
         )
         scene_id = batch_out["scene_id"]
 
-        # Save batch mode
+        # 保存批量模式输出
         with open(questions_dir / f"{scene_id}.json", 'w') as f:
             json.dump(batch_out, f, indent=2)
 
-        # Save extraction mode
+        # 保存自治模式输出
         with open(extraction_dir / f"{scene_id}.json", 'w') as f:
             json.dump(extract_out, f, indent=2)
 
@@ -196,7 +196,7 @@ def main():
             f"{batch_out['n_batches']} batches"
         )
 
-    # Summary
+    # 汇总统计
     summary = {
         "n_scenes": len(scene_files),
         "batch_size": args.batch_size,

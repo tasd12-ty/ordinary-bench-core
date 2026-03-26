@@ -1,7 +1,7 @@
 """
-Generate SVG comparison examples for scene belief reconstruction.
+生成场景信念重建对比 SVG 示例图。
 
-Usage:
+用法：
     python -m analysis.generate_svg_examples [--max-scenes 5] [--model MODEL_DIR]
 """
 
@@ -24,7 +24,7 @@ from analysis.visualize_svg import (
 
 
 def find_model_results(base_dir: str = "output/results") -> list:
-    """Find all model result directories."""
+    """查找所有模型结果目录。"""
     base = Path(base_dir)
     if not base.exists():
         return []
@@ -32,7 +32,7 @@ def find_model_results(base_dir: str = "output/results") -> list:
 
 
 def load_scene_result(model_dir: Path, scene_id: str) -> dict:
-    """Load a scene result JSON."""
+    """加载场景评分结果 JSON 文件。"""
     path = model_dir / "scenes" / f"{scene_id}.json"
     if not path.exists():
         return {}
@@ -41,7 +41,7 @@ def load_scene_result(model_dir: Path, scene_id: str) -> dict:
 
 
 def load_gt_positions(scene_json_path: str) -> dict:
-    """Load GT positions from scene JSON."""
+    """从场景 JSON 文件加载真值坐标。"""
     with open(scene_json_path) as f:
         scene = json.load(f)
     return {
@@ -58,10 +58,10 @@ def generate_examples(
     output_dir: str = "output/analysis/svg",
     n_restarts: int = 10,
 ):
-    """Generate SVG examples for scene reconstruction comparison."""
+    """生成场景重建对比 SVG 示例图。"""
     os.makedirs(output_dir, exist_ok=True)
 
-    # Find model results
+    # 查找模型结果目录
     if model_dir:
         model_dirs = [Path(model_dir)]
     else:
@@ -78,20 +78,20 @@ def generate_examples(
         model_name = mdir.name
         print(f"\n=== Model: {model_name} ===")
 
-        # Find available scene results
+        # 获取可用的场景结果文件
         scene_files = sorted((mdir / "scenes").glob("*.json"))[:max_scenes]
 
         for sf in scene_files:
             scene_id = sf.stem
             print(f"\n  Processing {scene_id}...")
 
-            # Load VLM result
+            # 加载 VLM 评分结果
             scene_result = load_scene_result(mdir, scene_id)
             if not scene_result:
                 print(f"    Skipping: no result")
                 continue
 
-            # Load GT scene
+            # 加载真值场景
             gt_scene_path = scenes_path / f"{scene_id}.json"
             if not gt_scene_path.exists():
                 print(f"    Skipping: no GT scene at {gt_scene_path}")
@@ -100,7 +100,7 @@ def generate_examples(
             gt_positions = load_gt_positions(str(gt_scene_path))
             object_info = load_object_info(str(gt_scene_path))
 
-            # Questions
+            # 加载问题文件
             questions_path = Path("output/questions") / f"{scene_id}.json"
             if not questions_path.exists():
                 print(f"    Skipping: no questions at {questions_path}")
@@ -112,7 +112,7 @@ def generate_examples(
             for batch in q_data["batches"]:
                 all_questions.extend(batch["questions"])
 
-            # Reconstruct from VLM predictions
+            # 从 VLM 预测结果重建场景布局
             scoring = scene_result.get("scores", {})
             config = SolverConfig(n_restarts=n_restarts)
             recon = reconstruct_from_scoring(
@@ -125,18 +125,18 @@ def generate_examples(
                 print(f"    Skipping: no constraints extracted")
                 continue
 
-            # Prepare recon positions
+            # 获取重建坐标
             recon_positions = recon.positions
 
             if not recon_positions:
                 print(f"    Skipping: no reconstruction result")
                 continue
 
-            # Blender image
+            # Blender 渲染图像路径
             blender_img = images_path / f"{scene_id}.png"
             blender_path = str(blender_img) if blender_img.exists() else None
 
-            # Metrics
+            # 重建评估指标
             metrics = None
             if recon.metrics:
                 metrics = {
@@ -147,7 +147,7 @@ def generate_examples(
                     "K_geom": recon.metrics.K_geom,
                 }
 
-            # Render SVG
+            # 渲染 SVG
             svg = render_scene_comparison_svg(
                 gt_positions=gt_positions,
                 recon_positions=recon_positions,

@@ -1,5 +1,5 @@
 """
-Run reconstruction from previously prepared per-scene bundles.
+从已预处理的逐场景数据包中运行重建求解器。
 """
 
 import argparse
