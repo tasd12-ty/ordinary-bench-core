@@ -10,7 +10,11 @@ Gemini 系列模型测试配置。
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except ModuleNotFoundError:  # pragma: no cover - optional dependency
+    def load_dotenv(*_args, **_kwargs):
+        return False
 
 # 自动加载同目录下的 .env 文件（不覆盖已有环境变量）
 load_dotenv(Path(__file__).resolve().parent / ".env")
