@@ -338,7 +338,7 @@ def render_scene_comparison_svg(
     # Procrustes-align recon to GT
     gt_mat = np.array([gt_positions[oid][:2] for oid in obj_ids])
     recon_mat = np.array([recon_positions[oid][:2] for oid in obj_ids])
-    recon_aligned, rms = procrustes_align(recon_mat, gt_mat)
+    recon_aligned, rms = procrustes_align(recon_mat, gt_mat, allow_reflection=True)
 
     gt_dict = {oid: gt_mat[i] for i, oid in enumerate(obj_ids)}
     recon_dict = {oid: recon_aligned[i] for i, oid in enumerate(obj_ids)}
@@ -568,7 +568,7 @@ def render_three_condition_svg(
         if len(common) >= 3:
             c_mat = np.array([cond_pos[oid][:2] for oid in common])
             g_mat = np.array([gt_positions[oid][:2] for oid in common])
-            aligned, rms = procrustes_align(c_mat, g_mat)
+            aligned, rms = procrustes_align(c_mat, g_mat, allow_reflection=True)
             extent = np.max(np.ptp(g_mat, axis=0))
             nrms = rms / extent if extent > 1e-6 else rms
             aligned_dict = {oid: aligned[i] for i, oid in enumerate(common)}

@@ -1,11 +1,11 @@
 """
-End-to-end reconstruction pipeline.
+端到端重建管线。
 
-Two entry points:
-  1. reconstruct() - from raw constraint lists
-  2. prepare_reconstruction_input_from_scoring() - auditable prep bundle
-  3. reconstruct_from_scoring() - from scoring results + question metadata
-  4. reconstruct_from_prepared() - from prepared bundle
+四个入口：
+  1. reconstruct() — 从原始约束列表
+  2. prepare_reconstruction_input_from_scoring() — 可审计的准备包
+  3. reconstruct_from_scoring() — 从评分结果 + 问题元数据
+  4. reconstruct_from_prepared() — 从准备好的包
 """
 
 import numpy as np
@@ -31,9 +31,9 @@ CONSTRAINT_MODES = ("all", "fdr_only", "qrr_only", "fdr_qrr", "qrr_trr", "fdr_tr
 
 @dataclass
 class ReconstructResult:
-    """Complete reconstruction output."""
+    """完整的重建输出。"""
     feasible: bool = False
-    status: str = "infeasible"  # infeasible | underconstrained | single_mode | multimodal
+    status: str = "infeasible"  # infeasible | underconstrained | single_mode | multimodal（不可行 | 约束不足 | 单模态 | 多模态）
     positions: Dict[str, np.ndarray] = field(default_factory=dict)
     metrics: EvalMetrics = field(default_factory=EvalMetrics)
     K_geom: int = 0
@@ -43,7 +43,7 @@ class ReconstructResult:
     constraint_counts: Dict[str, int] = field(default_factory=dict)
 
     def to_dict(self) -> dict:
-        """Serialize to JSON-compatible dict."""
+        """序列化为 JSON 兼容的字典。"""
         pos_dict = {k: v.tolist() for k, v in self.positions.items()}
         return {
             "feasible": self.feasible,
@@ -86,27 +86,27 @@ def reconstruct(
     n_restarts: int = 10,
     config: Optional[SolverConfig] = None,
 ) -> ReconstructResult:
-    """Reconstruct 2D scene from QRR + TRR constraints.
+    """从 QRR + TRR 约束重建 2D 场景。
 
-    Args:
-        qrr_constraints: list of QRR constraint dicts with keys:
+    参数:
+        qrr_constraints: QRR 约束字典列表，键包括：
             pair1, pair2, comparator, [weight], [variant], [anchor]
-        trr_constraints: list of TRR constraint dicts with keys:
+        trr_constraints: TRR 约束字典列表，键包括：
             target, ref1, ref2, hour, [weight], [level]
-        object_ids: list of object identifiers
-        gt_positions: optional ground truth positions for evaluation
-        n_restarts: number of optimization restarts
-        config: solver configuration
+        object_ids: 对象标识符列表
+        gt_positions: 可选的真值位置，用于评估
+        n_restarts: 优化重启次数
+        config: 求解器配置
 
-    Returns:
-        ReconstructResult with positions, metrics, and diagnostics
+    返回:
+        包含位置、指标和诊断信息的 ReconstructResult
     """
     if config is None:
         config = SolverConfig(n_restarts=n_restarts)
     else:
         config.n_restarts = n_restarts
 
-    # Parse constraint dicts to entry objects
+    # 将约束字典解析为约束对象
     qrr_entries = [
         QRREntry(
             pair1=tuple(c["pair1"]),
@@ -141,16 +141,16 @@ def reconstruct_from_scoring(
     use_correct_only: bool = True,
     config: Optional[SolverConfig] = None,
 ) -> ReconstructResult:
-    """Reconstruct from scoring output of score_batch_scene().
+    """从 score_batch_scene() 的评分输出进行重建。
 
-    Args:
-        scoring_result: output of score_batch_scene() with per_question list
-        questions: original question list with GT metadata
-        gt_positions: ground truth positions (dict of obj_id -> [x, y] or [x, y, z])
-        n_restarts: number of optimization restarts
-        use_correct_only: if True, only use correctly answered constraints;
-                         if False, use all VLM predictions (for belief reconstruction)
-        config: solver configuration
+    参数:
+        scoring_result: score_batch_scene() 的输出，包含 per_question 列表
+        questions: 带有真值元数据的原始问题列表
+        gt_positions: 真值位置（obj_id -> [x, y] 或 [x, y, z] 的字典）
+        n_restarts: 优化重启次数
+        use_correct_only: 若为 True，仅使用正确回答的约束；
+                         若为 False，使用所有 VLM 预测（用于信念重建）
+        config: 求解器配置
     """
     if config is None:
         config = SolverConfig(n_restarts=n_restarts)
@@ -179,16 +179,16 @@ def reconstruct_from_prepared(
     config: Optional[SolverConfig] = None,
     constraint_mode: str = "all",
 ) -> ReconstructResult:
-    """Reconstruct from a prepared per-scene bundle.
+    """从准备好的逐场景包进行重建。
 
-    Args:
-        constraint_mode: which constraint subset to use:
-            "all"       — qrr_direct + qrr_from_fdr + trr (default)
-            "fdr_only"  — only QRR derived from FDR decomposition
-            "qrr_only"  — only direct QRR (disjoint + shared_anchor)
-            "fdr_qrr"   — qrr_direct + qrr_from_fdr, no TRR
-            "qrr_trr"   — qrr_direct + trr, no FDR
-            "fdr_trr"   — qrr_from_fdr + trr, no direct QRR
+    参数:
+        constraint_mode: 使用的约束子集：
+            "all"       — qrr_direct + qrr_from_fdr + trr（默认）
+            "fdr_only"  — 仅由 FDR 分解得到的 QRR
+            "qrr_only"  — 仅直接 QRR（disjoint + shared_anchor）
+            "fdr_qrr"   — qrr_direct + qrr_from_fdr，无 TRR
+            "qrr_trr"   — qrr_direct + trr，无 FDR
+            "fdr_trr"   — qrr_from_fdr + trr，无直接 QRR
     """
     if constraint_mode not in CONSTRAINT_MODES:
         raise ValueError(f"Unknown constraint_mode={constraint_mode!r}, "
@@ -212,7 +212,7 @@ def reconstruct_from_prepared(
             for oid, pos in prepared.gt_positions.items()
         }
 
-    # Select constraint subset based on mode
+    # 根据模式选择约束子集
     if constraint_mode == "fdr_only":
         qrr_sel = prepared.qrr_from_fdr
         trr_sel = []
@@ -260,28 +260,28 @@ def _run_pipeline(
     gt_positions: Optional[Dict[str, np.ndarray]],
     config: SolverConfig,
 ) -> ReconstructResult:
-    """Internal pipeline: Stage 0-5."""
+    """内部管线：阶段 0-5。"""
 
     result = ReconstructResult()
 
-    # ── Stage 0-1: Symbolic Preprocessing ──
+    # ── 阶段 0-1：符号预处理 ──
     poset = build_distance_poset(qrr_entries)
     sectors = build_angular_sectors(trr_entries)
     hyper = analyze_hypergraph(qrr_entries, trr_entries, object_ids)
     feasibility = check_feasibility(poset, sectors, hyper)
     result.feasibility_checks = feasibility
 
-    # Not enough objects
+    # 对象数不足
     if len(object_ids) < 3:
         result.status = "underconstrained"
         return result
 
-    # No constraints at all
+    # 完全没有约束
     if not qrr_entries and not trr_entries:
         result.status = "underconstrained"
         return result
 
-    # Fail-fast on symbolic infeasibility
+    # 符号不可行性快速失败
     if feasibility.qrr_has_cycle:
         result.feasible = False
         result.status = "infeasible"
@@ -291,8 +291,8 @@ def _run_pipeline(
         result.status = "infeasible"
         return result
 
-    # ── Stage 2-3: Numerical Reconstruction ──
-    # Normalize GT positions to 2D
+    # ── 阶段 2-3：数值重建 ──
+    # 将真值位置归一化为 2D
     gt_2d = None
     if gt_positions is not None:
         gt_2d = {}
@@ -314,7 +314,7 @@ def _run_pipeline(
 
     result.all_solutions = solutions
 
-    # ── Stage 4-5: Evaluation (considers both chiralities) ──
+    # ── 阶段 4-5：评估（考虑两种手性） ──
     metrics = evaluate_reconstruction(
         solutions=solutions,
         qrr_entries=qrr_entries,
@@ -324,13 +324,13 @@ def _run_pipeline(
     result.metrics = metrics
     result.K_geom = metrics.K_geom
 
-    # Use the best-chirality positions
+    # 使用最优手性的位置
     if metrics.reflected:
         result.positions = reflect_positions_y(solutions[0].positions)
     else:
         result.positions = solutions[0].positions
 
-    # ── Status Determination ──
+    # ── 状态判定 ──
     csr_ok = metrics.csr_qrr >= 0.95 and metrics.csr_trr >= 0.95
     if not csr_ok:
         result.feasible = False

@@ -1,6 +1,6 @@
 {
-  "feasible": false,
-  "status": "infeasible",
+  "feasible": true,
+  "status": "multimodal",
   "positions": {
     "obj_0": [
       0.0,
@@ -11,29 +11,30 @@
       0.0
     ],
     "obj_2": [
-      0.6496604006121162,
-      0.18866752030451417
+      0.5830206642308835,
+      -0.055043395363387565
     ],
     "obj_3": [
-      0.7929922670253237,
-      -0.04510746225525955
+      0.72386839409031,
+      0.0869492702005354
     ]
   },
   "metrics": {
-    "csr_qrr": 0.9285714285714286,
-    "csr_trr": 0.7916666666666666,
-    "K_geom": 1,
-    "spread": 5.268948898915797e-08,
-    "kendall_tau": 0.7333333333333333,
-    "nrms": 0.119234338125203,
-    "best_loss": 1.2001975080481972,
+    "csr_qrr": 1.0,
+    "csr_trr": 1.0,
+    "K_geom": 2,
+    "spread": 0.04583687469982928,
+    "kendall_tau": 0.8666666666666666,
+    "nrms": 0.15907450393138697,
+    "best_loss": 0.020788650473444914,
     "n_solutions": 10,
     "cluster_sizes": [
-      10
+      9,
+      1
     ],
     "reflected": false
   },
-  "K_geom": 1,
+  "K_geom": 2,
   "n_solutions": 10,
   "constraint_mode": "all",
   "constraint_counts": {
