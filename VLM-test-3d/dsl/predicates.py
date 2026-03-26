@@ -104,11 +104,11 @@ class TRRConstraint:
 
 @dataclass
 class FDRConstraint:
-    """Full Distance Ranking: all objects ranked by distance from an anchor."""
+    """全距离排序约束：从锚点到所有其他物体的距离排序。"""
     anchor: str
-    ranking: List[str]          # object IDs, nearest to farthest
-    distances: List[float]      # corresponding distances
-    tie_groups: List[List[str]] # groups of objects within tau tolerance
+    ranking: List[str]          # 物体 ID 列表，从近到远排列
+    distances: List[float]      # 对应的距离值
+    tie_groups: List[List[str]] # 在 tau 容差范围内的并列组
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -156,7 +156,7 @@ def compute_angle_2d(
     return angle_deg
 
 
-# Metric computation functions
+# 度量计算函数
 
 def compute_dist_3d(obj_a: Dict, obj_b: Dict) -> float:
     pos_a = np.array(obj_a.get("position_3d", obj_a.get("3d_coords", [0, 0, 0])))
@@ -199,7 +199,7 @@ METRIC_FUNCTIONS = {
 
 
 def _is_boundary(m1: float, m2: float, tau: float) -> bool:
-    """Check if comparison falls near the tolerance boundary."""
+    """检查比较结果是否落在容差边界附近。"""
     max_val = max(m1, m2)
     if max_val == 0:
         return False
@@ -270,7 +270,7 @@ def extract_all_qrr(
             if disjoint_only:
                 if set(pair1) & set(pair2):
                     continue
-            # Skip boundary cases (unreliable GT)
+            # 跳过边界情形（真值不可靠）
             m1 = metric_func(objects[pair1[0]], objects[pair1[1]])
             m2 = metric_func(objects[pair2[0]], objects[pair2[1]])
             if _is_boundary(m1, m2, tau):
@@ -292,7 +292,7 @@ def extract_all_qrr_shared_anchor(
     metric: MetricType,
     tau: float = 0.10,
 ) -> List[QRRConstraint]:
-    """Extract QRR constraints where pair1 and pair2 share a common anchor."""
+    """提取 pair1 和 pair2 共享公共锚点的 QRR 约束。"""
     obj_ids = sorted(objects.keys())
     metric_func = METRIC_FUNCTIONS[metric]
     constraints = []
@@ -337,7 +337,7 @@ def compute_fdr(
     anchor: str,
     tau: float = 0.10,
 ) -> FDRConstraint:
-    """Compute full distance ranking from anchor to all other objects."""
+    """计算从锚点到所有其他物体的全距离排序。"""
     metric_func = METRIC_FUNCTIONS[MetricType.DIST_3D]
     other_ids = [oid for oid in sorted(objects.keys()) if oid != anchor]
 
@@ -346,13 +346,13 @@ def compute_fdr(
         d = metric_func(objects[anchor], objects[oid])
         dist_pairs.append((oid, d))
 
-    # Sort by distance (nearest first), break ties by object ID
+    # 按距离升序排列（最近优先），相同距离时按物体 ID 排序
     dist_pairs.sort(key=lambda x: (x[1], x[0]))
 
     ranking = [oid for oid, _ in dist_pairs]
     distances = [d for _, d in dist_pairs]
 
-    # Compute tie groups using tolerance-based comparison
+    # 使用基于容差的比较计算并列组
     tie_groups: List[List[str]] = []
     if ranking:
         current_group = [ranking[0]]
@@ -377,7 +377,7 @@ def extract_all_fdr(
     objects: Dict[str, Dict],
     tau: float = 0.10,
 ) -> List[FDRConstraint]:
-    """Extract one FDR constraint per object (as anchor). Returns N constraints for N objects."""
+    """为每个物体（作为锚点）提取一条 FDR 约束。N 个物体返回 N 条约束。"""
     obj_ids = sorted(objects.keys())
     return [compute_fdr(objects, anchor, tau) for anchor in obj_ids]
 

@@ -94,7 +94,7 @@ def build_distance_poset(qrr_entries: List[QRREntry]) -> DistancePoset:
         if entry.comparator == "~=":
             poset.equiv_classes.union(id1, id2)
         elif entry.comparator == "<":
-            # d(pair1) < d(pair2) => pair1 "小于" pair2
+            # d(pair1) < d(pair2) => pair1 距离"小于" pair2 距离
             r1 = poset.equiv_classes.find(id1)
             r2 = poset.equiv_classes.find(id2)
             poset.edges_lt[r1].add(r2)
