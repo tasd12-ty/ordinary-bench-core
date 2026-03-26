@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Export evaluation results to Excel and run batch belief reconstruction with SVG.
+将评估结果导出为 Excel，并运行批量信念重建（含 SVG 生成）。
 
-Usage:
-    python analysis/export_and_reconstruct.py                         # both
-    python analysis/export_and_reconstruct.py --excel-only            # Excel only
-    python analysis/export_and_reconstruct.py --recon-only            # recon + SVG only
+用法：
+    python analysis/export_and_reconstruct.py                         # 全部
+    python analysis/export_and_reconstruct.py --excel-only            # 仅 Excel
+    python analysis/export_and_reconstruct.py --recon-only            # 仅重建 + SVG
     python analysis/export_and_reconstruct.py --models claude-sonnet-4-6 --max-scenes 3
 """
 
@@ -31,7 +31,7 @@ from analysis.visualize_svg import (
 from reconstruct import load_questions_auto, load_scene_gt_positions
 
 
-# ── Paths ──
+# ── 路径配置 ──
 
 BASE_DIR = Path(__file__).parent.parent  # VLM-test/
 OUTPUT_DIR = BASE_DIR / "output"
@@ -47,7 +47,7 @@ def detect_view_type(model_dir_name: str) -> str:
 
 
 def discover_models(filter_models: Optional[List[str]] = None) -> List[Tuple[str, Path]]:
-    """Return sorted list of (model_dir_name, path) for models with scene results."""
+    """返回所有有场景结果的模型的 (model_dir_name, path) 有序列表。"""
     models = []
     for d in sorted(RESULTS_DIR.iterdir()):
         if not d.is_dir():
@@ -60,16 +60,16 @@ def discover_models(filter_models: Optional[List[str]] = None) -> List[Tuple[str
     return models
 
 
-# ── Part 1: Excel Export ──
+# ── 第一部分：Excel 导出 ──
 
 def export_excel(models: List[Tuple[str, Path]], output_path: Path):
-    """Create Excel workbook with Overall, By Split, and Per Scene sheets."""
+    """创建包含总体、按 Split 和逐场景三个工作表的 Excel 工作簿。"""
     from openpyxl import Workbook
     from openpyxl.styles import Font, Alignment, PatternFill, numbers
 
     wb = Workbook()
 
-    # ── Sheet: Overall ──
+    # ── 工作表：总体 ──
     ws_overall = wb.active
     ws_overall.title = "Overall"
 
@@ -82,7 +82,7 @@ def export_excel(models: List[Tuple[str, Path]], output_path: Path):
     ]
     ws_overall.append(overall_headers)
 
-    # Style header
+    # 设置表头样式
     header_font = Font(bold=True)
     header_fill = PatternFill(start_color="DAEEF3", end_color="DAEEF3", fill_type="solid")
     for cell in ws_overall[1]:
@@ -112,18 +112,18 @@ def export_excel(models: List[Tuple[str, Path]], output_path: Path):
             o.get("missing", 0),
         ])
 
-    # Format percentage columns
+    # 格式化百分比列
     for row in ws_overall.iter_rows(min_row=2, min_col=4, max_col=13):
         for cell in row:
             if cell.value is not None:
                 cell.number_format = '0.00%'
 
-    # Auto-width
+    # 自动调整列宽
     for col in ws_overall.columns:
         max_len = max(len(str(c.value or "")) for c in col)
         ws_overall.column_dimensions[col[0].column_letter].width = min(max_len + 3, 25)
 
-    # ── Sheet: By Split ──
+    # ── 工作表：按 Split ──
     ws_split = wb.create_sheet("By Split")
     split_headers = [
         "Model", "View", "Split", "N_Scenes",
@@ -146,7 +146,7 @@ def export_excel(models: List[Tuple[str, Path]], output_path: Path):
         by_split = summary.get("by_split", {})
         for split_name in sorted(by_split.keys()):
             s = by_split[split_name]
-            # Count scenes in this split
+            # 统计该 split 的场景数
             n_scenes_in_split = 0
             scenes_dir = model_path / "scenes"
             if scenes_dir.exists():
@@ -175,7 +175,7 @@ def export_excel(models: List[Tuple[str, Path]], output_path: Path):
         max_len = max(len(str(c.value or "")) for c in col)
         ws_split.column_dimensions[col[0].column_letter].width = min(max_len + 3, 25)
 
-    # ── Sheet: Per Scene ──
+    # ── 工作表：逐场景 ──
     ws_scene = wb.create_sheet("Per Scene")
     scene_headers = [
         "Model", "View", "Scene_ID", "Split", "N_Objects",
@@ -222,7 +222,7 @@ def export_excel(models: List[Tuple[str, Path]], output_path: Path):
                 sc.get("missing", 0),
             ])
 
-    # Format percentage columns (8, 13-15, 18)
+    # 格式化百分比列（第 8、13-15、18 列）
     pct_cols = [8, 13, 14, 15, 18]
     for row in ws_scene.iter_rows(min_row=2):
         for idx in pct_cols:
@@ -234,7 +234,7 @@ def export_excel(models: List[Tuple[str, Path]], output_path: Path):
         max_len = max(len(str(c.value or "")) for c in col)
         ws_scene.column_dimensions[col[0].column_letter].width = min(max_len + 3, 22)
 
-    # Freeze panes
+    # 冻结首行
     ws_overall.freeze_panes = "A2"
     ws_split.freeze_panes = "A2"
     ws_scene.freeze_panes = "A2"
@@ -245,7 +245,7 @@ def export_excel(models: List[Tuple[str, Path]], output_path: Path):
     return wb
 
 
-# ── Part 2: Belief Reconstruction + SVG ──
+# ── 第二部分：信念重建 + SVG ──
 
 def load_scene_gt(scene_path: str) -> Optional[Dict[str, np.ndarray]]:
     loaded = load_scene_gt_positions(scene_path)
@@ -259,9 +259,9 @@ def run_belief_reconstruction(
     max_scenes: Optional[int] = None,
     n_restarts: int = 10,
 ) -> List[dict]:
-    """Run belief reconstruction for all models and generate SVGs.
+    """对所有模型运行信念重建并生成 SVG。
 
-    Returns list of per-scene recon result dicts (for Excel sheet).
+    返回逐场景的重建结果字典列表（用于 Excel 工作表）。
     """
     all_recon_rows = []
 
@@ -284,17 +284,17 @@ def run_belief_reconstruction(
         for i, sr in enumerate(scene_results):
             scene_id = sr["scene_id"]
 
-            # Load questions
+            # 加载问题
             questions, question_meta = load_questions_auto(str(QUESTIONS_DIR), scene_id)
             if not questions:
                 print(f"  [{i+1}/{len(scene_results)}] {scene_id}: no questions, skip")
                 continue
 
-            # Load GT
+            # 加载真值位置
             scene_path = str(SCENES_DIR / f"{scene_id}.json")
             gt_positions = load_scene_gt(scene_path) if os.path.exists(scene_path) else None
 
-            # Reconstruct (belief mode: use_correct_only=False)
+            # 重建（信念模式：使用所有 VLM 预测，不筛选正确答案）
             try:
                 recon_output = reconstruct_single_scene(
                     scene_result=sr,
@@ -315,12 +315,12 @@ def run_belief_reconstruction(
                     f"csr_trr={m['csr_trr']:.3f} nrms={nrms_str}"
                 )
 
-                # Save recon JSON
+                # 保存重建 JSON
                 recon_json_path = model_recon_dir / f"{scene_id}.json"
                 with open(recon_json_path, "w") as f:
                     json.dump(recon_output, f, indent=2, default=str)
 
-                # Generate SVG if we have positions and GT
+                # 有重建位置且有 GT 时生成 SVG
                 if recon_output.get("positions") and gt_positions and os.path.exists(scene_path):
                     try:
                         recon_positions = {
@@ -345,7 +345,7 @@ def run_belief_reconstruction(
                     except Exception as svg_err:
                         print(f"    SVG generation failed: {svg_err}")
 
-                # Collect for Excel
+                # 收集数据用于 Excel 工作表
                 all_recon_rows.append({
                     "model": model_name,
                     "scene_id": scene_id,
@@ -377,7 +377,7 @@ def run_belief_reconstruction(
 
 
 def add_recon_sheet(wb, recon_rows: List[dict]):
-    """Add Reconstruction sheet to existing workbook."""
+    """向已有工作簿添加重建工作表。"""
     from openpyxl.styles import Font, PatternFill
 
     ws = wb.create_sheet("Reconstruction")
@@ -411,7 +411,7 @@ def add_recon_sheet(wb, recon_rows: List[dict]):
             r.get("reflected", False),
         ])
 
-    # Format
+    # 格式化
     for row in ws.iter_rows(min_row=2, min_col=6, max_col=9):
         for cell in row:
             if cell.value is not None:
@@ -424,7 +424,7 @@ def add_recon_sheet(wb, recon_rows: List[dict]):
     ws.freeze_panes = "A2"
 
 
-# ── Main ──
+# ── 主入口 ──
 
 def main():
     parser = argparse.ArgumentParser(description="Export results to Excel and run belief reconstruction")
@@ -471,7 +471,7 @@ def main():
             models, max_scenes=args.max_scenes, n_restarts=args.restarts,
         )
         if recon_rows:
-            # Remove old Reconstruction sheet if exists
+            # 若已存在重建工作表则先删除
             if "Reconstruction" in wb.sheetnames:
                 del wb["Reconstruction"]
             add_recon_sheet(wb, recon_rows)

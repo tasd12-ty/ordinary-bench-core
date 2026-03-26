@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-Generate VLM evaluation questions — per-type directory output.
+生成 VLM 评估问题 —— 按题型分目录输出（推荐版本）。
 
-Stores QRR, TRR, and FDR questions in separate subdirectories:
+将 QRR、TRR 和 FDR 问题分别存储到独立子目录：
     output/questions/qrr/{scene_id}.json
     output/questions/trr/{scene_id}.json
     output/questions/fdr/{scene_id}.json
 
-Usage:
+用法：
     python generate_questions_v2.py --data ../data-gen/output
     python generate_questions_v2.py --data ../data-gen/output --split n04 --batch-size 10
     python generate_questions_v2.py --data ../data-gen/output --counts
@@ -39,7 +39,7 @@ QUESTION_TYPES = {
 
 
 def process_scene(scene_path: Path, batch_size: int, tau: float) -> dict:
-    """Process one scene: enumerate questions per type, build batches."""
+    """处理单个场景：按题型枚举问题并构建批次。"""
     scene = load_scene(str(scene_path))
     scene_id = scene["scene_id"]
     objects = parse_objects(scene)
@@ -148,7 +148,7 @@ def main():
 
     output_dir = Path(args.output)
 
-    # Create per-type directories
+    # 创建各题型输出目录
     q_dirs = {}
     e_dirs = {}
     for qtype in QUESTION_TYPES:
@@ -157,7 +157,7 @@ def main():
         e_dirs[qtype] = output_dir / "extraction_tasks" / qtype
         e_dirs[qtype].mkdir(parents=True, exist_ok=True)
 
-    # Find scene files
+    # 查找场景文件
     scene_files = sorted(scenes_dir.glob("*.json"))
     if args.split:
         scene_files = [f for f in scene_files if f.stem.startswith(args.split)]

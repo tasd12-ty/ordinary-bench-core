@@ -1,8 +1,8 @@
 """
-QRR (Quaternary Relative Relations) and TRR (Ternary Clock Relations).
+QRR（量化相对关系）和 TRR（三元钟面关系）。
 
-QRR: Compare pairwise metrics across four objects.
-TRR: Directional relations using clock-face orientation.
+QRR：跨四个物体比较成对度量。
+TRR：使用钟面方向的方向关系。
 """
 
 from dataclasses import dataclass
@@ -104,7 +104,7 @@ class TRRConstraint:
 
 @dataclass
 class FDRConstraint:
-    """Full Distance Ranking: all objects ranked by distance from an anchor."""
+    """全距离排序：所有物体按距锚点的距离排序。"""
     anchor: str
     ranking: List[str]          # object IDs, nearest to farthest
     distances: List[float]      # corresponding distances
@@ -120,6 +120,7 @@ class FDRConstraint:
 
 
 def hour_to_quadrant(hour: int) -> int:
+    """将小时数（1-12）转换为象限（1-4）。"""
     if hour in (12, 1, 2):
         return 1
     elif hour in (3, 4, 5):
@@ -131,6 +132,7 @@ def hour_to_quadrant(hour: int) -> int:
 
 
 def angle_to_hour(angle_deg: float) -> int:
+    """将角度（度）转换为钟面小时数（1-12）。"""
     angle_deg = angle_deg % 360
     shifted = (angle_deg + 15) % 360
     hour_idx = int(shifted // 30)
@@ -145,6 +147,7 @@ def compute_angle_2d(
     ref1_pos: np.ndarray,
     ref2_pos: np.ndarray
 ) -> float:
+    """计算从 ref1 看向 ref2 的方向为参考轴，target 的顺时针钟面角度。"""
     ref_vec = ref2_pos - ref1_pos
     ref_angle = math.atan2(ref_vec[1], ref_vec[0])
     target_vec = target_pos - ref1_pos
@@ -152,31 +155,35 @@ def compute_angle_2d(
         return 0.0
     target_angle = math.atan2(target_vec[1], target_vec[0])
     rel_angle = target_angle - ref_angle
-    angle_deg = math.degrees(rel_angle) % 360
+    angle_deg = (-math.degrees(rel_angle)) % 360  # clockwise, matching real clock faces
     return angle_deg
 
 
-# Metric computation functions
+# ── 度量计算函数 ──
 
 def compute_dist_3d(obj_a: Dict, obj_b: Dict) -> float:
+    """计算两个物体的三维欧氏距离。"""
     pos_a = np.array(obj_a.get("position_3d", obj_a.get("3d_coords", [0, 0, 0])))
     pos_b = np.array(obj_b.get("position_3d", obj_b.get("3d_coords", [0, 0, 0])))
     return float(np.linalg.norm(pos_a - pos_b))
 
 
 def compute_dist_2d(obj_a: Dict, obj_b: Dict) -> float:
+    """计算两个物体的二维像素距离。"""
     pos_a = np.array(obj_a.get("position_2d", obj_a.get("pixel_coords", [0, 0])[:2]))
     pos_b = np.array(obj_b.get("position_2d", obj_b.get("pixel_coords", [0, 0])[:2]))
     return float(np.linalg.norm(pos_a - pos_b))
 
 
 def compute_depth_gap(obj_a: Dict, obj_b: Dict) -> float:
+    """计算两个物体的深度差（绝对值）。"""
     depth_a = obj_a.get("depth", obj_a.get("pixel_coords", [0, 0, 0])[2] if len(obj_a.get("pixel_coords", [])) > 2 else 0)
     depth_b = obj_b.get("depth", obj_b.get("pixel_coords", [0, 0, 0])[2] if len(obj_b.get("pixel_coords", [])) > 2 else 0)
     return abs(float(depth_a) - float(depth_b))
 
 
 def compute_size_ratio(obj_a: Dict, obj_b: Dict) -> float:
+    """计算两个物体的尺寸比（size_a / size_b）。"""
     size_a = obj_a.get("size", 1.0)
     size_b = obj_b.get("size", 1.0)
     size_map = {"large": 0.7, "medium": 0.5, "small": 0.35}
@@ -199,7 +206,7 @@ METRIC_FUNCTIONS = {
 
 
 def _is_boundary(m1: float, m2: float, tau: float) -> bool:
-    """Check if comparison falls near the tolerance boundary."""
+    """检查比较是否落在容差边界附近（不稳定的真值）。"""
     max_val = max(m1, m2)
     if max_val == 0:
         return False
@@ -217,6 +224,7 @@ def compute_qrr(
     variant: str = "disjoint",
     anchor: Optional[str] = None,
 ) -> QRRConstraint:
+    """计算单个 QRR 约束（两对物体的度量比较）。"""
     metric_func = METRIC_FUNCTIONS[metric]
     m1 = metric_func(objects[pair1[0]], objects[pair1[1]])
     m2 = metric_func(objects[pair2[0]], objects[pair2[1]])
@@ -234,6 +242,7 @@ def compute_trr(
     target: str, ref1: str, ref2: str,
     use_3d: bool = False
 ) -> TRRConstraint:
+    """计算单个 TRR 约束（目标物体相对于参考轴的钟面方向）。"""
     if use_3d:
         target_pos = np.array(objects[target].get("position_3d", [0, 0, 0])[:2])
         ref1_pos = np.array(objects[ref1].get("position_3d", [0, 0, 0])[:2])
@@ -259,6 +268,7 @@ def extract_all_qrr(
     tau: float = 0.10,
     disjoint_only: bool = True
 ) -> List[QRRConstraint]:
+    """提取所有 QRR 约束（disjoint 不相交对变体）。"""
     obj_ids = list(objects.keys())
     pairs = list(combinations(obj_ids, 2))
     metric_func = METRIC_FUNCTIONS[metric]
@@ -270,7 +280,7 @@ def extract_all_qrr(
             if disjoint_only:
                 if set(pair1) & set(pair2):
                     continue
-            # Skip boundary cases (unreliable GT)
+            # 跳过边界情况（真值不稳定）
             m1 = metric_func(objects[pair1[0]], objects[pair1[1]])
             m2 = metric_func(objects[pair2[0]], objects[pair2[1]])
             if _is_boundary(m1, m2, tau):
@@ -292,7 +302,7 @@ def extract_all_qrr_shared_anchor(
     metric: MetricType,
     tau: float = 0.10,
 ) -> List[QRRConstraint]:
-    """Extract QRR constraints where pair1 and pair2 share a common anchor."""
+    """提取所有共享锚点变体的 QRR 约束。"""
     obj_ids = sorted(objects.keys())
     metric_func = METRIC_FUNCTIONS[metric]
     constraints = []
@@ -323,6 +333,7 @@ def extract_all_trr(
     objects: Dict[str, Dict],
     use_3d: bool = False
 ) -> List[TRRConstraint]:
+    """提取所有 TRR 约束（N 个物体的全排列三元组）。"""
     obj_ids = list(objects.keys())
     constraints = []
     for triple in permutations(obj_ids, 3):
@@ -337,7 +348,7 @@ def compute_fdr(
     anchor: str,
     tau: float = 0.10,
 ) -> FDRConstraint:
-    """Compute full distance ranking from anchor to all other objects."""
+    """计算从锚点到所有其他物体的全距离排序。"""
     metric_func = METRIC_FUNCTIONS[MetricType.DIST_3D]
     other_ids = [oid for oid in sorted(objects.keys()) if oid != anchor]
 
@@ -346,13 +357,13 @@ def compute_fdr(
         d = metric_func(objects[anchor], objects[oid])
         dist_pairs.append((oid, d))
 
-    # Sort by distance (nearest first), break ties by object ID
+    # 按距离升序排列，距离相同则按 ID 排序
     dist_pairs.sort(key=lambda x: (x[1], x[0]))
 
     ranking = [oid for oid, _ in dist_pairs]
     distances = [d for _, d in dist_pairs]
 
-    # Compute tie groups using tolerance-based comparison
+    # 基于容差计算并列组
     tie_groups: List[List[str]] = []
     if ranking:
         current_group = [ranking[0]]
@@ -377,6 +388,6 @@ def extract_all_fdr(
     objects: Dict[str, Dict],
     tau: float = 0.10,
 ) -> List[FDRConstraint]:
-    """Extract one FDR constraint per object (as anchor). Returns N constraints for N objects."""
+    """为每个物体提取一个 FDR 约束（以该物体为锚点），共 N 个约束。"""
     obj_ids = sorted(objects.keys())
     return [compute_fdr(objects, anchor, tau) for anchor in obj_ids]
