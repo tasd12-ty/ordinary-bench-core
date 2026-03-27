@@ -23,12 +23,7 @@ single_view_root = "../../../data-gen/output/images/single_view"
 split = "n04"
 max_scenes = 1
 
-[prompt]
-react_max_rounds = 0
-missing_threshold = 1.0
-react_chunk_size = 50
-save_prompt = true
-
+temperature = 1.0
 [output]
 results_dir = "../../output/results"
 run_name = "mock_smoke"
