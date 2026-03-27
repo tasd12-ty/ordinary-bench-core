@@ -1,0 +1,34 @@
+job_name = "mock_smoke_all_types"
+
+[provider]
+adapter = "mock_static"
+model = "mock/static"
+
+[provider.options]
+raw_response = "[]"
+max_concurrency = 1
+
+[input]
+questions_dir = "../../output/questions"
+question_layout = "v2"
+question_grouping = "by_type"
+question_types = ["qrr", "trr", "fdr"]
+batch_size = 20
+
+[images]
+mode = "single"
+single_view_root = "../../../data-gen/output/images/single_view"
+
+[selection]
+split = "n04"
+max_scenes = 2
+
+[prompt]
+react_max_rounds = 0
+missing_threshold = 1.0
+react_chunk_size = 50
+save_prompt = true
+
+[output]
+results_dir = "../../output/results"
+run_name = "mock_smoke_all_types"

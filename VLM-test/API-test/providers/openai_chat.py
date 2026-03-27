@@ -58,8 +58,17 @@ class OpenAIChatAdapter(ProviderAdapter):
         messages.append({"role": "user", "content": correction_text})
         return ProviderRequest(payload=messages, prompt_snapshot=deepcopy(messages))
 
+    # Keys that are consumed by the eval engine / job spec, not by call_vlm.
+    _NON_API_OPTION_KEYS = frozenset({
+        "max_concurrency",
+    })
+
     def call(self, request: ProviderRequest) -> str:
-        options = dict(self.spec.options)
+        options = {
+            key: value
+            for key, value in self.spec.options.items()
+            if key not in self._NON_API_OPTION_KEYS
+        }
         provider = options.pop("provider", "")
         extra_body = options.pop("extra_body", None)
         return call_vlm(

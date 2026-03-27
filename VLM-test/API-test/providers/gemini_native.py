@@ -7,6 +7,7 @@ from typing import Any, List
 
 from .base import ProviderAdapter, ProviderRequest
 from gemini_vlm_client import call_gemini_vlm
+from vlm_client import load_image_base64
 
 
 def _serialize_gemini_prompt(system_instruction, prompt: list) -> list[dict[str, Any]]:
@@ -46,14 +47,23 @@ def _build_prompt(
 
     user_parts = []
     for image in image_inputs:
-        if image["kind"] != "url":
-            raise ValueError("gemini_native adapter requires URL-like image inputs")
-        user_parts.append({
-            "inlineData": {
-                "mimeType": "image/png",
-                "data": image["value"],
-            }
-        })
+        if image["kind"] == "file":
+            image_b64 = load_image_base64(image["value"])
+            user_parts.append({
+                "inlineData": {
+                    "mimeType": "image/png",
+                    "data": image_b64,
+                }
+            })
+        elif image["kind"] == "url":
+            user_parts.append({
+                "inlineData": {
+                    "mimeType": "image/png",
+                    "data": image["value"],
+                }
+            })
+        else:
+            continue
     user_parts.append({"text": user_prompt})
     prompt = [{"role": "user", "parts": user_parts}]
     return prompt, system_instruction
@@ -93,8 +103,16 @@ class GeminiNativeAdapter(ProviderAdapter):
             prompt_snapshot=snapshot,
         )
 
+    _NON_API_OPTION_KEYS = frozenset({
+        "max_concurrency",
+    })
+
     def call(self, request: ProviderRequest) -> str:
-        options = dict(self.spec.options)
+        options = {
+            key: value
+            for key, value in self.spec.options.items()
+            if key not in self._NON_API_OPTION_KEYS
+        }
         return call_gemini_vlm(
             prompt=request.payload["prompt"],
             system_instruction=request.payload["system_instruction"],

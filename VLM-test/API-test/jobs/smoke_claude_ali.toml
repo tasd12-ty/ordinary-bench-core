@@ -1,0 +1,41 @@
+job_name = "smoke_claude_ali"
+
+[provider]
+adapter = "ali_internal"
+model = "claude-opus-4-6"
+base_url = "https://llm-chat-api.alibaba-inc.com/v1/api/chat"
+
+[provider.options]
+access_key = "env:ALI_INTERNAL_ACCESS_KEY"
+quota_id = "env:ALI_INTERNAL_QUOTA_ID"
+user_id = "env:ALI_INTERNAL_USER_ID"
+temperature = 0.0
+max_tokens = 4096
+max_retries = 3
+retry_base_delay = 2.0
+timeout = 180
+max_concurrency = 1
+
+[input]
+questions_dir = "../../output/questions"
+question_layout = "v2"
+question_grouping = "by_type"
+question_types = ["qrr"]
+batch_size = 5
+
+[images]
+mode = "single"
+single_view_root = "../../../data-gen/output/images/single_view"
+
+[selection]
+split = "n04"
+max_scenes = 1
+
+[prompt]
+react_max_rounds = 0
+missing_threshold = 1.0
+save_prompt = true
+
+[output]
+results_dir = "../../output/results"
+run_name = "smoke_claude_ali"

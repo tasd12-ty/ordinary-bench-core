@@ -1,0 +1,44 @@
+job_name = "full_doubao_single_v2"
+
+[provider]
+adapter = "ali_internal"
+model = "doubao-seed-2.0-pro"
+base_url = "https://llm-chat-api.alibaba-inc.com/v1/api/chat"
+
+[provider.options]
+access_key = "env:ALI_INTERNAL_ACCESS_KEY"
+quota_id = "env:ALI_INTERNAL_QUOTA_ID"
+user_id = "env:ALI_INTERNAL_USER_ID"
+temperature = 0.0
+max_tokens = 4096
+max_retries = 5
+retry_base_delay = 3.0
+timeout = 300
+max_concurrency = 3
+
+[input]
+questions_dir = "../../output/questions"
+question_layout = "v2"
+question_grouping = "by_type"
+question_types = ["qrr", "trr", "fdr"]
+batch_size = 20
+
+[images]
+mode = "single"
+single_view_root = "../../../data-gen/output/images/single_view"
+
+[selection]
+split = ""
+scene = ""
+test_only = true
+train_only = false
+
+[prompt]
+react_max_rounds = 2
+missing_threshold = 0.2
+react_chunk_size = 50
+save_prompt = true
+
+[output]
+results_dir = "../../output/results"
+run_name = "doubao_seed_2_0_pro_single_v2"
