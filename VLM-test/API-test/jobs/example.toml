@@ -1,0 +1,70 @@
+# ================================================================
+# 评测任务配置示例
+# ================================================================
+# 复制本文件并修改为实际配置后使用。
+# 真实配置文件不应提交到 git（已在 .gitignore 中排除）。
+#
+# 评测用法:
+#   uv run python API-test/run_eval.py --job API-test/jobs/my_config.toml
+#
+# 冲突消解用法:
+#   uv run python run_conflict_resolution.py --job API-test/jobs/my_cr_config.toml --dry-run
+
+job_name = "example"
+
+# ── VLM 服务配置 ──
+# adapter 可选: "openai_chat" (OpenAI 兼容), "gemini_native" (Gemini 原生)
+[provider]
+adapter = "openai_chat"
+model = "your-model-id"                   # 模型标识符（取决于 API 平台）
+base_url = "https://api.example.com/v1"   # API 端点
+api_key = "env:YOUR_API_KEY"              # 从环境变量读取密钥
+
+[provider.options]
+temperature = 0.0         # 建议设 0 保证可复现
+max_tokens = 65536        # 最大输出 token
+max_retries = 5           # API 失败重试次数
+retry_base_delay = 2.0    # 重试退避基础延迟（秒）
+timeout = 120             # 单次请求超时（秒）
+max_concurrency = 4       # 并行请求数
+
+# ── 图片配置 ──
+# mode 可选: "single" (俯视图), "multi_view" (多视角), "none" (无图片)
+[images]
+mode = "single"
+single_view_root = "../../data-gen/output/images/single_view"
+# multi_view_root = "../../data-gen/output/images/multi_view"
+# n_views = 4
+
+# ── 问题输入 ──
+[input]
+questions_dir = "../../output/questions"
+question_layout = "v2"              # "v1" | "v2" | "auto"
+question_grouping = "by_type"       # "by_type" (分题型) | "mixed" (混合)
+question_types = ["qrr", "trr", "fdr"]
+batch_size = 20                     # 每次 API 调用的问题数
+
+# ── 场景选择 ──
+[selection]
+split = ""              # 场景 ID 前缀过滤，如 "n06"
+max_scenes = 20         # 最大场景数（null = 全部）
+
+# ── 输出 ──
+[output]
+results_dir = "../../output/results"
+run_name = "example_run"   # 结果保存到 results/{run_name}/
+
+# ================================================================
+# 冲突消解专用配置（仅 run_conflict_resolution.py 使用）
+# ================================================================
+
+# [input]
+# results_dir = "output/results"
+# source_run = "模型结果目录名"     # 必须与 output/results/ 下的目录名一致
+# questions_dir = "output/questions"
+
+# [resolution]
+# max_rounds = 10         # 最大迭代轮数
+# patience = 2            # FAS 连续未减小的容忍轮数
+# splits = ["n06", "n07"] # 目标物体数量
+# max_scenes_per_split = 20
