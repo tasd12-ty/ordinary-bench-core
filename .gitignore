@@ -41,3 +41,12 @@ data-gen-3d/infinigen_test/
 reconstruction-lab/top_view_batch_output*/
 reconstruction-lab/top_view_debug/
 reconstruction-lab/top_view_demo_output/
+
+# ── 数据产物（生成的数据不上传到 GitHub）──
+data-gen/output/
+VLM-test/output/
+
+# Job 配置（含真实 API 端点，只保留示例）
+VLM-test/API-test/jobs/*.toml
+!VLM-test/API-test/jobs/mock_smoke.toml
+!VLM-test/API-test/jobs/example.toml
