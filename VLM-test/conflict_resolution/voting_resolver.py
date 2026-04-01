@@ -34,6 +34,7 @@ import copy
 import sys
 from collections import Counter
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "API-test"))
@@ -117,10 +118,10 @@ def majority_vote(answers: List[Any]) -> tuple[Any, Dict[str, int], float]:
 
 
 def _answers_match(answer: Any, gt: Any) -> bool:
-    """比较答案与真值是否匹配，支持列表和标量类型。"""
+    """比较答案与真值是否匹配。冲突问题都是 QRR，答案为字符串。"""
     if answer is None or gt is None:
         return False
-    return _normalize_answer(answer) == _normalize_answer(gt)
+    return str(answer).strip() == str(gt).strip()
 
 
 def _classify_vote(
