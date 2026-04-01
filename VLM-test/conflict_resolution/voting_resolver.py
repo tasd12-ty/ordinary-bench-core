@@ -215,12 +215,33 @@ def voting_resolve_scene(
           f"reask_rounds={reask_rounds}")
 
     # ── Step 2: 收集原始回答 (Round 0) ──
+    # 对直接 QRR: 从 per_question 中直接取 predicted
+    # 对 FDR 分解: 从 FDR 排序答案中推导出 pairwise 比较的原始回答
     pq_lookup = {pq["qid"]: pq for pq in sr["scores"]["per_question"]}
     original_answers = {}
-    for qid in conflict_qids:
-        pq = pq_lookup.get(qid)
-        if pq:
-            original_answers[qid] = pq.get("predicted")
+    for cq in conflict_questions:
+        qid = cq["qid"]
+        if cq.get("source_type") == "fdr_decomposition":
+            # FDR 分解题: 从原始 FDR 排序答案推导 pairwise 比较
+            fdr_qid = cq.get("source_fdr_qid", "")
+            fdr_pq = pq_lookup.get(fdr_qid)
+            if fdr_pq and isinstance(fdr_pq.get("predicted"), list):
+                ranking = fdr_pq["predicted"]
+                anchor = cq.get("anchor", "")
+                obj_a = next((o for o in cq["pair1"] if o != anchor), "")
+                obj_b = next((o for o in cq["pair2"] if o != anchor), "")
+                try:
+                    idx_a = ranking.index(obj_a)
+                    idx_b = ranking.index(obj_b)
+                    original_answers[qid] = "<" if idx_a < idx_b else ">"
+                except ValueError:
+                    original_answers[qid] = None
+            else:
+                original_answers[qid] = None
+        else:
+            pq = pq_lookup.get(qid)
+            if pq:
+                original_answers[qid] = pq.get("predicted")
 
     # ── Step 3: 重问 K 轮，收集所有回答 ──
     all_round_answers: List[Dict[str, Any]] = []
@@ -237,20 +258,24 @@ def voting_resolve_scene(
         all_round_answers.append(new_preds)
 
     # ── Step 4: 多数投票 ──
+    # 构建冲突问题的 lookup (包含 FDR 分解构造的 QRR 问题)
+    conflict_q_lookup = {cq["qid"]: cq for cq in conflict_questions}
+
     vote_records: List[VoteRecord] = []
     voted_predictions: Dict[str, Any] = {}
 
     for qid in sorted(conflict_qids):
-        q = q_lookup.get(qid, {})
-        qtype = q.get("type", "qrr")
+        # 优先从 conflict_questions 中查找 (含 FDR 分解构造的 QRR)
+        q = conflict_q_lookup.get(qid, q_lookup.get(qid, {}))
+        qtype = "qrr"  # 冲突题现在全部是 QRR 形式
 
         # 收集所有回答: 原始 + K 次重问
         all_answers = [original_answers.get(qid)]
         for round_preds in all_round_answers:
             all_answers.append(round_preds.get(qid))
 
-        # 提取真值
-        gt = q.get("gt_comparator") or q.get("gt_hour") or q.get("gt_ranking")
+        # 真值: 冲突题全是 QRR，GT 是 comparator
+        gt = q.get("gt_comparator")
 
         # 多数投票
         voted, counts, ratio = majority_vote(all_answers)
@@ -279,6 +304,10 @@ def voting_resolve_scene(
         voted_predictions[qid] = voted
 
     # ── Step 5: 用投票结果更新 per_question 并重新评分 ──
+    # 只更新直接 QRR 题。FDR 分解来的投票结果记录在 vote_records 中，
+    # 不写回 per_question (因为 per_question 中没有分解后的 qid)。
+    # FDR 分解的投票结果会在 Step 6 重新检测 FAS 时通过
+    # voted_pq_overrides 注入。
     for pq in sr["scores"]["per_question"]:
         qid = pq["qid"]
         if qid not in voted_predictions:
@@ -291,7 +320,7 @@ def voting_resolve_scene(
         pq["predicted"] = voted_val
         pq["vote_resolved"] = True
 
-        # 冲突问题都是 QRR 形式，重新评分
+        # 直接 QRR: 重新评分
         q = q_lookup.get(qid, {})
         gt_cmp = q.get("gt_comparator", "")
         pq["correct"] = score_qrr(str(voted_val), gt_cmp) if gt_cmp else False

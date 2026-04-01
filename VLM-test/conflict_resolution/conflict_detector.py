@@ -108,19 +108,43 @@ def detect_conflicts(
     # 计算最小反馈弧集
     fas = compute_fas(qrr_all)
 
-    # 将 FAS 移除的约束边溯源到原始问题 qid
+    # 将 FAS 边直接作为 QRR 问题重问（不追溯到 FDR 原始问题）
+    # 原因: FDR 答案是排序列表，无法直接做多数投票；
+    #        而 FAS 边本身就是 QRR pairwise 比较，可以直接重问。
     conflict_qids: Set[str] = set()
+    conflict_questions: List[dict] = []
+    seen_keys: Set[str] = set()
+
     for entry in fas.edges_removed:
         qid = entry.get("qid", "")
         source_type = entry.get("source_type", "qrr")
-        original_qid = _extract_original_qid(qid, source_type, entry)
-        conflict_qids.add(original_qid)
 
-    # 查找完整的问题对象
-    q_lookup = {q["qid"]: q for q in questions}
-    conflict_questions = [
-        q_lookup[qid] for qid in sorted(conflict_qids) if qid in q_lookup
-    ]
+        if source_type == "fdr_decomposition":
+            # FDR 分解来的约束 → 构造等价的 QRR 问题直接重问
+            reask_q = {
+                "qid": qid,  # 保留分解后的 qid (如 fdr_0006__pair_0_1)
+                "type": "qrr",
+                "variant": "shared_anchor",
+                "anchor": entry.get("anchor", ""),
+                "pair1": entry.get("pair1", []),
+                "pair2": entry.get("pair2", []),
+                "gt_comparator": entry.get("comparator", ""),
+                "source_type": "fdr_decomposition",
+                "source_fdr_qid": _extract_original_qid(qid, source_type, entry),
+            }
+            key = f"{reask_q['anchor']}|{'|'.join(sorted(reask_q['pair1'] + reask_q['pair2']))}"
+        else:
+            # 直接 QRR → 从原始问题列表中查找
+            q_lookup_local = {q["qid"]: q for q in questions}
+            reask_q = q_lookup_local.get(qid)
+            if reask_q is None:
+                continue
+            key = qid
+
+        if key not in seen_keys:
+            seen_keys.add(key)
+            conflict_qids.add(reask_q["qid"])
+            conflict_questions.append(reask_q)
 
     return ConflictReport(
         conflict_qids=conflict_qids,
