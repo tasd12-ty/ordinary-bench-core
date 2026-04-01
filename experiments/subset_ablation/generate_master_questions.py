@@ -90,6 +90,15 @@ def decompose_fdr_to_qrr(fdr_questions: list, tau: float = 0.10) -> list:
                 else:
                     comparator = "<"
 
+                # 跳过边界情况 (与 enumerate_qrr 中的 _is_boundary 一致)
+                # FDR distances 按 ranking 顺序存储
+                if "gt_distances" in fdr:
+                    d_near = fdr["gt_distances"][i]
+                    d_far = fdr["gt_distances"][j]
+                    max_d = max(d_near, d_far)
+                    if max_d > 0 and abs(d_near - d_far) <= tau * max_d and comparator != "~=":
+                        continue  # 边界不稳定，跳过
+
                 derived.append({
                     "type": "qrr",
                     "variant": "shared_anchor",
@@ -200,8 +209,7 @@ def main():
 
     # 按 split 采样
     if args.max_scenes:
-        from collections import defaultdict as dd
-        by_split = dd(list)
+        by_split = defaultdict(list)
         for f in all_files:
             prefix = f.stem.rsplit("_", 1)[0]
             by_split[prefix].append(f)
