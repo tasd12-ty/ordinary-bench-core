@@ -52,10 +52,11 @@ logger = logging.getLogger(__name__)
 
 SUBSET_SYSTEM_PROMPT = """\
 You are a spatial reasoning assistant analyzing a 3D scene image.
-You will receive a list of objects and a set of distance comparison (QRR) questions.
+You will receive a list of objects visible in the image and a set of distance comparison (QRR) questions.
 
-IMPORTANT: Some questions may reference objects that are NOT visible in the image.
-If you cannot find an object mentioned in the question, answer "N/A".
+IMPORTANT: Some questions reference object IDs that are NOT in the "Objects visible" list.
+These objects are not present in the image. If ANY object mentioned in a question is not \
+in the visible list, you MUST answer "N/A" for that question.
 
 For each question, compare 3D distances — either between two pairs of objects, \
 or from a common anchor object to two candidate objects.
