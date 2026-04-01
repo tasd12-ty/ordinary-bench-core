@@ -40,6 +40,7 @@ from reconstruct.preparation import load_questions_auto
 
 from conflict_resolution.conflict_detector import detect_conflicts
 from conflict_resolution.resolver import resolve_scene
+from conflict_resolution.voting_resolver import voting_resolve_scene, voting_result_to_dict
 from conflict_resolution.report import save_scene_result, generate_summary
 
 
@@ -87,6 +88,10 @@ def main():
     parser.add_argument("--split", default=None, help="覆盖 TOML 中的 split 过滤")
     parser.add_argument("--max-scenes", type=int, default=None, help="每个 split 最大场景数")
     parser.add_argument("--dry-run", action="store_true", help="仅检测冲突，不调 VLM API")
+    parser.add_argument("--voting", action="store_true",
+                        help="使用投票式消解（多次重问 + 多数投票），替代旧的迭代覆盖")
+    parser.add_argument("--reask-rounds", type=int, default=4,
+                        help="投票模式下的重问轮数 K (总投票数=1+K, 默认 4)")
     args = parser.parse_args()
 
     cfg = _load_config(args.job)
@@ -187,28 +192,61 @@ def main():
         from image_resolver import resolve_scene_images
         image_inputs = resolve_scene_images(scene_id, image_spec)
 
-        # ── 执行迭代消解 ──
+        # ── 执行消解 ──
         print(f"[{i+1}/{len(scene_files)}] {scene_id}:")
-        result = resolve_scene(
-            scene_id=scene_id,
-            scene_result=sr,
-            questions=questions,
-            scene_objects=scene_objects,
-            image_inputs=image_inputs,
-            provider_spec=provider_spec,
-            metadata=meta,
-            max_rounds=max_rounds,
-            patience=patience,
-        )
 
-        d = result.diagnosis
-        print(f"  → 收敛={result.converged} 轮数={result.n_rounds} "
-              f"FAS: {result.initial_fas_size}→{result.final_fas_size} "
-              f"噪声翻转={d.noise_flips} 系统性冲突={d.systematic_conflicts}")
+        if args.voting:
+            # ── 投票模式: 重问 K 次 + 多数投票 ──
+            vresult = voting_resolve_scene(
+                scene_id=scene_id,
+                scene_result=sr,
+                questions=questions,
+                scene_objects=scene_objects,
+                image_inputs=image_inputs,
+                provider_spec=provider_spec,
+                metadata=meta,
+                reask_rounds=args.reask_rounds,
+            )
 
-        # 保存结果
-        save_scene_result(result, run_dir)
-        all_results[scene_id] = result
+            d = vresult.diagnosis
+            print(f"  → FAS: {d.initial_fas_size}→{d.final_fas_size} "
+                  f"噪声纠正={d.noise_corrected} 系统错误={d.systematic_wrong} "
+                  f"不确定={d.uncertain} 确认正确={d.confirmed_correct}")
+
+            # 保存投票详情
+            vote_dir = run_dir / "voting"
+            vote_dir.mkdir(parents=True, exist_ok=True)
+            with open(vote_dir / f"{scene_id}.json", "w") as f:
+                json.dump(voting_result_to_dict(vresult), f, indent=2)
+
+            # 保存更新后的场景结果 (兼容旧格式)
+            resolved_dir = run_dir / "resolved_scenes"
+            resolved_dir.mkdir(parents=True, exist_ok=True)
+            if vresult.final_scene_result:
+                with open(resolved_dir / f"{scene_id}.json", "w") as f:
+                    json.dump(vresult.final_scene_result, f, indent=2)
+
+        else:
+            # ── 旧模式: 迭代覆盖 ──
+            result = resolve_scene(
+                scene_id=scene_id,
+                scene_result=sr,
+                questions=questions,
+                scene_objects=scene_objects,
+                image_inputs=image_inputs,
+                provider_spec=provider_spec,
+                metadata=meta,
+                max_rounds=max_rounds,
+                patience=patience,
+            )
+
+            d = result.diagnosis
+            print(f"  → 收敛={result.converged} 轮数={result.n_rounds} "
+                  f"FAS: {result.initial_fas_size}→{result.final_fas_size} "
+                  f"噪声翻转={d.noise_flips} 系统性冲突={d.systematic_conflicts}")
+
+            save_scene_result(result, run_dir)
+            all_results[scene_id] = result
 
     # ── 生成汇总报告 ──
     if all_results:
