@@ -1,0 +1,36 @@
+# 子集图片 VLM 评估 — 只评估 QRR
+#
+# 路径相对于本 TOML 文件所在目录 (experiments/subset_ablation/jobs/)
+#
+# 用法:
+#   cd VLM-test/API-test
+#   VLM_MODEL="openai/gpt-4o" python run_eval.py \
+#       --job ../../experiments/subset_ablation/jobs/eval_subset.toml
+
+[provider]
+adapter = "openai_chat"
+model = "env:VLM_MODEL"
+base_url = "env:VLM_BASE_URL"
+api_key = "env:VLM_API_KEY"
+
+[input]
+questions_dir = "../output/questions"
+question_layout = "v2"
+question_grouping = "by_type"
+question_types = ["qrr"]
+batch_size = 20
+
+[images]
+mode = "single"
+single_view_root = "../output/images/single_view"
+
+[selection]
+# 不设 split 过滤，处理所有子集场景
+
+[prompt]
+react_max_rounds = 2
+missing_threshold = 0.2
+
+[output]
+results_dir = "../output/results"
+run_name = "subset"
