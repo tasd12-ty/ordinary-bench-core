@@ -210,6 +210,9 @@ def process_one_scene(
     client,
     model: str,
     provider: str = "",
+    batch_size: int = 20,
+    react_max_rounds: int = 2,
+    missing_threshold: float = 0.2,
 ) -> dict:
     """处理一个子集场景：加载问题 → 调用 VLM → 评分。"""
     with open(question_file) as f:
@@ -230,9 +233,8 @@ def process_one_scene(
     for batch in qdata["batches"]:
         all_questions.extend(batch["questions"])
 
-    # 分 batch 调用 VLM（每 batch 20 题，避免超长 prompt）
+    # 分 batch 调用 VLM，含 ReAct 重问循环
     all_predictions = {}
-    batch_size = 20
 
     for i in range(0, len(all_questions), batch_size):
         chunk = all_questions[i:i + batch_size]
@@ -252,6 +254,38 @@ def process_one_scene(
         try:
             raw_response = call_vlm(client, messages, model, provider=provider)
             preds = parse_response(raw_response, expected_qids)
+
+            # ReAct 重问循环：缺答过多时追加纠正 prompt
+            missing_qids = [qid for qid, v in preds.items() if v is None]
+            react_round = 0
+            while (
+                react_round < react_max_rounds
+                and len(missing_qids) > len(expected_qids) * missing_threshold
+            ):
+                react_round += 1
+                logger.info(
+                    f"  {scene_id} batch {i//batch_size} ReAct #{react_round}: "
+                    f"{len(missing_qids)}/{len(expected_qids)} missing"
+                )
+                correction = (
+                    f"Your previous response is missing {len(missing_qids)} answers. "
+                    f"Missing question IDs: {', '.join(missing_qids[:50])}\n\n"
+                    f"Please output ONLY a valid JSON array for the missing questions. "
+                    f"Format: [{{'qid': '...', 'answer': '...'}}]\n"
+                    f"Remember: answer < / ~= / > / N/A"
+                )
+                messages.append({"role": "assistant", "content": raw_response})
+                messages.append({"role": "user", "content": correction})
+
+                raw_response = call_vlm(client, messages, model, provider=provider)
+                retry_preds = parse_response(raw_response, missing_qids)
+
+                # 合并补充的回答
+                for qid, val in retry_preds.items():
+                    if val is not None and preds.get(qid) is None:
+                        preds[qid] = val
+                missing_qids = [qid for qid, v in preds.items() if v is None]
+
             all_predictions.update(preds)
         except Exception as e:
             logger.error(f"{scene_id} batch {i//batch_size}: {e}")
@@ -283,6 +317,12 @@ def main():
     parser.add_argument("--model", default=None,
                         help="模型 ID (默认读取 VLM_MODEL 环境变量)")
     parser.add_argument("--provider", default="", help="OpenRouter provider 前缀")
+    parser.add_argument("--react-rounds", type=int, default=2,
+                        help="ReAct 重问最大轮数 (默认 2)")
+    parser.add_argument("--missing-threshold", type=float, default=0.2,
+                        help="缺答率超过此值触发重问 (默认 0.2)")
+    parser.add_argument("--batch-size", type=int, default=20,
+                        help="每次 API 调用的问题数 (默认 20)")
     args = parser.parse_args()
 
     base_url = args.base_url or os.environ.get("VLM_BASE_URL", "https://openrouter.ai/api/v1")
@@ -327,7 +367,12 @@ def main():
     errors = 0
 
     def _process(qf):
-        return process_one_scene(qf, images_dir, client, model, args.provider)
+        return process_one_scene(
+            qf, images_dir, client, model, args.provider,
+            batch_size=args.batch_size,
+            react_max_rounds=args.react_rounds,
+            missing_threshold=args.missing_threshold,
+        )
 
     with ThreadPoolExecutor(max_workers=args.concurrency) as executor:
         futures = {executor.submit(_process, qf): qf for qf in todo}
