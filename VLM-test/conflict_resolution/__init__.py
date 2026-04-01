@@ -35,4 +35,15 @@
 
     # 执行迭代消解
     python run_conflict_resolution.py --job API-test/jobs/conflict_resolution_gemini.toml
+
+    # 执行投票式消解（对冲突题重问 K 次，多数投票）
+    python run_conflict_resolution.py --job API-test/jobs/conflict_resolution_gemini.toml --voting --reask-rounds 4
 """
+
+from .voting_resolver import (
+    VoteRecord,
+    VotingDiagnosis,
+    VotingResult,
+    voting_resolve_scene,
+    voting_result_to_dict,
+)

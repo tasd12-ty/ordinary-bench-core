@@ -31,9 +31,21 @@
 from __future__ import annotations
 
 import copy
+import sys
 from collections import Counter
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Set
+
+sys.path.insert(0, str(Path(__file__).parent.parent / "API-test"))
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from scoring import (
+    score_fdr_exact,
+    score_qrr,
+    score_trr_adjacent,
+    score_trr_hour,
+    score_trr_quadrant,
+)
 
 from .conflict_detector import detect_conflicts
 from .vlm_requester import reask_questions
@@ -87,6 +99,8 @@ class VotingResult:
 def majority_vote(answers: List[Any]) -> tuple[Any, Dict[str, int], float]:
     """多数投票。
 
+    冲突问题都是 QRR 形式（含 FDR 分解来的），答案为 "<" / "~=" / ">"。
+
     Returns:
         (voted_answer, vote_counts, majority_ratio)
     """
@@ -100,6 +114,13 @@ def majority_vote(answers: List[Any]) -> tuple[Any, Dict[str, int], float]:
     ratio = count / len(valid)
 
     return winner, dict(counter), ratio
+
+
+def _answers_match(answer: Any, gt: Any) -> bool:
+    """比较答案与真值是否匹配，支持列表和标量类型。"""
+    if answer is None or gt is None:
+        return False
+    return _normalize_answer(answer) == _normalize_answer(gt)
 
 
 def _classify_vote(
@@ -127,7 +148,6 @@ def _classify_vote(
     elif not original_correct and voted_correct:
         return "noise_corrected"
     else:
-        # voted_answer != gt
         return "systematic_wrong"
 
 
@@ -250,14 +270,14 @@ def voting_resolve_scene(
             vote_counts=counts,
             n_votes=len([a for a in all_answers if a is not None]),
             majority_ratio=ratio,
-            original_correct=(str(original_answers.get(qid)) == str(gt)),
-            voted_correct=(str(voted) == str(gt)),
+            original_correct=_answers_match(original_answers.get(qid), gt),
+            voted_correct=_answers_match(voted, gt),
             status=status,
         )
         vote_records.append(record)
         voted_predictions[qid] = voted
 
-    # ── Step 5: 用投票结果更新 per_question ──
+    # ── Step 5: 用投票结果更新 per_question 并重新评分 ──
     for pq in sr["scores"]["per_question"]:
         qid = pq["qid"]
         if qid not in voted_predictions:
@@ -270,12 +290,10 @@ def voting_resolve_scene(
         pq["predicted"] = voted_val
         pq["vote_resolved"] = True
 
-        # 重新评分
+        # 冲突问题都是 QRR 形式，重新评分
         q = q_lookup.get(qid, {})
-        qtype = pq.get("type", q.get("type", ""))
-        if qtype == "qrr":
-            gt_cmp = q.get("gt_comparator", "")
-            pq["correct"] = (str(voted_val) == gt_cmp) if gt_cmp else False
+        gt_cmp = q.get("gt_comparator", "")
+        pq["correct"] = score_qrr(str(voted_val), gt_cmp) if gt_cmp else False
 
     # ── Step 6: 重新检测 FAS ──
     final_report = detect_conflicts(sr, questions, metadata)

@@ -87,6 +87,8 @@ def main():
     parser.add_argument("--split", default=None, help="覆盖 TOML 中的 split 过滤")
     parser.add_argument("--max-scenes", type=int, default=None, help="每个 split 最大场景数")
     parser.add_argument("--dry-run", action="store_true", help="仅检测冲突，不调 VLM API")
+    parser.add_argument("--voting", action="store_true", help="使用投票式消解（替代迭代覆盖）")
+    parser.add_argument("--reask-rounds", type=int, default=None, help="投票模式的重问轮数 K（默认 4）")
     args = parser.parse_args()
 
     cfg = _load_config(args.job)
@@ -187,7 +189,45 @@ def main():
         from image_resolver import resolve_scene_images
         image_inputs = resolve_scene_images(scene_id, image_spec)
 
-        # ── 执行迭代消解 ──
+        if args.voting:
+            # ── 投票式消解 ──
+            from conflict_resolution.voting_resolver import (
+                voting_resolve_scene, voting_result_to_dict,
+            )
+            reask_rounds = args.reask_rounds or res_cfg.get("reask_rounds", 4)
+            print(f"[{i+1}/{len(scene_files)}] {scene_id} (投票模式, K={reask_rounds}):")
+            vresult = voting_resolve_scene(
+                scene_id=scene_id,
+                scene_result=sr,
+                questions=questions,
+                scene_objects=scene_objects,
+                image_inputs=image_inputs,
+                provider_spec=provider_spec,
+                metadata=meta,
+                reask_rounds=reask_rounds,
+            )
+
+            d = vresult.diagnosis
+            print(f"  → FAS: {d.initial_fas_size}→{d.final_fas_size} "
+                  f"纠正={d.noise_corrected} 系统性={d.systematic_wrong} "
+                  f"不确定={d.uncertain} 确认正确={d.confirmed_correct}")
+
+            # 保存投票结果
+            from conflict_resolution.report import save_scene_result as _save_iterative
+            scenes_dir = run_dir / "scenes"
+            scenes_dir.mkdir(parents=True, exist_ok=True)
+            with open(scenes_dir / f"{scene_id}.json", "w") as f:
+                json.dump(voting_result_to_dict(vresult), f, indent=2, ensure_ascii=False)
+            if vresult.final_scene_result:
+                resolved_dir = run_dir / "resolved_scenes"
+                resolved_dir.mkdir(parents=True, exist_ok=True)
+                with open(resolved_dir / f"{scene_id}.json", "w") as f:
+                    json.dump(vresult.final_scene_result, f, indent=2, ensure_ascii=False)
+
+            all_results[scene_id] = vresult
+            continue
+
+        # ── 迭代式消解（默认）──
         print(f"[{i+1}/{len(scene_files)}] {scene_id}:")
         result = resolve_scene(
             scene_id=scene_id,
@@ -212,7 +252,87 @@ def main():
 
     # ── 生成汇总报告 ──
     if all_results:
-        generate_summary(all_results, run_dir)
+        if args.voting:
+            _generate_voting_summary(all_results, run_dir)
+        else:
+            generate_summary(all_results, run_dir)
+
+
+def _generate_voting_summary(results: dict, output_dir: Path) -> None:
+    """生成投票式消解的汇总报告。"""
+    from collections import defaultdict
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    by_split = defaultdict(list)
+    for sid, r in results.items():
+        sp = sid.rsplit("_", 1)[0]
+        by_split[sp].append(r)
+
+    summary = {"by_split": {}, "overall": {}}
+    total_scenes = 0
+    total_initial = 0
+    total_final = 0
+    total_corrected = 0
+    total_systematic = 0
+    total_uncertain = 0
+    total_confirmed = 0
+
+    print(f"\n{'Split':>5} | {'场景数':>6} | {'初始FAS':>8} | {'最终FAS':>8} | "
+          f"{'纠正':>6} | {'系统性':>6} | {'不确定':>6} | {'确认正确':>8}")
+    print("-" * 80)
+
+    for sp in sorted(by_split):
+        rs = by_split[sp]
+        n = len(rs)
+        avg_init = sum(r.diagnosis.initial_fas_size for r in rs) / n
+        avg_final = sum(r.diagnosis.final_fas_size for r in rs) / n
+        sum_corrected = sum(r.diagnosis.noise_corrected for r in rs)
+        sum_systematic = sum(r.diagnosis.systematic_wrong for r in rs)
+        sum_uncertain = sum(r.diagnosis.uncertain for r in rs)
+        sum_confirmed = sum(r.diagnosis.confirmed_correct for r in rs)
+
+        print(f"{sp:>5} | {n:>6} | {avg_init:>8.1f} | {avg_final:>8.1f} | "
+              f"{sum_corrected:>6} | {sum_systematic:>6} | "
+              f"{sum_uncertain:>6} | {sum_confirmed:>8}")
+
+        summary["by_split"][sp] = {
+            "n_scenes": n,
+            "avg_initial_fas": round(avg_init, 2),
+            "avg_final_fas": round(avg_final, 2),
+            "noise_corrected": sum_corrected,
+            "systematic_wrong": sum_systematic,
+            "uncertain": sum_uncertain,
+            "confirmed_correct": sum_confirmed,
+        }
+
+        total_scenes += n
+        total_initial += sum(r.diagnosis.initial_fas_size for r in rs)
+        total_final += sum(r.diagnosis.final_fas_size for r in rs)
+        total_corrected += sum_corrected
+        total_systematic += sum_systematic
+        total_uncertain += sum_uncertain
+        total_confirmed += sum_confirmed
+
+    if total_scenes:
+        summary["overall"] = {
+            "n_scenes": total_scenes,
+            "avg_initial_fas": round(total_initial / total_scenes, 2),
+            "avg_final_fas": round(total_final / total_scenes, 2),
+            "noise_corrected": total_corrected,
+            "systematic_wrong": total_systematic,
+            "uncertain": total_uncertain,
+            "confirmed_correct": total_confirmed,
+        }
+        print("-" * 80)
+        o = summary["overall"]
+        print(f"{'合计':>5} | {total_scenes:>6} | {o['avg_initial_fas']:>8.1f} | "
+              f"{o['avg_final_fas']:>8.1f} | {total_corrected:>6} | "
+              f"{total_systematic:>6} | {total_uncertain:>6} | {total_confirmed:>8}")
+
+    with open(output_dir / "summary.json", "w") as f:
+        json.dump(summary, f, indent=2, ensure_ascii=False)
+
+    print(f"\n结果已保存至: {output_dir}")
 
 
 if __name__ == "__main__":
