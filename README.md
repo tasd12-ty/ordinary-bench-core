@@ -69,6 +69,17 @@ ordinary-bench/
 │       ├── prompts.py             # System/user prompts
 │       ├── response_parser.py     # Parse VLM responses
 │       └── scoring.py             # Score predictions against GT
+├── experiments/                   # Ablation experiments
+│   └── subset_ablation/           # Object-count sensitivity testing
+│       ├── enumerate_subsets.py   # C(N,4) subset enumeration
+│       ├── generate_master_questions.py  # Full QRR bank (incl. FDR decomposition)
+│       ├── assign_subset_questions.py    # Per-subset question assignment + N/A
+│       ├── render_subset_blender.py      # Blender re-rendering script
+│       ├── render_subsets.py      # Rendering orchestrator
+│       ├── run_subset_eval.py     # Standalone VLM evaluator with N/A support
+│       └── output/                # Pre-rendered data (912 subsets)
+├── docs/
+│   └── pipeline-overview.md       # Pipeline flowcharts (Mermaid)
 └── pyproject.toml
 ```
 
@@ -313,15 +324,51 @@ The `VLM-test/reconstruct/` module reconstructs 2D object positions from VLM-pre
 
 FDR rankings are decomposed into equivalent shared-anchor QRR pairwise constraints for the solver.
 
-## Qwen3-VL-32B Training
+## Subset Ablation Experiment
 
-`Qwen/Qwen3-VL-32B` training entry point is documented in [training/README_qwen3vl32b.md](/Users/tsyq/code/ordinary-bench/training/README_qwen3vl32b.md).
+`experiments/subset_ablation/` tests whether VLMs are affected by the number of objects in an image when answering QRR distance comparison questions.
 
-Recommended workflow:
+**Design**: For scenes with N objects (N=6..10), enumerate all C(N,4) four-object subsets, re-render each subset image (same camera, irrelevant objects removed), then ask the full QRR question bank. Questions referencing missing objects test the VLM's refusal ability (expected answer: "N/A").
 
-1. `bash training/setup_uv.sh`
-2. `bash training/prepare_data.sh --data-dir ./data-gen/output`
-3. `bash training/run_grpo.sh --gpus 8`
+**Pre-rendered data**: 10 parent scenes (n06-n10 x 2), 912 subset images, 4489 master QRR questions.
+
+### Quick Start
+
+```bash
+cd experiments/subset_ablation
+
+# 1. Generate per-subset question files (required, excluded from git)
+python3 assign_subset_questions.py \
+    --manifest output/manifest.json \
+    --master-dir output/master_questions \
+    --output-dir output
+
+# 2. Run VLM evaluation
+export VLM_BASE_URL="https://openrouter.ai/api/v1"
+export VLM_API_KEY="sk-..."
+export VLM_MODEL="openai/gpt-4o"
+
+uv run python run_subset_eval.py \
+    --questions-dir output/questions/qrr \
+    --images-dir output/images/single_view \
+    --output-dir output/results/subset \
+    --concurrency 4
+```
+
+### Pipeline Steps
+
+| Step | Script | Input | Output |
+|------|--------|-------|--------|
+| 1. Enumerate subsets | `enumerate_subsets.py` | scenes/ | manifest.json, subset scenes |
+| 2. Render subsets | `render_subsets.py` | manifest | subset images (Blender) |
+| 3. Master QRR bank | `generate_master_questions.py` | parent scenes | master_questions/ |
+| 4. Assign questions | `assign_subset_questions.py` | manifest + master | questions/ (answerable + N/A) |
+| 5. VLM evaluation | `run_subset_eval.py` | questions + images | results/ |
+| 6. Analysis | `analyze_results.py` | results | comparison metrics |
+
+## Pipeline Overview
+
+See [docs/pipeline-overview.md](docs/pipeline-overview.md) for the complete pipeline flowchart (Mermaid diagrams) covering data generation, question generation, VLM evaluation, conflict resolution, reconstruction, analysis, and the subset ablation experiment.
 
 ## License
 
