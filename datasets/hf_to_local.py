@@ -25,7 +25,10 @@
 import argparse
 import json
 import sys
+import threading
+import time
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -149,34 +152,37 @@ def _extract_images(row: dict, scene_id: str, images_dir: Path, is_multiview: bo
 
 # ── 主转换流程 ──
 
-def _flush_scene(
+def _process_scene(
     scene_id: str,
     scene_rows: List[dict],
     images_dir: Path,
     questions_dir: Path,
     is_multiview: bool,
     batch_size: int,
-    stats: dict,
-) -> None:
-    """处理并写入单个场景的图像和问题，完成后释放内存。"""
+) -> dict:
+    """
+    处理单个场景：提取图像 + 写入问题 JSON。
+
+    线程安全：每个场景写入独立文件，无共享可变状态。
+    Returns: 场景级统计 dict。
+    """
     first = scene_rows[0]
 
     # 提取图像
     _extract_images(first, scene_id, images_dir, is_multiview)
-    stats["images"] += 1
 
     # 解析 objects
     objects = json.loads(first["objects"])
     n_objects = int(first["n_objects"])
 
-    # 按题型分组
+    # 按题型分组并转换
     by_type: Dict[str, List[dict]] = defaultdict(list)
     for row in scene_rows:
         q = _hf_row_to_question(row)
         by_type[row["question_type"]].append(q)
 
     # 写入问题 JSON
-    parts = []
+    scene_stats: Dict[str, int] = {"qrr": 0, "trr": 0, "fdr": 0}
     for qtype, questions in by_type.items():
         qtype_dir = questions_dir / qtype
         qtype_dir.mkdir(parents=True, exist_ok=True)
@@ -188,15 +194,13 @@ def _flush_scene(
         with open(out_path, "w") as f:
             json.dump(qfile, f, indent=2)
 
-        stats[qtype] += len(questions)
-        parts.append(f"{len(questions)} {qtype.upper()}")
+        scene_stats[qtype] = len(questions)
 
-    stats["scenes"] += 1
-    total_q = sum(len(qs) for qs in by_type.values())
-    print(
-        f"  [{stats['scenes']:>4}] {scene_id}: "
-        f"{n_objects} objects, {' + '.join(parts)} = {total_q} questions"
-    )
+    return {
+        "scene_id": scene_id,
+        "n_objects": n_objects,
+        **scene_stats,
+    }
 
 
 def convert(
@@ -205,12 +209,13 @@ def convert(
     split: str,
     output_dir: Path,
     batch_size: int = 20,
+    workers: int = 4,
 ) -> dict:
     """
     下载 HF 数据集并提取为本地目录结构。
 
-    流式处理：按 scene_id 排序后逐场景处理，每个场景处理完立即写入磁盘
-    并释放内存，避免将全部数据加载到内存。
+    并行处理：先按 scene_id 分组，再用线程池并行提取图像和写入 JSON。
+    图像 I/O 是主要瓶颈，线程池可显著加速。
 
     Returns: stats dict
     """
@@ -221,45 +226,75 @@ def convert(
     total_rows = len(ds)
     print(f"  Total rows: {total_rows:,}")
 
-    # 按 scene_id 排序，使同一场景的行连续排列
-    print(f"  Sorting by scene_id...")
-    ds = ds.sort("scene_id")
-
     images_dir = output_dir / "images"
     questions_dir = output_dir / "questions"
 
     # 检测数据集类型
     is_multiview = _detect_multiview(ds[0])
     print(f"  Type: {'multi-view' if is_multiview else 'single-view'}")
+
+    # 按 scene_id 分组（只收集行索引，不复制数据）
+    print(f"  Grouping by scene_id...")
+    scene_indices: Dict[str, List[int]] = defaultdict(list)
+    for i in range(total_rows):
+        scene_indices[ds[i]["scene_id"]].append(i)
+
+    n_scenes = len(scene_indices)
+    print(f"  {n_scenes} scenes, {workers} workers")
     print()
 
+    # 预创建输出目录（避免线程竞争 mkdir）
+    for qtype in ("qrr", "trr", "fdr"):
+        (questions_dir / qtype).mkdir(parents=True, exist_ok=True)
+    if is_multiview:
+        (images_dir / "multi_view").mkdir(parents=True, exist_ok=True)
+    else:
+        (images_dir / "single_view").mkdir(parents=True, exist_ok=True)
+
+    # 并行处理
     stats = {"scenes": 0, "images": 0, "qrr": 0, "trr": 0, "fdr": 0}
+    lock = threading.Lock()
+    completed = [0]
+    t0 = time.time()
 
-    # 流式处理：逐场景遍历排序后的数据
-    current_scene_id: Optional[str] = None
-    current_rows: List[dict] = []
-
-    for i, row in enumerate(ds):
-        scene_id = row["scene_id"]
-
-        if scene_id != current_scene_id:
-            # 写入上一个场景
-            if current_scene_id is not None:
-                _flush_scene(
-                    current_scene_id, current_rows,
-                    images_dir, questions_dir, is_multiview, batch_size, stats,
-                )
-            current_scene_id = scene_id
-            current_rows = []
-
-        current_rows.append(row)
-
-    # 写入最后一个场景
-    if current_scene_id is not None:
-        _flush_scene(
-            current_scene_id, current_rows,
-            images_dir, questions_dir, is_multiview, batch_size, stats,
+    def _do_scene(scene_id: str, indices: List[int]) -> dict:
+        rows = [ds[i] for i in indices]
+        return _process_scene(
+            scene_id, rows, images_dir, questions_dir,
+            is_multiview, batch_size,
         )
+
+    scene_ids_sorted = sorted(scene_indices.keys())
+
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = {
+            pool.submit(_do_scene, sid, scene_indices[sid]): sid
+            for sid in scene_ids_sorted
+        }
+        for future in as_completed(futures):
+            result = future.result()
+            with lock:
+                completed[0] += 1
+                stats["scenes"] += 1
+                stats["images"] += 1
+                for k in ("qrr", "trr", "fdr"):
+                    stats[k] += result[k]
+
+                n = completed[0]
+                sid = result["scene_id"]
+                parts = []
+                for k in ("qrr", "trr", "fdr"):
+                    if result[k]:
+                        parts.append(f"{result[k]} {k.upper()}")
+                total_q = result["qrr"] + result["trr"] + result["fdr"]
+                elapsed = time.time() - t0
+                rate = n / elapsed if elapsed > 0 else 0
+                print(
+                    f"  [{n:>4}/{n_scenes}] {sid}: "
+                    f"{result['n_objects']} objects, "
+                    f"{' + '.join(parts)} = {total_q} questions "
+                    f"({rate:.1f} scenes/s)"
+                )
 
     return stats
 
@@ -291,6 +326,10 @@ def main():
         help="Questions per batch in output JSON (default: 20)",
     )
     parser.add_argument(
+        "--workers", "-w", type=int, default=4,
+        help="Number of parallel workers for I/O (default: 4)",
+    )
+    parser.add_argument(
         "--dry-run", action="store_true",
         help="Only print dataset info, do not download or extract",
     )
@@ -319,7 +358,10 @@ def main():
     print(f"  Output: {output_dir}")
     print()
 
-    stats = convert(args.repo, args.config, args.split, output_dir, args.batch_size)
+    stats = convert(
+        args.repo, args.config, args.split, output_dir,
+        args.batch_size, args.workers,
+    )
 
     total_q = stats["qrr"] + stats["trr"] + stats["fdr"]
     print(f"\nDone!")
