@@ -1,9 +1,10 @@
 """
 Blender 内部脚本：从子集 scene JSON 重建并渲染场景。
 
-只渲染单视角 (view_0)，相机参数与原始渲染一致。
+支持单视角和多视角渲染。多视角时在同一 Blender 进程中渲染 4 个方位角，
+避免重复启动 Blender 和重建场景。
 
-用法:
+用法 (单视角):
     blender --background --python render_subset_blender.py -- \
         --scene_json output/scenes/n10_000080__s0042.json \
         --output_image output/images/single_view/n10_000080__s0042.png \
@@ -12,6 +13,13 @@ Blender 内部脚本：从子集 scene JSON 重建并渲染场景。
         --shape_dir ../../data-gen/blender/assets/shapes_v5 \
         --material_dir ../../data-gen/blender/assets/materials_v5 \
         --width 480 --height 320 --samples 64
+
+用法 (多视角):
+    blender --background --python render_subset_blender.py -- \
+        --scene_json output/scenes/n10_000080__s0042.json \
+        --output_dir output/images/multi_view/n10_000080__s0042 \
+        --multi_view \
+        --base_scene ... --properties_json ... --shape_dir ... --material_dir ...
 """
 
 from __future__ import print_function
@@ -66,7 +74,9 @@ def parse_args():
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--scene_json", required=True, help="子集 scene JSON 路径")
-    parser.add_argument("--output_image", required=True, help="输出图片路径")
+    parser.add_argument("--output_image", default=None, help="输出图片路径 (单视角)")
+    parser.add_argument("--output_dir", default=None, help="输出目录 (多视角)")
+    parser.add_argument("--multi_view", action="store_true", help="渲染 4 视角")
     parser.add_argument("--base_scene", required=True, help="base_scene_v5.blend 路径")
     parser.add_argument("--properties_json", required=True, help="properties.json 路径")
     parser.add_argument("--shape_dir", required=True, help="shapes_v5 目录")
@@ -81,6 +91,10 @@ def parse_args():
     parser.add_argument("--elevation", type=float, default=30.0)
     parser.add_argument("--camera_distance", type=float, default=12.0)
     return parser.parse_args(argv)
+
+
+# 多视角默认方位角（与 data-gen 原始渲染一致）
+MULTI_VIEW_AZIMUTHS = [45.0, 135.0, 225.0, 315.0]
 
 
 def set_camera_position(camera, azimuth, elevation, distance, look_at=(0, 0, 0)):
@@ -215,20 +229,36 @@ def main():
     bpy.context.scene.cycles.samples = args.samples
     bpy.context.scene.cycles.blur_glossy = 2.0
 
-    # 设置相机
-    camera = bpy.data.objects['Camera']
-    set_camera_position(camera, azimuth, elevation, distance, look_at)
-
     # 放置物体
     blender_objects = place_objects_from_json(scene_data, args, utils)
 
-    # 渲染
-    os.makedirs(os.path.dirname(args.output_image), exist_ok=True)
-    bpy.context.scene.render.filepath = args.output_image
-    bpy.ops.render.render(write_still=True)
+    camera = bpy.data.objects['Camera']
 
-    print(f"Rendered {scene_data['scene_id']} -> {args.output_image} "
-          f"({len(blender_objects)} objects)")
+    if args.multi_view:
+        # 多视角：在同一场景中渲染 4 个方位角
+        out_dir = args.output_dir
+        if not out_dir:
+            # fallback: 从 output_image 推导目录
+            out_dir = os.path.splitext(args.output_image)[0]
+        os.makedirs(out_dir, exist_ok=True)
+
+        for i, az in enumerate(MULTI_VIEW_AZIMUTHS):
+            set_camera_position(camera, az, elevation, distance, look_at)
+            out_path = os.path.join(out_dir, f"view_{i}.png")
+            bpy.context.scene.render.filepath = out_path
+            bpy.ops.render.render(write_still=True)
+
+        print(f"Rendered {scene_data['scene_id']} -> {out_dir}/ "
+              f"({len(blender_objects)} objects, {len(MULTI_VIEW_AZIMUTHS)} views)")
+    else:
+        # 单视角
+        set_camera_position(camera, azimuth, elevation, distance, look_at)
+        os.makedirs(os.path.dirname(args.output_image), exist_ok=True)
+        bpy.context.scene.render.filepath = args.output_image
+        bpy.ops.render.render(write_still=True)
+
+        print(f"Rendered {scene_data['scene_id']} -> {args.output_image} "
+              f"({len(blender_objects)} objects)")
 
 
 if __name__ == "__main__":

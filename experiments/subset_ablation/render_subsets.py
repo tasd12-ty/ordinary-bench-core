@@ -35,6 +35,8 @@ def render_one_subset(
     use_gpu: bool,
     width: int = 480,
     height: int = 320,
+    multi_view: bool = False,
+    output_dir: str = None,
 ) -> dict:
     """渲染单个子集，返回状态字典。"""
     cmd = [
@@ -43,7 +45,6 @@ def render_one_subset(
         "--python", str(RENDER_SCRIPT),
         "--",
         "--scene_json", subset_scene_json,
-        "--output_image", output_image,
         "--base_scene", str(ASSETS_DIR / "base_scene_v5.blend"),
         "--properties_json", str(ASSETS_DIR / "properties.json"),
         "--shape_dir", str(ASSETS_DIR / "shapes_v5"),
@@ -53,15 +54,21 @@ def render_one_subset(
         "--width", str(width),
         "--height", str(height),
     ]
+    if multi_view:
+        cmd.extend(["--multi_view", "--output_dir", output_dir])
+    else:
+        cmd.extend(["--output_image", output_image])
     if use_gpu:
         cmd.extend(["--use_gpu", "1"])
+
+    timeout = 600 if multi_view else 300  # 多视角给更多时间
 
     try:
         result = subprocess.run(
             cmd,
             capture_output=True,
             text=True,
-            timeout=300,  # 5 分钟超时
+            timeout=timeout,
         )
         if result.returncode != 0:
             return {
@@ -86,6 +93,8 @@ def main():
     parser.add_argument("--use-gpu", action="store_true", help="使用 GPU 渲染")
     parser.add_argument("--width", type=int, default=480, help="渲染宽度")
     parser.add_argument("--height", type=int, default=320, help="渲染高度")
+    parser.add_argument("--multi-view", action="store_true",
+                        help="渲染 4 视角 (输出到 images/multi_view/{subset_id}/)")
     parser.add_argument("--skip-existing", action="store_true", default=True,
                         help="跳过已渲染的图片 (默认开启)")
     parser.add_argument("--limit", type=int, default=None,
@@ -93,7 +102,11 @@ def main():
     args = parser.parse_args()
 
     output_dir = Path(args.output_dir)
-    images_dir = output_dir / "images" / "single_view"
+    multi_view = args.multi_view
+    if multi_view:
+        images_dir = output_dir / "images" / "multi_view"
+    else:
+        images_dir = output_dir / "images" / "single_view"
     scenes_dir = output_dir / "scenes"
     images_dir.mkdir(parents=True, exist_ok=True)
 
@@ -107,13 +120,22 @@ def main():
         for subset_info in parent_data["subsets"]:
             subset_id = subset_info["subset_id"]
             scene_json = str(scenes_dir / f"{subset_id}.json")
-            output_image = str(images_dir / f"{subset_id}.png")
 
-            if args.skip_existing and Path(output_image).exists():
-                skipped += 1
-                continue
-
-            tasks.append((scene_json, output_image))
+            if multi_view:
+                mv_dir = str(images_dir / subset_id)
+                # 检查 4 张图是否都存在
+                if args.skip_existing and all(
+                    (Path(mv_dir) / f"view_{i}.png").exists() for i in range(4)
+                ):
+                    skipped += 1
+                    continue
+                tasks.append((scene_json, None, mv_dir))
+            else:
+                output_image = str(images_dir / f"{subset_id}.png")
+                if args.skip_existing and Path(output_image).exists():
+                    skipped += 1
+                    continue
+                tasks.append((scene_json, output_image, None))
 
     if args.limit:
         tasks = tasks[:args.limit]
@@ -130,10 +152,10 @@ def main():
     errors = 0
 
     if args.workers <= 1:
-        for i, (scene_json, output_image) in enumerate(tasks):
+        for i, (scene_json, output_image, mv_dir) in enumerate(tasks):
             result = render_one_subset(
                 scene_json, output_image, args.blender, args.samples, args.use_gpu,
-                args.width, args.height
+                args.width, args.height, multi_view=multi_view, output_dir=mv_dir,
             )
             if result["status"] == "ok":
                 ok += 1
@@ -148,9 +170,9 @@ def main():
                 executor.submit(
                     render_one_subset,
                     scene_json, output_image, args.blender, args.samples, args.use_gpu,
-                    args.width, args.height
+                    args.width, args.height, multi_view=multi_view, output_dir=mv_dir,
                 ): subset_id
-                for scene_json, output_image in tasks
+                for scene_json, output_image, mv_dir in tasks
                 for subset_id in [Path(scene_json).stem]
             }
             for i, future in enumerate(as_completed(futures)):

@@ -34,8 +34,12 @@ class SolverConfig:
     trr_beta: float = 10.0
 
     # 分离正则化
-    sep_eps: float = 0.2
-    sep_lambda: float = 5.0
+    sep_eps: float = 0.4
+    sep_lambda: float = 15.0
+
+    # BT 比例损失
+    bt_ratio_alpha: float = 1.0
+    bt_max_iter: int = 50
 
     # 求解器
     n_restarts: int = 10
@@ -267,11 +271,117 @@ def compute_trr_loss(
     return total
 
 
+def compute_bt_scores(
+    qrr_entries: List[QRREntry],
+    max_iter: int = 50,
+) -> Dict[Tuple[str, str], float]:
+    """Bradley-Terry MM 算法：从 QRR 约束拟合全局距离分数。
+
+    将每个 object pair 视为一个 "选手"。
+    QRR 约束 d(pair1) < d(pair2) 等价于 pair2 "赢了" pair1。
+    (分数高 = 距离大)
+
+    返回: {(obj_a, obj_b): score} 分数越大=距离越大。
+    """
+    # 收集所有 pair 和比较结果
+    pairs = set()
+    comparisons = []  # (winner_pair, loser_pair)
+
+    for entry in qrr_entries:
+        p1 = pair_key(*entry.pair1)
+        p2 = pair_key(*entry.pair2)
+        pairs.add(p1)
+        pairs.add(p2)
+
+        if entry.comparator == "<":
+            comparisons.append((p2, p1))  # d(p1) < d(p2) → p2 更大 → p2 赢
+        elif entry.comparator == ">":
+            comparisons.append((p1, p2))  # d(p1) > d(p2) → p1 更大 → p1 赢
+        # ~= → 跳过 (平局不参与 BT)
+
+    if not comparisons:
+        return {p: 1.0 for p in pairs}
+
+    pair_list = sorted(pairs)
+    pair_idx = {p: i for i, p in enumerate(pair_list)}
+    n = len(pair_list)
+
+    # MM 迭代
+    s = np.ones(n, dtype=np.float64)
+
+    for _ in range(max_iter):
+        s_new = np.zeros(n)
+
+        for i in range(n):
+            wins = 0.0
+            denom = 0.0
+
+            for w, l in comparisons:
+                wi, li = pair_idx[w], pair_idx[l]
+                if wi == i:
+                    wins += 1.0
+                    denom += 1.0 / (s[i] + s[li])
+                elif li == i:
+                    denom += 1.0 / (s[wi] + s[i])
+
+            if denom > 0:
+                s_new[i] = wins / denom
+            else:
+                s_new[i] = s[i]
+
+        # 归一化
+        total = s_new.sum()
+        if total > 0:
+            s = s_new / total * n
+        else:
+            break
+
+    return {pair_list[i]: float(s[i]) for i in range(n)}
+
+
+def compute_ratio_loss(
+    positions: Dict[str, np.ndarray],
+    qrr_entries: List[QRREntry],
+    bt_scores: Dict[Tuple[str, str], float],
+    config: SolverConfig,
+) -> float:
+    """BT 比例保持损失：重建距离比例应接近 BT 全局分数比例。
+
+    L = Σ (log(d1) - log(d2) - log(s1) + log(s2))²
+    """
+    if not bt_scores or config.bt_ratio_alpha <= 0:
+        return 0.0
+
+    total = 0.0
+    eps = config.qrr_eps
+    score_eps = 1e-6
+
+    for entry in qrr_entries:
+        if entry.comparator == "~=":
+            continue
+
+        p1 = pair_key(*entry.pair1)
+        p2 = pair_key(*entry.pair2)
+
+        s1 = bt_scores.get(p1, 1.0) + score_eps
+        s2 = bt_scores.get(p2, 1.0) + score_eps
+
+        d1 = np.linalg.norm(positions[p1[0]] - positions[p1[1]]) + eps
+        d2 = np.linalg.norm(positions[p2[0]] - positions[p2[1]]) + eps
+
+        log_ratio_d = math.log(d1) - math.log(d2)
+        log_ratio_s = math.log(s1) - math.log(s2)
+
+        total += entry.weight * (log_ratio_d - log_ratio_s) ** 2
+
+    return config.bt_ratio_alpha * total
+
+
 def compute_sep_loss(
     positions: Dict[str, np.ndarray],
     config: SolverConfig,
 ) -> float:
-    """分离正则化：防止对象坍缩。"""
+    """分离正则化：防止对象坍缩（平方惩罚）。"""
     total = 0.0
     objs = list(positions.keys())
     eps = config.sep_eps
@@ -280,7 +390,7 @@ def compute_sep_loss(
         for j in range(i + 1, len(objs)):
             dist = np.linalg.norm(positions[objs[i]] - positions[objs[j]])
             if dist < eps:
-                total += (eps - dist)
+                total += ((eps - dist) / eps) ** 2
 
     return config.sep_lambda * total
 
@@ -294,13 +404,15 @@ def compute_total_loss(
     qrr_entries: List[QRREntry],
     trr_entries: List[TRREntry],
     config: SolverConfig,
+    bt_scores: Optional[Dict] = None,
 ) -> float:
     """L-BFGS-B 的总损失函数。"""
     positions = unpack_free_variables(x, anchor_a, anchor_b, anchor_c, object_ids)
     l_qrr = compute_qrr_loss(positions, qrr_entries, config)
     l_trr = compute_trr_loss(positions, trr_entries, config)
     l_sep = compute_sep_loss(positions, config)
-    return l_qrr + l_trr + l_sep
+    l_ratio = compute_ratio_loss(positions, qrr_entries, bt_scores, config) if bt_scores else 0.0
+    return l_qrr + l_trr + l_sep + l_ratio
 
 
 # ── 多重启求解器 ──
@@ -331,6 +443,11 @@ def solve(
     if n < 3:
         # 对象数不足，无法进行有意义的重建
         return []
+
+    # 预计算 BT 全局距离分数（一次性）
+    bt_scores = None
+    if config.bt_ratio_alpha > 0 and qrr_entries:
+        bt_scores = compute_bt_scores(qrr_entries, max_iter=config.bt_max_iter)
 
     # 选择锚点
     anchor_a, anchor_b, anchor_c = select_anchors(
@@ -364,7 +481,7 @@ def solve(
                 compute_total_loss,
                 x0,
                 args=(anchor_a, anchor_b, anchor_c, object_ids,
-                      qrr_entries, trr_entries, config),
+                      qrr_entries, trr_entries, config, bt_scores),
                 method="L-BFGS-B",
                 bounds=bounds,
                 options={

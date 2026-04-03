@@ -8,23 +8,35 @@ Benchmark for evaluating Vision-Language Models (VLMs) on ordinal spatial relati
 - **TRR (Ternary Relation Reasoning)**: Determine clock-face directional relations among three objects.
 - **FDR (Full Distance Ranking)**: Rank all objects by distance from an anchor, nearest to farthest.
 
-## Dataset
+## Datasets
 
-The benchmark dataset is available on HuggingFace Hub with 700 scenes and 332,857 questions:
+The benchmark datasets are available on HuggingFace Hub:
 
-**[huggingface.co/datasets/TYTSTQ/ordinary-bench](https://huggingface.co/datasets/TYTSTQ/ordinary-bench)**
+| Dataset | Description | Scenes | Questions |
+|---------|-------------|--------|-----------|
+| [TYTSTQ/ordinary-bench](https://huggingface.co/datasets/TYTSTQ/ordinary-bench) | Single-view (1 image per scene) | 700 | 332,857 |
+| [TYTSTQ/ordinary-bench-multiview](https://huggingface.co/datasets/TYTSTQ/ordinary-bench-multiview) | Multi-view (4 camera angles per scene) | 700 | 332,857 |
+| [TYTSTQ/ordinary-bench-subset-ablation](https://huggingface.co/datasets/TYTSTQ/ordinary-bench-subset-ablation) | Subset ablation (C(N,4) subsets, answerable + N/A) | 912 subsets | 624,963 |
 
 ```python
 from datasets import load_dataset
 
-# Load QRR questions
+# Single-view QRR questions
 ds = load_dataset("TYTSTQ/ordinary-bench", "qrr", split="test")
 sample = ds[0]
 sample["image"]               # PIL Image (480x320)
-sample["question_text"]       # Natural language question
 sample["qrr_gt_comparator"]  # Ground truth: "<", "~=", ">"
 
-# Available configs: all (default), qrr, trr, fdr
+# Multi-view (4 camera angles)
+ds_mv = load_dataset("TYTSTQ/ordinary-bench-multiview", "qrr", split="test")
+sample = ds_mv[0]
+sample["view_0"], sample["view_1"], sample["view_2"], sample["view_3"]  # 4 PIL Images
+
+# Subset ablation
+ds_sub = load_dataset("TYTSTQ/ordinary-bench-subset-ablation", split="train")
+sample = ds_sub[0]
+sample["answerable"]          # True/False
+sample["missing_objects"]     # JSON: [] or ["obj_5"]
 ```
 
 ## Project Structure
@@ -39,7 +51,10 @@ ordinary-bench/
 │       ├── render_multiview.py
 │       └── assets/                # .blend files, shapes, materials
 ├── datasets/                      # HuggingFace dataset build scripts
-│   ├── build_dataset.py           # Build parquet from scene/question data
+│   ├── build_dataset.py           # Single-view dataset builder
+│   ├── build_dataset_multiview.py # Multi-view dataset builder
+│   ├── build_dataset_subset.py    # Subset ablation dataset builder
+│   ├── test-data/                 # 140 test-set scenes, images, questions
 │   ├── README.md                  # HuggingFace dataset card
 │   └── prompts/                   # System prompt templates
 ├── data-gen-infinigen/            # Infinigen realistic scene backend
@@ -70,14 +85,18 @@ ordinary-bench/
 │       ├── response_parser.py     # Parse VLM responses
 │       └── scoring.py             # Score predictions against GT
 ├── experiments/                   # Ablation experiments
-│   └── subset_ablation/           # Object-count sensitivity testing
-│       ├── enumerate_subsets.py   # C(N,4) subset enumeration
-│       ├── generate_master_questions.py  # Full QRR bank (incl. FDR decomposition)
-│       ├── assign_subset_questions.py    # Per-subset question assignment + N/A
-│       ├── render_subset_blender.py      # Blender re-rendering script
-│       ├── render_subsets.py      # Rendering orchestrator
-│       ├── run_subset_eval.py     # Standalone VLM evaluator with N/A support
-│       └── output/                # Pre-rendered data (912 subsets)
+│   ├── subset_ablation/           # Object-count sensitivity testing
+│   │   ├── enumerate_subsets.py   # C(N,4) subset enumeration
+│   │   ├── generate_master_questions.py  # Full QRR bank (incl. FDR decomposition)
+│   │   ├── assign_subset_questions.py    # Per-subset question assignment + N/A
+│   │   ├── render_subset_blender.py      # Blender re-rendering (single + multi-view)
+│   │   ├── render_subsets.py      # Rendering orchestrator (--multi-view)
+│   │   ├── run_subset_eval.py     # Single-view VLM evaluator with N/A support
+│   │   ├── run_subset_eval_multiview.py  # Multi-view VLM evaluator (4 views)
+│   │   ├── aggregate_to_parent.py # Subset results → parent scene format
+│   │   └── output/                # Pre-rendered data (912 subsets)
+│   └── constraint_analysis/       # Constraint cycle visualization
+│       └── visualize_constraints.py
 ├── docs/
 │   └── pipeline-overview.md       # Pipeline flowcharts (Mermaid)
 └── pyproject.toml
@@ -330,7 +349,9 @@ FDR rankings are decomposed into equivalent shared-anchor QRR pairwise constrain
 
 **Design**: For scenes with N objects (N=6..10), enumerate all C(N,4) four-object subsets, re-render each subset image (same camera, irrelevant objects removed), then ask the full QRR question bank. Questions referencing missing objects test the VLM's refusal ability (expected answer: "N/A").
 
-**Pre-rendered data**: 10 parent scenes (n06-n10 x 2), 912 subset images, 4489 master QRR questions.
+**Pre-rendered data**: 10 parent scenes (n06-n10 x 2), 912 subsets, single-view + multi-view images (4 camera angles each).
+
+**HuggingFace dataset**: [TYTSTQ/ordinary-bench-subset-ablation](https://huggingface.co/datasets/TYTSTQ/ordinary-bench-subset-ablation) — 624,963 questions with answerable/N/A labels and 5 images per row.
 
 ### Quick Start
 
@@ -343,16 +364,31 @@ python3 assign_subset_questions.py \
     --master-dir output/master_questions \
     --output-dir output
 
-# 2. Run VLM evaluation
+# 2. Run VLM evaluation (multi-view)
 export VLM_BASE_URL="https://openrouter.ai/api/v1"
 export VLM_API_KEY="sk-..."
 export VLM_MODEL="openai/gpt-4o"
 
-uv run python run_subset_eval.py \
+uv run python run_subset_eval_multiview.py \
     --questions-dir output/questions/qrr \
-    --images-dir output/images/single_view \
-    --output-dir output/results/subset \
-    --concurrency 4
+    --images-dir output/images \
+    --output-dir output/results/gpt4o_multiview \
+    --mode multi_view --concurrency 4
+
+# 2b. Or use a specific view as single-view test
+uv run python run_subset_eval_multiview.py \
+    --questions-dir output/questions/qrr \
+    --images-dir output/images \
+    --output-dir output/results/gpt4o_view0 \
+    --mode pick_view --view-index 0
+
+# 3. Aggregate subset results → parent scene format (for reconstruction)
+uv run python aggregate_to_parent.py \
+    --results-dir output/results/gpt4o_multiview/scenes \
+    --master-dir output/master_questions \
+    --scenes-dir ../../data-gen/output/scenes \
+    --output-dir output/aggregated/gpt4o_multiview \
+    --model gpt-4o
 ```
 
 ### Pipeline Steps
@@ -360,11 +396,14 @@ uv run python run_subset_eval.py \
 | Step | Script | Input | Output |
 |------|--------|-------|--------|
 | 1. Enumerate subsets | `enumerate_subsets.py` | scenes/ | manifest.json, subset scenes |
-| 2. Render subsets | `render_subsets.py` | manifest | subset images (Blender) |
+| 2. Render subsets | `render_subsets.py` | manifest | single-view images |
+| 2b. Render multi-view | `render_subsets.py --multi-view` | manifest | multi-view images (4 angles) |
 | 3. Master QRR bank | `generate_master_questions.py` | parent scenes | master_questions/ |
 | 4. Assign questions | `assign_subset_questions.py` | manifest + master | questions/ (answerable + N/A) |
-| 5. VLM evaluation | `run_subset_eval.py` | questions + images | results/ |
-| 6. Analysis | `analyze_results.py` | results | comparison metrics |
+| 5. VLM evaluation | `run_subset_eval_multiview.py` | questions + images | results/ |
+| 6. Aggregate to parent | `aggregate_to_parent.py` | subset results | parent-format scoring |
+| 7. Reconstruction | existing pipeline | aggregated results | reconstructed positions |
+| 8. Analysis | `analyze_results.py` | results | comparison metrics |
 
 ## Pipeline Overview
 

@@ -54,3 +54,14 @@ VLM-test/API-test/jobs/*.toml
 # 论文（LaTeX、PDF、参考文献等）
 papers/
 my-paper/
+
+# ── 实验产物（大体积渲染/可视化输出）──
+experiments/subset_ablation/output/images/multi_view/
+experiments/constraint_analysis/output/
+
+# ── HuggingFace 数据集本地构建产物 ──
+datasets/subset-dataset/data/
+datasets/multiview-dataset/data/
+
+# ── 测试结果（直接传输，不上传 GitHub）──
+datasets/test-data/results/

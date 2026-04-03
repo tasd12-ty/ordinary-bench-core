@@ -62,6 +62,7 @@ class OpenAIChatAdapter(ProviderAdapter):
         options = dict(self.spec.options)
         provider = options.pop("provider", "")
         extra_body = options.pop("extra_body", None)
+        options.pop("max_concurrency", None)
         return call_vlm(
             self.client,
             request.payload,
