@@ -149,6 +149,56 @@ def _extract_images(row: dict, scene_id: str, images_dir: Path, is_multiview: bo
 
 # ── 主转换流程 ──
 
+def _flush_scene(
+    scene_id: str,
+    scene_rows: List[dict],
+    images_dir: Path,
+    questions_dir: Path,
+    is_multiview: bool,
+    batch_size: int,
+    stats: dict,
+) -> None:
+    """处理并写入单个场景的图像和问题，完成后释放内存。"""
+    first = scene_rows[0]
+
+    # 提取图像
+    _extract_images(first, scene_id, images_dir, is_multiview)
+    stats["images"] += 1
+
+    # 解析 objects
+    objects = json.loads(first["objects"])
+    n_objects = int(first["n_objects"])
+
+    # 按题型分组
+    by_type: Dict[str, List[dict]] = defaultdict(list)
+    for row in scene_rows:
+        q = _hf_row_to_question(row)
+        by_type[row["question_type"]].append(q)
+
+    # 写入问题 JSON
+    parts = []
+    for qtype, questions in by_type.items():
+        qtype_dir = questions_dir / qtype
+        qtype_dir.mkdir(parents=True, exist_ok=True)
+
+        qfile = _build_scene_question_file(
+            scene_id, objects, n_objects, qtype, questions, batch_size,
+        )
+        out_path = qtype_dir / f"{scene_id}.json"
+        with open(out_path, "w") as f:
+            json.dump(qfile, f, indent=2)
+
+        stats[qtype] += len(questions)
+        parts.append(f"{len(questions)} {qtype.upper()}")
+
+    stats["scenes"] += 1
+    total_q = sum(len(qs) for qs in by_type.values())
+    print(
+        f"  [{stats['scenes']:>4}] {scene_id}: "
+        f"{n_objects} objects, {' + '.join(parts)} = {total_q} questions"
+    )
+
+
 def convert(
     repo_id: str,
     config_name: str,
@@ -159,64 +209,57 @@ def convert(
     """
     下载 HF 数据集并提取为本地目录结构。
 
+    流式处理：按 scene_id 排序后逐场景处理，每个场景处理完立即写入磁盘
+    并释放内存，避免将全部数据加载到内存。
+
     Returns: stats dict
     """
     from datasets import load_dataset
 
     print(f"Loading dataset: {repo_id} (config={config_name}, split={split})...")
     ds = load_dataset(repo_id, config_name, split=split)
-    print(f"  Loaded {len(ds)} rows")
+    total_rows = len(ds)
+    print(f"  Total rows: {total_rows:,}")
+
+    # 按 scene_id 排序，使同一场景的行连续排列
+    print(f"  Sorting by scene_id...")
+    ds = ds.sort("scene_id")
 
     images_dir = output_dir / "images"
     questions_dir = output_dir / "questions"
 
-    # 按 scene_id 分组
-    scene_rows: Dict[str, List[dict]] = defaultdict(list)
-    for row in ds:
-        scene_rows[row["scene_id"]].append(row)
-
-    print(f"  {len(scene_rows)} scenes found")
-
     # 检测数据集类型
-    first_row = ds[0]
-    is_multiview = _detect_multiview(first_row)
+    is_multiview = _detect_multiview(ds[0])
     print(f"  Type: {'multi-view' if is_multiview else 'single-view'}")
+    print()
 
     stats = {"scenes": 0, "images": 0, "qrr": 0, "trr": 0, "fdr": 0}
 
-    for scene_id in sorted(scene_rows.keys()):
-        rows = scene_rows[scene_id]
-        first = rows[0]
+    # 流式处理：逐场景遍历排序后的数据
+    current_scene_id: Optional[str] = None
+    current_rows: List[dict] = []
 
-        # 提取图像（每个场景只保存一次）
-        _extract_images(first, scene_id, images_dir, is_multiview)
-        stats["images"] += 1
+    for i, row in enumerate(ds):
+        scene_id = row["scene_id"]
 
-        # 解析 objects
-        objects = json.loads(first["objects"])
-        n_objects = int(first["n_objects"])
+        if scene_id != current_scene_id:
+            # 写入上一个场景
+            if current_scene_id is not None:
+                _flush_scene(
+                    current_scene_id, current_rows,
+                    images_dir, questions_dir, is_multiview, batch_size, stats,
+                )
+            current_scene_id = scene_id
+            current_rows = []
 
-        # 按题型分组
-        by_type: Dict[str, List[dict]] = defaultdict(list)
-        for row in rows:
-            q = _hf_row_to_question(row)
-            by_type[row["question_type"]].append(q)
+        current_rows.append(row)
 
-        # 写入问题 JSON
-        for qtype, questions in by_type.items():
-            qtype_dir = questions_dir / qtype
-            qtype_dir.mkdir(parents=True, exist_ok=True)
-
-            qfile = _build_scene_question_file(
-                scene_id, objects, n_objects, qtype, questions, batch_size,
-            )
-            out_path = qtype_dir / f"{scene_id}.json"
-            with open(out_path, "w") as f:
-                json.dump(qfile, f, indent=2)
-
-            stats[qtype] += len(questions)
-
-        stats["scenes"] += 1
+    # 写入最后一个场景
+    if current_scene_id is not None:
+        _flush_scene(
+            current_scene_id, current_rows,
+            images_dir, questions_dir, is_multiview, batch_size, stats,
+        )
 
     return stats
 
