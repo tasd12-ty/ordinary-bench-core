@@ -1,0 +1,543 @@
+{
+  "scene_id": "n10_000088",
+  "image_path": "images/single_view/n10_000088.png",
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "large green rubber cylinder"
+    },
+    {
+      "id": "obj_1",
+      "desc": "large purple metal cylinder"
+    },
+    {
+      "id": "obj_2",
+      "desc": "small yellow metal cube"
+    },
+    {
+      "id": "obj_3",
+      "desc": "small cyan rubber cube"
+    },
+    {
+      "id": "obj_4",
+      "desc": "small yellow metal cylinder"
+    },
+    {
+      "id": "obj_5",
+      "desc": "small green metal cube"
+    },
+    {
+      "id": "obj_6",
+      "desc": "small cyan rubber cylinder"
+    },
+    {
+      "id": "obj_7",
+      "desc": "small cyan rubber cylinder"
+    },
+    {
+      "id": "obj_8",
+      "desc": "large red rubber sphere"
+    },
+    {
+      "id": "obj_9",
+      "desc": "large gray metal sphere"
+    }
+  ],
+  "n_objects": 10,
+  "question_type": "fdr",
+  "total_questions": 10,
+  "n_batches": 1,
+  "tau": 0.1,
+  "batches": [
+    {
+      "batch_id": 0,
+      "n_questions": 10,
+      "questions": [
+        {
+          "qid": "fdr_0001",
+          "type": "fdr",
+          "anchor": "obj_0",
+          "n_ranked": 9,
+          "gt_ranking": [
+            "obj_3",
+            "obj_7",
+            "obj_1",
+            "obj_6",
+            "obj_4",
+            "obj_5",
+            "obj_8",
+            "obj_9",
+            "obj_2"
+          ],
+          "gt_distances": [
+            2.558039,
+            2.700484,
+            2.922684,
+            3.900834,
+            4.33068,
+            5.869561,
+            6.017173,
+            6.249651,
+            6.790177
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_3",
+              "obj_7",
+              "obj_1"
+            ],
+            [
+              "obj_6",
+              "obj_4"
+            ],
+            [
+              "obj_5",
+              "obj_8",
+              "obj_9",
+              "obj_2"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0002",
+          "type": "fdr",
+          "anchor": "obj_1",
+          "n_ranked": 9,
+          "gt_ranking": [
+            "obj_0",
+            "obj_7",
+            "obj_5",
+            "obj_3",
+            "obj_6",
+            "obj_2",
+            "obj_4",
+            "obj_9",
+            "obj_8"
+          ],
+          "gt_distances": [
+            2.922684,
+            3.416473,
+            3.570754,
+            4.184958,
+            4.383559,
+            5.433755,
+            5.808966,
+            6.670998,
+            7.389472
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_0"
+            ],
+            [
+              "obj_7",
+              "obj_5"
+            ],
+            [
+              "obj_3",
+              "obj_6"
+            ],
+            [
+              "obj_2",
+              "obj_4"
+            ],
+            [
+              "obj_9",
+              "obj_8"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0003",
+          "type": "fdr",
+          "anchor": "obj_2",
+          "n_ranked": 9,
+          "gt_ranking": [
+            "obj_5",
+            "obj_6",
+            "obj_9",
+            "obj_7",
+            "obj_1",
+            "obj_3",
+            "obj_4",
+            "obj_8",
+            "obj_0"
+          ],
+          "gt_distances": [
+            2.635052,
+            3.801636,
+            3.890848,
+            4.459925,
+            5.433755,
+            5.44825,
+            5.505647,
+            6.006496,
+            6.790177
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_5"
+            ],
+            [
+              "obj_6",
+              "obj_9"
+            ],
+            [
+              "obj_7"
+            ],
+            [
+              "obj_1",
+              "obj_3",
+              "obj_4",
+              "obj_8"
+            ],
+            [
+              "obj_0"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0004",
+          "type": "fdr",
+          "anchor": "obj_3",
+          "n_ranked": 9,
+          "gt_ranking": [
+            "obj_7",
+            "obj_6",
+            "obj_4",
+            "obj_0",
+            "obj_8",
+            "obj_9",
+            "obj_1",
+            "obj_2",
+            "obj_5"
+          ],
+          "gt_distances": [
+            1.130392,
+            1.763102,
+            1.800255,
+            2.558039,
+            3.491464,
+            3.821832,
+            4.184958,
+            5.44825,
+            5.594824
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_7"
+            ],
+            [
+              "obj_6",
+              "obj_4"
+            ],
+            [
+              "obj_0"
+            ],
+            [
+              "obj_8",
+              "obj_9",
+              "obj_1"
+            ],
+            [
+              "obj_2",
+              "obj_5"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0005",
+          "type": "fdr",
+          "anchor": "obj_4",
+          "n_ranked": 9,
+          "gt_ranking": [
+            "obj_8",
+            "obj_3",
+            "obj_6",
+            "obj_7",
+            "obj_9",
+            "obj_0",
+            "obj_2",
+            "obj_1",
+            "obj_5"
+          ],
+          "gt_distances": [
+            1.691906,
+            1.800255,
+            1.915306,
+            2.408355,
+            2.612497,
+            4.33068,
+            5.505647,
+            5.808966,
+            6.434672
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_8",
+              "obj_3",
+              "obj_6"
+            ],
+            [
+              "obj_7",
+              "obj_9"
+            ],
+            [
+              "obj_0"
+            ],
+            [
+              "obj_2",
+              "obj_1",
+              "obj_5"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0006",
+          "type": "fdr",
+          "anchor": "obj_5",
+          "n_ranked": 9,
+          "gt_ranking": [
+            "obj_2",
+            "obj_1",
+            "obj_7",
+            "obj_6",
+            "obj_3",
+            "obj_9",
+            "obj_0",
+            "obj_4",
+            "obj_8"
+          ],
+          "gt_distances": [
+            2.635052,
+            3.570754,
+            4.46496,
+            4.520595,
+            5.594824,
+            5.788473,
+            5.869561,
+            6.434672,
+            7.489099
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_2"
+            ],
+            [
+              "obj_1"
+            ],
+            [
+              "obj_7",
+              "obj_6"
+            ],
+            [
+              "obj_3",
+              "obj_9",
+              "obj_0",
+              "obj_4"
+            ],
+            [
+              "obj_8"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0007",
+          "type": "fdr",
+          "anchor": "obj_6",
+          "n_ranked": 9,
+          "gt_ranking": [
+            "obj_7",
+            "obj_3",
+            "obj_4",
+            "obj_9",
+            "obj_8",
+            "obj_2",
+            "obj_0",
+            "obj_1",
+            "obj_5"
+          ],
+          "gt_distances": [
+            1.219458,
+            1.763102,
+            1.915306,
+            2.417185,
+            3.143868,
+            3.801636,
+            3.900834,
+            4.383559,
+            4.520595
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_7"
+            ],
+            [
+              "obj_3",
+              "obj_4"
+            ],
+            [
+              "obj_9"
+            ],
+            [
+              "obj_8"
+            ],
+            [
+              "obj_2",
+              "obj_0"
+            ],
+            [
+              "obj_1",
+              "obj_5"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0008",
+          "type": "fdr",
+          "anchor": "obj_7",
+          "n_ranked": 9,
+          "gt_ranking": [
+            "obj_3",
+            "obj_6",
+            "obj_4",
+            "obj_0",
+            "obj_1",
+            "obj_9",
+            "obj_8",
+            "obj_2",
+            "obj_5"
+          ],
+          "gt_distances": [
+            1.130392,
+            1.219458,
+            2.408355,
+            2.700484,
+            3.416473,
+            3.626804,
+            3.975902,
+            4.459925,
+            4.46496
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_3",
+              "obj_6"
+            ],
+            [
+              "obj_4"
+            ],
+            [
+              "obj_0"
+            ],
+            [
+              "obj_1",
+              "obj_9",
+              "obj_8"
+            ],
+            [
+              "obj_2",
+              "obj_5"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0009",
+          "type": "fdr",
+          "anchor": "obj_8",
+          "n_ranked": 9,
+          "gt_ranking": [
+            "obj_4",
+            "obj_9",
+            "obj_6",
+            "obj_3",
+            "obj_7",
+            "obj_2",
+            "obj_0",
+            "obj_1",
+            "obj_5"
+          ],
+          "gt_distances": [
+            1.691906,
+            2.261518,
+            3.143868,
+            3.491464,
+            3.975902,
+            6.006496,
+            6.017173,
+            7.389472,
+            7.489099
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_4"
+            ],
+            [
+              "obj_9"
+            ],
+            [
+              "obj_6",
+              "obj_3"
+            ],
+            [
+              "obj_7"
+            ],
+            [
+              "obj_2",
+              "obj_0"
+            ],
+            [
+              "obj_1",
+              "obj_5"
+            ]
+          ]
+        },
+        {
+          "qid": "fdr_0010",
+          "type": "fdr",
+          "anchor": "obj_9",
+          "n_ranked": 9,
+          "gt_ranking": [
+            "obj_8",
+            "obj_6",
+            "obj_4",
+            "obj_7",
+            "obj_3",
+            "obj_2",
+            "obj_5",
+            "obj_0",
+            "obj_1"
+          ],
+          "gt_distances": [
+            2.261518,
+            2.417185,
+            2.612497,
+            3.626804,
+            3.821832,
+            3.890848,
+            5.788473,
+            6.249651,
+            6.670998
+          ],
+          "gt_tie_groups": [
+            [
+              "obj_8",
+              "obj_6",
+              "obj_4"
+            ],
+            [
+              "obj_7",
+              "obj_3",
+              "obj_2"
+            ],
+            [
+              "obj_5",
+              "obj_0",
+              "obj_1"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

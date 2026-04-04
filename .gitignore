@@ -70,3 +70,10 @@ datasets/
 !datasets/build_dataset.py
 !datasets/build_dataset_multiview.py
 !datasets/build_dataset_subset.py
+# test-data: 测试数据直接上传 GitHub，方便快速评测
+!datasets/test-data/
+!datasets/test-data/**
+# subset 生成的 questions 不上传（运行 generate_questions.py 本地生成）
+datasets/test-data/subset_ablation/questions/
+# 评测结果不上传
+datasets/test-data/results/

@@ -1,0 +1,8209 @@
+{
+  "scene_id": "n08_000087",
+  "n_objects": 8,
+  "objects": [
+    {
+      "id": "obj_0",
+      "desc": "small cyan rubber cube"
+    },
+    {
+      "id": "obj_1",
+      "desc": "large purple rubber sphere"
+    },
+    {
+      "id": "obj_2",
+      "desc": "large purple metal cube"
+    },
+    {
+      "id": "obj_3",
+      "desc": "large gray metal cube"
+    },
+    {
+      "id": "obj_4",
+      "desc": "large green rubber cylinder"
+    },
+    {
+      "id": "obj_5",
+      "desc": "large green metal cylinder"
+    },
+    {
+      "id": "obj_6",
+      "desc": "large cyan rubber cube"
+    },
+    {
+      "id": "obj_7",
+      "desc": "small green rubber cylinder"
+    }
+  ],
+  "questions": [
+    {
+      "qid": "mqrr_0001",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2",
+        "obj_3"
+      ]
+    },
+    {
+      "qid": "mqrr_0002",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0003",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0004",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0005",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0006",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0007",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0008",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0009",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0010",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0011",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0012",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0013",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0014",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0015",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0016",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2",
+        "obj_3"
+      ]
+    },
+    {
+      "qid": "mqrr_0017",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0018",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0019",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0020",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0021",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0022",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0023",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0024",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0025",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0026",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0027",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0028",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0029",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0030",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0031",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_2"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2",
+        "obj_3"
+      ]
+    },
+    {
+      "qid": "mqrr_0032",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0033",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0034",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0035",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0036",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0037",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0038",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0039",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0040",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0041",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0042",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0043",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0044",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_2"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0045",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0046",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0047",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0048",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0049",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0050",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0051",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0052",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0053",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0054",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0055",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0056",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0057",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0058",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0059",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_2"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0060",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0061",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0062",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0063",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0064",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0065",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0066",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0067",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0068",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0069",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0070",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0071",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0072",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0073",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0074",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_2"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0075",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0076",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0077",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0078",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0079",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0080",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0081",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0082",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0083",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0084",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0085",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0086",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0087",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0088",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0089",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_2"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0090",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0091",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0092",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0093",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0094",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0095",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0096",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0097",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0098",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0099",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0100",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0101",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0102",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0103",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0104",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0105",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0106",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0107",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0108",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0109",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0110",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0111",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0112",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0113",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0114",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0115",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0116",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0117",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0118",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0119",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0120",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0121",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0122",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0123",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0124",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0125",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0126",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0127",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0128",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0129",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0130",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0131",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0132",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0133",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0134",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0135",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0136",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0137",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0138",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0139",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0140",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0141",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0142",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0143",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0144",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0145",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0146",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0147",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0148",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0149",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0150",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0151",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0152",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0153",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0154",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0155",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0156",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0157",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0158",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0159",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0160",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0161",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0162",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0163",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0164",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0165",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0166",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0167",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0168",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0169",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0170",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0171",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0172",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0173",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0174",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0175",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0176",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0177",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0178",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0179",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0180",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0181",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0182",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0183",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0184",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0185",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0186",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0187",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0188",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0189",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0190",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0191",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0192",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0193",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0194",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0195",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0196",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0197",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0198",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0199",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_3",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0200",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_3",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0201",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_4",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_4",
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0202",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_4",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_4",
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0203",
+      "type": "qrr",
+      "variant": "disjoint",
+      "pair1": [
+        "obj_4",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_4",
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0204",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_2"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2"
+      ]
+    },
+    {
+      "qid": "mqrr_0205",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_3"
+      ]
+    },
+    {
+      "qid": "mqrr_0206",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0207",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0208",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0209",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0210",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_3"
+      ]
+    },
+    {
+      "qid": "mqrr_0211",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0212",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0213",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0214",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0215",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0216",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0217",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0218",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0219",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0220",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0221",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0222",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0223",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0224",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_0",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0225",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_2"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2"
+      ]
+    },
+    {
+      "qid": "mqrr_0226",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_3"
+      ]
+    },
+    {
+      "qid": "mqrr_0227",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0228",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0229",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0230",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_0",
+        "obj_1"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0231",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_3"
+      ]
+    },
+    {
+      "qid": "mqrr_0232",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0233",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0234",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0235",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0236",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0237",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0238",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0239",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0240",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0241",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0242",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0243",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0244",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0245",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_2"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_2"
+      ]
+    },
+    {
+      "qid": "mqrr_0246",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_3"
+      ]
+    },
+    {
+      "qid": "mqrr_0247",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0248",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0249",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_0",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0250",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_3"
+      ]
+    },
+    {
+      "qid": "mqrr_0251",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0252",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0253",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0254",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_1",
+        "obj_2"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0255",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0256",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0257",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0258",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0259",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0260",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0261",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0262",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0263",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0264",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_3"
+      ]
+    },
+    {
+      "qid": "mqrr_0265",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_3"
+      ]
+    },
+    {
+      "qid": "mqrr_0266",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0267",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0268",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0269",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_0",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0270",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_3"
+      ]
+    },
+    {
+      "qid": "mqrr_0271",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0272",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0273",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0274",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_1",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0275",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0276",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0277",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_2",
+        "obj_3"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0278",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0279",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0280",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0281",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0282",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0283",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0284",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0285",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0286",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0287",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0288",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0289",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_0",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0290",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0291",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0292",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0293",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0294",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0295",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_4"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_4"
+      ]
+    },
+    {
+      "qid": "mqrr_0296",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0297",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0298",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0299",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0300",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0301",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_3",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0302",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_4",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_4",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0303",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_4",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_4",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0304",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_4",
+      "pair1": [
+        "obj_4",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_4",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0305",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0306",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0307",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0308",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0309",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0310",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_0",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0311",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0312",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0313",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0314",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0315",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0316",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0317",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0318",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0319",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_5"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_5"
+      ]
+    },
+    {
+      "qid": "mqrr_0320",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0321",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_3",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0322",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_4",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_4",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0323",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_4",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_4",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0324",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_5",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0325",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0326",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0327",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0328",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0329",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0330",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0331",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0332",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0333",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0334",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_1",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0335",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0336",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0337",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0338",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_2",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0339",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0340",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0341",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_4",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_4",
+        "obj_5",
+        "obj_6"
+      ]
+    },
+    {
+      "qid": "mqrr_0342",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_4",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_4",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0343",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_5",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0344",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_1",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0345",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0346",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0347",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0348",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0349",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_0",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_0",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0350",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_2",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0351",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0352",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0353",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0354",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_1",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_1",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0355",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_3",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0356",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "~=",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0357",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0358",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_2",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_2",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0359",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_3",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_4",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_4",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0360",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_3",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": ">",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_3",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0361",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_4",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_4",
+        "obj_5",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0362",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_4",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_4",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "qid": "mqrr_0363",
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_5",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "metric": "dist3D",
+      "gt_comparator": "<",
+      "source": "qrr_direct",
+      "involved_objects": [
+        "obj_5",
+        "obj_6",
+        "obj_7"
+      ]
+    },
+    {
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_1",
+      "pair1": [
+        "obj_1",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_1",
+        "obj_7"
+      ],
+      "gt_comparator": "<",
+      "source": "fdr_decomposition",
+      "source_fdr_qid": "fdr_0002",
+      "involved_objects": [
+        "obj_1",
+        "obj_4",
+        "obj_7"
+      ],
+      "qid": "mqrr_0364"
+    },
+    {
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_2",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_7"
+      ],
+      "gt_comparator": "<",
+      "source": "fdr_decomposition",
+      "source_fdr_qid": "fdr_0003",
+      "involved_objects": [
+        "obj_2",
+        "obj_5",
+        "obj_7"
+      ],
+      "qid": "mqrr_0365"
+    },
+    {
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_2",
+      "pair1": [
+        "obj_2",
+        "obj_4"
+      ],
+      "pair2": [
+        "obj_0",
+        "obj_2"
+      ],
+      "gt_comparator": "~=",
+      "source": "fdr_decomposition",
+      "source_fdr_qid": "fdr_0003",
+      "involved_objects": [
+        "obj_0",
+        "obj_2",
+        "obj_4"
+      ],
+      "qid": "mqrr_0366"
+    },
+    {
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_3",
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_2",
+        "obj_3"
+      ],
+      "gt_comparator": "~=",
+      "source": "fdr_decomposition",
+      "source_fdr_qid": "fdr_0004",
+      "involved_objects": [
+        "obj_2",
+        "obj_3",
+        "obj_6"
+      ],
+      "qid": "mqrr_0367"
+    },
+    {
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_5",
+      "pair1": [
+        "obj_1",
+        "obj_5"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "gt_comparator": "~=",
+      "source": "fdr_decomposition",
+      "source_fdr_qid": "fdr_0006",
+      "involved_objects": [
+        "obj_1",
+        "obj_5",
+        "obj_6"
+      ],
+      "qid": "mqrr_0368"
+    },
+    {
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_3",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "gt_comparator": "~=",
+      "source": "fdr_decomposition",
+      "source_fdr_qid": "fdr_0007",
+      "involved_objects": [
+        "obj_3",
+        "obj_5",
+        "obj_6"
+      ],
+      "qid": "mqrr_0369"
+    },
+    {
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_6",
+      "pair1": [
+        "obj_0",
+        "obj_6"
+      ],
+      "pair2": [
+        "obj_5",
+        "obj_6"
+      ],
+      "gt_comparator": "~=",
+      "source": "fdr_decomposition",
+      "source_fdr_qid": "fdr_0007",
+      "involved_objects": [
+        "obj_0",
+        "obj_5",
+        "obj_6"
+      ],
+      "qid": "mqrr_0370"
+    },
+    {
+      "type": "qrr",
+      "variant": "shared_anchor",
+      "anchor": "obj_7",
+      "pair1": [
+        "obj_3",
+        "obj_7"
+      ],
+      "pair2": [
+        "obj_6",
+        "obj_7"
+      ],
+      "gt_comparator": "~=",
+      "source": "fdr_decomposition",
+      "source_fdr_qid": "fdr_0008",
+      "involved_objects": [
+        "obj_3",
+        "obj_6",
+        "obj_7"
+      ],
+      "qid": "mqrr_0371"
+    }
+  ],
+  "stats": {
+    "disjoint": 203,
+    "shared_anchor_direct": 160,
+    "shared_anchor_from_fdr": 8,
+    "fdr_duplicates_skipped": 160,
+    "total": 371
+  }
+}
