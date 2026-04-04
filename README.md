@@ -14,8 +14,8 @@ The benchmark datasets are available on HuggingFace Hub:
 
 | Dataset | Description | Scenes | Questions |
 |---------|-------------|--------|-----------|
-| [TYTSTQ/ordinary-bench](https://huggingface.co/datasets/TYTSTQ/ordinary-bench) | Single-view (1 image per scene) | 700 | 332,857 |
-| [TYTSTQ/ordinary-bench-multiview](https://huggingface.co/datasets/TYTSTQ/ordinary-bench-multiview) | Multi-view (4 camera angles per scene) | 700 | 332,857 |
+| [TYTSTQ/ordinary-bench](https://huggingface.co/datasets/TYTSTQ/ordinary-bench) | Single-view (1 image per scene) | 700 | 425,971 |
+| [TYTSTQ/ordinary-bench-multiview](https://huggingface.co/datasets/TYTSTQ/ordinary-bench-multiview) | Multi-view (4 camera angles per scene) | 700 | 425,971 |
 | [TYTSTQ/ordinary-bench-subset-ablation](https://huggingface.co/datasets/TYTSTQ/ordinary-bench-subset-ablation) | Subset ablation (C(N,4) subsets, answerable + N/A) | 912 subsets | 624,963 |
 
 ```python
@@ -405,9 +405,16 @@ uv run python aggregate_to_parent.py \
 | 7. Reconstruction | existing pipeline | aggregated results | reconstructed positions |
 | 8. Analysis | `analyze_results.py` | results | comparison metrics |
 
-## Pipeline Overview
+## Documentation
 
-See [docs/pipeline-overview.md](docs/pipeline-overview.md) for the complete pipeline flowchart (Mermaid diagrams) covering data generation, question generation, VLM evaluation, conflict resolution, reconstruction, analysis, and the subset ablation experiment.
+| Document | Description |
+|----------|-------------|
+| [docs/agent-guide.md](docs/agent-guide.md) | **AI Agent 操作指南** — 端到端指引：数据配置、核对、问题生成、VLM 评测、结果批改 |
+| [datasets/test-data/README.md](datasets/test-data/README.md) | Test data 快速开始 — clone 后即可评测 |
+| [VLM-test/docs/scoring_criteria.md](VLM-test/docs/scoring_criteria.md) | 详细评分标准（QRR/TRR/FDR 公式和示例） |
+| [VLM-test/API-test/README.md](VLM-test/API-test/README.md) | Job TOML 配置参考 |
+| [docs/pipeline-overview.md](docs/pipeline-overview.md) | 完整管线流程图（Mermaid） |
+| [datasets/README.md](datasets/README.md) | HuggingFace 数据集说明 |
 
 ## License
 
