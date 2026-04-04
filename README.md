@@ -77,13 +77,17 @@ ordinary-bench/
 │   ├── docs/
 │   │   └── scoring_criteria.md    # Detailed scoring documentation
 │   └── API-test/                  # VLM API testing
-│       ├── run_batch.py           # Batch evaluation entry point
-│       ├── run_batch_v2.py        # Per-type directory batch runner
-│       ├── config.py              # API config (env vars)
+│       ├── run_eval.py            # Unified evaluation entry point (TOML job config)
+│       ├── eval_engine.py         # Orchestration: discover → load → call → score
+│       ├── job_spec.py            # Job TOML loading & validation
+│       ├── question_loader.py     # Question loading (v1/v2/auto)
+│       ├── image_resolver.py      # Image mode: single/multi_view/none
 │       ├── vlm_client.py          # OpenAI-compatible API client
 │       ├── prompts.py             # System/user prompts
 │       ├── response_parser.py     # Parse VLM responses
-│       └── scoring.py             # Score predictions against GT
+│       ├── scoring.py             # Score predictions against GT
+│       ├── providers/             # Protocol adapters (openai_chat, gemini_native, mock)
+│       └── jobs/                  # TOML job config templates
 ├── experiments/                   # Ablation experiments
 │   ├── subset_ablation/           # Object-count sensitivity testing
 │   │   ├── enumerate_subsets.py   # C(N,4) subset enumeration
@@ -238,87 +242,104 @@ Legacy output is saved to `VLM-test/output/questions/` (batch mode) and `VLM-tes
 
 ## Phase 3: VLM Evaluation
 
-Test VLMs on the generated questions via an OpenAI-compatible API.
+All evaluation is driven by TOML job configs via the unified entry point `run_eval.py`.
 
-### Configuration
-
-Set environment variables:
-
-```bash
-# Required
-export VLM_API_KEY="your-api-key"
-
-# API endpoint (default: OpenRouter)
-export VLM_BASE_URL="https://openrouter.ai/api/v1"
-
-# Model selection
-export VLM_MODEL="google/gemini-2.0-flash-001"
-
-# Optional: OpenRouter provider routing
-export VLM_PROVIDER="google"
-
-# Concurrency and retry settings
-export VLM_CONCURRENCY=4        # Parallel scene processing (default: 4)
-export VLM_TIMEOUT=120          # Request timeout in seconds (default: 120)
-export VLM_MAX_RETRIES=5        # Max retries per request (default: 5)
-export VLM_RETRY_DELAY=2.0      # Base retry delay in seconds (default: 2.0)
-```
-
-### Run Evaluation
+### Quick Start (with test-data)
 
 ```bash
 cd VLM-test/API-test
 
-# Run all scenes
-python run_batch.py
+# 1. Smoke test (no API needed)
+python run_eval.py --job jobs/mock_smoke.toml
 
-# Run a specific split
-python run_batch.py --split n04
-
-# Run a single scene
-python run_batch.py --scene n04_000000
-
-# v2 — per-type directory input (recommended, matches v2 question output)
-python run_batch_v2.py
-python run_batch_v2.py --split n04
+# 2. Real evaluation — create a job TOML (see below) or edit an example
+python run_eval.py --job jobs/example.toml
 ```
+
+### Job TOML Configuration
+
+```toml
+job_name = "my_eval"
+
+[provider]
+adapter = "openai_chat"               # openai_chat | gemini_native | mock_static
+model = "openai/gpt-4o"
+base_url = "https://openrouter.ai/api/v1"
+api_key = "env:VLM_API_KEY"           # reads from environment variable
+
+[provider.options]
+temperature = 0.0
+max_tokens = 65536
+max_retries = 5
+timeout = 120
+max_concurrency = 4
+
+[input]
+questions_dir = "../../datasets/test-data/questions"
+question_layout = "v2"                # v2 (per-type dirs) | v1 (flat) | auto
+question_types = ["qrr", "trr", "fdr"]
+batch_size = 20
+
+[images]
+mode = "single"                       # single | multi_view | none
+single_view_root = "../../datasets/test-data/images/single_view"
+# multi_view_root = "..."             # for mode = "multi_view"
+# n_views = 4
+
+[selection]
+split = ""                            # filter by split prefix (e.g., "n04")
+max_scenes = 10                       # limit scene count (for debugging)
+
+[prompt]
+react_max_rounds = 2                  # retry rounds for incomplete VLM responses
+missing_threshold = 0.2               # trigger retry if >20% answers missing
+
+[output]
+results_dir = "./results"
+run_name = "my_eval"
+```
+
+See `VLM-test/API-test/jobs/` for more TOML templates.
 
 ### Results
 
-Results are organized by model name under `VLM-test/output/results/<model>/`:
-
 ```
-VLM-test/output/results/google--gemini-2.0-flash-001/
+results/{run_name}/
 ├── raw/          # Raw VLM responses per batch
 ├── scenes/       # Per-scene scoring results
 └── summary.json  # Aggregated metrics
 ```
 
-Key metrics reported:
+Key metrics in `summary.json`:
 
-- **QRR Accuracy**: Exact match on comparator prediction
-- **QRR Disjoint Accuracy**: Accuracy on disjoint-pair QRR questions
-- **QRR Shared-Anchor Accuracy**: Accuracy on anchor-based QRR questions
-- **TRR Hour Accuracy**: Exact clock-hour match
-- **TRR Quadrant Accuracy**: Correct quadrant (coarser granularity)
-- **FDR Exact Accuracy**: Full ranking match (respecting tie groups)
-- **FDR Kendall τ**: Rank correlation coefficient
-- **FDR Pairwise Accuracy**: Fraction of correct pairwise orderings
-- **FDR Top-1 Accuracy**: Nearest object correctly identified
+- **QRR**: `qrr_accuracy`, `qrr_disjoint_accuracy`, `qrr_shared_anchor_accuracy`
+- **TRR**: `trr_hour_accuracy`, `trr_quadrant_accuracy`, `trr_adjacent_accuracy`
+- **FDR**: `fdr_exact_accuracy`, `fdr_kendall_mean`, `fdr_pairwise_mean`, `fdr_top1_mean`
 
-## Testing Multiple Models
+### Testing Multiple Models
 
-Switch models by changing environment variables:
+Create separate job TOMLs per model, or override provider settings:
 
-```bash
-# Test GPT-4o
-VLM_MODEL="openai/gpt-4o" python run_batch.py
+```toml
+# GPT-4o via OpenRouter
+[provider]
+adapter = "openai_chat"
+model = "openai/gpt-4o"
+base_url = "https://openrouter.ai/api/v1"
+api_key = "env:OPENROUTER_API_KEY"
 
-# Test Qwen2.5-VL via OpenRouter
-VLM_MODEL="qwen/qwen-2.5-vl-72b-instruct" python run_batch.py
+# Gemini 2.0 Flash via Google AI
+[provider]
+adapter = "gemini_native"
+model = "gemini-2.0-flash"
+api_key = "env:GOOGLE_API_KEY"
 
-# Test a local model
-VLM_BASE_URL="http://localhost:8000/v1" VLM_MODEL="local-model" python run_batch.py
+# Local model (vLLM / Ollama)
+[provider]
+adapter = "openai_chat"
+model = "local-model"
+base_url = "http://localhost:8000/v1"
+api_key = "none"
 ```
 
 ## Infinigen Backend

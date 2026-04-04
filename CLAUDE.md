@@ -51,16 +51,21 @@ python generate_questions_v2.py --counts
 ### 阶段三 — VLM 评估
 ```bash
 cd VLM-test/API-test
-VLM_MODEL="openai/gpt-4o" python run_batch.py
-VLM_MODEL="qwen/qwen-2.5-vl-72b-instruct" python run_batch.py --split n04
+
+# 烟雾测试（不需要 API）
+python run_eval.py --job jobs/mock_smoke.toml
+
+# 正式评测（通过 TOML job 配置）
+python run_eval.py --job jobs/example.toml
 ```
 
-所有 VLM 设置通过环境变量控制（详见 `VLM-test/API-test/config.py`）：
-- `VLM_BASE_URL` — API 端点（默认：OpenRouter）
-- `VLM_API_KEY` — API 密钥
-- `VLM_MODEL` — 模型标识符
-- `VLM_CONCURRENCY` — 并行工作线程数（默认：4）
-- `VLM_TIMEOUT`、`VLM_MAX_RETRIES`、`VLM_RETRY_DELAY` — 重试设置
+所有评测配置通过 TOML job 文件控制（详见 `VLM-test/API-test/README.md`），包含 6 段配置：
+- `[provider]` — adapter、model、base_url、api_key（支持 `env:VAR` 引用环境变量）
+- `[provider.options]` — temperature、max_tokens、max_concurrency、重试设置
+- `[input]` — questions_dir、question_layout（v1/v2/auto）、question_types、batch_size
+- `[images]` — mode（single/multi_view/none）、图像根目录
+- `[selection]` — split、scene、max_scenes 筛选
+- `[output]` — results_dir、run_name
 
 ## 测试
 
@@ -82,12 +87,17 @@ VLM_MODEL="qwen/qwen-2.5-vl-72b-instruct" python run_batch.py --split n04
 - **`extraction.py`** — 将场景 JSON 转换为 DSL 兼容的对象字典并提取真值
 - **`generate_questions_v2.py`** — 按题型分目录存储的问题生成脚本（推荐）
 
-### VLM 客户端 (`VLM-test/API-test/`)
-- **`vlm_client.py`** — OpenAI 兼容客户端，支持指数退避重试、base64 图像编码、多视角消息
+### VLM 评测引擎 (`VLM-test/API-test/`)
+- **`run_eval.py`** — 统一 CLI 入口，读取 TOML job 后执行评测
+- **`eval_engine.py`** — 编排层：场景发现 → 问题加载 → batch → ReAct 重试 → 评分 → 落盘
+- **`job_spec.py`** — TOML job 配置加载与校验
+- **`question_loader.py`** — 兼容 v1/v2/auto 的问题加载
+- **`image_resolver.py`** — 统一图片模式：single / multi_view / wrong_single / none
+- **`vlm_client.py`** — OpenAI 兼容客户端，支持指数退避重试、base64 图像编码
 - **`response_parser.py`** — 从 VLM 输出中健壮地提取 JSON（去除思考标签、修复截断 JSON、合并拆分数组）
 - **`scoring.py`** — QRR 比较符匹配（按 disjoint/shared_anchor 变体分别统计）、TRR 小时/象限/相邻评分、FDR 四粒度评分（exact/kendall τ/pairwise/top-1）、逐场景和跨数据集聚合
-- **`run_batch.py`** — 编排器，包含针对不完整 VLM 响应的 ReAct 风格纠正循环
-- **`run_batch_v2.py`** — 适配分题型目录结构的评估脚本
+- **`providers/`** — 协议适配层（openai_chat、gemini_native、mock_static）
+- **`jobs/`** — TOML job 配置模板
 
 ### 重建管线 (`VLM-test/reconstruct/`)
 - **`constraints.py`** — QRREntry、TRREntry、FDREntry 数据类；`build_distance_poset()`（QRR 偏序 DAG）、`build_angular_sectors()`（TRR 角度扇区）、`decompose_fdr_to_qrr()`（FDR→QRR 分解）
