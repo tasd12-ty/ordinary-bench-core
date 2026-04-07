@@ -178,7 +178,7 @@ def process_scene(scene_id: str, job: JobSpec, store: ResultStore) -> dict:
             all_questions.extend(questions)
             total_batches += 1
 
-    scores = score_batch_scene(all_predictions, all_questions)
+    scores = score_batch_scene(all_predictions, all_questions, ablation=job.prompt.ablation)
     return {
         "scene_id": scene_id,
         "model": job.provider.model,
@@ -219,17 +219,29 @@ def run_job(job: JobSpec) -> tuple[list[dict], dict]:
                 results.append(result)
                 store.save_scene_result(result)
                 scores = result["scores"]
-                logger.info(
-                    "  %s: QRR %s/%s, TRR hour %s/%s, FDR exact %s/%s, missing %s",
-                    scene_id,
-                    scores["qrr_correct"],
-                    scores["qrr_total"],
-                    scores["trr_hour_correct"],
-                    scores["trr_total"],
-                    scores["fdr_exact_correct"],
-                    scores["fdr_total"],
-                    scores["missing"],
-                )
+                if job.prompt.ablation:
+                    logger.info(
+                        "  %s: answerable %s/%s, refusal %s/%s, halluc %s, missing %s",
+                        scene_id,
+                        scores.get("answerable_correct", 0),
+                        scores.get("answerable_total", 0),
+                        scores.get("refusal_correct", 0),
+                        scores.get("refusal_total", 0),
+                        scores.get("refusal_hallucinated", 0),
+                        scores["missing"],
+                    )
+                else:
+                    logger.info(
+                        "  %s: QRR %s/%s, TRR hour %s/%s, FDR exact %s/%s, missing %s",
+                        scene_id,
+                        scores["qrr_correct"],
+                        scores["qrr_total"],
+                        scores["trr_hour_correct"],
+                        scores["trr_total"],
+                        scores["fdr_exact_correct"],
+                        scores["fdr_total"],
+                        scores["missing"],
+                    )
             except Exception as exc:
                 logger.error("  %s failed: %s", scene_id, exc)
                 failed_scenes.append(scene_id)

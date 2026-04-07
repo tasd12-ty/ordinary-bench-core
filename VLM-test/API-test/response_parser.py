@@ -131,6 +131,9 @@ def parse_batch_response(raw: str, expected_qids: List[str]) -> Dict[str, Any]:
         qid = item.get("qid", "")
         answer = item.get("answer")
         if qid in result:
+            # Normalize N/A variants for ablation compatibility
+            if isinstance(answer, str) and answer.strip().upper() in ("N/A", "NA"):
+                answer = "N/A"
             result[qid] = answer
 
     return result

@@ -6,7 +6,10 @@ from dataclasses import dataclass, field
 import os
 from pathlib import Path
 import re
-import tomllib
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib
 from typing import Any, Dict, Optional
 
 
@@ -95,13 +98,13 @@ class PromptSpec:
     missing_threshold: float = 0.2
     react_chunk_size: int = 50
     save_prompt: bool = True
-
+    ablation: bool = False
+    skip_unanswerable: bool = False
 
 @dataclass(slots=True)
 class OutputSpec:
     results_dir: str
     run_name: str = ""
-
 
 @dataclass(slots=True)
 class JobSpec:
@@ -181,6 +184,8 @@ class JobSpec:
             missing_threshold=float(prompt_raw.get("missing_threshold", 0.2)),
             react_chunk_size=int(prompt_raw.get("react_chunk_size", 50)),
             save_prompt=bool(prompt_raw.get("save_prompt", True)),
+            ablation=bool(prompt_raw.get("ablation", False)),
+            skip_unanswerable=bool(prompt_raw.get("skip_unanswerable", False)),
         )
         output = OutputSpec(
             results_dir=_resolve_path(base, str(output_raw.get("results_dir", ""))),

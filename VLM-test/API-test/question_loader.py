@@ -115,6 +115,14 @@ def load_scene_questions(scene_id: str, job):
         except FileNotFoundError:
             scene_meta, questions_by_type = _load_flat_scene(scene_id, questions_dir)
 
+    # Filter out unanswerable questions when skip_unanswerable is enabled
+    if job.prompt.skip_unanswerable:
+        for qtype in list(questions_by_type.keys()):
+            questions_by_type[qtype] = [
+                q for q in questions_by_type[qtype]
+                if q.get("answerable", True)
+            ]
+
     if job.input.question_grouping == "mixed":
         ordered = []
         for qtype in QUESTION_TYPES:

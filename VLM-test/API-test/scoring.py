@@ -144,11 +144,19 @@ def score_fdr_topk(predicted: List[str], gt_ranking: List[str], k: int) -> float
 
 # ── 场景评分 ──
 
-def score_batch_scene(predictions: Dict[str, Any], questions: List[dict]) -> dict:
+def _normalize_na(answer) -> str | None:
+    """Normalize N/A variants to canonical 'N/A', return None if not N/A."""
+    if isinstance(answer, str) and answer.strip().upper() in ("N/A", "NA"):
+        return "N/A"
+    return None
+
+
+def score_batch_scene(predictions: Dict[str, Any], questions: List[dict], *, ablation: bool = False) -> dict:
     """
     对单个场景的所有 batch 预测评分。
 
     返回 QRR/TRR/FDR 各项统计 + 逐题详情。
+    当 ablation=True 时，额外统计 refusal/hallucination 指标。
     """
     qrr_correct = qrr_total = 0
     qrr_disjoint_correct = qrr_disjoint_total = 0
@@ -157,11 +165,89 @@ def score_batch_scene(predictions: Dict[str, Any], questions: List[dict]) -> dic
     fdr_exact_correct = fdr_total = 0
     fdr_kendall_sum = fdr_pairwise_sum = fdr_top1_sum = 0.0
     missing = 0
+
+    # ablation-specific counters
+    answerable_correct = answerable_total = 0
+    refusal_correct = refusal_hallucinated = refusal_total = 0
+
     per_question = []
 
     for q in questions:
         qid = q["qid"]
         pred = predictions.get(qid)
+        is_answerable = q.get("answerable", True)
+
+        # In ablation mode, handle answerable/refusal scoring for QRR
+        if ablation and q["type"] == "qrr":
+            variant = q.get("variant", "disjoint")
+            normalized_na = _normalize_na(pred) if pred is not None else None
+
+            if pred is None:
+                missing += 1
+                if is_answerable:
+                    answerable_total += 1
+                    qrr_total += 1
+                    if variant == "shared_anchor":
+                        qrr_shared_anchor_total += 1
+                    else:
+                        qrr_disjoint_total += 1
+                else:
+                    refusal_total += 1
+                per_question.append({
+                    "qid": qid, "type": "qrr", "variant": variant,
+                    "anchor": q.get("anchor"),
+                    "predicted": None, "answerable": is_answerable,
+                    "status": "missing",
+                })
+            elif is_answerable:
+                answerable_total += 1
+                qrr_total += 1
+                if variant == "shared_anchor":
+                    qrr_shared_anchor_total += 1
+                else:
+                    qrr_disjoint_total += 1
+                # If VLM answered N/A for an answerable question, treat as wrong
+                if normalized_na:
+                    correct = False
+                else:
+                    correct = score_qrr(str(pred), q["gt_comparator"])
+                if correct:
+                    answerable_correct += 1
+                    qrr_correct += 1
+                    if variant == "shared_anchor":
+                        qrr_shared_anchor_correct += 1
+                    else:
+                        qrr_disjoint_correct += 1
+                per_question.append({
+                    "qid": qid, "type": "qrr", "variant": variant,
+                    "anchor": q.get("anchor"),
+                    "predicted": str(pred), "gt": q["gt_comparator"],
+                    "answerable": True, "correct": correct,
+                    "status": "correct" if correct else "wrong",
+                })
+            else:
+                # Not answerable — check if VLM correctly refused
+                refusal_total += 1
+                if normalized_na:
+                    refusal_correct += 1
+                    per_question.append({
+                        "qid": qid, "type": "qrr", "variant": variant,
+                        "predicted": "N/A", "answerable": False,
+                        "missing_objects": q.get("missing_objects", []),
+                        "status": "correct_refusal",
+                    })
+                else:
+                    refusal_hallucinated += 1
+                    per_question.append({
+                        "qid": qid, "type": "qrr", "variant": variant,
+                        "predicted": str(pred), "answerable": False,
+                        "missing_objects": q.get("missing_objects", []),
+                        "status": "hallucinated",
+                        "hallucinated_answer": str(pred),
+                    })
+            continue
+
+        # ── Non-ablation path (original logic) ──
 
         if pred is None:
             missing += 1
@@ -251,7 +337,7 @@ def score_batch_scene(predictions: Dict[str, Any], questions: List[dict]) -> dic
                 "top1_correct": top1 == 1.0,
             })
 
-    return {
+    result = {
         "qrr_correct": qrr_correct, "qrr_total": qrr_total,
         "qrr_disjoint_correct": qrr_disjoint_correct,
         "qrr_disjoint_total": qrr_disjoint_total,
@@ -270,6 +356,21 @@ def score_batch_scene(predictions: Dict[str, Any], questions: List[dict]) -> dic
         "per_question": per_question,
     }
 
+    if ablation:
+        result.update({
+            "answerable_correct": answerable_correct,
+            "answerable_total": answerable_total,
+            "answerable_acc": round(answerable_correct / answerable_total, 4) if answerable_total else 0.0,
+            "refusal_correct": refusal_correct,
+            "refusal_hallucinated": refusal_hallucinated,
+            "refusal_total": refusal_total,
+            "refusal_rate": round(refusal_correct / refusal_total, 4) if refusal_total else 0.0,
+            "hallucination_rate": round(refusal_hallucinated / refusal_total, 4) if refusal_total else 0.0,
+        })
+
+    return result
+
+# ── 结果聚合 ──
 
 # ── 结果聚合 ──
 
@@ -283,13 +384,23 @@ _SUM_KEYS = [
     "missing",
 ]
 
+# Additional keys summed in ablation mode
+_ABLATION_SUM_KEYS = [
+    "answerable_correct", "answerable_total",
+    "refusal_correct", "refusal_hallucinated", "refusal_total",
+]
+
 # Keys that are averaged (weighted by fdr_total)
 _FDR_MEAN_KEYS = ["fdr_kendall_mean", "fdr_pairwise_mean", "fdr_top1_mean"]
 
 
 def aggregate_batch_results(scene_results: List[dict]) -> dict:
     """汇总所有场景的 batch 评分，按 split 分组统计。"""
-    total = {k: 0 for k in _SUM_KEYS}
+    # Detect ablation mode from the first scene's scores
+    has_ablation = any("answerable_total" in r["scores"] for r in scene_results)
+    sum_keys = _SUM_KEYS + (_ABLATION_SUM_KEYS if has_ablation else [])
+
+    total = {k: 0 for k in sum_keys}
     fdr_weighted = {k: 0.0 for k in _FDR_MEAN_KEYS}
     by_split = {}
     by_split_fdr = {}
@@ -299,17 +410,17 @@ def aggregate_batch_results(scene_results: List[dict]) -> dict:
         split = scene_id.rsplit("_", 1)[0]
         s = r["scores"]
 
-        for k in _SUM_KEYS:
-            total[k] += s[k]
+        for k in sum_keys:
+            total[k] += s.get(k, 0)
         fdr_n = s["fdr_total"]
         for k in _FDR_MEAN_KEYS:
             fdr_weighted[k] += s[k] * fdr_n
 
         if split not in by_split:
-            by_split[split] = {k: 0 for k in _SUM_KEYS}
+            by_split[split] = {k: 0 for k in sum_keys}
             by_split_fdr[split] = {k: 0.0 for k in _FDR_MEAN_KEYS}
-        for k in _SUM_KEYS:
-            by_split[split][k] += s[k]
+        for k in sum_keys:
+            by_split[split][k] += s.get(k, 0)
         for k in _FDR_MEAN_KEYS:
             by_split_fdr[split][k] += s[k] * fdr_n
 
@@ -318,6 +429,13 @@ def aggregate_batch_results(scene_results: List[dict]) -> dict:
 
     def _fdr_means(weighted, fdr_total):
         return {k: round(weighted[k] / fdr_total, 4) if fdr_total > 0 else 0.0 for k in _FDR_MEAN_KEYS}
+
+    def _ablation_rates(counts):
+        return {
+            "answerable_acc": _acc(counts["answerable_correct"], counts["answerable_total"]),
+            "refusal_rate": _acc(counts["refusal_correct"], counts["refusal_total"]),
+            "hallucination_rate": _acc(counts["refusal_hallucinated"], counts["refusal_total"]),
+        }
 
     summary = {
         "overall": {
@@ -329,6 +447,7 @@ def aggregate_batch_results(scene_results: List[dict]) -> dict:
             "trr_adjacent_accuracy": _acc(total["trr_adjacent_correct"], total["trr_total"]),
             "fdr_exact_accuracy": _acc(total["fdr_exact_correct"], total["fdr_total"]),
             **_fdr_means(fdr_weighted, total["fdr_total"]),
+            **((_ablation_rates(total)) if has_ablation else {}),
             **total,
         },
         "by_split": {},
@@ -343,6 +462,7 @@ def aggregate_batch_results(scene_results: List[dict]) -> dict:
             "trr_adjacent_accuracy": _acc(counts["trr_adjacent_correct"], counts["trr_total"]),
             "fdr_exact_accuracy": _acc(counts["fdr_exact_correct"], counts["fdr_total"]),
             **_fdr_means(by_split_fdr[split], counts["fdr_total"]),
+            **((_ablation_rates(counts)) if has_ablation else {}),
             **counts,
         }
 

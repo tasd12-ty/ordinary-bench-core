@@ -149,9 +149,91 @@ Example:
 
 TYPE_SYSTEM_PROMPTS = {
     "qrr": QRR_SYSTEM_PROMPT,
+    "qrr_sa": QRR_SYSTEM_PROMPT,
     "trr": TRR_SYSTEM_PROMPT,
     "fdr": FDR_SYSTEM_PROMPT,
 }
+
+# ── Ablation 专用 Prompts（含 N/A 选项）──
+
+ABLATION_QRR_SYSTEM_PROMPT = """\
+You are a spatial reasoning assistant analyzing a 3D scene image.
+You will receive a list of objects visible in the image and a set of distance comparison (QRR) questions.
+
+IMPORTANT: Some questions reference object IDs that are NOT in the "Objects visible" list.
+These objects are not present in the image. If ANY object mentioned in a question is not \
+in the visible list, you MUST answer "N/A" for that question.
+
+For each question, compare 3D distances — either between two pairs of objects, \
+or from a common anchor object to two candidate objects.
+
+Answer with exactly one of:
+  "<"   — first pair/candidate is closer
+  "~="  — approximately equal distance
+  ">"   — first pair/candidate is farther
+  "N/A" — one or more objects in the question are not visible in the image
+
+Respond ONLY with a JSON array. Each element must have "qid" and "answer".
+
+Example:
+[{"qid": "mqrr_0001", "answer": "<"}, {"qid": "mqrr_0002", "answer": "N/A"}, {"qid": "mqrr_0003", "answer": "~="}]"""
+
+ABLATION_QRR_MULTI_VIEW_SYSTEM_PROMPT = """\
+You are a spatial reasoning assistant analyzing a 3D scene from multiple camera views.
+You will receive {n_views} images of the SAME scene from different angles, a list of objects visible in the scene, and a set of distance comparison (QRR) questions.
+
+IMPORTANT: Some questions reference object IDs that are NOT in the "Objects visible" list.
+These objects are not present in the scene. If ANY object mentioned in a question is not in the visible list, you MUST answer "N/A" for that question.
+
+For each question, compare 3D distances — either between two pairs of objects, or from a common anchor object to two candidate objects. Use ALL views to reason about the 3D spatial layout.
+
+Answer with exactly one of:
+  "<"   — first pair/candidate is closer
+  "~="  — approximately equal distance
+  ">"   — first pair/candidate is farther
+  "N/A" — one or more objects in the question are not visible in the scene
+
+Respond ONLY with a JSON array. Each element must have "qid" and "answer".
+
+Example:
+[{{"qid": "mqrr_0001", "answer": "<"}}, {{"qid": "mqrr_0002", "answer": "N/A"}}, {{"qid": "mqrr_0003", "answer": "~="}}]"""
+
+ABLATION_TYPE_SYSTEM_PROMPTS = {
+    "qrr": ABLATION_QRR_SYSTEM_PROMPT,
+    "qrr_sa": ABLATION_QRR_SYSTEM_PROMPT,
+}
+
+
+def format_ablation_user_prompt(objects: list, questions: list) -> str:
+    """构造 ablation 模式的 user prompt，每个问题选项包含 N/A。"""
+    lines = ["Objects visible in the image:"]
+    for obj in objects:
+        lines.append(f"  - {obj['id']}: {obj['desc']}")
+    lines.append("")
+    lines.append("Questions:")
+
+    for q in questions:
+        if q["type"] != "qrr":
+            continue
+        p1a, p1b = q["pair1"]
+        p2a, p2b = q["pair2"]
+        if q.get("variant") == "shared_anchor" and q.get("anchor"):
+            anchor = q["anchor"]
+            cand1 = next(obj for obj in q["pair1"] if obj != anchor)
+            cand2 = next(obj for obj in q["pair2"] if obj != anchor)
+            lines.append(
+                f"[{q['qid']}] From anchor {anchor}, compare the distance to {cand1} "
+                f"vs the distance to {cand2}. "
+                f"Answer: < / ~= / > / N/A"
+            )
+        else:
+            lines.append(
+                f"[{q['qid']}] Compare the distance between {p1a} and {p1b} "
+                f"vs the distance between {p2a} and {p2b}. "
+                f"Answer: < / ~= / > / N/A"
+            )
+
+    return "\n".join(lines)
 
 
 # ReAct 纠正提示：当解析失败或缺失过多时，追加此 prompt 要求模型重新输出
