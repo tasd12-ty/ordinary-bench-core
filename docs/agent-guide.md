@@ -10,7 +10,9 @@
 4. [配置 VLM 进行测试](#4-配置-vlm-进行测试)
 5. [运行评测](#5-运行评测)
 6. [结果批改与评分](#6-结果批改与评分)
-7. [常见问题](#7-常见问题)
+7. [结果分析 Pipeline](#7-结果分析-pipeline)
+8. [Subset Ablation 分析](#8-subset-ablation-分析)
+9. [常见问题](#9-常见问题)
 
 ---
 
@@ -413,7 +415,157 @@ correct = score_fdr_exact(
 
 ---
 
-## 7. 常见问题
+## 7. 结果分析 Pipeline
+
+评测完成后，`VLM-test/analysis/` 提供完整的分析工具链。所有脚本从 `VLM-test/` 目录运行。
+
+### 7.1 一键全套分析
+
+```bash
+cd VLM-test
+python analysis/run_analysis.py
+```
+
+自动发现 `output/results/` 下的所有模型，依次运行：
+1. 精度汇总表（Markdown + JSON）
+2. 批量场景重建（CSR / NRMS / Kendall τ）
+3. 一致性分析（传递性 / 互反性）
+4. 可视化图表
+
+参数：
+- `--results-base output/results` — 结果根目录
+- `--questions-dir output/questions` — 问题目录
+- `--scenes-dir ../data-gen/output/scenes` — 场景 JSON 目录
+- `--output-dir output/analysis` — 分析输出目录
+- `--max-scenes 10` — 限制场景数（调试用）
+- `--restarts 10` — 重建优化器重启次数
+
+### 7.2 精度汇总
+
+```bash
+python analysis/aggregate.py
+```
+
+自动发现模型，输出 Markdown 精度表（QRR overall / disjoint / shared_anchor, TRR hour / quadrant / adjacent, FDR exact / Kendall / pairwise / top-1），按 split 分组。
+
+### 7.3 Excel 报告导出
+
+```bash
+python analysis/generate_insight_excel.py
+python analysis/generate_insight_excel.py --output path/to/report.xlsx
+```
+
+生成多 sheet Excel（模型排行、视角对比、难度曲线、重建指标、逐场景明细）。
+
+### 7.4 场景重建
+
+从 VLM 预测的空间约束重建 2D 物体位置：
+
+```bash
+# Belief 模式（使用 VLM 预测，含错误答案）
+python analysis/reconstruct_scenes.py \
+    -r output/results/gpt-4o \
+    -q output/questions \
+    -s ../data-gen/output/scenes \
+    --belief --restarts 10
+
+# 输出：逐场景 CSR / NRMS / Kendall τ + 汇总统计
+```
+
+### 7.5 合并管线（Excel + 重建 + SVG）
+
+```bash
+python analysis/export_and_reconstruct.py
+python analysis/export_and_reconstruct.py --excel-only     # 仅 Excel
+python analysis/export_and_reconstruct.py --recon-only     # 仅重建 + SVG
+python analysis/export_and_reconstruct.py --models gpt-4o,claude-sonnet --max-scenes 5
+```
+
+输出：
+- Excel 报告（5 sheet）
+- `output/analysis/belief_recon/{model}/{scene_id}.json` — 重建结果
+- `output/analysis/belief_recon/{model}/{scene_id}.svg` — GT vs Recon 可视化
+
+### 7.6 一致性检查
+
+`analysis/consistency.py` 是库模块（无 CLI），被 `run_analysis.py` 调用：
+- **传递性**：QRR `d(A,B) < d(C,D) < d(E,F)` → `d(A,B) < d(E,F)` 是否成立
+- **互反性**：TRR 180° 镜像对称检查
+
+### 7.7 约束冲突检测
+
+```bash
+# FDR 排序与 QRR 距离比较的矛盾检测
+python analysis/fdr_qrr_conflict.py
+```
+
+### 7.8 分析输出结构
+
+```
+output/analysis/
+├── accuracy_table.md          # Markdown 精度表
+├── accuracy_table.json        # JSON 精度数据
+├── consistency.json           # 一致性分析结果
+├── belief_recon/              # 重建结果
+│   └── {model}/
+│       ├── {scene_id}.json    # 重建位置 + 指标
+│       └── {scene_id}.svg     # GT vs Recon 可视化
+├── results_summary.xlsx       # Excel 综合报告
+└── figures/                   # 可视化图表
+```
+
+---
+
+## 8. Subset Ablation 分析
+
+评测完 subset 场景后的分析流程。
+
+### 8.1 全图 vs 子集对比
+
+```bash
+cd experiments/subset_ablation
+python analyze_results.py \
+    --full-results output/results/full \
+    --subset-results output/results/subset \
+    --mapping output/question_mapping.json \
+    --output output/analysis
+```
+
+输出：
+- `comparison.json` — per-split / per-variant 精度对比
+- `self_agreement.json` — 同一问题在多个子集中的自一致性
+
+### 8.2 子集结果聚合为父场景格式
+
+将子集评测结果通过多数投票聚合为父场景格式，可直接接入重建管线：
+
+```bash
+python aggregate_to_parent.py \
+    --results-dir output/results/gpt4o_multiview/scenes \
+    --master-dir output/master_questions \
+    --scenes-dir ../../data-gen/output/scenes \
+    --output-dir output/aggregated/gpt4o_multiview \
+    --model gpt-4o \
+    --vote-threshold 0.5
+```
+
+输出：
+- `{parent_scene_id}.json` — 与 `run_eval.py` 输出格式一致的聚合结果
+- `summary.json` — 聚合统计（投票率、覆盖率）
+
+然后接入重建管线：
+
+```bash
+cd ../../VLM-test
+python analysis/reconstruct_scenes.py \
+    -r ../experiments/subset_ablation/output/aggregated/gpt4o_multiview \
+    -q ../experiments/subset_ablation/output/master_questions \
+    --belief
+```
+
+---
+
+## 9. 常见问题
 
 ### Q: 评测中断了怎么办？
 重新运行同一个 job TOML，已完成的场景会被跳过。
@@ -441,6 +593,7 @@ correct = score_fdr_exact(
 |------|------|
 | `VLM-test/docs/scoring_criteria.md` | 详细评分公式和示例 |
 | `VLM-test/API-test/README.md` | Job TOML 配置参考 |
+| `VLM-test/analysis/` | 分析脚本目录（精度汇总、重建、一致性、可视化） |
 | `docs/pipeline-overview.md` | 完整管线流程图（Mermaid） |
 | `datasets/README.md` | HuggingFace 数据集说明 |
 | `datasets/prompts/system_prompts.json` | VLM 系统 prompt 模板 |
