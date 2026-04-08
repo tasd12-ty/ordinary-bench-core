@@ -11,6 +11,9 @@ def create_provider_adapter(provider_spec):
     if adapter == "gemini_native":
         from .gemini_native import GeminiNativeAdapter
         return GeminiNativeAdapter(provider_spec)
+    if adapter == "ali_internal":
+        from .ali_internal import AliInternalAdapter
+        return AliInternalAdapter(provider_spec)
     if adapter == "mock_static":
         from .mock_static import MockStaticAdapter
         return MockStaticAdapter(provider_spec)

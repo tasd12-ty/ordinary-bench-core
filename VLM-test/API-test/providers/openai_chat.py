@@ -61,13 +61,24 @@ class OpenAIChatAdapter(ProviderAdapter):
     def call(self, request: ProviderRequest) -> str:
         options = dict(self.spec.options)
         provider = options.pop("provider", "")
-        extra_body = options.pop("extra_body", None)
+        extra_body = dict(options.pop("extra_body", None) or {})
         options.pop("max_concurrency", None)
+
+        # call_vlm 接受的标准参数白名单
+        call_vlm_known_keys = {
+            "temperature", "max_tokens", "max_retries",
+            "retry_base_delay", "timeout",
+        }
+        # 非标准参数（如 access_key, quota_id, user_id 等）归入 extra_body
+        unknown_keys = [k for k in options if k not in call_vlm_known_keys]
+        for key in unknown_keys:
+            extra_body[key] = options.pop(key)
+
         return call_vlm(
             self.client,
             request.payload,
             self.spec.model,
             provider=provider,
-            extra_body=extra_body,
+            extra_body=extra_body or None,
             **options,
         )
