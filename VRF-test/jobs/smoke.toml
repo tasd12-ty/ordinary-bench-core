@@ -1,0 +1,23 @@
+# VRF 烟雾测试 — 使用 mock adapter，不需要 API key
+[provider]
+adapter = "mock_static"
+model = "mock"
+
+[provider.options]
+raw_response = '[{"qid":"vrf_0001","answer":true},{"qid":"vrf_0002","answer":false},{"qid":"vrf_0003","answer":true},{"qid":"vrf_0004","answer":false},{"qid":"vrf_0005","answer":true},{"qid":"vrf_0006","answer":false},{"qid":"vrf_0007","answer":true},{"qid":"vrf_0008","answer":false},{"qid":"vrf_0009","answer":true},{"qid":"vrf_0010","answer":false},{"qid":"vrf_0011","answer":true},{"qid":"vrf_0012","answer":false},{"qid":"vrf_0013","answer":true},{"qid":"vrf_0014","answer":false},{"qid":"vrf_0015","answer":true},{"qid":"vrf_0016","answer":false},{"qid":"vrf_0017","answer":true},{"qid":"vrf_0018","answer":false},{"qid":"vrf_0019","answer":true},{"qid":"vrf_0020","answer":false}]'
+max_concurrency = 1
+
+[input]
+questions_dir = "../datasets/test-data/questions/vrf"
+batch_size = 20
+
+[images]
+mode = "none"
+
+[selection]
+split = "n04"
+max_scenes = 2
+
+[output]
+results_dir = "output/results"
+run_name = "vrf_smoke"
