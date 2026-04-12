@@ -668,8 +668,22 @@ def add_random_objects(directions, num_objects, args, camera, _retry_count=0):
     objects = []
     blender_objects = []
 
+    # 预生成无重复的属性组合（无放回采样）
+    import itertools
+    all_combos = list(itertools.product(
+        object_mapping,        # (blender_name, output_name)
+        size_mapping,          # (size_name, radius)
+        list(color_name_to_rgba.items()),  # (color_name, rgba)
+        material_mapping,      # (blender_name, output_name)
+    ))
+    if num_objects <= len(all_combos):
+        chosen_combos = random.sample(all_combos, num_objects)
+    else:
+        # 物体数超过组合数时回退到有放回采样（不应发生，144 >> 15）
+        chosen_combos = [random.choice(all_combos) for _ in range(num_objects)]
+
     for i in range(num_objects):
-        size_name, r = random.choice(size_mapping)
+        (obj_name, obj_name_out), (size_name, r), (color_name, rgba), (mat_name, mat_name_out) = chosen_combos[i]
 
         # 尝试放置物体
         num_tries = 0
@@ -707,10 +721,6 @@ def add_random_objects(directions, num_objects, args, camera, _retry_count=0):
             if dists_good and margins_good:
                 break
 
-        # 随机选择颜色和形状
-        obj_name, obj_name_out = random.choice(object_mapping)
-        color_name, rgba = random.choice(list(color_name_to_rgba.items()))
-
         if obj_name == 'Cube':
             r /= math.sqrt(2)
 
@@ -723,7 +733,6 @@ def add_random_objects(directions, num_objects, args, camera, _retry_count=0):
         positions.append((x, y, r))
 
         # 添加材质
-        mat_name, mat_name_out = random.choice(material_mapping)
         utils.add_material(mat_name, Color=rgba)
 
         # 记录物体数据
