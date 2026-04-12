@@ -461,10 +461,33 @@ def solve(
                  if oid not in (anchor_a, anchor_b)]
     c_idx = free_objs.index(anchor_c) if anchor_c in free_objs else -1
 
+    # GT warm-start: 将 GT 坐标对齐到 gauge convention 作为第 0 次 restart 的初始点
+    gt_x0 = None
+    if gt_positions is not None and anchor_a in gt_positions and anchor_b in gt_positions:
+        try:
+            pa = gt_positions[anchor_a][:2]
+            pb = gt_positions[anchor_b][:2]
+            d_ab = np.linalg.norm(pb - pa)
+            if d_ab > 1e-10:
+                shifted = {oid: pos[:2] - pa for oid, pos in gt_positions.items() if oid in object_ids}
+                vb = shifted[anchor_b]
+                angle = -np.arctan2(vb[1], vb[0])
+                scale = 1.0 / np.linalg.norm(vb)
+                cos_a, sin_a = np.cos(angle), np.sin(angle)
+                R = np.array([[cos_a, -sin_a], [sin_a, cos_a]])
+                aligned = {oid: scale * (R @ pos) for oid, pos in shifted.items()}
+                gt_x0 = pack_free_variables(aligned, anchor_a, anchor_b, anchor_c, object_ids)
+        except Exception:
+            gt_x0 = None
+
     for restart in range(config.n_restarts):
-        # 随机初始化：在规范固定锚点周围分散
-        rng = np.random.RandomState(restart * 42 + 7)
-        x0 = rng.randn(n_free) * 1.5
+        if restart == 0 and gt_x0 is not None:
+            # 第 0 次 restart: 从 GT 坐标出发
+            x0 = gt_x0.copy()
+        else:
+            # 随机初始化：在规范固定锚点周围分散
+            rng = np.random.RandomState(restart * 42 + 7)
+            x0 = rng.randn(n_free) * 1.5
 
         # 注意：当存在 TRR 约束时，有意省略 y_c >= 0 约束，
         # 因为 TRR 角度约束自然打破了镜像反射歧义。
