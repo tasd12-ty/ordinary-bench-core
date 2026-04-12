@@ -1,0 +1,49 @@
+# N=11~15 场景生成配置，每组 20 个场景
+
+[blender]
+executable = "/Applications/Blender.app/Contents/MacOS/Blender"
+use_gpu = true
+
+[rendering]
+width = 480
+height = 320
+samples = 256
+n_views = 4
+camera_distance = 12.0
+elevation = 30.0
+azimuth_start = 45.0
+render_top_view = true
+top_view_padding = 0.35
+
+[objects]
+min_dist = 0.25
+margin = 0.4
+
+[output]
+dir = "./output"
+seed = 42
+
+[splits.n11]
+n_scenes = 20
+min_objects = 11
+max_objects = 11
+
+[splits.n12]
+n_scenes = 20
+min_objects = 12
+max_objects = 12
+
+[splits.n13]
+n_scenes = 20
+min_objects = 13
+max_objects = 13
+
+[splits.n14]
+n_scenes = 20
+min_objects = 14
+max_objects = 14
+
+[splits.n15]
+n_scenes = 20
+min_objects = 15
+max_objects = 15

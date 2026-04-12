@@ -1,0 +1,28 @@
+# Coordinate prediction — orthographic top-down view
+[provider]
+adapter = "openai_chat"
+model = "openai/gpt-4o"
+base_url = "https://openrouter.ai/api/v1"
+api_key = "env:OPENROUTER_API_KEY"
+
+[provider.options]
+temperature = 0.0
+max_tokens = 4096
+max_concurrency = 4
+
+[input]
+scenes_dir = "../../datasets/test-data/scenes"
+tau = 0.10
+
+[images]
+images_dir = "../../datasets/test-data/images"
+mode = "top_view"
+
+[selection]
+# split = "n04"
+# max_scenes = 10
+
+[output]
+results_dir = "output/results"
+run_name = "coord_top_view"
+save_prompt = true

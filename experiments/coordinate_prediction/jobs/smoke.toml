@@ -1,0 +1,24 @@
+# Coordinate prediction smoke test — mock adapter, no API needed
+[provider]
+adapter = "mock_static"
+model = "mock"
+
+[provider.options]
+raw_response = '{"obj_0": [0.1, 2.0], "obj_1": [0.4, 0.1], "obj_2": [-2.1, 1.1], "obj_3": [-2.8, -1.8]}'
+max_concurrency = 1
+
+[input]
+scenes_dir = "../../datasets/test-data/scenes"
+tau = 0.10
+
+[images]
+images_dir = "../../datasets/test-data/images"
+mode = "single"
+
+[selection]
+split = "n04"
+max_scenes = 2
+
+[output]
+results_dir = "output/results"
+run_name = "coord_smoke"
