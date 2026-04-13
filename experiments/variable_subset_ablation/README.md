@@ -47,14 +47,11 @@
 ## 管线概览
 
 ```
-Step 0: 生成 N=20 场景           → data-gen/
+Step 0: 生成 N=20 场景           → data-gen/generate.py --config config_n20.toml
 Step 1: 枚举各尺寸子场景         → enumerate_variable_subsets.py     (本实验)
-Step 2: 生成 Master 题库          → subset_ablation/generate_master_questions.py (复用)
-Step 3: 分配题目 + 可答标记       → subset_ablation/assign_subset_questions.py   (复用)
-Step 4: 渲染子场景图像            → subset_ablation/render_subsets.py             (复用)
-Step 5: VLM 评测                 → subset_ablation/run_subset_eval.py            (复用)
-Step 6: 分析                     → analyze_variable_subsets.py      (本实验)
-Step 7: 可视化                   → visualize_variable_subsets.py    (本实验)
+Step 2: 渲染 5 视角图像           → render_all_views.py               (本实验)
+Step 3: 生成题目 + VLM 评测       → 复用 subset_ablation 管线
+Step 4: 分析 + 可视化            → analyze / visualize              (本实验)
 ```
 
 ## 完整运行步骤
@@ -87,84 +84,84 @@ python enumerate_variable_subsets.py \
 - `output/scenes/*.json` — 220 个子场景 JSON
 - `output/manifest.json` — 映射关系（含 `subset_size` 和 `subsets_by_size` 字段）
 
-### Step 2: 生成 Master 题库
+### Step 2: 渲染 5 视角图像
+
+每个子场景渲染 **5 个视角**：4 侧视角（方位角 45°/135°/225°/315°，仰角 30°）+ 1 俯视角（仰角 90°）。
 
 ```bash
-python ../subset_ablation/generate_master_questions.py \
-    --scenes-dir ../../data-gen/output/scenes \
-    --output-dir output \
-    --splits n20
-```
-
-输出: `output/master_questions/n20_000000.json` (17,955 题)
-
-### Step 3: 分配题目
-
-```bash
-python ../subset_ablation/assign_subset_questions.py \
-    --manifest output/manifest.json \
-    --master-dir output/master_questions \
-    --output-dir output
-```
-
-输出: `output/questions/qrr/{subset_id}.json` — 每个子场景的题目，含 answerable 标签
-
-### Step 4: 渲染子场景图像
-
-```bash
-python ../subset_ablation/render_subsets.py \
+python render_all_views.py \
     --manifest output/manifest.json \
     --output-dir output \
     --blender /Applications/Blender.app/Contents/MacOS/Blender \
     --workers 4 --samples 64 --use-gpu
 ```
 
-输出: `output/images/single_view/{subset_id}.png` (220 张)
+输出:
+- `output/images/multi_view/{subset_id}/view_0.png ~ view_3.png` — 4 侧视角
+- `output/images/top_view/{subset_id}.png` — 1 俯视角
 
-### Step 5: VLM 评测
+> 共 220 × 5 = **1,100 张图像**。
+> 调试时用 `--limit 5` 只渲染前 5 个子场景。
 
+### Step 3: 生成题目 + VLM 评测
+
+题目生成和评测可通过两种方式进行：
+
+**方式 A：Master Bank 模式**（含 N/A 拒答测试）
 ```bash
-export VLM_BASE_URL="https://openrouter.ai/api/v1"
-export VLM_API_KEY="sk-..."
-export VLM_MODEL="openai/gpt-4o"
+# 生成 Master 题库
+python ../subset_ablation/generate_master_questions.py \
+    --scenes-dir ../../data-gen/output/scenes --output-dir output --splits n20
+
+# 分配题目
+python ../subset_ablation/assign_subset_questions.py \
+    --manifest output/manifest.json --master-dir output/master_questions --output-dir output
+
+# 评测（3 种图像模式分别跑）
+python ../subset_ablation/run_subset_eval_multiview.py \
+    --questions-dir output/questions/qrr --images-dir output/images \
+    --output-dir output/results/gpt4o_single --mode pick_view --view-index 0
+
+python ../subset_ablation/run_subset_eval_multiview.py \
+    --questions-dir output/questions/qrr --images-dir output/images \
+    --output-dir output/results/gpt4o_multi --mode multi_view
 
 python ../subset_ablation/run_subset_eval.py \
     --questions-dir output/questions/qrr \
-    --images-dir output/images/single_view \
-    --output-dir output/results/gpt4o \
-    --concurrency 4 --batch-size 20
+    --images-dir output/images/top_view \
+    --output-dir output/results/gpt4o_top
 ```
 
-输出: `output/results/gpt4o/scenes/{subset_id}.json`
+**方式 B：直接生成模式**（仅可答题，效率更高）
+```bash
+# 用 generate_questions_v2.py 直接为每个子场景生成 QRR 题目
+cd ../../VLM-test
+for f in ../experiments/variable_subset_ablation/output/scenes/*.json; do
+    python generate_questions_v2.py --data-dir - --scene "$f" \
+        --output ../experiments/variable_subset_ablation/output/questions_direct
+done
+```
 
-### Step 6: 分析
+### Step 4: 分析 + 可视化
 
 ```bash
 python analyze_variable_subsets.py \
     --manifest output/manifest.json \
-    --results-dir output/results/gpt4o/scenes \
+    --results-dir output/results/gpt4o_multi/scenes \
     --output-dir output/analysis
-```
 
-输出:
-- `output/analysis/accuracy_by_size.json` — 精度汇总
-- `output/analysis/refusal_by_size.json` — 拒答率
-- `output/analysis/consistency.json` — 跨尺寸一致性
-
-### Step 7: 可视化
-
-```bash
 python visualize_variable_subsets.py \
     --analysis-dir output/analysis \
-    --output-dir output/figures \
-    --baseline-acc 0.65   # 可选: N=20 全图基线精度
+    --output-dir output/figures
 ```
 
-输出 (PDF + PNG):
-- `fig_accuracy_vs_size` — QRR 精度 vs 子集大小 (核心结果)
-- `fig_refusal_vs_size` — 拒答检测率 + Hallucination Rate
-- `fig_answerable_ratio` — 可答题比例 (实测 vs 理论)
-- `fig_consistency_distribution` — 跨尺寸答案一致性分布
+## 3 种评测图像模式
+
+| 模式 | 图像来源 | 评测命令 | 研究目的 |
+|------|---------|---------|---------|
+| 单侧视角 | `multi_view/{id}/view_0.png` | `--mode pick_view --view-index 0` | 基线 |
+| 四侧视角 | `multi_view/{id}/view_0~3.png` | `--mode multi_view` | 多视角是否提升推理 |
+| 俯视角 | `top_view/{id}.png` | 单视角模式 | 鸟瞰是否更利于距离判断 |
 
 ## 目录结构
 
@@ -172,15 +169,18 @@ python visualize_variable_subsets.py \
 experiments/variable_subset_ablation/
 ├── README.md                           # 本文件
 ├── enumerate_variable_subsets.py       # Step 1: 枚举子场景
-├── analyze_variable_subsets.py         # Step 6: 分析
-├── visualize_variable_subsets.py       # Step 7: 可视化
+├── render_all_views.py                 # Step 2: 渲染 5 视角
+├── analyze_variable_subsets.py         # Step 4: 分析
+├── visualize_variable_subsets.py       # Step 4: 可视化
 └── output/                             # 运行产物 (gitignore)
     ├── scenes/                         # 子场景 JSON
     ├── manifest.json                   # 父→子映射
-    ├── master_questions/               # N=20 全量题库
+    ├── images/
+    │   ├── multi_view/{id}/view_0~3.png  # 4 侧视角
+    │   └── top_view/{id}.png             # 俯视角
+    ├── master_questions/               # Master 题库 (方式 A)
     ├── questions/qrr/                  # 每子场景题目
-    ├── images/single_view/             # 渲染图像
-    ├── results/{model}/scenes/         # VLM 结果
+    ├── results/{model}_{mode}/scenes/  # VLM 结果
     ├── analysis/                       # 分析 JSON
     └── figures/                        # 可视化图表
 ```
@@ -191,10 +191,10 @@ experiments/variable_subset_ablation/
 
 | 脚本 | 位置 | 用途 |
 |------|------|------|
+| `render_subset_blender.py` | `experiments/subset_ablation/` | Blender 渲染（被 render_all_views.py 调用） |
 | `generate_master_questions.py` | `experiments/subset_ablation/` | 生成 N=20 全量 QRR Master Bank |
 | `assign_subset_questions.py` | `experiments/subset_ablation/` | 标记每题在每子场景中是否可答 |
-| `render_subsets.py` | `experiments/subset_ablation/` | Blender 批量渲染 |
-| `run_subset_eval.py` | `experiments/subset_ablation/` | VLM API 调用 + 评分 |
+| `run_subset_eval_multiview.py` | `experiments/subset_ablation/` | 多模式 VLM 评测 |
 | `build_subset_scene_json` | `experiments/subset_ablation/enumerate_subsets.py` | 构建子集 JSON (Python import) |
 
 ## Manifest 格式
@@ -210,56 +210,11 @@ experiments/variable_subset_ablation/
         "9":  [{"subset_id": "...", "object_ids": [...], "subset_size": 9}, ...],
         "10": [...]
       },
-      "subsets": [...]  // 扁平列表，兼容现有 subset_ablation 管线
+      "subsets": [...]
     }
   },
   "config": {
     "min_size": 9, "max_size": 19, "max_subsets": 20, "seed": 42
   }
-}
-```
-
-## 分析产出说明
-
-### accuracy_by_size.json
-```json
-{
-  "9": {
-    "overall": {"correct": 100, "total": 200, "acc": 0.5},
-    "disjoint": {"correct": 80, "total": 160, "acc": 0.5},
-    "shared_anchor": {"correct": 20, "total": 40, "acc": 0.5},
-    "n_scenes": 20,
-    "per_scene_acc": [0.45, 0.52, ...]  // 用于误差条
-  }
-}
-```
-
-### refusal_by_size.json
-```json
-{
-  "9": {
-    "refusal_total": 17325,
-    "refusal_correct": 15000,
-    "refusal_rate": 0.8658,
-    "hallucinated": 2325,
-    "hallucination_rate": 0.1342,
-    "answerable_ratio": 0.035
-  }
-}
-```
-
-### consistency.json
-```json
-{
-  "mean_consistency": 0.85,
-  "n_questions_multi_size": 5000,
-  "per_question": [
-    {
-      "qid": "mqrr_0001",
-      "answers_by_size": {"9": ["<"], "10": ["<", "<"], ...},
-      "consistency": 1.0,
-      "majority_answer": "<"
-    }
-  ]
 }
 ```
