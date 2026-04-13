@@ -1,0 +1,29 @@
+# N=20 场景生成配置（1 个场景，用于 variable subset ablation 实验）
+
+[blender]
+executable = "/Applications/Blender.app/Contents/MacOS/Blender"
+use_gpu = true
+
+[rendering]
+width = 480
+height = 320
+samples = 256
+n_views = 4
+camera_distance = 14.0      # 比默认 12.0 远，容纳 20 个物体
+elevation = 30.0
+azimuth_start = 45.0
+render_top_view = true
+top_view_padding = 0.35
+
+[objects]
+min_dist = 0.20              # 比默认 0.25 略小，20 个物体需要更紧凑放置
+margin = 0.35                # 比默认 0.40 略小
+
+[output]
+dir = "./output"
+seed = 42
+
+[splits.n20]
+n_scenes = 1
+min_objects = 20
+max_objects = 20
