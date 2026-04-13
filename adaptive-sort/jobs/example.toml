@@ -1,0 +1,32 @@
+# Example: real VLM evaluation with adaptive sorting.
+# Set OPENAI_API_KEY environment variable before running.
+
+[provider]
+adapter = "openai_chat"
+model = "gpt-4o"
+base_url = "https://api.openai.com/v1"
+api_key = "env:OPENAI_API_KEY"
+
+[provider.options]
+temperature = 0.0
+max_tokens = 1024
+
+[input]
+scenes_dir = "../datasets/test-data/scenes"
+tau = 0.10
+
+[images]
+mode = "single"
+single_view_root = "../../datasets/test-data/images/single_view"
+
+[selection]
+split = "n04"
+
+[sorting]
+pivot_strategy = "middle"
+max_retries = 3
+retry_base_delay = 2.0
+max_concurrency = 4
+
+[output]
+results_dir = "./output/results"

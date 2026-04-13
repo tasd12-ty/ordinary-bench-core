@@ -1,0 +1,28 @@
+# Smoke test: uses mock oracle (GT answers) to verify sorting correctness.
+# No real API needed.
+
+[provider]
+adapter = "mock_oracle"
+model = "mock-gt-oracle"
+
+[provider.options]
+tau = 0.10
+
+[input]
+scenes_dir = "../../datasets/test-data/scenes"
+tau = 0.10
+
+[images]
+mode = "none"
+
+[selection]
+split = "n04"
+max_scenes = 3
+
+[sorting]
+pivot_strategy = "middle"
+max_retries = 0
+max_concurrency = 2
+
+[output]
+results_dir = "./output/results"

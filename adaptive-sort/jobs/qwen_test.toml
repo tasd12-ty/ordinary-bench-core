@@ -1,0 +1,32 @@
+# Qwen 3.5 9B test via OpenRouter with images (N=10)
+
+[provider]
+adapter = "openai_chat"
+model = "qwen/qwen3.5-9b"
+base_url = "https://openrouter.ai/api/v1"
+api_key = "env:OPENROUTER_API_KEY"
+
+[provider.options]
+temperature = 0.0
+max_tokens = 1024
+
+[input]
+scenes_dir = "../../datasets/test-data/scenes"
+tau = 0.10
+
+[images]
+mode = "single"
+single_view_root = "../../datasets/test-data/images/single_view"
+
+[selection]
+split = "n10"
+max_scenes = 1
+
+[sorting]
+pivot_strategy = "middle"
+max_retries = 3
+retry_base_delay = 3.0
+max_concurrency = 1
+
+[output]
+results_dir = "./output/results"
