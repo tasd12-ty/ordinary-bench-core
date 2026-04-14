@@ -205,7 +205,7 @@ def _normalize_answer(answer: Any) -> str | None:
     """Normalize model answer variants before validation."""
     if answer is None:
         return None
-    ans = str(answer).strip()
+    ans = str(answer).strip().strip(' \t\r\n"\'`.,，。!！;；:：')
     if ans.lower() in APPROX_ANSWER_ALIASES:
         return "~="
     return ans
