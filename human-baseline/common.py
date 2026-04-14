@@ -267,7 +267,7 @@ def normalize_human_answer(answer: object, qtype: str) -> Optional[object]:
     if answer is None:
         return None
 
-    if qtype == "qrr":
+    if qtype in {"qrr", "adaptive_sort_cmp"}:
         text = str(answer).strip()
         if text == "=":
             text = "~="

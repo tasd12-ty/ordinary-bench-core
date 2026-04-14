@@ -7,19 +7,16 @@
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <!-- ==================== 欢迎页 ==================== -->
   <div id="view-welcome" class="view">
     <div class="welcome-card">
       <h1 class="welcome-title">ORDINARY-BENCH</h1>
-      <p class="welcome-subtitle">空间关系推理 — 人类基线测试</p>
+      <p class="welcome-subtitle">空间关系推理 - 人类基线测试</p>
 
       <div class="welcome-desc">
-        <p>本测试考察您对 3D 场景中物体空间关系的判断能力。</p>
-        <p>每个场景会按<strong>递进式</strong>提供视角：先给出单视角，如果全部回答正确则跳过后续视角；否则提供更多视角帮助您修正答案。</p>
+        <p>请选择本次测试的交互方式。</p>
         <ul>
-          <li><strong>第 1 轮</strong> — 单视角（1 张图）</li>
-          <li><strong>第 2 轮</strong> — 四视角（4 张图）仅重答错题</li>
-          <li><strong>第 3 轮</strong> — 五视角（5 张图）仅重答剩余错题</li>
+          <li><strong>递进式测试</strong>：先看单视角，只对错题追加更多视角，并即时批改。</li>
+          <li><strong>Adaptive Sort</strong>：固定一个 pivot 距离对，逐步比较 candidate 距离对，不显示标准答案。</li>
         </ul>
       </div>
 
@@ -32,6 +29,36 @@
           placeholder="请输入您的标识"
           autocomplete="off"
         />
+
+        <div class="mode-section">
+          <div class="form-label">测试方法</div>
+          <div class="mode-grid">
+            <label class="mode-card" data-mode-card="progressive">
+              <input type="radio" name="test-mode" value="progressive" checked />
+              <div class="mode-card-body">
+                <div class="mode-card-title-row">
+                  <span class="mode-card-title">递进式测试</span>
+                  <span class="mode-chip">默认</span>
+                </div>
+                <p class="mode-card-desc">单视角起步，只重答错题，提交后即时批改。</p>
+                <p class="mode-card-status" data-mode-status="progressive"></p>
+              </div>
+            </label>
+
+            <label class="mode-card" data-mode-card="adaptive_sort">
+              <input type="radio" name="test-mode" value="adaptive_sort" />
+              <div class="mode-card-body">
+                <div class="mode-card-title-row">
+                  <span class="mode-card-title">Adaptive Sort</span>
+                  <span class="mode-chip mode-chip-secondary">Quick Sort</span>
+                </div>
+                <p class="mode-card-desc">围绕 pivot 距离对做批量比较，逐步推进，不显示正确答案。</p>
+                <p class="mode-card-status" data-mode-status="adaptive_sort"></p>
+              </div>
+            </label>
+          </div>
+        </div>
+
         <button id="btn-start" class="btn btn-primary btn-lg" disabled>
           开始测试
         </button>
@@ -40,12 +67,11 @@
     </div>
   </div>
 
-  <!-- ==================== 答题页 ==================== -->
   <div id="view-quiz" class="view hidden">
-    <!-- 顶栏 -->
     <header class="topbar">
       <div class="topbar-left">
         <span class="topbar-brand">ORDINARY-BENCH</span>
+        <span id="topbar-mode" class="topbar-tag"></span>
         <span id="topbar-scene" class="topbar-tag"></span>
         <span id="topbar-round" class="topbar-tag tag-round"></span>
       </div>
@@ -55,37 +81,49 @@
       </div>
     </header>
 
-    <!-- 轮次提示横幅 -->
     <div id="round-banner" class="round-banner hidden">
       <span id="round-banner-text"></span>
     </div>
 
-    <!-- 主内容：图片 + 题目 -->
     <div class="quiz-layout">
-      <!-- 左：图片面板 -->
       <aside class="image-panel" id="image-panel">
         <div id="image-area" class="image-area"></div>
-        <!-- 物体图例 -->
         <div class="object-legend">
           <h3 class="legend-title">场景物体</h3>
           <div id="object-list" class="object-list"></div>
         </div>
       </aside>
 
-      <!-- 右：题目面板 -->
       <main class="question-panel">
-        <div class="question-header">
-          <span id="answer-count" class="answer-count"></span>
-          <button id="btn-submit-round" class="btn btn-primary" disabled>
-            提交本轮
-          </button>
-        </div>
-        <div id="question-list" class="question-list"></div>
+        <section id="progressive-workspace">
+          <div class="question-header">
+            <span id="answer-count" class="answer-count"></span>
+            <button id="btn-submit-round" class="btn btn-primary" disabled>
+              提交本轮
+            </button>
+          </div>
+          <div id="question-list" class="question-list"></div>
+        </section>
+
+        <section id="adaptive-workspace" class="hidden">
+          <div class="adaptive-toolbar">
+            <div class="adaptive-toolbar-copy">
+              <div id="adaptive-step-progress" class="adaptive-toolbar-title"></div>
+              <div id="adaptive-step-hint" class="adaptive-toolbar-subtitle"></div>
+            </div>
+            <div class="adaptive-toolbar-actions">
+              <span id="adaptive-answer-count" class="answer-count"></span>
+              <button id="btn-submit-step" class="btn btn-primary" disabled>
+                提交本 step
+              </button>
+            </div>
+          </div>
+          <div id="adaptive-workbench" class="adaptive-workbench"></div>
+        </section>
       </main>
     </div>
   </div>
 
-  <!-- ==================== 批改结果页 ==================== -->
   <div id="view-grading" class="view hidden">
     <div class="grading-card">
       <div id="grading-summary" class="grading-summary"></div>
@@ -104,12 +142,28 @@
     </div>
   </div>
 
-  <!-- ==================== 完成页 ==================== -->
+  <div id="view-stepdone" class="view hidden">
+    <div class="stepdone-card">
+      <div id="stepdone-summary" class="stepdone-summary"></div>
+      <div class="stepdone-actions">
+        <button id="btn-next-step" class="btn btn-primary btn-lg hidden">
+          进入下一步
+        </button>
+        <button id="btn-step-next-scene" class="btn btn-primary btn-lg hidden">
+          下一个场景
+        </button>
+        <button id="btn-step-finish" class="btn btn-primary btn-lg hidden">
+          测试完成
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div id="view-done" class="view hidden">
     <div class="done-card">
       <div class="done-icon">&#9733;</div>
       <h2>全部完成</h2>
-      <p class="done-subtitle">感谢您的参与！</p>
+      <p class="done-subtitle">感谢您的参与。</p>
       <div id="done-stats" class="done-stats"></div>
       <button id="btn-restart" class="btn btn-outline btn-lg">
         重新开始
@@ -117,12 +171,10 @@
     </div>
   </div>
 
-  <!-- 图片灯箱 -->
   <div id="lightbox" class="lightbox hidden" onclick="closeLightbox()">
     <img id="lightbox-img" src="" alt="" />
   </div>
 
-  <!-- Toast -->
   <div id="toast" class="toast"></div>
 
   <script src="/app.js"></script>

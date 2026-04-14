@@ -1,36 +1,32 @@
-"""渐进式人类基准测试的 HTTP 服务器（v2）。
-
-用法：
-    python server_v2.py [--host HOST] [--port PORT] [--questions-dir DIR] ...
-
-托管 frontend_v2/ 单页应用，并提供支持分轮评分反馈的逐场景渐进测试 API 端点。
-"""
+"""Human baseline v2 server with mode-aware session routing."""
 from __future__ import annotations
 
 import argparse
 import json
 import sys
-from functools import partial
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 from socketserver import ThreadingMixIn
 from typing import Any
 from urllib.parse import parse_qs, urlparse
 
+from session_adapters_v2 import AdaptiveSortSessionAdapter, ProgressiveModeAdapter
 from session_v2 import ProgressiveSessionManager
 
 FRONTEND_DIR = Path(__file__).resolve().parent / "frontend_v2"
-REPO_ROOT = Path(__file__).resolve().parent.parent
+THIS_DIR = Path(__file__).resolve().parent
+REPO_ROOT = THIS_DIR.parent
+EXAMPLE_ADAPTIVE_SORT_TASKS = THIS_DIR / "examples" / "adaptive_sort_tasks"
 
 
 class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
     daemon_threads = True
 
 
-class ProgressiveHandler(SimpleHTTPRequestHandler):
-    """渐进式人类基准服务器的请求处理器。"""
+class HumanBaselineV2Handler(SimpleHTTPRequestHandler):
+    """Request handler for human-baseline v2."""
 
-    session_mgr: ProgressiveSessionManager
+    adapters: dict[str, object]
     images_dir: Path
     multi_view_images_dir: Path
     tasks_dir: Path
@@ -39,32 +35,30 @@ class ProgressiveHandler(SimpleHTTPRequestHandler):
         sys.stderr.write(f"[server] {fmt % args}\n")
 
     # ------------------------------------------------------------------
-    # 路由
+    # Routing
     # ------------------------------------------------------------------
 
     def do_GET(self):
         parsed = urlparse(self.path)
         path = parsed.path.rstrip("/")
 
-        # API 端点。
+        if path == "/api/v2/capabilities":
+            return self._handle_capabilities()
         if path == "/api/v2/scene/current":
             return self._handle_get_current_round(parsed)
         if path == "/api/v2/progress":
             return self._handle_get_progress(parsed)
 
-        # 图像服务。
         if path.startswith("/data-images/"):
             return self._serve_data_image(path)
         if path.startswith("/tasks/images/"):
             return self._serve_task_image(path)
 
-        # 前端静态文件。
         self._serve_frontend(path)
 
     def do_POST(self):
         parsed = urlparse(self.path)
         path = parsed.path.rstrip("/")
-
         body = self._read_body()
 
         if path == "/api/v2/session/start":
@@ -77,20 +71,35 @@ class ProgressiveHandler(SimpleHTTPRequestHandler):
         self._send_json({"error": "Not found"}, 404)
 
     # ------------------------------------------------------------------
-    # API 处理器
+    # API
     # ------------------------------------------------------------------
+
+    def _handle_capabilities(self):
+        modes = {
+            mode_id: adapter.describe()
+            for mode_id, adapter in self.adapters.items()
+        }
+        self._send_json({
+            "default_mode": "progressive",
+            "modes": modes,
+        })
 
     def _handle_start_session(self, body: dict):
         annotator_id = body.get("annotator_id", "").strip()
+        test_mode = self._read_test_mode_from_body(body)
         if not annotator_id:
             return self._send_json({"error": "annotator_id is required"}, 400)
 
-        summary = self.session_mgr.get_progress_summary(annotator_id)
+        adapter = self._resolve_adapter(test_mode)
+        if adapter is None:
+            return self._send_json({"error": f"Unknown test mode: {test_mode}"}, 400)
+        if not adapter.is_configured():
+            return self._send_json({"error": f"Test mode not configured: {test_mode}"}, 400)
 
-        # 检查是否有正在进行的场景。
-        current = self.session_mgr.get_current_round(annotator_id)
-
+        summary = adapter.get_progress_summary(annotator_id)
+        current = adapter.get_current_round(annotator_id)
         self._send_json({
+            "test_mode": test_mode,
             "progress": summary,
             "has_current_scene": current is not None,
         })
@@ -98,84 +107,104 @@ class ProgressiveHandler(SimpleHTTPRequestHandler):
     def _handle_get_current_round(self, parsed):
         qs = parse_qs(parsed.query)
         annotator_id = (qs.get("annotator_id") or [""])[0].strip()
+        test_mode = self._read_test_mode_from_query(parsed)
         if not annotator_id:
             return self._send_json({"error": "annotator_id is required"}, 400)
 
-        data = self.session_mgr.get_current_round(annotator_id)
+        adapter = self._resolve_adapter(test_mode)
+        if adapter is None:
+            return self._send_json({"error": f"Unknown test mode: {test_mode}"}, 400)
+        if not adapter.is_configured():
+            return self._send_json({"error": f"Test mode not configured: {test_mode}"}, 400)
+
+        data = adapter.get_current_round(annotator_id)
         if data is None:
-            # 无正在进行的场景，前端应请求分配新场景。
-            return self._send_json({"needs_allocation": True})
+            return self._send_json({"needs_allocation": True, "test_mode": test_mode})
 
         self._send_json(data)
 
     def _handle_allocate_scene(self, body: dict):
         annotator_id = body.get("annotator_id", "").strip()
+        test_mode = self._read_test_mode_from_body(body)
         if not annotator_id:
             return self._send_json({"error": "annotator_id is required"}, 400)
 
-        data = self.session_mgr.allocate_scene(annotator_id)
+        adapter = self._resolve_adapter(test_mode)
+        if adapter is None:
+            return self._send_json({"error": f"Unknown test mode: {test_mode}"}, 400)
+        if not adapter.is_configured():
+            return self._send_json({"error": f"Test mode not configured: {test_mode}"}, 400)
+
+        data = adapter.allocate_scene(annotator_id)
         if data is None:
-            return self._send_json({"done": True})
+            return self._send_json({"done": True, "test_mode": test_mode})
 
         self._send_json(data)
 
     def _handle_submit_round(self, body: dict):
         annotator_id = body.get("annotator_id", "").strip()
+        test_mode = self._read_test_mode_from_body(body)
         if not annotator_id:
             return self._send_json({"error": "annotator_id is required"}, 400)
 
+        adapter = self._resolve_adapter(test_mode)
+        if adapter is None:
+            return self._send_json({"error": f"Unknown test mode: {test_mode}"}, 400)
+        if not adapter.is_configured():
+            return self._send_json({"error": f"Test mode not configured: {test_mode}"}, 400)
+
         try:
-            result = self.session_mgr.submit_round(annotator_id, body)
-            self._send_json(result)
-        except ValueError as e:
-            self._send_json({"error": str(e)}, 400)
+            result = adapter.submit_round(annotator_id, body)
+        except ValueError as exc:
+            return self._send_json({"error": str(exc)}, 400)
+
+        self._send_json(result)
 
     def _handle_get_progress(self, parsed):
         qs = parse_qs(parsed.query)
         annotator_id = (qs.get("annotator_id") or [""])[0].strip()
+        test_mode = self._read_test_mode_from_query(parsed)
         if not annotator_id:
             return self._send_json({"error": "annotator_id is required"}, 400)
 
-        summary = self.session_mgr.get_progress_summary(annotator_id)
+        adapter = self._resolve_adapter(test_mode)
+        if adapter is None:
+            return self._send_json({"error": f"Unknown test mode: {test_mode}"}, 400)
+        if not adapter.is_configured():
+            return self._send_json({"error": f"Test mode not configured: {test_mode}"}, 400)
+
+        summary = adapter.get_progress_summary(annotator_id)
         self._send_json(summary)
 
     # ------------------------------------------------------------------
-    # 图像服务
+    # Images / static files
     # ------------------------------------------------------------------
 
     def _serve_data_image(self, path: str):
-        # /data-images/images/single_view/xxx.png -> images_dir/../single_view/xxx.png
         rel = path[len("/data-images/"):]
-        # 图像存储在 data-gen 输出根目录下。
-        # 路径形如：images/single_view/xxx.png 或 images/multi_view/xxx/view_0.png
-        img_root = self.images_dir.parent  # single_view 目录的父目录
+        img_root = self.images_dir.parent
         if rel.startswith("images/"):
             rel = rel[len("images/"):]
-        file_path = img_root / rel
-        self._serve_file(file_path)
+        self._serve_file(img_root / rel)
 
     def _serve_task_image(self, path: str):
-        # /tasks/images/xxx/yyy.png -> tasks_dir/images/xxx/yyy.png（任务图像）
         rel = path[len("/tasks/"):]
-        file_path = self.tasks_dir / rel
-        self._serve_file(file_path)
+        self._serve_file(self.tasks_dir / rel)
 
     def _serve_file(self, file_path: Path):
         if not file_path.is_file():
             self._send_json({"error": "File not found"}, 404)
             return
 
-        content_type = "application/octet-stream"
         suffix = file_path.suffix.lower()
-        type_map = {
+        content_type = {
             ".png": "image/png",
             ".jpg": "image/jpeg",
             ".jpeg": "image/jpeg",
             ".gif": "image/gif",
             ".svg": "image/svg+xml",
             ".json": "application/json",
-        }
-        content_type = type_map.get(suffix, content_type)
+        }.get(suffix, "application/octet-stream")
 
         data = file_path.read_bytes()
         self.send_response(200)
@@ -185,10 +214,6 @@ class ProgressiveHandler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(data)
 
-    # ------------------------------------------------------------------
-    # 前端静态文件服务
-    # ------------------------------------------------------------------
-
     def _serve_frontend(self, path: str):
         file_map = {
             "": "index.html",
@@ -196,7 +221,6 @@ class ProgressiveHandler(SimpleHTTPRequestHandler):
             "/app.js": "app.js",
             "/styles.css": "styles.css",
         }
-
         filename = file_map.get(path)
         if filename is None:
             self._send_json({"error": "Not found"}, 404)
@@ -207,13 +231,11 @@ class ProgressiveHandler(SimpleHTTPRequestHandler):
             self._send_json({"error": f"Frontend file not found: {filename}"}, 404)
             return
 
-        content_type_map = {
+        content_type = {
             ".html": "text/html; charset=utf-8",
             ".js": "application/javascript; charset=utf-8",
             ".css": "text/css; charset=utf-8",
-        }
-        suffix = file_path.suffix.lower()
-        content_type = content_type_map.get(suffix, "application/octet-stream")
+        }.get(file_path.suffix.lower(), "application/octet-stream")
 
         data = file_path.read_bytes()
         self.send_response(200)
@@ -223,7 +245,7 @@ class ProgressiveHandler(SimpleHTTPRequestHandler):
         self.wfile.write(data)
 
     # ------------------------------------------------------------------
-    # 辅助函数
+    # Helpers
     # ------------------------------------------------------------------
 
     def _read_body(self) -> dict:
@@ -244,43 +266,58 @@ class ProgressiveHandler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def _read_test_mode_from_body(self, body: dict) -> str:
+        return str(body.get("test_mode") or "progressive").strip() or "progressive"
+
+    def _read_test_mode_from_query(self, parsed) -> str:
+        qs = parse_qs(parsed.query)
+        return str((qs.get("test_mode") or ["progressive"])[0]).strip() or "progressive"
+
+    def _resolve_adapter(self, test_mode: str):
+        return self.adapters.get(test_mode)
+
 
 def build_arg_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(description="Progressive human baseline server (v2)")
-    p.add_argument("--host", default="127.0.0.1")
-    p.add_argument("--port", type=int, default=8124)
-    p.add_argument(
+    parser = argparse.ArgumentParser(description="Human baseline v2 server")
+    parser.add_argument("--host", default="127.0.0.1")
+    parser.add_argument("--port", type=int, default=8124)
+    parser.add_argument(
         "--questions-dir",
         default=str(REPO_ROOT / "VLM-test" / "output" / "questions"),
     )
-    p.add_argument(
+    parser.add_argument(
         "--scenes-dir",
         default=str(REPO_ROOT / "data-gen" / "output" / "scenes"),
     )
-    p.add_argument(
+    parser.add_argument(
         "--images-dir",
         default=str(REPO_ROOT / "data-gen" / "output" / "images" / "single_view"),
     )
-    p.add_argument(
+    parser.add_argument(
         "--multi-view-images-dir",
         default=str(REPO_ROOT / "data-gen" / "output" / "images" / "multi_view"),
     )
-    p.add_argument(
+    parser.add_argument(
         "--tasks-dir",
-        default=str(Path(__file__).resolve().parent / "output" / "tasks"),
+        default=str(THIS_DIR / "output" / "tasks"),
     )
-    p.add_argument(
+    parser.add_argument(
         "--responses-dir",
-        default=str(Path(__file__).resolve().parent / "output" / "responses"),
+        default=str(THIS_DIR / "output" / "responses"),
     )
-    p.add_argument("--test-scenes-file", default=None)
-    return p
+    parser.add_argument("--test-scenes-file", default=None)
+    parser.add_argument(
+        "--adaptive-sort-tasks-dir",
+        default=str(EXAMPLE_ADAPTIVE_SORT_TASKS),
+        help="Directory containing manifest.json and per-scene adaptive-sort tasks.",
+    )
+    return parser
 
 
 def main():
     args = build_arg_parser().parse_args()
 
-    mgr = ProgressiveSessionManager(
+    progressive_mgr = ProgressiveSessionManager(
         questions_dir=args.questions_dir,
         scenes_dir=args.scenes_dir,
         images_dir=args.images_dir,
@@ -289,19 +326,32 @@ def main():
         responses_dir=args.responses_dir,
         test_scenes_file=args.test_scenes_file,
     )
+    adapters = {
+        "progressive": ProgressiveModeAdapter(progressive_mgr),
+        "adaptive_sort": AdaptiveSortSessionAdapter(
+            tasks_dir=args.adaptive_sort_tasks_dir,
+            responses_dir=args.responses_dir,
+        ),
+    }
 
-    ProgressiveHandler.session_mgr = mgr
-    ProgressiveHandler.images_dir = Path(args.images_dir)
-    ProgressiveHandler.multi_view_images_dir = Path(args.multi_view_images_dir)
-    ProgressiveHandler.tasks_dir = Path(args.tasks_dir)
+    HumanBaselineV2Handler.adapters = adapters
+    HumanBaselineV2Handler.images_dir = Path(args.images_dir)
+    HumanBaselineV2Handler.multi_view_images_dir = Path(args.multi_view_images_dir)
+    HumanBaselineV2Handler.tasks_dir = Path(args.tasks_dir)
 
-    server = ThreadingHTTPServer((args.host, args.port), ProgressiveHandler)
-    print(f"Progressive Human Baseline Server v2")
+    server = ThreadingHTTPServer((args.host, args.port), HumanBaselineV2Handler)
+    print("Human Baseline Server v2")
     print(f"  http://{args.host}:{args.port}")
     print(f"  Questions: {args.questions_dir}")
     print(f"  Scenes:    {args.scenes_dir}")
     print(f"  Images:    {args.images_dir}")
     print(f"  Responses: {args.responses_dir}")
+    print(f"  Adaptive Sort Tasks: {args.adaptive_sort_tasks_dir}")
+    print("  Modes:")
+    for mode_id, adapter in adapters.items():
+        desc = adapter.describe()
+        configured = "configured" if desc.get("configured") else "unconfigured"
+        print(f"    - {mode_id}: {configured}")
 
     try:
         server.serve_forever()

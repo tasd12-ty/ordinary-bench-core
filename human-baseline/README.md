@@ -2,6 +2,21 @@
 
 `human-baseline/` 独立于 `VLM-test/`，用于生成人类标注任务并把标注结果转换成与当前 VLM 结果兼容的目录结构。
 
+## v2 交互模式
+
+`server_v2.py` 现在支持两种模式：
+
+- `progressive`：递进式逐题测试
+- `adaptive_sort`：类似 quicksort 的 pivot/candidate 比较工作台
+
+本地最小可跑的 adaptive-sort 示例见：
+
+- `human-baseline/examples/adaptive_sort_tasks/`
+
+详细接入说明见：
+
+- `human-baseline/docs/adaptive_sort_mode.md`
+
 ## 设计约束
 
 - 不考虑并发，脚本按顺序处理场景。

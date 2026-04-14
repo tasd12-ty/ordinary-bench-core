@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "scene_id": "synthetic_adsort_0001",
+  "title": "Approx-enabled demo",
+  "allow_approx": true,
+  "objects": [
+    { "id": "obj_0", "label": "obj_0", "desc": "红色球体" },
+    { "id": "obj_1", "label": "obj_1", "desc": "蓝色圆柱" },
+    { "id": "obj_2", "label": "obj_2", "desc": "绿色立方体" },
+    { "id": "obj_3", "label": "obj_3", "desc": "黄色球体" }
+  ],
+  "images": {
+    "single_view": null,
+    "multi_view": []
+  },
+  "steps": [
+    {
+      "step_id": "step_001",
+      "level": 0,
+      "pivot": ["obj_0", "obj_1"],
+      "candidates": [
+        { "qid": "cmp_001", "pair": ["obj_0", "obj_2"], "gt_answer": "<" },
+        { "qid": "cmp_002", "pair": ["obj_2", "obj_3"], "gt_answer": "~=" },
+        { "qid": "cmp_003", "pair": ["obj_1", "obj_3"], "gt_answer": ">" }
+      ]
+    },
+    {
+      "step_id": "step_002",
+      "level": 1,
+      "pivot": ["obj_0", "obj_3"],
+      "candidates": [
+        { "qid": "cmp_004", "pair": ["obj_1", "obj_2"], "gt_answer": "<" },
+        { "qid": "cmp_005", "pair": ["obj_0", "obj_2"], "gt_answer": "~=" }
+      ]
+    }
+  ]
+}
