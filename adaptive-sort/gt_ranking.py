@@ -30,8 +30,14 @@ def pair_key(pair: DistPair) -> str:
 def compute_gt_global_ranking(
     objects: dict,
     tau: float = 0.10,
+    allow_approx: bool = True,
 ) -> Tuple[List[DistPair], List[List[DistPair]]]:
     """计算所有 C(N,2) 距离对的 GT 排序，从短到长。
+
+    Args:
+        objects: {obj_id: obj_dict} 物体字典。
+        tau: 容差参数。
+        allow_approx: 是否允许 ~= 平局组。False 时每个距离对独立一组。
 
     Returns:
         (ranking, tie_groups)
@@ -56,15 +62,19 @@ def compute_gt_global_ranking(
     # 基于 tau 容差构建平局组
     tie_groups: list[list[DistPair]] = []
     if ranking:
-        current_group = [ranking[0]]
-        for i in range(1, len(ranking)):
-            cmp = compare(distances[i - 1], distances[i], tau)
-            if cmp == Comparator.APPROX:
-                current_group.append(ranking[i])
-            else:
-                tie_groups.append(current_group)
-                current_group = [ranking[i]]
-        tie_groups.append(current_group)
+        if allow_approx:
+            current_group = [ranking[0]]
+            for i in range(1, len(ranking)):
+                cmp = compare(distances[i - 1], distances[i], tau)
+                if cmp == Comparator.APPROX:
+                    current_group.append(ranking[i])
+                else:
+                    tie_groups.append(current_group)
+                    current_group = [ranking[i]]
+            tie_groups.append(current_group)
+        else:
+            # 不允许 ~=：每个距离对独立一组
+            tie_groups = [[p] for p in ranking]
 
     return ranking, tie_groups
 
@@ -74,9 +84,16 @@ def gt_comparator_for_dist_pairs(
     candidate: DistPair,
     pivot: DistPair,
     tau: float = 0.10,
+    allow_approx: bool = True,
 ) -> str:
-    """GT 比较器：d(candidate) vs d(pivot) → "<" / "~=" / ">"。"""
+    """GT 比较器：d(candidate) vs d(pivot) → "<" / "~=" / ">"。
+
+    当 allow_approx=False 时，~= 按实际距离差映射为 < 或 >。
+    """
     metric_func = METRIC_FUNCTIONS[MetricType.DIST_3D]
     d_cand = metric_func(objects[candidate[0]], objects[candidate[1]])
     d_pivot = metric_func(objects[pivot[0]], objects[pivot[1]])
-    return str(compare(d_cand, d_pivot, tau))
+    result = str(compare(d_cand, d_pivot, tau))
+    if not allow_approx and result == "~=":
+        result = "<" if d_cand <= d_pivot else ">"
+    return result

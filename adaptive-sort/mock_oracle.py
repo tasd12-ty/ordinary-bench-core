@@ -13,13 +13,17 @@ from gt_ranking import gt_comparator_for_dist_pairs, pair_key
 DistPair = Tuple[str, str]
 
 
-def make_mock_comparator(objects: dict, tau: float):
-    """创建返回 GT 答案的模拟比较器。"""
+def make_mock_comparator(objects: dict, tau: float, allow_approx: bool = True):
+    """创建返回 GT 答案的模拟比较器。
+
+    Args:
+        allow_approx: 是否允许返回 ~=。False 时 ~= 按实际距离差映射为 < 或 >。
+    """
     def comparator_fn(pivot: DistPair, candidates: list[DistPair]):
         results = {}
         for cand in candidates:
             results[pair_key(cand)] = gt_comparator_for_dist_pairs(
-                objects, cand, pivot, tau
+                objects, cand, pivot, tau, allow_approx=allow_approx,
             )
         return results, {"prompt_tokens": 0, "completion_tokens": 0}
     return comparator_fn

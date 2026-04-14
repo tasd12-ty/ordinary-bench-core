@@ -65,6 +65,7 @@ class ProviderSpec:
 class InputSpec:
     scenes_dir: str
     tau: float = 0.10
+    allow_approx: bool = True
 
 
 @dataclass(slots=True)
@@ -88,6 +89,7 @@ class SortingSpec:
     max_retries: int = 3
     retry_base_delay: float = 2.0
     max_concurrency: int = 4
+    max_scene_concurrency: int = 0  # 0 = auto (min(n_scenes, max_concurrency))
 
 
 @dataclass(slots=True)
@@ -144,6 +146,7 @@ class AdaptiveSortJobSpec:
         input_spec = InputSpec(
             scenes_dir=_resolve_path(base, str(input_raw.get("scenes_dir", ""))),
             tau=float(input_raw.get("tau", 0.10)),
+            allow_approx=bool(input_raw.get("allow_approx", True)),
         )
         image_spec = ImageSpec(
             mode=str(images_raw.get("mode", "single")),
@@ -161,6 +164,7 @@ class AdaptiveSortJobSpec:
             max_retries=int(sorting_raw.get("max_retries", 3)),
             retry_base_delay=float(sorting_raw.get("retry_base_delay", 2.0)),
             max_concurrency=int(sorting_raw.get("max_concurrency", 4)),
+            max_scene_concurrency=int(sorting_raw.get("max_scene_concurrency", 0)),
         )
         output = OutputSpec(
             results_dir=_resolve_path(base, str(output_raw.get("results_dir", ""))),
@@ -200,6 +204,7 @@ class AdaptiveSortJobSpec:
             "model": self.provider.model,
             "adapter": self.provider.adapter,
             "tau": self.input.tau,
+            "allow_approx": self.input.allow_approx,
             "pivot_strategy": self.sorting.pivot_strategy,
             "image_mode": self.images.mode,
         }

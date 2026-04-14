@@ -3,17 +3,25 @@
 
 使用 VLM 作为比较器对场景中所有 C(N,2) 距离对进行排序。
 第 0 层 pivot = GT 中位数；第 1 层及以上 pivot = 随机选取。
+
+支持三层并发：
+  - 场景间并发：多个场景同时处理
+  - 层内并发：同一场景快排同层的多个子数组划分并发执行
+  - 全局信号量：统一控制同时进行的 API 调用总数
+  - 大场景优先调度：物体多的场景先启动，最大化并发利用率
 """
 
 from __future__ import annotations
 
 import base64
+import json
 import logging
+import threading
 import time
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from itertools import combinations
 from pathlib import Path
-from typing import Tuple
+from typing import Optional, Tuple
 
 import sys
 _SELF_DIR = str(Path(__file__).resolve().parent)
@@ -27,7 +35,7 @@ for _p in (_VLM_TEST, _API_TEST):
 
 from sorting import quicksort_global, SortResult, pair_key, DistPair
 from gt_ranking import compute_gt_global_ranking, gt_comparator_for_dist_pairs
-from prompts import SYSTEM_PROMPT, format_partition_prompt
+from prompts import SYSTEM_PROMPT, get_system_prompt, format_partition_prompt
 from scoring import score_global
 from result_store import sort_result_to_dict, save_scene_result, save_summary
 from job_spec import AdaptiveSortJobSpec
@@ -71,15 +79,23 @@ def _make_comparator_fn(
     image_inputs: list[dict],
     max_retries: int = 3,
     retry_base_delay: float = 2.0,
+    allow_approx: bool = True,
 ):
-    """创建比较器：(pivot_pair, candidate_pairs) -> (results, usage)。"""
+    """创建比较器：(pivot_pair, candidate_pairs) -> (results, usage)。
+
+    Args:
+        allow_approx: 是否允许 VLM 回答 ~=。False 时提示词只给 < / >，
+            且 VLM 返回的 ~= 会被强制映射为 >（保守策略）。
+    """
     _openai_client = getattr(adapter, "client", None)
     _model = getattr(adapter.spec, "model", "")
     _options = getattr(adapter.spec, "options", {})
+    _system_prompt = get_system_prompt(allow_approx)
+    _valid_answers = ("<", "~=", ">") if allow_approx else ("<", ">")
 
     def comparator_fn(pivot: DistPair, candidates: list[DistPair]):
         user_prompt, expected_qids = format_partition_prompt(
-            objects, pivot, candidates,
+            objects, pivot, candidates, allow_approx=allow_approx,
         )
         usage_info = {"prompt_tokens": 0, "completion_tokens": 0}
 
@@ -89,11 +105,11 @@ def _make_comparator_fn(
                 if _openai_client is not None:
                     raw_response, usage_info = _call_openai_with_usage(
                         _openai_client, _model, _options,
-                        SYSTEM_PROMPT, user_prompt, image_inputs,
+                        _system_prompt, user_prompt, image_inputs,
                     )
                 else:
                     request = adapter.prepare_request(
-                        system_prompt=SYSTEM_PROMPT,
+                        system_prompt=_system_prompt,
                         user_prompt=user_prompt,
                         image_inputs=image_inputs,
                     )
@@ -113,6 +129,7 @@ def _make_comparator_fn(
 
                 # 按 pair_key 构建结果
                 result = {}
+                has_invalid_approx = False
                 for idx, cand in enumerate(candidates, 1):
                     qid = f"cmp_{idx:03d}"
                     ans = predictions.get(qid)
@@ -121,9 +138,32 @@ def _make_comparator_fn(
                     ans = ans.strip()
                     if ans in ("~", "≈", "=", "eq", "approx"):
                         ans = "~="
-                    if ans not in ("<", "~=", ">"):
-                        raise ValueError(f"Invalid answer '{ans}' for {qid}")
+                    # 当不允许 ~= 时，视为无效输出，需要重试
+                    if not allow_approx and ans == "~=":
+                        has_invalid_approx = True
+                    if ans not in _valid_answers:
+                        has_invalid_approx = True
                     result[pair_key(cand)] = ans
+
+                # 存在无效的 ~= 回答时触发重试
+                if has_invalid_approx and attempt < max_retries:
+                    invalid_count = sum(1 for v in result.values() if v not in _valid_answers)
+                    logger.warning(
+                        "Attempt %d: %d/%d answers are '~=' but allow_approx=False, retrying...",
+                        attempt + 1, invalid_count, len(candidates),
+                    )
+                    time.sleep(retry_base_delay * (2 ** attempt))
+                    continue
+
+                # 最后一次重试仍有无效回答，报错
+                for idx, cand in enumerate(candidates, 1):
+                    qid = f"cmp_{idx:03d}"
+                    ans = result[pair_key(cand)]
+                    if ans not in _valid_answers:
+                        raise ValueError(
+                            f"Invalid answer '{ans}' for {qid} after {max_retries + 1} attempts "
+                            f"(allow_approx=False, '~=' is not accepted)"
+                        )
                 return result, usage_info
 
             except Exception as e:
@@ -141,8 +181,54 @@ def _make_comparator_fn(
     return comparator_fn
 
 
+def _strip_thinking_tags(text: str) -> str:
+    """剥离 Qwen3 思考模式的  标签，保留实际输出内容。"""
+    import re
+    return re.sub(r"", "", text, flags=re.DOTALL).strip()
+
+
+
+
+def _extract_response_text(resp) -> str:
+    """从 API 响应中提取实际内容文本。
+
+    处理 vLLM + Qwen3 的 reasoning 分离：
+      - message.content: 实际回答
+      - message.reasoning: 思考过程（vLLM --reasoning-parser qwen3）
+
+    如果 content 为空但 reasoning 不为空，说明 max_tokens 不够，
+    模型把所有 token 都用在了思考上。此时尝试从 reasoning 中提取 JSON。
+    """
+    import re as _re
+    msg = resp.choices[0].message
+    text = msg.content or ""
+
+    # 剥离可能混在 content 中的 <think> 标签
+    if text:
+        text = _strip_thinking_tags(text)
+
+    # content 为空时，尝试从 reasoning 字段中提取 JSON
+    if not text:
+        reasoning = getattr(msg, "reasoning", None) or ""
+        if reasoning:
+            logger.warning(
+                "Content empty but reasoning present (%d chars, finish=%s). "
+                "Likely max_tokens too small for thinking mode.",
+                len(reasoning), resp.choices[0].finish_reason,
+            )
+            json_match = _re.search(r'\[.*\]', reasoning, _re.DOTALL)
+            if json_match:
+                text = json_match.group(0)
+                logger.info("Extracted JSON (%d chars) from reasoning field", len(text))
+
+    return text
+
+
 def _call_openai_with_usage(client, model, options, system_prompt, user_prompt, image_inputs):
-    """直接调用 OpenAI 兼容 API，返回 (text, usage)。"""
+    """直接调用 OpenAI 兼容 API，返回 (text, usage)。
+
+    extra_body 从 options 中透传（如 chat_template_kwargs.enable_thinking）。
+    """
     content = []
     for img in (image_inputs or []):
         if img["kind"] == "file":
@@ -168,22 +254,18 @@ def _call_openai_with_usage(client, model, options, system_prompt, user_prompt, 
 
     temp = float(options.get("temperature", 0.0))
     max_tok = max(int(options.get("max_tokens", 1024)), 4096)
+    req_timeout = int(options.get("timeout", 120))
+    extra_body = options.get("extra_body")
+
     kwargs = dict(
         model=model, messages=messages,
-        temperature=temp, max_tokens=max_tok, timeout=120,
-        extra_body={"reasoning": {"effort": "none"}},
+        temperature=temp, max_tokens=max_tok, timeout=req_timeout,
     )
+    if extra_body:
+        kwargs["extra_body"] = extra_body
 
     resp = client.chat.completions.create(**kwargs)
-    text = resp.choices[0].message.content or ""
-
-    # 内容为空时的回退处理（思考模型消耗了所有 token）
-    if not text:
-        logger.warning("Empty content, retrying without reasoning constraint")
-        kwargs["extra_body"] = {}
-        kwargs["max_tokens"] = max(max_tok, 8192)
-        resp = client.chat.completions.create(**kwargs)
-        text = resp.choices[0].message.content or ""
+    text = _extract_response_text(resp)
 
     usage = {"prompt_tokens": 0, "completion_tokens": 0}
     if resp.usage:
@@ -192,7 +274,7 @@ def _call_openai_with_usage(client, model, options, system_prompt, user_prompt, 
 
     return text, usage
 
-
+# ── 场景处理 ──────────────────────────────────────────────────
 # ── 场景处理 ──────────────────────────────────────────────────
 
 def process_scene(
@@ -200,8 +282,21 @@ def process_scene(
     scene_path: Path,
     adapter: ProviderAdapter,
     job: AdaptiveSortJobSpec,
+    global_executor: Optional[ThreadPoolExecutor] = None,
+    global_semaphore: Optional[threading.Semaphore] = None,
 ) -> dict:
-    """处理单个场景：对所有 C(N,2) 距离对进行全局快速排序。"""
+    """处理单个场景：对所有 C(N,2) 距离对进行全局快速排序。
+
+    Args:
+        scene_id: 场景标识符。
+        scene_path: 场景 JSON 文件路径。
+        adapter: VLM provider 适配器。
+        job: 评测任务配置。
+        global_executor: 全局共享线程池。传入时复用该线程池进行
+            层内并发划分；为 None 时创建场景独占线程池（向后兼容）。
+        global_semaphore: 全局信号量。传入时用于限制跨场景的
+            同时 API 调用总数。
+    """
     t0 = time.time()
     scene = load_scene(str(scene_path))
     objects = parse_objects(scene)
@@ -215,7 +310,10 @@ def process_scene(
     all_pairs: list[DistPair] = list(combinations(obj_ids, 2))
 
     # GT 全局排序（用于第 0 层 pivot 选择）
-    gt_ranking, gt_tie_groups = compute_gt_global_ranking(objects, job.input.tau)
+    allow_approx = job.input.allow_approx
+    gt_ranking, gt_tie_groups = compute_gt_global_ranking(
+        objects, job.input.tau, allow_approx=allow_approx,
+    )
 
     # 解析图像
     image_inputs = resolve_scene_images(scene_id, job.images)
@@ -223,17 +321,24 @@ def process_scene(
     # 创建比较器
     is_mock = job.provider.adapter == "mock_oracle"
     if is_mock:
-        comparator_fn = make_mock_comparator(objects, job.input.tau)
+        comparator_fn = make_mock_comparator(objects, job.input.tau, allow_approx=allow_approx)
     else:
         comparator_fn = _make_comparator_fn(
             adapter, objects, image_inputs,
             max_retries=job.sorting.max_retries,
             retry_base_delay=job.sorting.retry_base_delay,
+            allow_approx=allow_approx,
         )
 
-    # 全局快速排序
-    with ThreadPoolExecutor(max_workers=max(job.sorting.max_concurrency, 2)) as executor:
-        sr = quicksort_global(all_pairs, comparator_fn, gt_ranking, executor)
+    # 全局快速排序 — 优先使用全局共享线程池
+    if global_executor is not None:
+        sr = quicksort_global(
+            all_pairs, comparator_fn, gt_ranking,
+            executor=global_executor, semaphore=global_semaphore,
+        )
+    else:
+        with ThreadPoolExecutor(max_workers=max(job.sorting.max_concurrency, 2)) as local_executor:
+            sr = quicksort_global(all_pairs, comparator_fn, gt_ranking, executor=local_executor)
 
     # 评分
     scores = score_global(
@@ -265,53 +370,133 @@ def process_scene(
     return scores
 
 
+# ── 场景排序辅助 ──────────────────────────────────────────────
+
+def _count_objects_fast(scene_path: Path) -> int:
+    """快速读取场景 JSON 中的物体数量（仅解析 objects 字段长度）。"""
+    try:
+        with open(scene_path) as fh:
+            scene = json.load(fh)
+        return len(scene.get("objects", []))
+    except Exception:
+        return 0
+
 # ── 主入口 ────────────────────────────────────────────────────
 
 def run_evaluation(job: AdaptiveSortJobSpec, adapter: ProviderAdapter):
-    """对所有场景运行全局距离对快速排序评测。"""
+    """对所有场景运行全局距离对快速排序评测。
+
+    并发策略：
+      1. 场景按物体数量降序排列（大场景优先启动，保持高并发利用率）
+      2. 全局 ThreadPoolExecutor 供所有场景共享
+      3. 全局 Semaphore 限制同时进行的 API 调用总数 = max_concurrency
+      4. 场景间通过 scene_executor 并发处理
+      5. 每个场景内部的快排层间串行、层内并发（复用全局线程池）
+    """
     scenes = discover_scenes(job.input.scenes_dir, job.selection)
     if not scenes:
         logger.warning("No scenes found in %s", job.input.scenes_dir)
         return
 
-    logger.info("Found %d scenes to evaluate", len(scenes))
+    # ── 大场景优先排序 ──
+    scenes_with_size = [
+        (_count_objects_fast(path), sid, path)
+        for sid, path in scenes
+    ]
+    scenes_with_size.sort(key=lambda x: x[0], reverse=True)
 
-    scene_scores = []
-    for scene_id, scene_path in scenes:
+    logger.info(
+        "Found %d scenes to evaluate (sorted by n_objects desc: %s..%s)",
+        len(scenes_with_size),
+        scenes_with_size[0][0] if scenes_with_size else "?",
+        scenes_with_size[-1][0] if scenes_with_size else "?",
+    )
+
+    max_concurrency = max(job.sorting.max_concurrency, 1)
+
+    # 场景间并发数：0 = 自动（不限制，由信号量控制实际并发）
+    max_scene_conc = job.sorting.max_scene_concurrency
+    if max_scene_conc <= 0:
+        max_scene_conc = min(len(scenes_with_size), max_concurrency)
+
+    # 全局线程池的 worker 数 = max_concurrency + 场景并发数
+    # 场景并发线程负责驱动各场景的 BFS 循环（大部分时间在等待
+    # 层内任务完成），层内任务线程负责实际 API 调用。
+    # 信号量确保同时进行的 API 调用不超过 max_concurrency。
+    global_pool_size = max_concurrency + max_scene_conc
+    global_semaphore = threading.Semaphore(max_concurrency)
+
+    logger.info(
+        "Concurrency config: max_api_concurrency=%d, max_scene_concurrency=%d, "
+        "global_pool_size=%d",
+        max_concurrency, max_scene_conc, global_pool_size,
+    )
+
+    scene_scores: list[dict] = []
+    scene_scores_lock = threading.Lock()
+
+    with ThreadPoolExecutor(max_workers=global_pool_size) as global_executor:
+
+        # 场景调度器：用独立线程池驱动场景间并发
+        # 每个场景的 process_scene 内部复用 global_executor 做层内并发
+        scene_futures = {}
+        scene_executor = ThreadPoolExecutor(max_workers=max_scene_conc)
+
         try:
-            scores = process_scene(scene_id, scene_path, adapter, job)
-            scene_scores.append(scores)
-        except Exception as e:
-            logger.error("Scene %s failed: %s", scene_id, e, exc_info=True)
+            for n_objects, scene_id, scene_path in scenes_with_size:
+                fut = scene_executor.submit(
+                    process_scene,
+                    scene_id, scene_path, adapter, job,
+                    global_executor, global_semaphore,
+                )
+                scene_futures[fut] = scene_id
+
+            for fut in as_completed(scene_futures):
+                scene_id = scene_futures[fut]
+                try:
+                    scores = fut.result()
+                    with scene_scores_lock:
+                        scene_scores.append(scores)
+                except Exception as exc:
+                    logger.error("Scene %s failed: %s", scene_id, exc, exc_info=True)
+        finally:
+            scene_executor.shutdown(wait=True)
 
     # 保存汇总
     output_dir = Path(job.output.results_dir) / job.run_name
     save_summary(output_dir, job.provider.model, scene_scores)
 
     # 打印
-    if scene_scores:
-        n = len(scene_scores)
-        mean_kt = sum(s.get("kendall_tau", 0) for s in scene_scores) / n
-        mean_pw = sum(s.get("pairwise_accuracy", 0) for s in scene_scores) / n
-        total_cmp = sum(s.get("total_comparisons", 0) for s in scene_scores)
-        total_exh = sum(s.get("exhaustive_comparisons", 0) for s in scene_scores)
-        total_api = sum(s.get("total_api_calls", 0) for s in scene_scores)
-        total_ptok = sum(s.get("prompt_tokens", 0) for s in scene_scores)
-        total_ctok = sum(s.get("completion_tokens", 0) for s in scene_scores)
-        savings = (1 - total_cmp / total_exh) * 100 if total_exh > 0 else 0
+    _print_summary(job, scene_scores, output_dir)
 
-        print(f"\n{'='*60}")
-        print(f"Global Distance-Pair Quicksort Complete")
-        print(f"{'='*60}")
-        print(f"Model:              {job.provider.model}")
-        print(f"Scenes:             {n}")
-        print(f"Mean Kendall tau:   {mean_kt:.4f}")
-        print(f"Mean pairwise acc:  {mean_pw:.4f}")
-        print(f"Total comparisons:  {total_cmp} (vs {total_exh} exhaustive QRR)")
-        print(f"Comparison savings: {savings:.1f}%")
-        print(f"Total API calls:    {total_api}")
-        print(f"Prompt tokens:      {total_ptok}")
-        print(f"Completion tokens:  {total_ctok}")
-        print(f"Total tokens:       {total_ptok + total_ctok}")
-        print(f"Results saved to:   {output_dir}")
-        print(f"{'='*60}\n")
+
+def _print_summary(job: AdaptiveSortJobSpec, scene_scores: list[dict], output_dir: Path):
+    """打印评测汇总信息。"""
+    if not scene_scores:
+        return
+
+    n = len(scene_scores)
+    mean_kt = sum(s.get("kendall_tau", 0) for s in scene_scores) / n
+    mean_pw = sum(s.get("pairwise_accuracy", 0) for s in scene_scores) / n
+    total_cmp = sum(s.get("total_comparisons", 0) for s in scene_scores)
+    total_exh = sum(s.get("exhaustive_comparisons", 0) for s in scene_scores)
+    total_api = sum(s.get("total_api_calls", 0) for s in scene_scores)
+    total_ptok = sum(s.get("prompt_tokens", 0) for s in scene_scores)
+    total_ctok = sum(s.get("completion_tokens", 0) for s in scene_scores)
+    savings = (1 - total_cmp / total_exh) * 100 if total_exh > 0 else 0
+
+    print(f"\n{'='*60}")
+    print(f"Global Distance-Pair Quicksort Complete")
+    print(f"{'='*60}")
+    print(f"Model:              {job.provider.model}")
+    print(f"Scenes:             {n}")
+    print(f"Mean Kendall tau:   {mean_kt:.4f}")
+    print(f"Mean pairwise acc:  {mean_pw:.4f}")
+    print(f"Total comparisons:  {total_cmp} (vs {total_exh} exhaustive QRR)")
+    print(f"Comparison savings: {savings:.1f}%")
+    print(f"Total API calls:    {total_api}")
+    print(f"Prompt tokens:      {total_ptok}")
+    print(f"Completion tokens:  {total_ctok}")
+    print(f"Total tokens:       {total_ptok + total_ctok}")
+    print(f"Results saved to:   {output_dir}")
+    print(f"{'='*60}\n")

@@ -4,13 +4,17 @@
 使用 VLM 作为比较器 oracle 对所有 C(N,2) 距离对进行排序。
 第 0 层 pivot 由 GT 引导（中位数）；第 1 层及以上 pivot 随机选取。
 每个划分步骤 = 一次 API 调用。同层划分任务并发执行。
+
+支持全局信号量控制并发：当多个场景共享同一个 executor 和 semaphore 时，
+信号量自动限制全局同时进行的 API 调用总数。
 """
 
 from __future__ import annotations
 
 import random
+import threading
 from dataclasses import dataclass, field
-from typing import Callable, Dict, List, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 DistPair = Tuple[str, str]  # (obj_i, obj_j)，保证 i < j
 
@@ -90,6 +94,7 @@ def quicksort_global(
     comparator_fn: ComparatorFn,
     gt_ranking: list[DistPair] | None = None,
     executor=None,
+    semaphore: Optional[threading.Semaphore] = None,
 ) -> SortResult:
     """使用三路快速排序和并发划分对所有距离对进行排序。
 
@@ -98,6 +103,9 @@ def quicksort_global(
         comparator_fn: (pivot, candidates) -> (results, usage)。
         gt_ranking: 用于第 0 层 pivot 选择的 GT 排序。
         executor: 用于同层并发划分的 ThreadPoolExecutor。
+        semaphore: 可选的全局信号量，用于跨场景并发时限制同时
+            进行的 API 调用总数。传入后每次 comparator_fn 调用
+            前 acquire、完成后 release。
 
     Returns:
         包含全局排序、平局组和追踪信息的 SortResult。
@@ -137,11 +145,21 @@ def quicksort_global(
         if not tasks:
             break
 
+        # 包装 comparator_fn 以支持信号量限流
+        def _guarded_call(pivot_arg, candidates_arg):
+            if semaphore is not None:
+                semaphore.acquire()
+            try:
+                return comparator_fn(pivot_arg, candidates_arg)
+            finally:
+                if semaphore is not None:
+                    semaphore.release()
+
         # 触发所有划分任务（有 executor 且多任务时并发执行）
         if executor and len(tasks) > 1:
             futures: list[Tuple[Future, list[DistPair], int, DistPair]] = []
             for subarray, order_base, pivot, candidates in tasks:
-                fut = executor.submit(comparator_fn, pivot, candidates)
+                fut = executor.submit(_guarded_call, pivot, candidates)
                 futures.append((fut, subarray, order_base, pivot))
 
             for fut, subarray, order_base, pivot in futures:
@@ -160,7 +178,7 @@ def quicksort_global(
             # 顺序执行
             for subarray, order_base, pivot, candidates in tasks:
                 try:
-                    cmp_results, usage = comparator_fn(pivot, candidates)
+                    cmp_results, usage = _guarded_call(pivot, candidates)
                 except Exception as e:
                     result.failed = True
                     result.fail_reason = f"Level {level}: {e}"
