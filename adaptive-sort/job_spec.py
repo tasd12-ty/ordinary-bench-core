@@ -52,6 +52,20 @@ def _resolve_path(base_dir: Path, raw_path: str) -> str:
     return str((base_dir / candidate).resolve())
 
 
+def _parse_bool(value: Any, field_name: str) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, int) and value in (0, 1):
+        return bool(value)
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in ("true", "1", "yes", "on"):
+            return True
+        if normalized in ("false", "0", "no", "off"):
+            return False
+    raise ValueError(f"{field_name} must be a boolean, got {value!r}")
+
+
 @dataclass(slots=True)
 class ProviderSpec:
     adapter: str
@@ -146,7 +160,7 @@ class AdaptiveSortJobSpec:
         input_spec = InputSpec(
             scenes_dir=_resolve_path(base, str(input_raw.get("scenes_dir", ""))),
             tau=float(input_raw.get("tau", 0.10)),
-            allow_approx=bool(input_raw.get("allow_approx", True)),
+            allow_approx=_parse_bool(input_raw.get("allow_approx", True), "input.allow_approx"),
         )
         image_spec = ImageSpec(
             mode=str(images_raw.get("mode", "single")),

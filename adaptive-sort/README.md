@@ -59,6 +59,7 @@ python run_eval.py --job jobs/example.toml
 |---|---|---|
 | `scenes_dir` | （必填） | 场景 JSON 文件目录 |
 | `tau` | `0.10` | 距离比较容差，控制 `~=` 判定阈值 |
+| `allow_approx` | `true` | 是否允许 `~=`。设为 `false` 时，VLM 输出 `~=` / 约等于会被视为非法并重试；GT/mock 遇到近似距离会报告失败 |
 
 ### `[images]` — 图像输入
 
@@ -235,7 +236,7 @@ output/results/{run_name}/
 ## 注意事项
 
 1. **API Key 安全**：TOML 中使用 `env:VAR_NAME` 引用环境变量，不要写明文密钥
-2. **推理模型**：Qwen、DeepSeek 等默认启用思考模式，引擎自动通过 OpenRouter `reasoning.effort=none` 关闭
+2. **推理模型**：Qwen、DeepSeek 等默认启用思考模式，引擎默认通过 OpenRouter `reasoning.effort=none` 关闭；可用 `[provider.options.extra_body]` 显式覆盖
 3. **Rate Limit**：免费模型限制严格，建议降低 `max_concurrency` 和增大 `retry_base_delay`
 4. **图像路径**：`single_view_root` 中图片必须命名为 `{scene_id}.png`
 5. **路径解析**：TOML 中的相对路径基于 TOML 文件所在目录解析

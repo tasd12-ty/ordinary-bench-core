@@ -22,6 +22,10 @@ from dsl.comparators import Comparator, compare
 DistPair = Tuple[str, str]
 
 
+class StrictApproxComparisonError(ValueError):
+    """Raised when strict binary comparison sees an approximate GT relation."""
+
+
 def pair_key(pair: DistPair) -> str:
     """距离对的稳定字符串键。假设 pair[0] < pair[1]。"""
     return f"{pair[0]}_{pair[1]}"
@@ -88,12 +92,15 @@ def gt_comparator_for_dist_pairs(
 ) -> str:
     """GT 比较器：d(candidate) vs d(pivot) → "<" / "~=" / ">"。
 
-    当 allow_approx=False 时，~= 按实际距离差映射为 < 或 >。
+    当 allow_approx=False 时，~= 是数据/设置冲突，直接报错。
     """
     metric_func = METRIC_FUNCTIONS[MetricType.DIST_3D]
     d_cand = metric_func(objects[candidate[0]], objects[candidate[1]])
     d_pivot = metric_func(objects[pivot[0]], objects[pivot[1]])
     result = str(compare(d_cand, d_pivot, tau))
     if not allow_approx and result == "~=":
-        result = "<" if d_cand <= d_pivot else ">"
+        raise StrictApproxComparisonError(
+            "Strict binary comparison encountered approximate GT distances: "
+            f"candidate={candidate} d={d_cand:.6g}, pivot={pivot} d={d_pivot:.6g}, tau={tau}"
+        )
     return result

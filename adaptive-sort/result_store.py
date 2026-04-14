@@ -85,23 +85,41 @@ def save_summary(
     output_dir.mkdir(parents=True, exist_ok=True)
 
     if not scene_results:
-        summary = {"model": model, "n_scenes": 0, "scenes": []}
-    else:
-        n = len(scene_results)
         summary = {
             "model": model,
-            "n_scenes": n,
+            "n_scenes": 0,
+            "n_successful_scenes": 0,
+            "n_failed_scenes": 0,
+            "failed_scenes": [],
+            "scenes": [],
+        }
+    else:
+        successful = [s for s in scene_results if not s.get("failed")]
+        failed = [s for s in scene_results if s.get("failed")]
+        n = len(successful)
+        summary = {
+            "model": model,
+            "n_scenes": len(scene_results),
+            "n_successful_scenes": n,
+            "n_failed_scenes": len(failed),
+            "failed_scenes": [
+                {
+                    "scene_id": s.get("scene_id", ""),
+                    "fail_reason": s.get("fail_reason", ""),
+                }
+                for s in failed
+            ],
             "mean_kendall_tau": round(
-                sum(s.get("kendall_tau", 0) for s in scene_results) / n, 4
-            ),
+                sum(s.get("kendall_tau", 0) for s in successful) / n, 4
+            ) if n else None,
             "mean_pairwise_accuracy": round(
-                sum(s.get("pairwise_accuracy", 0) for s in scene_results) / n, 4
-            ),
-            "total_comparisons": sum(s.get("total_comparisons", 0) for s in scene_results),
-            "total_exhaustive": sum(s.get("exhaustive_comparisons", 0) for s in scene_results),
-            "total_api_calls": sum(s.get("total_api_calls", 0) for s in scene_results),
-            "total_prompt_tokens": sum(s.get("prompt_tokens", 0) for s in scene_results),
-            "total_completion_tokens": sum(s.get("completion_tokens", 0) for s in scene_results),
+                sum(s.get("pairwise_accuracy", 0) for s in successful) / n, 4
+            ) if n else None,
+            "total_comparisons": sum(s.get("total_comparisons", 0) for s in successful),
+            "total_exhaustive": sum(s.get("exhaustive_comparisons", 0) for s in successful),
+            "total_api_calls": sum(s.get("total_api_calls", 0) for s in successful),
+            "total_prompt_tokens": sum(s.get("prompt_tokens", 0) for s in successful),
+            "total_completion_tokens": sum(s.get("completion_tokens", 0) for s in successful),
             "scenes": scene_results,
         }
         if summary["total_exhaustive"] > 0:

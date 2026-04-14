@@ -17,7 +17,7 @@ def make_mock_comparator(objects: dict, tau: float, allow_approx: bool = True):
     """创建返回 GT 答案的模拟比较器。
 
     Args:
-        allow_approx: 是否允许返回 ~=。False 时 ~= 按实际距离差映射为 < 或 >。
+        allow_approx: 是否允许返回 ~=。False 时 GT 近似关系会报错。
     """
     def comparator_fn(pivot: DistPair, candidates: list[DistPair]):
         results = {}

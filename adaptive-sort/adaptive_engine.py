@@ -16,12 +16,14 @@ from __future__ import annotations
 import base64
 import json
 import logging
+import re
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from itertools import combinations
+from math import comb
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Any, Optional, Tuple
 
 import sys
 _SELF_DIR = str(Path(__file__).resolve().parent)
@@ -34,8 +36,8 @@ for _p in (_VLM_TEST, _API_TEST):
         sys.path.append(_p)
 
 from sorting import quicksort_global, SortResult, pair_key, DistPair
-from gt_ranking import compute_gt_global_ranking, gt_comparator_for_dist_pairs
-from prompts import SYSTEM_PROMPT, get_system_prompt, format_partition_prompt
+from gt_ranking import compute_gt_global_ranking
+from prompts import get_system_prompt, format_partition_prompt
 from scoring import score_global
 from result_store import sort_result_to_dict, save_scene_result, save_summary
 from job_spec import AdaptiveSortJobSpec
@@ -47,6 +49,20 @@ from response_parser import parse_batch_response
 from providers.base import ProviderAdapter
 
 logger = logging.getLogger(__name__)
+
+APPROX_ANSWER_ALIASES = {
+    "~", "~=", "≈", "=", "eq", "approx", "approximate",
+    "approximately equal", "similar", "about the same",
+    "约等于", "近似", "差不多", "相等", "等于",
+}
+
+STRICT_APPROX_RETRY_PROMPT = """\
+
+Correction for this retry:
+Your previous answer used approximate equality (`~=` or equivalent wording), \
+which is invalid for this run. You must choose exactly one of "<" or ">" for \
+every qid. Do not output "~=", "equal", "approximately equal", or any Chinese \
+equivalent such as "约等于". Return JSON only."""
 
 
 # ── 场景发现 ──────────────────────────────────────────────────
@@ -85,7 +101,7 @@ def _make_comparator_fn(
 
     Args:
         allow_approx: 是否允许 VLM 回答 ~=。False 时提示词只给 < / >，
-            且 VLM 返回的 ~= 会被强制映射为 >（保守策略）。
+            VLM 返回的 ~= 会被视为非法并触发重试。
     """
     _openai_client = getattr(adapter, "client", None)
     _model = getattr(adapter.spec, "model", "")
@@ -98,6 +114,7 @@ def _make_comparator_fn(
             objects, pivot, candidates, allow_approx=allow_approx,
         )
         usage_info = {"prompt_tokens": 0, "completion_tokens": 0}
+        prompt_for_attempt = user_prompt
 
         last_error = None
         for attempt in range(max_retries + 1):
@@ -105,12 +122,12 @@ def _make_comparator_fn(
                 if _openai_client is not None:
                     raw_response, usage_info = _call_openai_with_usage(
                         _openai_client, _model, _options,
-                        _system_prompt, user_prompt, image_inputs,
+                        _system_prompt, prompt_for_attempt, image_inputs,
                     )
                 else:
                     request = adapter.prepare_request(
                         system_prompt=_system_prompt,
-                        user_prompt=user_prompt,
+                        user_prompt=prompt_for_attempt,
                         image_inputs=image_inputs,
                     )
                     raw_response = adapter.call(request)
@@ -129,41 +146,44 @@ def _make_comparator_fn(
 
                 # 按 pair_key 构建结果
                 result = {}
-                has_invalid_approx = False
+                invalid_approx = []
+                invalid_other = []
                 for idx, cand in enumerate(candidates, 1):
                     qid = f"cmp_{idx:03d}"
-                    ans = predictions.get(qid)
+                    ans = _normalize_answer(predictions.get(qid))
                     if ans is None:
                         raise ValueError(f"Missing answer for {qid} after {max_retries + 1} attempts")
-                    ans = ans.strip()
-                    if ans in ("~", "≈", "=", "eq", "approx"):
-                        ans = "~="
                     # 当不允许 ~= 时，视为无效输出，需要重试
                     if not allow_approx and ans == "~=":
-                        has_invalid_approx = True
-                    if ans not in _valid_answers:
-                        has_invalid_approx = True
+                        invalid_approx.append(qid)
+                    elif ans not in _valid_answers:
+                        invalid_other.append((qid, ans))
                     result[pair_key(cand)] = ans
 
                 # 存在无效的 ~= 回答时触发重试
-                if has_invalid_approx and attempt < max_retries:
-                    invalid_count = sum(1 for v in result.values() if v not in _valid_answers)
+                if (invalid_approx or invalid_other) and attempt < max_retries:
+                    if invalid_approx and not allow_approx:
+                        prompt_for_attempt = user_prompt + STRICT_APPROX_RETRY_PROMPT
                     logger.warning(
-                        "Attempt %d: %d/%d answers are '~=' but allow_approx=False, retrying...",
-                        attempt + 1, invalid_count, len(candidates),
+                        "Attempt %d: invalid answers for %d/%d qids "
+                        "(approx=%d, other=%d), retrying...",
+                        attempt + 1, len(invalid_approx) + len(invalid_other),
+                        len(candidates), len(invalid_approx), len(invalid_other),
                     )
                     time.sleep(retry_base_delay * (2 ** attempt))
                     continue
 
                 # 最后一次重试仍有无效回答，报错
-                for idx, cand in enumerate(candidates, 1):
-                    qid = f"cmp_{idx:03d}"
-                    ans = result[pair_key(cand)]
-                    if ans not in _valid_answers:
-                        raise ValueError(
-                            f"Invalid answer '{ans}' for {qid} after {max_retries + 1} attempts "
-                            f"(allow_approx=False, '~=' is not accepted)"
-                        )
+                if invalid_approx or invalid_other:
+                    details = []
+                    if invalid_approx:
+                        details.append(f"approximate answers are not allowed for {invalid_approx}")
+                    if invalid_other:
+                        details.append(f"other invalid answers: {invalid_other}")
+                    raise ValueError(
+                        f"Invalid answers after {max_retries + 1} attempts "
+                        f"(allow_approx={allow_approx}): " + "; ".join(details)
+                    )
                 return result, usage_info
 
             except Exception as e:
@@ -181,12 +201,24 @@ def _make_comparator_fn(
     return comparator_fn
 
 
+def _normalize_answer(answer: Any) -> str | None:
+    """Normalize model answer variants before validation."""
+    if answer is None:
+        return None
+    ans = str(answer).strip()
+    if ans.lower() in APPROX_ANSWER_ALIASES:
+        return "~="
+    return ans
+
+
 def _strip_thinking_tags(text: str) -> str:
-    """剥离 Qwen3 思考模式的  标签，保留实际输出内容。"""
-    import re
-    return re.sub(r"", "", text, flags=re.DOTALL).strip()
-
-
+    """剥离 Qwen3 思考模式的 <think> 标签，保留实际输出内容。"""
+    m = re.search(r"</think>\s*(.*)", text, re.DOTALL | re.IGNORECASE)
+    if m:
+        return m.group(1).strip()
+    if re.search(r"<think>", text, re.IGNORECASE):
+        return re.split(r"<think>", text, flags=re.IGNORECASE)[0].strip()
+    return re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL | re.IGNORECASE).strip()
 
 
 def _extract_response_text(resp) -> str:
@@ -227,7 +259,7 @@ def _extract_response_text(resp) -> str:
 def _call_openai_with_usage(client, model, options, system_prompt, user_prompt, image_inputs):
     """直接调用 OpenAI 兼容 API，返回 (text, usage)。
 
-    extra_body 从 options 中透传（如 chat_template_kwargs.enable_thinking）。
+    默认关闭 OpenRouter reasoning；options.extra_body 显式配置时覆盖默认值。
     """
     content = []
     for img in (image_inputs or []):
@@ -255,7 +287,7 @@ def _call_openai_with_usage(client, model, options, system_prompt, user_prompt, 
     temp = float(options.get("temperature", 0.0))
     max_tok = max(int(options.get("max_tokens", 1024)), 4096)
     req_timeout = int(options.get("timeout", 120))
-    extra_body = options.get("extra_body")
+    extra_body = _resolve_extra_body(options)
 
     kwargs = dict(
         model=model, messages=messages,
@@ -273,6 +305,17 @@ def _call_openai_with_usage(client, model, options, system_prompt, user_prompt, 
         usage["completion_tokens"] = resp.usage.completion_tokens or 0
 
     return text, usage
+
+
+def _resolve_extra_body(options: dict) -> dict:
+    """Resolve OpenAI-compatible extra_body with reasoning disabled by default."""
+    if "extra_body" not in options:
+        return {"reasoning": {"effort": "none"}}
+    extra_body = options.get("extra_body") or {}
+    if not isinstance(extra_body, dict):
+        raise TypeError("provider.options.extra_body must be a table/dict")
+    return dict(extra_body)
+
 
 # ── 场景处理 ──────────────────────────────────────────────────
 # ── 场景处理 ──────────────────────────────────────────────────
@@ -341,13 +384,18 @@ def process_scene(
             sr = quicksort_global(all_pairs, comparator_fn, gt_ranking, executor=local_executor)
 
     # 评分
-    scores = score_global(
-        sr.ranking, sr.tie_groups,
-        gt_ranking, gt_tie_groups,
-        sr.total_comparisons, sr.total_api_calls, sr.num_levels,
-        sr.total_prompt_tokens, sr.total_completion_tokens,
-        n_objects,
-    )
+    if sr.failed:
+        scores = _failure_scores(scene_id, n_objects, len(gt_ranking), sr)
+    else:
+        scores = score_global(
+            sr.ranking, sr.tie_groups,
+            gt_ranking, gt_tie_groups,
+            sr.total_comparisons, sr.total_api_calls, sr.num_levels,
+            sr.total_prompt_tokens, sr.total_completion_tokens,
+            n_objects,
+        )
+        scores["scene_id"] = scene_id
+        scores["failed"] = False
 
     # 保存
     output_dir = Path(job.output.results_dir) / job.run_name
@@ -358,16 +406,41 @@ def process_scene(
     )
 
     elapsed = time.time() - t0
-    logger.info(
-        "Scene %s done in %.1fs | kt=%.4f pw=%.4f savings=%.1f%% calls=%d",
-        scene_id, elapsed,
-        scores.get("kendall_tau", 0),
-        scores.get("pairwise_accuracy", 0),
-        scores.get("comparison_savings", 0) * 100,
-        scores.get("total_api_calls", 0),
-    )
+    if scores.get("failed"):
+        logger.error("Scene %s failed in %.1fs | %s", scene_id, elapsed, scores.get("fail_reason", ""))
+    else:
+        logger.info(
+            "Scene %s done in %.1fs | kt=%.4f pw=%.4f savings=%.1f%% calls=%d",
+            scene_id, elapsed,
+            scores.get("kendall_tau", 0),
+            scores.get("pairwise_accuracy", 0),
+            scores.get("comparison_savings", 0) * 100,
+            scores.get("total_api_calls", 0),
+        )
 
     return scores
+
+
+def _failure_scores(scene_id: str, n_objects: int, n_pairs: int, sr: SortResult) -> dict:
+    """Build a summary-compatible record for failed scene sorts."""
+    exhaustive_disjoint = 3 * comb(n_objects, 4) if n_objects >= 4 else 0
+    exhaustive_shared = n_objects * comb(n_objects - 1, 2) if n_objects >= 3 else 0
+    return {
+        "scene_id": scene_id,
+        "failed": True,
+        "fail_reason": sr.fail_reason,
+        "n_pairs": n_pairs,
+        "exact_match": False,
+        "kendall_tau": None,
+        "pairwise_accuracy": None,
+        "total_comparisons": sr.total_comparisons,
+        "exhaustive_comparisons": exhaustive_disjoint + exhaustive_shared,
+        "comparison_savings": None,
+        "total_api_calls": sr.total_api_calls,
+        "num_levels": sr.num_levels,
+        "prompt_tokens": sr.total_prompt_tokens,
+        "completion_tokens": sr.total_completion_tokens,
+    }
 
 
 # ── 场景排序辅助 ──────────────────────────────────────────────
@@ -459,6 +532,12 @@ def run_evaluation(job: AdaptiveSortJobSpec, adapter: ProviderAdapter):
                         scene_scores.append(scores)
                 except Exception as exc:
                     logger.error("Scene %s failed: %s", scene_id, exc, exc_info=True)
+                    with scene_scores_lock:
+                        scene_scores.append({
+                            "scene_id": scene_id,
+                            "failed": True,
+                            "fail_reason": str(exc),
+                        })
         finally:
             scene_executor.shutdown(wait=True)
 
@@ -475,21 +554,23 @@ def _print_summary(job: AdaptiveSortJobSpec, scene_scores: list[dict], output_di
     if not scene_scores:
         return
 
-    n = len(scene_scores)
-    mean_kt = sum(s.get("kendall_tau", 0) for s in scene_scores) / n
-    mean_pw = sum(s.get("pairwise_accuracy", 0) for s in scene_scores) / n
-    total_cmp = sum(s.get("total_comparisons", 0) for s in scene_scores)
-    total_exh = sum(s.get("exhaustive_comparisons", 0) for s in scene_scores)
-    total_api = sum(s.get("total_api_calls", 0) for s in scene_scores)
-    total_ptok = sum(s.get("prompt_tokens", 0) for s in scene_scores)
-    total_ctok = sum(s.get("completion_tokens", 0) for s in scene_scores)
+    successful = [s for s in scene_scores if not s.get("failed")]
+    failed = [s for s in scene_scores if s.get("failed")]
+    n = len(successful)
+    mean_kt = sum(s.get("kendall_tau", 0) for s in successful) / n if n else 0
+    mean_pw = sum(s.get("pairwise_accuracy", 0) for s in successful) / n if n else 0
+    total_cmp = sum(s.get("total_comparisons", 0) for s in successful)
+    total_exh = sum(s.get("exhaustive_comparisons", 0) for s in successful)
+    total_api = sum(s.get("total_api_calls", 0) for s in successful)
+    total_ptok = sum(s.get("prompt_tokens", 0) for s in successful)
+    total_ctok = sum(s.get("completion_tokens", 0) for s in successful)
     savings = (1 - total_cmp / total_exh) * 100 if total_exh > 0 else 0
 
     print(f"\n{'='*60}")
     print(f"Global Distance-Pair Quicksort Complete")
     print(f"{'='*60}")
     print(f"Model:              {job.provider.model}")
-    print(f"Scenes:             {n}")
+    print(f"Scenes:             {len(scene_scores)} ({n} succeeded, {len(failed)} failed)")
     print(f"Mean Kendall tau:   {mean_kt:.4f}")
     print(f"Mean pairwise acc:  {mean_pw:.4f}")
     print(f"Total comparisons:  {total_cmp} (vs {total_exh} exhaustive QRR)")
