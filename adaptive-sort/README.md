@@ -33,6 +33,16 @@ export OPENAI_API_KEY=your-key
 python run_eval.py --job jobs/example.toml
 ```
 
+## BT0 重建与统计
+
+如果你要把 quick-sort 结果进一步送进 BT=0 信念重建，并导出按模型、run、物体数量分组的 Excel 统计，请直接看：
+
+- `adaptive-sort/quicksort_reconstruction_runbook.md`
+- `VLM-test/analysis/run_quicksort_bt0_pipeline.sh`
+- `VLM-test/analysis/pivot_quicksort_recon_results.py`
+
+其中 `adaptive-sort/quicksort_bt0_remaining_runs.txt` 提供了一份可直接拆分给多个 agent 的 manifest 示例。
+
 ## Job 配置详解
 
 所有评测通过 TOML 文件配置，包含 6 段：
