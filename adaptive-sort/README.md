@@ -41,8 +41,6 @@ python run_eval.py --job jobs/example.toml
 - `VLM-test/analysis/run_quicksort_bt0_pipeline.sh`
 - `VLM-test/analysis/pivot_quicksort_recon_results.py`
 
-其中 `adaptive-sort/quicksort_bt0_remaining_runs.txt` 提供了一份可直接拆分给多个 agent 的 manifest 示例。
-
 ## Job 配置详解
 
 所有评测通过 TOML 文件配置，包含 6 段：

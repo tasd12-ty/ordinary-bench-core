@@ -12,7 +12,7 @@
 
 - 运行脚本：`VLM-test/analysis/run_quicksort_bt0_pipeline.sh`
 - 透视统计：`VLM-test/analysis/pivot_quicksort_recon_results.py`
-- 示例 manifest：`adaptive-sort/quicksort_bt0_remaining_runs.txt`
+- 自定义 manifest：任意纯文本文件，每行一个 `source_attempt/canonical_run`
 
 ## 1. 目录约定
 
@@ -60,7 +60,7 @@ cd /path/to/ordinary-bench-core
 export QS_ROOT=/mnt/bench/quick-sort/output
 export GT_SCENES=/mnt/bench/scenes
 export OUT_ROOT=/mnt/bench/reconstruction-qrr-bt0
-export RUNS_FILE=adaptive-sort/quicksort_bt0_remaining_runs.txt
+export RUNS_FILE=/path/to/my_runs.txt
 
 DRY_RUN=1 bash VLM-test/analysis/run_quicksort_bt0_pipeline.sh
 ```
@@ -83,7 +83,7 @@ tmux send-keys -t bt0-recon 'cd /path/to/ordinary-bench-core' C-m
 tmux send-keys -t bt0-recon 'export QS_ROOT=/mnt/bench/quick-sort/output' C-m
 tmux send-keys -t bt0-recon 'export GT_SCENES=/mnt/bench/scenes' C-m
 tmux send-keys -t bt0-recon 'export OUT_ROOT=/mnt/bench/reconstruction-qrr-bt0' C-m
-tmux send-keys -t bt0-recon 'export RUNS_FILE=adaptive-sort/quicksort_bt0_remaining_runs.txt' C-m
+tmux send-keys -t bt0-recon 'export RUNS_FILE=/path/to/my_runs.txt' C-m
 tmux send-keys -t bt0-recon 'bash VLM-test/analysis/run_quicksort_bt0_pipeline.sh' C-m
 ```
 
